@@ -1,0 +1,106 @@
+kolab-freebusy (1.0.7-0~kolab2) unstable; urgency=low
+
+  * Correctly render Free/Busy for recurring events with exceptions (#4665)
+ 
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 22 Feb 2015 12:00:22 +0200
+
+kolab-freebusy (1.0.7-0~kolab1) unstable; urgency=low
+
+  * Release of version 1.0.7
+ 
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 15 Feb 2015 12:00:22 +0200
+
+kolab-freebusy (1.0.6-0~kolab5) unstable; urgency=low
+
+  * Revert workaround for #2050
+ 
+ -- Christoph Wickert <wickert@kolabsys.com>  Thu, 12 Feb 2015 12:18:49 +0100
+
+kolab-freebusy (1.0.6-0~kolab4) unstable; urgency=low
+
+  * Fix changelog
+ 
+ -- Christoph Wickert <wickert@kolabsys.com>  Tue, 10 Feb 2015 07:57:43 +0100
+
+kolab-freebusy (1.0.6-0~kolab3) unstable; urgency=low
+
+  * Do a full apache restart to work around #2050
+ 
+ -- Christoph Wickert <wickert@kolabsys.com>  Mon, 09 Feb 2015 16:25:34 +0100
+
+kolab-freebusy (1.0.6-0~kolab2) unstable; urgency=low
+ 
+  * another fix for prerm script
+ 
+ -- Timotheus Pokorra <tp@tbits.net>  Wed, 28 Jan 2015 12:00:22 +0200
+
+kolab-freebusy (1.0.6-0~kolab1) unstable; urgency=low
+ 
+  * Release 1.0.6
+ 
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 23 Jan 2015 12:00:22 +0200
+
+kolab-freebusy (1.0.5-0~kolab4) unstable; urgency=low
+
+  * fix prerm script for Debian to make clean removal of package possible
+ 
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 22 Jan 2015 00:54:02 +0100
+
+kolab-freebusy (1.0.5-0~kolab3) unstable; urgency=low
+
+  * renamed apache config from sitename to sitename.conf
+ 
+ -- Daniel Hoffend <dh@dotlan.net>  Sep, 14 Sep 2014 00:54:02 +0100
+
+kolab-freebusy (1.0.5-0~kolab2) unstable; urgency=low
+ 
+  * applied patch to fix usage of Net_LDAP3
+ 
+ -- Daniel Hoffend <dh@dotlan.net>  Wed, 20 Aug 2014 16:54:02 +0100
+
+kolab-freebusy (1.0.5-0~kolab1) unstable; urgency=low
+ 
+  * Release 1.0.5
+ 
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 14 Aug 2014 12:00:22 +0200
+
+kolab-freebusy (1.0.4-0~kolab1) unstable; urgency=low
+ 
+  * New upstream version enabling real-time Free/Busy data directly from IMAP through
+    proxy authentication.
+ 
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 21 May 2014 12:00:22 +0200
+
+kolab-freebusy (1.0.2-3~kolab3) unstable; urgency=low
+ 
+  * Remove apache site configuration on package removal
+ 
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 09 Apr 2014 12:00:22 +0200
+
+kolab-freebusy (1.0.2-3~kolab1) unstable; urgency=low
+
+  * call dh_install in debian.rules
+  * added postinst to fix permissions and reload apache
+  * added logrotate script
+
+ -- Daniel Hoffend <dh@dotlan.net>  Mon, 25 Nov 2013 10:27:02 +0200
+
+kolab-freebusy (1.0.2-2~kolab2) unstable; urgency=low
+ 
+  * Depend on kolab-utils
+ 
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 15 Nov 2013 12:00:22 +0200
+
+kolab-freebusy (1.0.2-1~kolab1) unstable; urgency=low
+
+  * moved copy lib/vendor/web from debian.rules to debian/install
+  * added log directory
+  * added symlinks for config and log directory
+
+ -- Daniel Hoffend <dh@dotlan.net>  Mon, 25 Nov 2013 01:59:12 +0200
+
+kolab-freebusy (1.0.2-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 24 Apr 2013 12:00:22 +0200

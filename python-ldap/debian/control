@@ -1,0 +1,20 @@
+Source: python-ldap
+Section: python
+Priority: optional
+Maintainer: Timotheus Pokorra <timotheus@pokorra.de>
+Standards-Version: 3.9.3
+Build-Depends: debhelper (>= 8), python-all-dev (>= 2.6.6-3~), libldap2-dev, libsasl2-dev, dpkg-dev
+Homepage: http://www.python-ldap.org/
+X-Python-Version: >= 2.3
+
+Package: python-ldap
+Architecture: any
+Depends: ${python:Depends}, ${misc:Depends}, ${shlibs:Depends}
+Provides: ${python:Provides}
+Suggests: python-ldap-doc, python-pyasn1
+Conflicts: python2.3-ldap (<< 2.2.0-1.1), python2.4-ldap (<< 2.2.0-1.1), python2.3-ldap-tls
+Replaces: python2.3-ldap (<< 2.2.0-1.1), python2.4-ldap (<< 2.2.0-1.1), python2.3-ldap-tls
+Description: LDAP interface module for Python
+ This module provides a Python interface to the OpenLDAP client library
+ (LDAP is the Lightweight Directory Access Protocol).
+

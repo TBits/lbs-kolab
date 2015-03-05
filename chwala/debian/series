@@ -1,0 +1,2 @@
+chwala-0.2-suhosin.session.encrypt-php_flag.patch -p1
+0002-Use-folder-state-check-and-set-type-when-using-kolab.patch -p1

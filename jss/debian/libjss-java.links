@@ -1,0 +1,4 @@
+# Required by ldapjdk
+usr/share/java/jss-4.3.1.jar usr/share/java/jss.jar
+# Required by idm-console-framework
+usr/share/java/jss-4.3.1.jar usr/share/java/jss4.jar

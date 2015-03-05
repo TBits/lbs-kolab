@@ -1,0 +1,29 @@
+From a59b96e270d533cceb0884016e199fa862fc27c1 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Wed, 4 Feb 2015 06:24:17 -0500
+Subject: [PATCH 2/2] Use folder state check and set type when using
+ kolab_storage::get_folder() (#4478)
+
+---
+ lib/drivers/kolab/kolab_file_storage.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/drivers/kolab/kolab_file_storage.php b/lib/drivers/kolab/kolab_file_storage.php
+index f29e74e..9edc65b 100644
+--- a/lib/drivers/kolab/kolab_file_storage.php
++++ b/lib/drivers/kolab/kolab_file_storage.php
+@@ -1070,9 +1070,9 @@ class kolab_file_storage implements file_storage
+             $separator   = $storage->get_hierarchy_delimiter();
+             $folder_name = str_replace(file_storage::SEPARATOR, $separator, $folder_name);
+             $imap_name   = rcube_charset::convert($folder_name, RCUBE_CHARSET, 'UTF7-IMAP');
+-            $folder      = kolab_storage::get_folder($imap_name);
++            $folder      = kolab_storage::get_folder($imap_name, 'file');
+ 
+-            if (!$folder) {
++            if (!$folder || !$folder->valid) {
+                 throw new Exception("Storage error. Folder not found.", file_storage::ERROR);
+             }
+ 
+-- 
+2.1.0
+

@@ -1,0 +1,19 @@
+Author: Timo Aaltonen <tjaalton@ubuntu.com>
+Date:   Fri Dec 30 18:09:15 2011 +0200
+
+    Add fix-linking.patch
+
+    libds-admin-serv.so didn't link against libldap2 though it used it's symbols
+
+diff --git a/Makefile.am b/Makefile.am
+index 792f782..84dc317 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -274,6 +274,7 @@ update_SCRIPTS = admserv/makeUpgradeTar.sh
+ libds_admin_serv_la_SOURCES = $(libbase_a_SOURCES) $(libsi18n_a_SOURCES) $(libadmin_a_SOURCES)
+ libds_admin_serv_la_LINK = $(MYLINK)
+ libds_admin_serv_la_LIBADD = $(ADMINUTIL_LINK) \
++                             $(LDAPSDK_LINK) \
+                              $(NSPR_LINK)
+ 
+ libdsa_a_SOURCES = lib/libdsa/dsalib_conf.c \

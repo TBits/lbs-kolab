@@ -1,0 +1,5 @@
+.libs/mod_nss.so usr/lib/apache2/modules
+debian/nss.load etc/apache2/mods-available
+debian/nss.conf etc/apache2/mods-available
+nss_pcache usr/sbin
+gencert usr/share/libapache2-mod-nss

@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE=1
+export DH_OPTIONS=-v
+
+%:
+	dh $@
+
+override_dh_install:
+	dh_install -XLICENSE -X.gitignore
+
+	mkdir -p $(CURDIR)/debian/chwala/etc/apache2/sites-available
+	install -pm 644 $(CURDIR)/doc/chwala.conf $(CURDIR)/debian/chwala/etc/apache2/sites-available/chwala.conf
+
+	# prepare for symbolic links, throw away unneeded code (same as in .spec file)
+	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/ext/Auth
+	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/ext/HTTP
+	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/ext/Mail
+	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/ext/Net
+	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/ext/PEAR*.php
+	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/ext/Roundcube
+	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/drivers/kolab/plugins/kolab_auth
+	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/drivers/kolab/plugins/libkolab

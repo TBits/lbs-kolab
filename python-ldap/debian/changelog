@@ -1,0 +1,6 @@
+python-ldap (2.4.6-1) unstable; urgency=low
+
+  * atttempting to build a debian package for python-ldap, based on http://packages.debian.org/wheezy/python-ldap
+
+ -- Timotheus Pokorra <timotheus@pokorra.de>  Thu, 07 Nov 2013 19:53:38 +0100
+

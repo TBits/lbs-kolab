@@ -1,0 +1,57 @@
+php-net-ldap3 (1.0.2-0~kolab1) unstable; urgency=low
+
+  * Release version 1.0.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 23 Jan 2015 15:27:46 +0100
+
+php-net-ldap3 (1.0.1-0~kolab5) unstable; urgency=low
+
+  * Use the right properties for /mozldap/ldapsearch calls
+  * Add possibility to return user attributes from login() (#3858)
+  * Fix handling of special characters in RDN attributes (#3905)
+
+ -- Christoph Wickert <wickert@kolabsys.com>  Sun, 07 Dec 2014 08:57:02 +0100
+
+php-net-ldap3 (1.0.1-0~kolab4) unstable; urgency=low
+
+  * Depend on php-ldap or php5-ldap when php-ldap is not available (UCS)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 09 Nov 2014 15:27:46 +0100
+
+php-net-ldap3 (1.0.1-0~kolab3) unstable; urgency=low
+
+  * Drop non-existent patch
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 05 Nov 2014 15:27:46 +0100
+
+php-net-ldap3 (1.0.1-0~kolab2) unstable; urgency=low
+
+  * Fix variable naming in parse_aclrights()
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 01 Oct 2014 15:27:46 +0100
+
+php-net-ldap3 (1.0.1-0~kolab1) unstable; urgency=low
+
+  * New upstream release w/ support for Oracle DSEE getEffectiveRights control
+    responses.
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 10 Sep 2014 15:27:46 +0100
+
+php-net-ldap3 (1.0.0-0~kolab3) unstable; urgency=low
+
+  * Fixed PHP Fatal Error
+  * Don't log ldap passwords
+
+ -- Daniel Hoffend <dh@dotlan.net>  Fri, 29 Aug 2014 15:27:46 +0100
+
+php-net-ldap3 (1.0.0-0~kolab2) unstable; urgency=low
+
+  * The dependency shall be php5, not php
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 15 Aug 2014 15:27:46 +0100
+
+php-net-ldap3 (1.0.0-0~kolab1) unstable; urgency=low
+
+  * Package php-net-ldap3
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 14 Aug 2014 15:27:46 +0100

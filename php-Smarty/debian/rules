@@ -1,0 +1,42 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+#export DH_VERBOSE=1
+
+clean:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+build:
+
+install:
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	mkdir -p debian/smarty3/usr/share/doc/smarty3/
+	mkdir -p debian/smarty3/usr/share/php/smarty3/
+	cp -r demo debian/smarty3/usr/share/doc/smarty3/
+	cp -r libs/* debian/smarty3/usr/share/php/smarty3/ 
+
+binary-indep: install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installchangelogs change_log.txt
+	dh_install
+	dh_installexamples
+	dh_lintian
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+build-arch: build
+build-indep: build
+
+binary: binary-indep binary-arch
+.PHONY: clean binary-indep binary-arch binary install

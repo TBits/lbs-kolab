@@ -1,0 +1,14 @@
+etc/default
+etc/init.d
+etc/logcheck/ignore.d.server
+etc/logcheck/violations.ignore.d
+usr/bin
+usr/lib/cyrus-imapd
+usr/lib/cyrus-imapd/upgrade
+usr/sbin
+usr/share/snmp/mibs
+var/lib/imap
+var/lib/imap/ptclient
+var/lib/imap/sieve
+var/lib/imap/socket
+var/spool/imap

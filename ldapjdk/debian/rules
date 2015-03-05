@@ -1,0 +1,99 @@
+#!/usr/bin/make -f
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_BUILD_ARCH  ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+UPSTREAM_VERSION := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\(.*\)-.*$$/\1/ p' | sed -e 's/~.*//')
+MOD_MAJOR_VERSION := $(word 1, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_MINOR_VERSION := $(word 2, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_PATCH_VERSION := $(word 3, $(subst ., ,$(UPSTREAM_VERSION)))
+
+export USE_64 := $(shell echo "int main(void) { int assert[(sizeof(long) == 8) ? 1 : -1]; return 0; }" | gcc -o /dev/null -x c - 2> /dev/null && echo --enable-64bit)
+
+CFLAGS := -Wall -pipe
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2 -fno-strict-aliasing
+endif
+
+CFLAGS += -g
+# Enable compiler optimizations and disable debugging code
+BUILD_OPT=1
+export BUILD_OPT
+export XCFLAGS="-g"
+BASEDIR := $(CURDIR)/mozilla/security/
+export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+export NSPR_INCLUDE_DIR=`/usr/bin/pkg-config --cflags-only-I nspr | sed 's/-I//'`
+export NSPR_LIB_DIR=`/usr/bin/pkg-config --libs-only-L nspr | sed 's/-L//'`
+export NSS_INCLUDE_DIR=`/usr/bin/pkg-config --cflags-only-I nss | sed 's/-I//'`
+export NSS_LIB_DIR=`/usr/bin/pkg-config --libs-only-L nss | sed 's/-L//'`
+
+export JAVA_HOME=/usr/lib/jvm/java-gcj
+
+configure: configure-stamp
+configure-stamp: $(QUILT_STAMPFN)
+	touch configure-stamp
+
+
+build: build-stamp
+build-stamp: configure
+	dh_testdir
+	install -m 644 $(CURDIR)/debian/ldapsdk-build.xml $(CURDIR)/mozilla/directory/java-sdk/build.xml
+	mkdir -p $(CURDIR)/mozilla/directory/java-sdk/src
+	-cp -pfr $(CURDIR)/mozilla/directory/java-sdk/ldapbeans/netscape \
+		$(CURDIR)/mozilla/directory/java-sdk/ldapfilter/netscape \
+		$(CURDIR)/mozilla/directory/java-sdk/ldapjdk/netscape \
+		$(CURDIR)/mozilla/directory/java-sdk/ldapsp/com \
+		$(CURDIR)/mozilla/directory/java-sdk/src
+	find . -name "*.java" -exec perl -p -i -e 's|com.oroinc|org.apache.oro|g;' {} \;
+	#-(cd $(CURDIR)/mozilla/directory/java-sdk/ && ant)
+	ant -buildfile $(CURDIR)/mozilla/directory/java-sdk/build.xml 
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -rf $(CURDIR)/mozilla/directory/java-sdk/src/build
+	rm -rf $(CURDIR)/mozilla/directory/java-sdk/build
+	rm -rf $(CURDIR)/debian/libldapjdk-java
+
+	dh_clean build-stamp install-stamp 
+
+install: install-stamp
+install-stamp:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	mkdir -p $(CURDIR)/debian/libldap-java/usr/share/java/
+	install -m 644 $(CURDIR)/mozilla/directory/java-sdk/build/lib/ldapsdk.jar $(CURDIR)/debian/libldap-java/usr/share/java/ldapsdk-$(UPSTREAM_VERSION).jar
+
+	touch install-stamp
+
+binary-indep: install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -i
+	dh_installdocs -i
+	dh_install
+	dh_link -i
+	dh_strip -i 
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_shlibdeps -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch: 
+
+binary: binary-arch binary-indep
+
+.PHONY: clean install build clean-patched binary-indep binary-arch binary

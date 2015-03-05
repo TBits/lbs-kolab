@@ -1,0 +1,23 @@
+Source: jss
+Section: java
+Maintainer: Debian 389ds Team <pkg-fedora-ds-maintainers@lists.alioth.debian.org>
+Uploaders: Michele Baldessari <michele@acksyn.org>
+Priority: optional
+Build-Depends: debhelper (>= 8.0.0),
+ default-jdk,
+ libnss3-dev,
+ pkg-config,
+ quilt,
+Standards-Version: 3.9.1
+Vcs-Git: git://git.debian.org/git/pkg-fedora-ds/jss.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-fedora-ds/jss.git
+Homepage: http://www.mozilla.org/projects/security/pki/jss/
+
+Package: libjss-java
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Network Security Services for Java
+ Network Security Services for Java (JSS) is a Java interface 
+ to NSS. It supports most of the security standards and 
+ encryption technologies supported by NSS. JSS also provides 
+ a pure Java interface for ASN.1 types and BER/DER encoding.

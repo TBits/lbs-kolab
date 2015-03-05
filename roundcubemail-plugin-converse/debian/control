@@ -1,0 +1,13 @@
+Source: roundcubemail-plugin-converse
+Section: web
+Priority: extra
+Maintainer: Christoph Wickert <wickert@kolabsys.com>
+Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
+Build-Depends: debhelper (>= 8)
+Standards-Version: 3.9.3
+
+Package: roundcubemail-plugin-converse
+Architecture: all
+Depends:	roundcubemail (>= 0.9), php5-curl
+Description: skinnable AJAX based webmail solution - converse plugin
+ Adds XMPP-based chat to the Roundcube web client

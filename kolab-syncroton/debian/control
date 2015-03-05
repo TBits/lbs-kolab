@@ -1,0 +1,25 @@
+Source: kolab-syncroton
+Section: utils
+Priority: extra
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Uploaders: Paul Klos <kolab@klos2day.nl>
+Build-Depends: debhelper (>= 8), po-debconf
+Homepage: http://www.kolab.org/
+Standards-Version: 3.9.3
+Vcs-Git: http://git.kolab.org/kolab-syncroton
+
+Package: kolab-syncroton
+Architecture: all
+Depends:    php-auth-sasl,
+            php-mdb2 (>= 2.5.0),
+            php-net-smtp,
+            php-net-socket,
+            php5-cli,
+            php5-mysql,
+            roundcubemail-plugins-kolab (>= 3.1.12),
+            zendframework | zend-framework,
+            ${misc:Depends}
+Description: ActiveSync for Kolab Groupware
+ Kolab Groupware provides ActiveSync for Calendars,
+ Address Books and Tasks though
+ this package - based on Syncroton technology.

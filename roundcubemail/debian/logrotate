@@ -1,0 +1,8 @@
+/var/log/roundcubemail/console /var/log/roundcubemail/errors /var/log/roundcubemail/imap /var/log/roundcubemail/ldap /var/log/roundcubemail/sendmail /var/log/roundcubemail/sieve /var/log/roundcubemail/smtp /var/log/roundcubemail/sql /var/log/roundcubemail/userlogins {
+  create 0640 www-data adm
+  compress
+  missingok
+  notifempty
+  rotate 52
+  weekly
+}

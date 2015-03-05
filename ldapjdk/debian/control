@@ -1,0 +1,21 @@
+Source: ldapjdk
+Section: java
+Maintainer: Debian Java Maintainers <pkg-java-maintainers@lists.alioth.debian.org>
+Uploaders: Michele Baldessari <michele@acksyn.org>
+Priority: optional
+Build-Depends: debhelper (>> 5)
+Build-Depends-Indep: liboro-java, ant, libjss-java, default-jdk-builddep
+Standards-Version: 3.9.1
+Vcs-Svn: git://git.debian.org/git/pkg-fedora-ds/ldapjdk.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-fedora-ds/ldapjdk.git
+Homepage: http://www.mozilla.org/directory/javasdk.html
+
+Package: libldap-java
+Architecture: all
+Depends: java-gcj-compat-headless | java2-runtime-headless, ${misc:Depends}
+Description: Netscape Directory SDK for Java
+ The Netscape Directory SDK for Java includes the LDAP Java classes, 
+ which you use to build LDAP clients. The LDAP Java classes allow you 
+ to write applets and applications that can connect to LDAP servers 
+ and perform standard LDAP operations (for example, you can search 
+ for entries or add, update, or delete entries). 

@@ -1,0 +1,231 @@
+kolab-syncroton (2.3.1-0~kolab3) unstable; urgency=low
+
+  * Revert workaround for #2050
+ 
+ -- Christoph Wickert <wickert@kolabsys.com>  Thu, 12 Feb 2015 12:22:47 +0100
+
+kolab-syncroton (2.3.1-0~kolab2) unstable; urgency=low
+
+  * Do a full apache restart to work around #2050
+ 
+ -- Christoph Wickert <wickert@kolabsys.com>  Mon, 09 Feb 2015 16:29:23 +0100
+
+kolab-syncroton (2.3.1-0~kolab1) unstable; urgency=low
+
+  * Release of version 2.3.1, see:
+
+    https://issues.kolab.org/buglist.cgi?target_milestone=2.3.1&product=Syncroton
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  5 Feb 2015 15:13:40 +0200
+
+kolab-syncroton (2.3.0-0~kolab1) unstable; urgency=low
+
+  * Release of version 2.3.0, see:
+
+    https://issues.kolab.org/buglist.cgi?target_milestone=2.3.0&product=Syncroton
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 27 Jan 2015 15:13:40 +0200
+
+kolab-syncroton (2.3~dev20141017-0~kolab2) unstable; urgency=low
+
+  * fix prerm script for Debian to make clean removal of package possible
+
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 22 Jan 2015 15:13:40 +0200
+
+>>>>>>> ./debian.changelog.r65
+kolab-syncroton (2.3~dev20141017-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 17 Oct 2014 15:13:40 +0200
+
+kolab-syncroton (2.3-0~kolab4) unstable; urgency=low
+
+  * New git master head snapshot
+
+ -- Daniel Hoffend <dh@dotlan.net>  Mon, 15 Sep 2014 21:57:02 +0100
+
+kolab-syncroton (2.3-0~kolab3) unstable; urgency=low
+
+  * renamed apache config from sitename to sitename.conf
+ 
+ -- Daniel Hoffend <dh@dotlan.net>  Sun, 14 Sep 2014 00:54:02 +0100
+
+kolab-syncroton (2.3-0~kolab2) unstable; urgency=low
+
+  * update database on upgrade
+
+ -- Daniel Hoffend <dh@dotlan.net>  Wed. 10 Aug 2014 10:31:00 +0200
+
+kolab-syncroton (2.3-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 26 Jun 2014 15:13:40 +0200
+
+kolab-syncroton (2.2.5-0~kolab2) unstable; urgency=low
+
+  * Include fix for From: header display name off iOS devices
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  8 Apr 2014 15:13:40 +0200
+
+kolab-syncroton (2.2.5-0~kolab1) unstable; urgency=low
+
+  * New upstream version
+  * #2664 - Fix for devices that do not support empty Sync responses
+  * Fix synchronization of task importance
+  * #2845 - Fix invalid email message identifier in Move response
+  * Fix issues in recode_message() - wrong boundaries handling
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun,  6 Apr 2014 15:13:40 +0200
+
+kolab-syncroton (2.2.4-0~kolab5) unstable; urgency=low
+
+  * Rebuild for memory consumption fix on very large result sets
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 11 Feb 2014 15:13:40 +0200
+
+kolab-syncroton (2.2.4-0~kolab4) unstable; urgency=low
+
+  * Fix recode_message() boundary handling
+  * Really fix Junk folders being omitted for synchronization
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 06 Feb 2014 15:13:40 +0200
+
+kolab-syncroton (2.2.4-0~kolab2) unstable; urgency=low
+
+  * Fix From: header on iPad/iPhone activesync clients not having a displayName. Set 'activesync_fix_from'
+  * Fix Junk folders being omitted for synchronization
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 29 Jan 2014 15:13:40 +0200
+
+kolab-syncroton (2.2.4-0~kolab1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 28 Jan 2014 15:13:40 +0200
+
+kolab-syncroton (2.2.3-0~kolab13) unstable; urgency=low
+
+  * added logrotate config for Debian
+
+ -- Daniel Hoffend <dh@dotlan.net>  Mon, 25 Nov 2013 16:08:13 +0200
+
+kolab-syncroton (2.2.3-0~kolab12) unstable; urgency=low
+
+  * Depend on zendframework (Debian) | zend-framework (Ubuntu)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 24 Nov 2013 15:13:40 +0200
+
+kolab-syncroton (2.2.3-0~kolab11) unstable; urgency=low
+
+  * Correct more obvious errors
+  * Ship lib/*.php
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat, 23 Nov 2013 15:13:40 +0200
+
+kolab-syncroton (2.2.3-0~kolab9) unstable; urgency=low
+
+  * remove dependency with dbconfig-common
+
+ -- Daniel Hoffend <dh@dotlan.net>  Fri, 22 Nov 2013 16:43:10 +0200
+
+kolab-syncroton (2.2.3-0~kolab8) unstable; urgency=low
+
+  * Correct symlinks
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 22 Nov 2013 15:13:40 +0200
+
+kolab-syncroton (2.2.3-0~kolab7) unstable; urgency=low
+
+  * link plugins and the Roundcube lib/ext/
+  * actually create, link and own the log directory
+  * enable site
+  * reload apache, not restart
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 21 Nov 2013 15:13:40 +0200
+
+kolab-syncroton (2.2.3-0~kolab3) unstable; urgency=low
+
+  * Attempt to fix the SQL and symbolic links
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 12 Nov 2013 15:13:40 +0200
+
+kolab-syncroton (2.2.3-0~kolab1) unstable; urgency=low
+
+  * New upstream release
+  * 2385 - Do not depend on kolab_cache behavior
+  * 2386 - Improve performance by skipping IMAP SEARCH when checking
+           mail folder for changes
+  * ???? - Skip SELECT/DELETE ... WHERE id = NULL queries
+  * 2383 - Enable alarms synchronization by default
+  * 2431 - Fix event attendees synchronization from server to the device
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 12 Nov 2013 15:13:40 +0200
+
+kolab-syncroton (2.2.2-0~kolab2) unstable; urgency=low
+
+  * Fix bug #2382
+
+ -- Torsten Grote <grote@kolabsys.com>  Thu, 24 Oct 2013 23:44:40 +0200
+
+kolab-syncroton (2.2.2-0~kolab1) unstable; urgency=low
+
+  * Check in version 2.2.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 18 Oct 2013 15:13:40 +0200
+
+kolab-syncroton (2.2.1-0~kolab1) unstable; urgency=low
+
+  * Check in version 2.2.1
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 14 Oct 2013 15:13:40 +0200
+
+kolab-syncroton (2.2.0-1) unstable; urgency=low
+
+  * Check in version 2.2.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun,  8 Sep 2013 21:07:13 +0100
+
+kolab-syncroton (2.1.0-1) unstable; urgency=low
+
+  * Imported Upstream version 2.1~rc2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  4 Sep 2013 21:07:13 +0100
+
+kolab-syncroton (2.1~rc2-1) unstable; urgency=low
+
+  * Imported Upstream version 2.1~rc2
+
+ -- Paul Klos <kolab@klos2day.nl>  Mon, 18 Mar 2013 21:07:13 +0100
+
+kolab-syncroton (2.1~rc1-3) unstable; urgency=low
+
+  * Update changelog
+
+ -- Paul Klos <kolab@klos2day.nl>  Mon, 11 Mar 2013 21:46:51 +0100
+
+kolab-syncroton (2.1~rc1-2) unstable; urgency=low
+
+  * Fix the database upgrade with dbconfig-common
+
+ -- Paul Klos <kolab@klos2day.nl>  Sat, 23 Feb 2013 19:39:56 +0100
+
+kolab-syncroton (2.1~rc1-1) unstable; urgency=low
+
+  * Imported Upstream version 2.1-rc1
+
+ -- Paul Klos <kolab@klos2day.nl>  Sat, 09 Feb 2013 17:28:08 +0100
+
+kolab-syncroton (2.0-1) unstable; urgency=low
+
+  * Imported Upstream version 2.0
+  * Updated package description
+
+ -- Paul Klos <kolab@klos2day.nl>  Thu, 13 Dec 2012 22:12:08 +0100
+
+kolab-syncroton (1.0.1-1) unstable; urgency=low
+
+  * Initial release. (Closes: #1382)
+
+ -- Paul Klos <kolab@klos2day.nl>  Sun, 25 Nov 2012 07:00:32 -0500

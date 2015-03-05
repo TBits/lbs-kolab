@@ -1,0 +1,16 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-name: idm-console-framework
+Source: http://directory.fedoraproject.org/sources/
+
+Files: *
+Copyright: 2001 Sun Microsystems, Inc.
+	   2005 Red Hat, Inc.
+License: LGPL-2.1
+
+Files: debian/*
+Copyright: Timo Aaltonen <tjaalton@ubuntu.com>
+License: LGPL-2.1 or GPL-2
+
+On Debian machines the full text of the GNU General Public License can
+be found in the file /usr/share/common-licenses/GPL-2, and GNU Lesser
+General Puplic License in the file /usr/share/common-licenses/LGPL-2.1

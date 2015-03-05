@@ -1,0 +1,61 @@
+jss (4.3.2-1) unstable; urgency=low
+
+  * Ship jss 4.3.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 08 Sep 2013 12:12:12 +0100
+
+jss (4.3.1-4) unstable; urgency=low
+
+  * Update pull_coreconf.patch and match Linux3.0* during clean.
+  * rules:
+    - Remove dist/ on clean.
+    - Use openjdk-6 instead of gcj.
+  * patches: Add a bunch of patches from Fedora.
+  * control: Change the VCS header to point to the git repository.
+  * compat: Bump to 8.
+  * control: Build-depend on default-jdk.
+  * control: Update the maintainer address.
+  * control: Drop jre dependency per current java policy.
+  * patches: More patches from Fedora.
+
+ -- Timo Aaltonen <tjaalton@ubuntu.com>  Tue, 04 Oct 2011 19:45:31 +0300
+
+jss (4.3.1-3) unstable; urgency=low
+
+  * Update my email address
+
+ -- Michele Baldessari <michele@acksyn.org>  Sun, 17 Oct 2010 23:41:15 +0200
+
+jss (4.3.1-2) unstable; urgency=low
+
+  * Bump policy to 3.9.1
+  * Update to quilt 3.0 source package
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 04 Sep 2010 20:48:04 +0200
+
+jss (4.3.1-1) unstable; urgency=low
+
+  * New upstream
+  * Bump policy to 3.8.3
+  * Patch in coreconf build system for the time being
+  * Add ${misc:Depends} as we depend on debhelper
+  * Fix jar links to the right version
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 24 Jan 2010 23:36:55 +0100
+
+jss (4.2.5-2) unstable; urgency=low
+
+  * Bump to policy 3.8.0
+  * debian/control:
+     - Build-Depend on default-jdk-builddep instead of java-gcj-compat-dev
+  * Add VCS-* fields
+  * Fixed build-deps (added libnss3-dev and pkg-config)
+  * Changed section to "java"
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 22 Apr 2009 21:31:06 +0200
+
+jss (4.2.5-1) unstable; urgency=low
+
+  * Initial release (Closes: #474489)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 09 Apr 2008 16:09:59 +0200

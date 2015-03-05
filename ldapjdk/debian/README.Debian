@@ -1,0 +1,7 @@
+Since ldapjdk has not released any updated tarball, the sources were downloaded via cvs:
+
+cvs -d :pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot co -rLDAPJavaSDK_418  DirectorySDKSourceJava
+
+The LDAPJavaSDK_418 are the sources for the 4.18 version which is the first tri-licensed version (GPL,LGPL,MPL)
+
+ -- Michele Baldessari <michele@pupazzo.org>, Tue Sep 30 19:58:31 CEST 2008

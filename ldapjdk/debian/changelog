@@ -1,0 +1,45 @@
+ldapjdk (4.18-5) unstable; urgency=low
+
+  * control: Change the VCS header to point to the git repository.
+
+ -- Timo Aaltonen <tjaalton@ubuntu.com>  Thu, 06 Oct 2011 13:42:09 +0300
+
+ldapjdk (4.18-4) unstable; urgency=low
+
+  * Update my email address
+
+ -- Michele Baldessari <michele@acksyn.org>  Sun, 17 Oct 2010 23:44:49 +0200
+
+ldapjdk (4.18-3) unstable; urgency=low
+
+  * Switch to 3.0 quilt format
+  * Bump policy to 3.9.1
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 04 Sep 2010 23:49:35 +0200
+
+ldapjdk (4.18-2) unstable; urgency=low
+
+  * Added VCS-* fields
+  * debian/control:
+     - Build-Depend on default-jdk-builddep instead of java-gcj-compat-dev
+  * Move all build-deps to Build-Depends-Indep
+  * Change section to java
+  * Update policy to 3.8.1 (no changes necessary)
+  * Add ${misc:Depends} since we depend on debhelper
+  * Update policy to 3.8.3
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 24 Jan 2010 23:40:27 +0100
+
+ldapjdk (4.18-1) unstable; urgency=low
+
+  * New upstream
+  * Removed watch file (upstream does not release updated tarballs ATM)
+  * Updated Standards (3.8.0)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Tue, 30 Sep 2008 20:00:35 +0200
+
+ldapjdk (4.17-1) unstable; urgency=low
+
+  * Initial release (Closes: #474490)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 09 Apr 2008 16:09:59 +0200

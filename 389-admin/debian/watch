@@ -1,0 +1,2 @@
+version=3
+http://directory.fedoraproject.org/wiki/Source .*/389-admin-(.*).tar.bz2

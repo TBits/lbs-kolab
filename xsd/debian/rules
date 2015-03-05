@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+#
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+#
+# Modified to make a template file for a multi-binary package with separated
+# build-arch and build-indep targets  by Bill Allombert 2001
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+%:
+	dh --parallel $@
+
+override_dh_auto_install:
+	MAKEFLAGS="$$MAKEFLAGS install_prefix=$(CURDIR)/debian/xsdcxx/usr" $(MAKE) -f makefile install
+	mv $(CURDIR)/debian/xsdcxx/usr/share/doc/xsd $(CURDIR)/debian/xsdcxx/usr/share/doc/xsdcxx
+	mv $(CURDIR)/debian/xsdcxx/usr/bin/xsd $(CURDIR)/debian/xsdcxx/usr/bin/xsdcxx
+	mv $(CURDIR)/debian/xsdcxx/usr/share/man/man1/xsd.1 $(CURDIR)/debian/xsdcxx/usr/share/man/man1/xsdcxx.1
+	rm -rf $(CURDIR)/debian/xsdcxx/usr/share/doc/libxsd
+	find $(CURDIR)/debian/xsdcxx \( -name "COPYRIGHT*" -o -name "FLOSSE*" -o -name "LICENSE*" -o -name "GPL*" \) -exec rm -v {} \;
+
+override_dh_auto_clean:
+	exit 0

@@ -1,0 +1,74 @@
+libmozilla-ldap-perl (1.5.3+nmu1-1) unstable; urgency=low
+
+  * Rebuild for Debian Wheezy
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Thu,  6 Sep 2012 20:26:55 +0100
+
+libmozilla-ldap-perl (1.5.3-1) unstable; urgency=low
+
+  [ Timo Aaltonen ]
+  * New upstream release.
+  * Build using openldap, build-depend on libldap2-dev (>= 2.4.28).
+  * control: Change the VCS header to point to the git repository.
+  * control: Update the description, we're using OpenLDAP now.
+  * Bump standards to 3.9.3, no changes.
+
+ -- Ghe Rivero <ghe@debian.org>  Wed, 27 Jun 2012 08:55:53 +0200
+
+libmozilla-ldap-perl (1.5.2-7) unstable; urgency=low
+
+  * Fix QUILT_STAMPFN
+
+ -- Michele Baldessari <michele@acksyn.org>  Sun, 17 Oct 2010 15:02:23 +0200
+
+libmozilla-ldap-perl (1.5.2-6) unstable; urgency=low
+
+  * Change my email address
+
+ -- Michele Baldessari <michele@acksyn.org>  Sat, 16 Oct 2010 22:21:25 +0200
+
+libmozilla-ldap-perl (1.5.2-5) unstable; urgency=low
+
+  * Added misc:Depends to control file
+  * Updated policy to 3.8.4
+  * Fix spelling typos in man pages
+  * Switch to dpkg-source 3.0 (quilt) format
+    (B-D quilt, remove B-D dpatch)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 21 Apr 2010 14:54:32 +0200
+
+libmozilla-ldap-perl (1.5.2-4) unstable; urgency=low
+
+  * Fix dpatch description
+  * Remove makefile.pl.rpm patch
+  * Remove dpatch dependency
+  * Added VCS-* fields and homepage
+  * Updated policy to 3.8.1
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 22 Apr 2009 22:44:50 +0200
+
+libmozilla-ldap-perl (1.5.2-3) unstable; urgency=low
+
+  * Fixed up the descriptions a bit
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 25 May 2008 21:25:26 +0200
+
+libmozilla-ldap-perl (1.5.2-2) unstable; urgency=low
+
+  * Fixed the build-indep, build-arch targets
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 17 May 2008 20:56:04 +0200
+
+libmozilla-ldap-perl (1.5.2-1) unstable; urgency=low
+
+  * Added call to dh_strip
+  * Added initial extended description
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 27 Apr 2008 10:20:24 +0200
+
+libmozilla-ldap-perl (1.5.2-0) unstable; urgency=low
+
+  * Initial Release. (Closes: #657593)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 30 Mar 2008 20:31:01 +0100
+

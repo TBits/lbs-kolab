@@ -1,0 +1,90 @@
+#!/usr/bin/make -f
+
+include /usr/share/quilt/quilt.make  
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_BUILD_ARCH  ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+UPSTREAM_VERSION := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\(.*\)-.*$$/\1/ p' | sed -e 's/~.*//')
+MOD_MAJOR_VERSION := $(word 1, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_MINOR_VERSION := $(word 2, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_PATCH_VERSION := $(word 3, $(subst ., ,$(UPSTREAM_VERSION)))
+
+CFLAGS := -Wall -pipe
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2 -fno-strict-aliasing
+endif
+
+CFLAGS += -g
+CONFIGURE_SWITCHES := --prefix=/usr \
+			--exec-prefix=/usr \
+			--sysconfdir=/usr \
+			--mandir=/usr/share/man \
+			--with-apxs=/usr/bin/apxs2 \
+			--enable-ecc
+
+
+configure: configure-stamp
+configure-stamp: $(QUILT_STAMPFN)
+ifneq "$(wildcard /usr/share/misc/config.sub)" "" 
+	cp -f /usr/share/misc/config.sub config.sub 
+endif 
+ifneq "$(wildcard /usr/share/misc/config.guess)" "" 
+	cp -f /usr/share/misc/config.guess config.guess 
+endif 
+
+	autoreconf -i -f
+	dh_testdir
+	./configure $(CONFIGURE_SWITCHES)
+	touch $@
+
+build: build-stamp
+build-stamp: configure-stamp
+	dh_testdir
+	$(MAKE)
+	touch $@
+
+clean: clean-patched unpatch
+clean-patched:
+	dh_testdir
+	dh_testroot
+	[ ! -f Makefile ] || $(MAKE) distclean
+	rm -f build-stamp configure-stamp install-stamp config.log
+	dh_clean
+
+install: build install-stamp
+install-stamp:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	# FIXME: brrrr
+	mv $(CURDIR)/.libs/libmodnss.so $(CURDIR)/.libs/mod_nss.so
+	touch install-stamp
+
+binary-indep: build install 
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -a
+	dh_installdocs -a
+	dh_install
+	dh_link -a
+	dh_strip
+	dh_compress -a
+	dh_fixperms -a
+	dh_installdeb -a
+	dh_shlibdeps -a -L libapache2-mod-nss -l debian/libapache2-mod-nss/usr/lib/apache2/modules
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-arch
+
+.PHONY: clean install build binary-indep binary-arch binary

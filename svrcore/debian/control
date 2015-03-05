@@ -1,0 +1,52 @@
+Source: svrcore
+Section: libs
+Priority: optional
+Maintainer: Michele Baldessari <michele@acksyn.org>
+Build-Depends: debhelper (>> 5.0.0), libnss3-dev (>= 3.11), pkg-config, autoconf, automake (>= 1.11), libtool
+Build-Conflicts: autoconf2.13, automake1.4
+Standards-Version: 3.9.1
+Vcs-Svn: svn://svn.debian.org/svn/pkg-fedora-ds/svrcore/trunk/
+Vcs-Browser: http://svn.debian.org/viewsvn/pkg-fedora-ds/svrcore/trunk/
+Homepage: http://ftp.mozilla.org/pub/mozilla.org/directory/svrcore/
+
+Package: libsvrcore0
+Architecture: any
+Depends: ${shlibs:Depends}, libnss3-1d, ${misc:Depends}
+Description: Netscape's secure PIN storage library
+ Svrcore is a library for handling PIN requests from Mozilla's Network 
+ Security Service (NSS) library. It provides a standard way for servers
+ to allow PIN input from a file or from the terminal. There is also a PIN
+ handler that caches the PIN in memory after encrypting it with a key stored 
+ on a PKCS11 device, thereby allowing a server to restart without reentering
+ the PIN.
+
+Package: libsvrcore-dev
+Section: libdevel
+Architecture: any
+Depends: libsvrcore0 (= ${binary:Version}), libnss3-dev, ${misc:Depends}
+Description: Development files for Netscape's secure PIN storage library
+ Svrcore is a library for handling PIN requests from Mozilla's Network 
+ Security Service (NSS) library. It provides a standard way for servers
+ to allow PIN input from a file or from the terminal. There is also a PIN
+ handler that caches the PIN in memory after encrypting it with a key stored 
+ on a PKCS11 device, thereby allowing a server to restart without reentering
+ the PIN.
+ .
+ This package contains header files and symlinks to develop programs which will
+ use the libsvrcore library.  You should install this package if you need to
+ develop programs which will use the svrcore library.
+
+Package: libsvrcore0-dbg
+Section: debug
+Priority: extra
+Architecture: any
+Depends: libsvrcore0 (= ${binary:Version}), ${misc:Depends}
+Description: Debug files for Netscape's secure PIN storage library
+ Svrcore is a library for handling PIN requests from Mozilla's Network 
+ Security Service (NSS) library. It provides a standard way for servers
+ to allow PIN input from a file or from the terminal. There is also a PIN
+ handler that caches the PIN in memory after encrypting it with a key stored 
+ on a PKCS11 device, thereby allowing a server to restart without reentering
+ the PIN.
+ .
+ This package provides the debugging symbols for the library.

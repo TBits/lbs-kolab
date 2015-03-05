@@ -1,0 +1,25 @@
+Source: libmozilla-ldap-perl
+Section: perl
+Priority: optional
+Maintainer: Debian 389ds Team <pkg-fedora-ds-maintainers@lists.alioth.debian.org>
+Uploaders: Timo Aaltonen <tjaalton@ubuntu.com>,
+	   Ghe Rivero <ghe@debian.org>
+Build-Depends: debhelper (>= 5.0.0),
+ perl (>= 5.8.0-7),
+ pkg-config,
+ quilt,
+ libldap2-dev (>= 2.4.28),
+ libnss3-dev
+Standards-Version: 3.9.3
+Vcs-Git: git://git.debian.org/git/pkg-fedora-ds/libmozilla-ldap-perl.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-fedora-ds/libmozilla-ldap-perl.git
+Homepage: http://www.mozilla.org/directory/perldap.html
+
+Package: libmozilla-ldap-perl
+Architecture: any
+Depends: ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Description: LDAP Perl module for the OpenLDAP C SDK
+ This package consists of set of modules to communicate with LDAP
+ (Lightweight Directory Access Protocol) directory servers.
+ It is made up of two parts: an interface to the OpenLDAP C SDK API, 
+ and a set of Object Oriented Perl classes.

@@ -1,0 +1,24 @@
+Source: idm-console-framework
+Section: java
+Maintainer: Debian 389ds Team <pkg-fedora-ds-maintainers@lists.alioth.debian.org>
+Uploaders: Michele Baldessari <michele@pupazzo.org>
+Priority: optional
+Build-Depends: debhelper (>= 8.0.0),
+ ant,
+ libjss-java,
+ libldap-java,
+ quilt,
+ default-jdk,
+Standards-Version: 3.9.3
+Vcs-Git: git://git.debian.org/git/pkg-fedora-ds/idm-console-framework.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-fedora-ds/idm-console-framework.git
+Homepage: http://directory.fedoraproject.org
+
+Package: libidm-console-framework-java
+Architecture: all
+Depends: ${misc:Depends},
+ libjss-java,
+ libldap-java,
+Description: IDM Console Framework for the 389 Directory Server Console
+ A Java Management Console framework, used for 389 Directory Server remote
+ management.

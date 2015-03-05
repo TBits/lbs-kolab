@@ -1,0 +1,15 @@
+How to maintain maintainer's changes
+------------------------------------
+
+  Patches are in debian/patches. You have to edit the debian/rules Makefile to place them in the right context.
+
+  In order to surrpress patching the (non existing code) by dpkg-source in "3.0 (quilt)" mode, the
+  debian/patches/series file is renamed to _series and back.
+
+  To create new patches with quilt please start "./debian/rules maintainer_quilt" to prepare the sources. Start
+  editing in "xsd-srcdir" and do not forget that this directory will be removed!
+
+  The sources are extracted at build time and modified with patches from debian/rules.
+
+ -- Raphael Bossek <bossekr@debian.org>  Fri, 19 Nov 2010 11:36:47 +0100
+

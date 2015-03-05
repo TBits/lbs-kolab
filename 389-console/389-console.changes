@@ -1,0 +1,15 @@
+-------------------------------------------------------------------
+Fri Feb  7 14:27:03 UTC 2014 - aj@ajaissle.de
+
+- Removed the 'Recommends:' section; packages belong to a server installation
+
+-------------------------------------------------------------------
+Tue Jul 16 13:49:22 UTC 2013 - aj@ajaissle.de
+
+- Add Recommends: for 389-admin-console and 389-ds-console
+
+-------------------------------------------------------------------
+Tue Jul 16 06:45:32 UTC 2013 - aj@ajaissle.de
+
+- Initial package
+

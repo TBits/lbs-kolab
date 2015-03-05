@@ -1,0 +1,63 @@
+#!/usr/bin/make -f
+
+include /usr/share/quilt/quilt.make
+
+export PERL_MM_USE_DEFAULT=1
+
+PACKAGE=$(shell dh_listpackages)
+
+ifndef PERL
+PERL = /usr/bin/perl
+endif
+
+TMP     = $(CURDIR)/debian/$(PACKAGE)
+
+build: build-arch build-indep
+build-arch: build-stamp
+build-indep: build-stamp
+
+build-stamp: $(QUILT_STAMPFN)
+	dh_testdir
+	LDAPPKGNAME=openldap $(PERL) Makefile.PL.rpm INSTALLDIRS=vendor
+	$(MAKE) OPTIMIZE="-Wall -O2 -g"
+	touch build-stamp
+
+clean: clean-patched unpatch
+clean-patched:
+	dh_testdir
+	dh_testroot
+	rm -rf build-stamp install-stamp temp
+	[ ! -f Makefile ] || $(MAKE) distclean
+	rm -rf $(TMP)
+	dh_clean
+
+install: build install-stamp
+install-stamp:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	$(MAKE) test
+	$(MAKE) install DESTDIR=$(TMP) PREFIX=/usr
+	rmdir --ignore-fail-on-non-empty --parents $(TMP)/usr/lib/perl5
+	touch install-stamp
+
+binary-indep:
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installexamples examples/*
+	dh_installdocs CREDITS README 
+	dh_installchangelogs ChangeLog
+	dh_strip -a
+	dh_makeshlibs -a
+	dh_installdeb -a
+	dh_perl  -a
+	dh_shlibdeps -a
+	dh_compress
+	dh_fixperms
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary

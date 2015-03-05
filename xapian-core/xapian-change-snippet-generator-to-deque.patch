@@ -1,0 +1,81 @@
+Index: xapian-core-1.2.12/queryparser/snippetgenerator_internal.cc
+===================================================================
+--- xapian-core-1.2.12.orig/queryparser/snippetgenerator_internal.cc	2013-01-22 17:26:51.189726001 +1100
++++ xapian-core-1.2.12/queryparser/snippetgenerator_internal.cc	2013-01-23 14:48:33.159726001 +1100
+@@ -53,9 +61,7 @@
+ 
+     // we don't keep context across termpos discontinuities
+     if (pos > (lastpos+2)) {
+-	// there is no queue::clear() dammit
+-	while (!context.empty())
+-	    context.pop();
++	context.clear();
+ 	leading_nonword = "";
+     }
+     lastpos = pos;
+@@ -75,7 +85,7 @@
+ 	// flush the before-context
+ 	while (!context.empty()) {
+ 	    result += context.front();
+-	    context.pop();
++	    context.pop_front();
+ 	}
+ 
+ 	// emit the match, highlighted
+@@ -91,16 +106,22 @@
+     } else {
+ 	// not explicitly in a context, but remember the
+ 	// term in the context queue for later
+-	context.push(term);
+-	while (context.size() > context_length) {
+-	    context.pop();
+-	    leading_nonword = "";
+-	}
+-	// this order handles the context_length=0 case gracefully
++	push_context(term);
+     }
+ }
+ 
+ void
++SnippetGenerator::Internal::push_context(const string & term)
++{
++    context.push_back(term);
++    while (context.size() > context_length) {
++	context.pop_front();
++	leading_nonword = "";
++    }
++    // this order handles the context_length=0 case gracefully
++}
++
++void
+ SnippetGenerator::Internal::accept_nonword_char(unsigned ch, termcount pos)
+ {
+     if (context.empty() && leading_nonword != "") {
+@@ -326,8 +378,7 @@
+     horizon = 0;
+     lastpos = 0;
+     nwhitespace = 0;
+-    while (!context.empty())
+-	context.pop();
++    context.clear();
+     matches.clear();
+     termpos = 0;
+     leading_nonword = "";
+Index: xapian-core-1.2.12/queryparser/snippetgenerator_internal.h
+===================================================================
+--- xapian-core-1.2.12.orig/queryparser/snippetgenerator_internal.h	2013-01-22 17:35:38.249726001 +1100
++++ xapian-core-1.2.12/queryparser/snippetgenerator_internal.h	2013-01-23 14:47:50.239726001 +1100
+@@ -43,11 +43,12 @@
+ 
+     termcount horizon;
+     termcount lastpos;
+-    std::queue<std::string> context;
++    std::deque<std::string> context;
+     std::string result;
+ 
+     termcount termpos;
+ 
++    void push_context(const std::string & term);
+     void accept_term(const std::string & term, termcount pos);
+     void accept_nonword_char(unsigned ch, termcount pos);
+ 

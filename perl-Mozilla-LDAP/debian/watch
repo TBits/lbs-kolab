@@ -1,0 +1,2 @@
+version=3
+http://ftp.mozilla.org/pub/mozilla.org/directory/perldap/releases/(\d.\d.\d)/src/perl-mozldap-(.*)\.tar\.gz

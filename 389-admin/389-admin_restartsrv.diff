@@ -1,0 +1,15 @@
+--- admserv/cgi-src40/restartsrv.c.orig	2013-01-17 00:21:44.000000000 +0100
++++ admserv/cgi-src40/restartsrv.c	2013-07-09 18:28:12.723412931 +0200
+@@ -184,10 +184,10 @@ int main(int argc, char *argv[])
+     break;
+   case 0:
+ #if defined(WITH_SYSTEMD)
+-    PL_strncpyz(line, sizeof(line), "/bin/systemctl restart " PACKAGE_NAME ".service");
++    PL_strncpyz(line, "/bin/systemctl restart " PACKAGE_NAME ".service", sizeof(line));
+     restart(line);
+ #elif defined(ENABLE_SERVICE)
+-    PL_strncpyz(line, sizeof(line), "service " PACKAGE_NAME " restart");
++    PL_strncpyz(line, "service " PACKAGE_NAME " restart", sizeof(line));
+     restart(line);
+ #else
+     if (util_find_file_in_paths(line,  sizeof(line), "restart-ds-admin", CMDBINDIR, "../..", "")) {

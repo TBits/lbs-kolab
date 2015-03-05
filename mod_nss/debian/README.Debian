@@ -1,0 +1,16 @@
+libapache2-mod-nss for Debian
+-------------------------------------
+
+You can enable this module using a2enmod:
+
+  # a2enmod nss
+
+Once enabled, you need to run the 'gencert' wrapper script that will generate the NSS db's for you in /etc/libapache2-mod-nss:
+# /usr/share/libapache2-mod-nss/gencert /etc/libapache2-mod-nss
+# chown -R www-data: /etc/libapache2-mod-nss
+
+Then starting apache, the password is: httptest
+
+FIXME: should we aim for a standard location for all the machine-level certs generated/used by NSS? (if yes, for whom should it be readable writable?)
+
+ -- Michele Baldessari <michele@pupazzo.org>, Tue, 12 May 2008 22:08:34 +0100

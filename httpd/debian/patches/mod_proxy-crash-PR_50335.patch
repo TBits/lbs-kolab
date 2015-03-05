@@ -1,0 +1,46 @@
+# https://svn.apache.org/r1576714
+# https://svn.apache.org/r1573067
+# https://issues.apache.org/bugzilla/show_bug.cgi?id=50335
+# 
+# Fix crashes in mod_proxy with threaded mpms under high load
+#
+--- apache2.orig/modules/proxy/mod_proxy_http.c
++++ apache2/modules/proxy/mod_proxy_http.c
+@@ -267,6 +267,9 @@
+     if (transferred != -1)
+         conn->worker->s->transferred += transferred;
+     status = ap_pass_brigade(origin->output_filters, bb);
++    /* Cleanup the brigade now to avoid buckets lifetime
++     * issues in case of error returned below. */
++    apr_brigade_cleanup(bb);
+     if (status != APR_SUCCESS) {
+         ap_log_error(APLOG_MARK, APLOG_ERR, status, r->server,
+                      "proxy: pass request body failed to %pI (%s)",
+@@ -286,7 +289,6 @@
+             return HTTP_BAD_REQUEST; 
+         }
+     }
+-    apr_brigade_cleanup(bb);
+     return OK;
+ }
+ 
+@@ -709,7 +711,7 @@
+     int force10, rv;
+     apr_table_t *headers_in_copy;
+ 
+-    header_brigade = apr_brigade_create(p, origin->bucket_alloc);
++    header_brigade = apr_brigade_create(p, bucket_alloc);
+ 
+     /*
+      * Send the HTTP/1.1 request to the remote server
+@@ -1864,6 +1866,10 @@
+         }
+     } while (interim_response && (interim_response < AP_MAX_INTERIM_RESPONSES));
+ 
++    /* We have to cleanup bb brigade, because buckets inserted to it could be
++     * created from scpool and this pool can be freed before this brigade. */
++    apr_brigade_cleanup(bb);
++
+     /* See define of AP_MAX_INTERIM_RESPONSES for why */
+     if (interim_response >= AP_MAX_INTERIM_RESPONSES) {
+         return ap_proxyerror(r, HTTP_BAD_GATEWAY,

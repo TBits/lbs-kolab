@@ -1,0 +1,11 @@
+389-ds-console (1.2.7-1) unstable; urgency=low
+
+  * New upstream release (Closes: #nnnn)
+
+ -- Aeneas Jaissle <aj@ajaissle.de>  Wed, 20 Aug 2014 11:06:25 +0200
+
+389-ds-console (1.2.6-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)
+
+ -- Timo Aaltonen <tjaalton@ubuntu.com>  Wed, 12 Oct 2011 01:05:43 +0300

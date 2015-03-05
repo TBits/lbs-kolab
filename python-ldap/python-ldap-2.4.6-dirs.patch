@@ -1,0 +1,11 @@
+diff -ur python-ldap-2.4.6.orig/setup.cfg python-ldap-2.4.6/setup.cfg
+--- python-ldap-2.4.6.orig/setup.cfg	2011-11-27 16:28:04.000000000 +0100
++++ python-ldap-2.4.6/setup.cfg	2012-01-02 16:20:13.840989359 +0100
+@@ -1,6 +1,5 @@
+ [_ldap]
+-library_dirs = /opt/openldap-RE24/lib
+-include_dirs = /opt/openldap-RE24/include /usr/include/sasl
++include_dirs = /usr/include/sasl
+ defines = HAVE_SASL HAVE_TLS
+ extra_compile_args = -g
+ extra_objects = 

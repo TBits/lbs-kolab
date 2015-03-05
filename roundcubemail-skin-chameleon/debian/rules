@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_install:
+	for file in $$(find $(CURDIR)/skins/chameleon -type f -name "*.less" ! -name "colors.less"); do \
+		lessc -x $${file} > $$(dirname $${file})/$$(basename $${file} .less).css ; \
+	done
+	dh_install

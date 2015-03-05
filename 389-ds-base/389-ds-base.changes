@@ -1,0 +1,164 @@
+-------------------------------------------------------------------
+Wed Aug 20 09:25:42 UTC 2014 - aj@ajaissle.de
+
+- New upstream release 1.2.11.30
+
+-------------------------------------------------------------------
+Wed Aug 20 09:13:42 UTC 2014 - aj@ajaissle.de
+
+- Spec cleanup
+
+-------------------------------------------------------------------
+Wed May 14 14:08:16 UTC 2014 - aj@ajaissle.de
+
+- New upstream release 1.2.11.29
+
+-------------------------------------------------------------------
+Tue Jul 16 08:56:37 UTC 2013 - aj@ajaissle.de
+
+- Spec file improvements
+- Add Suggests: 389-ds-console
+- Requires: perl-Mozilla-LDAP
+
+-------------------------------------------------------------------
+Sun Mar 10 11:11:58 UTC 2013 - aj@ajaissle.de
+
+- Added systemd/system/dirsrv.target.wants
+
+-------------------------------------------------------------------
+Fri Mar  8 16:41:59 UTC 2013 - aj@ajaissle.de
+
+- Update to 1.2.11.15
+- SLE 11 SP2 support 
+
+-------------------------------------------------------------------
+Sat Dec 18 15:20:40 UTC 2010 - nix@opensuse.org
+
+- Update to 1.2.7.5
+
+-------------------------------------------------------------------
+Thu Nov 12 14:24:45 UTC 2009 - nix@opensuse.org
+
+- Initial rpm package for 389 DS
+- Thanks to Rich Megginson for all his work on the Fedora spec
+
+-------------------------------------------------------------------
+Sat Dec 1 2007 Peter Nixon
+- Modify spec to work on SUSE
+- Add patch to allow db support to build on SUSE
+
+* Tue Feb 13 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-0.1.20070213
+- More cleanup suggested by Dennis Gilmore
+- This is the fedora extras candidate based on cvs tag FedoraDirSvr110a1
+
+* Fri Feb  9 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.el4.20070209
+- latest sources
+- added init scripts
+- use /etc as instconfigdir
+
+* Wed Feb  7 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.el4.20070207
+- latest sources
+- moved all executables to _bindir
+
+* Mon Jan 29 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.el4.20070129
+- latest sources
+- added /var/tmp/fedora-ds to dirs
+
+* Fri Jan 26 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-8.el4.20070125
+- added logconv.pl
+- added slapi-plugin.h to devel package
+- added explicit dirs for /var/log/fedora-ds et. al.
+
+* Thu Jan 25 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-7.el4.20070125
+- just move all .so files into the base package from the devel package
+
+* Thu Jan 25 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-6.el4.20070125
+- Move the plugin *.so files into the main package instead of the devel
+- package because they are loaded directly by name via dlopen
+
+* Fri Jan 19 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-5.el4.20070125
+- Move the script-templates directory to datadir/fedora-ds
+
+* Fri Jan 19 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-4.el4.20070119
+- change mozldap to mozldap6
+
+* Fri Jan 19 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-3.el4.20070119
+- remove . from cvsdate define
+
+* Fri Jan 19 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-2.el4.20070119
+- Having a problem building in Brew - may be Release format
+
+* Fri Jan 19 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.el4.cvs20070119
+- Changed version to 1.1.0 and added Release 1.el4.cvs20070119
+- merged in changes from Fedora Extras candidate spec file
+
+* Mon Jan 15 2007 Rich Megginson <rmeggins@redhat.com> - 1.1-0.1.cvs20070115
+- Bump component versions (nspr, nss, svrcore, mozldap) to their latest
+- remove unneeded patches
+
+* Tue Jan 09 2007 Dennis Gilmore <dennis@ausil.us> - 1.1-0.1.cvs20070108
+- update to a cvs snapshot
+- fedorafy the spec
+- create -devel subpackage
+- apply a patch to use mozldap not mozldap6
+- apply a patch to allow --prefix to work correctly
+
+* Mon Dec 4 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-16
+- Fixed the problem where the server would crash upon shutdown in dblayer
+- due to a race condition among the database housekeeping threads
+- Fix a problem with normalized absolute paths for db directories
+
+* Tue Nov 28 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-15
+- Touch all of the ldap/admin/src/scripts/*.in files so that they
+- will be newer than their corresponding script template files, so
+- that make will rebuild them.
+
+* Mon Nov 27 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-14
+- Chown new schema files when copying during instance creation
+
+* Tue Nov 21 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-13
+- Configure will get ldapsdk_bindir from pkg-config, or $libdir/mozldap6
+
+* Tue Nov 21 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-12
+- use eval to sed ./configure into ../configure
+
+* Tue Nov 21 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-11
+- jump through hoops to be able to run ../configure
+
+* Tue Nov 21 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-10
+- Need to make built dir in setup section
+
+* Tue Nov 21 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-9
+- The template scripts needed to use @libdir@ instead of hardcoding
+- /usr/lib
+- Use make DESTDIR=$RPM_BUILD_ROOT install instead of % makeinstall
+- do the actual build in a "built" subdirectory, until we remove
+- the old script templates
+
+* Thu Nov 16 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-8
+- Make replication plugin link with libdb
+
+* Wed Nov 15 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-7
+- Have make define LIBDIR, BINDIR, etc. for C code to use
+- especially for create_instance.h
+
+* Tue Nov 14 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-6
+- Forgot to checkin new config.h.in for AC_CONFIG_HEADERS
+
+* Tue Nov 14 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-5
+- Add perldap as a Requires; update sources
+
+* Thu Nov 9 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-4
+- Fix ds_newinst.pl
+- Remove obsolete #defines
+
+* Thu Nov 9 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-3
+- Update sources; rebuild to populate brew yum repo with dirsec-nss
+
+* Tue Nov 7 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-2
+- Update sources
+
+* Thu Nov 2 2006 Rich Megginson <rmeggins@redhat.com> - 1.0.99-1
+- initial revision
+
+

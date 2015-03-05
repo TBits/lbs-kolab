@@ -1,0 +1,2 @@
+addFilter("W: incorrect-fsf-address")
+addFilter("W: incoherent-init-script-name")

@@ -1,0 +1,12 @@
+smarty3 for Debian
+------------------
+
+In order to use Smarty 3 from your php scripts, you'll have to add
+/usr/share/php/smarty3 on the include_path of php5, that is in the
+file /etc/php5/{apache,apache2}/php.ini or use
+require("smarty3/Smarty.class.php");
+
+On smarty update, please note you will have to clear out all smarty
+generated files, by default in a templates_c directory.
+
+ -- Thierry Randrianiriana <thierry@debian.org>, Sat,  8 May 2010 15:05:10 +0300

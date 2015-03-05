@@ -1,0 +1,24 @@
+Source: 389-admin-console
+Section: java
+Maintainer: Debian 389ds Team <pkg-fedora-ds-maintainers@lists.alioth.debian.org>
+Uploaders: Michele Baldessari <michele@acksyn.org>
+Priority: optional
+Build-Depends: debhelper (>= 8.0.0),
+ quilt,
+ ant,
+ default-jdk,
+ libjss-java,
+ libldap-java,
+ libidm-console-framework-java,
+Standards-Version: 3.9.3
+Homepage: http://directory.fedoraproject.org
+
+Package: 389-admin-console
+Architecture: all
+Depends: ${misc:Depends},
+ 389-admin,
+ openjdk-6-jre | java6-runtime,
+ libidm-console-framework-java,
+Description: 389 admin server management console
+ A Java based remote management console used for managing 
+ the 389 admin server.

@@ -1,0 +1,72 @@
+From 0ca328cb9026aa53064a147226ef5b296426ea5f Mon Sep 17 00:00:00 2001
+From: Boris Kolpackov <boris@codesynthesis.com>
+Date: Mon, 22 Nov 2010 19:01:27 +0200
+Subject: [PATCH] Use ASCII encoding instead of UCS-4LE to work around Xerces-C++ bug
+
+---
+ tests/cxx/tree/encoding/char/utf-8/driver.cxx |    2 +-
+ tests/cxx/tree/encoding/char/utf-8/test.std   |  Bin 796 -> 239 bytes
+ tests/cxx/tree/encoding/wchar/driver.cxx      |    2 +-
+ tests/cxx/tree/encoding/wchar/test.std        |  Bin 768 -> 269 bytes
+ 4 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/cxx/tree/encoding/char/utf-8/driver.cxx b/tests/cxx/tree/encoding/char/utf-8/driver.cxx
+index 0842203..87e63c7 100644
+--- a/xsd-srcdir/xsd/tests/cxx/tree/encoding/char/utf-8/driver.cxx
++++ b/xsd-srcdir/xsd/tests/cxx/tree/encoding/char/utf-8/driver.cxx
+@@ -57,7 +57,7 @@ main (int argc, char* argv[])
+     xml_schema::namespace_infomap map;
+     map["t"].name = "test";
+ 
+-    root (std::cout, *r, map, "UCS-4LE");
++    root (std::cout, *r, map, "ASCII");
+   }
+   catch (xml_schema::exception const& e)
+   {
+diff --git a/tests/cxx/tree/encoding/char/utf-8/test.std b/tests/cxx/tree/encoding/char/utf-8/test.std
+index 328fe6d25fd77994e0d8e099e1a5e42998bd26e0..68ca51c01bd75ed2d773e7e45c925ab276699463 100644
+GIT binary patch
+literal 239
+zcmZwB!3x4K41nQ#pCUx?==9LbY&(Xhoqd9KD>9fVtYPf&ZS5Qi_LdLwr>a?>6D)p?
+zV<3%}(;2~2ABK@08r%D=>kuMa8tfFvYovhC7@@eHLtseT6l>PVJ~A310F*V>^{TR;
+q>3CSBl-FNr)B8hT=1RtuOq#Y%O7E8F9m@B1v~J@Z%c`pKTO(d|Y(FRf
+
+literal 796
+zcmb7?ISK+n5Je|3@f3}@8yJa8AZBJV2XI3K7f=z;G^g}Euu#MiCwO#ESN*E`-80Ct
+zYz%iez#bCZU;}5kzz$AugdsGb3oYn8zZ0t(b5>yf8q|8Wh0x~gCoqR5^k4>4uyz9b
+zUSR?1t>xYsV;1{GO>;aCy}m|JhXGit4|+0BJWKHI-#Yd-*Lc)-Z@-w!K2hHu>509Z
+z)0pcLybsUY5HU4ny1Z5`zbLBa*Z-Qw*~@%H?3<5>=~XZ9{v-BFryujG>f*kO;^ptN
+MU%W%v{}6Bb0RP50`~Uy|
+
+diff --git a/tests/cxx/tree/encoding/wchar/driver.cxx b/tests/cxx/tree/encoding/wchar/driver.cxx
+index 22cbfb4..06d0e81 100644
+--- a/xsd-srcdir/xsd/tests/cxx/tree/encoding/wchar/driver.cxx
++++ b/xsd-srcdir/xsd/tests/cxx/tree/encoding/wchar/driver.cxx
+@@ -47,7 +47,7 @@ main (int argc, char* argv[])
+     xml_schema::namespace_infomap map;
+     map[L"t"].name = L"test";
+ 
+-    root (std::cout, *r, map, L"UCS-4LE");
++    root (std::cout, *r, map, L"ASCII");
+   }
+   catch (xml_schema::exception const& e)
+   {
+diff --git a/xsd-srcdir/xsd/tests/cxx/tree/encoding/wchar/test.std b/xsd-srcdir/xsd/tests/cxx/tree/encoding/wchar/test.std
+index 93d4561fbd06c295b69b34dd54c484f292217fe2..cdc35174e698afc83ed41d89efc19ebd0271fa3d 100644
+GIT binary patch
+literal 269
+zcmZvX!3u*g42JK0ijcvMQ%?ieR%9Z0-V?N1hTu}LW%&4uD|1YiOZfTn|4C%EJSKR$
+zIgFkZ7N;D+QSXP5?h5PMwd)W<G&GpWlT%0@q0&Oea`rv~yD5}WVRRv)76L#TZEP<y
+z^HImcQnYP*;oh9N?@-RQvLff9=1Xmgu_=btK8JT~@a_K%T5s66v418Kms$Enix+6+
+BMq2;?
+
+literal 768
+zcmb7>!Ae3=6h&`SNB%(<=V^hXuo_4+XW|ExMg*E*5&o%PBd@i<4I;hJ!Q$R`&e`Ye
+zbKj_x@&sF0!4fL`z#DAf3qD{CpYQ-ZxPw029=<E58f)fY{Q}e)dxvOe+{ZA58yLa_
+zp26M~ocj$gpx$2I^%yVCOHXTzNAF&b(18)y>mJ<6Ix$w^cz^pi+gkJK@7;Ov<(%|)
+zMm^vxeVX%p1>eK?0FqPFrfaTCX?B-sO1UcgrhC>LJ+=8u?k|7IxkEf2@0R?3+W55g
+TQf=NdJ@Tffa}#g-=lO5HN~t}%
+
+-- 
+1.6.3.3
+

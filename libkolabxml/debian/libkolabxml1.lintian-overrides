@@ -1,0 +1,10 @@
+# Using shlibs for now
+libkolabxml1 binary: no-symbols-control-file
+# hardening-check --verbose libkolabxml.so.1 reports
+# Fortify Source functions: no, only unprotected functions found!
+#        unprotected: memmove
+#        unprotected: memcpy
+#        unprotected: fread
+# None of these functions occur in the source code,
+# so overriding this warning
+libkolabxml1 binary: hardening-no-fortify-functions

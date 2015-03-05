@@ -1,0 +1,14 @@
+Fix build with Debian's libapr1-dev pkg
+Index: libapache2-mod-nss-1.0.8/configure.in
+===================================================================
+--- libapache2-mod-nss-1.0.8.orig/configure.in	2010-05-24 00:57:20.000000000 +0200
++++ libapache2-mod-nss-1.0.8/configure.in	2010-05-24 00:57:30.000000000 +0200
+@@ -66,7 +66,7 @@
+ 
+ if test -n "$APR_CONFIG"; then
+   AC_MSG_RESULT([using $APR_CONFIG. Use --with-apr-config to specify another.])
+-  apr_inc=`$APR_CONFIG --includes`
++  apr_inc=`$APR_CONFIG --cppflags --cflags --includes`
+ else
+   AC_MSG_ERROR([neither apr-config nor apr-1-config were not found. use --with-apr-config to specify it.])
+ fi

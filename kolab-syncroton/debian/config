@@ -1,0 +1,73 @@
+#!/bin/bash
+
+set -e
+
+# source debconf stuff
+. /usr/share/debconf/confmodule
+# source dbconfig-common stuff
+. /usr/share/dbconfig-common/dpkg/config 
+
+parse_old_config() {
+    # We have the DB connection parameters in the Roundcube configuration file db.inc.php
+    confString=`grep \$config[\[]\'db_dsnw\'[\]] /etc/roundcubemail/config.inc.php | sed s/^.*=[\ ][\']mysqli:[\/][\/]//g | sed s/[\'][\;]//g`
+    
+    # confString now has the following structure
+    # user:password@host:port/dbname
+    
+    dbName=`expr "$confString" : '.*/\(.*\)'`
+    
+    # Remove all characters from the start,
+    # up to and including the "/" matched by .*/
+    # Leave what's after that: .* between parentheses
+    
+    confdb=`expr "$confString" : '.*/\(.*\)'`
+    
+    # Now remove the database name from the end
+    confString=${confString%%/*}
+    
+    # Extract the hostname similarly (everything following the last @)
+    dbHostPort=`expr "${confString}" : '.*@\(.*\)'`
+    
+    # This might contain a (non-default) port number
+    hostName=${dbHostPort%%:*}
+    
+    # Remove the hostname we just found from the string
+    dbHostPort=${dbHostPort#$hostName}
+    
+    # If there's anything left, it will look like :port
+    portNo=${dbHostPort##*:}
+    
+    # Remove the hostname
+    confString=${confString%@*}
+    
+    # Now username and password
+    # The username before the ":" (remove from the end, including the :)
+    username=${confString%%:*}
+    
+    # The password after the ":" (remove from the start, including the :)
+    passwd=${confString##*:}
+   
+    tmpfile=`mktemp`
+    echo dbuser=${username} >> $tmpfile
+    echo dbpass=${passwd} >> $tmpfile
+    echo dbserver=${hostName} >> $tmpfile
+    if [ -n "$portNo" ]; then
+        echo dbport=$portNo >> $tmpfile
+    fi
+    echo dbname=${confdb} >> $tmpfile
+    echo dbtype=mysql >> $tmpfile
+}
+
+if [ -f /usr/share/dbconfig-common/dpkg/config.mysql ]; then
+    . /usr/share/dbconfig-common/dpkg/config.mysql 
+    parse_old_config
+
+    dbc_first_version="2.1"
+    dbc_load_include="sh:${tmpfile}"
+    #rm $tmpfile
+
+    dbc_dbuser=roundcube
+    dbc_dbname=roundcube
+
+    dbc_go kolab-syncroton $@
+fi

@@ -1,0 +1,25 @@
+This is the Debian GNU/Linux package of an LDAP module for Python.
+
+This package was put together by Gregor Hoffleit <flight@debian.org>,
+and subsequently updated by Peter Hawkins <peterh@debian.org> and
+Matej Vela <vela@debian.org> and Timotheus Pokorra <timotheus@pokorra.de>.
+
+The package was put together from source found at the home page of the
+project:
+
+    http://www.python-ldap.org/
+
+According to the README, the following copyright notices apply:
+
+====================================================================
+Copyright and licensing:
+   Different parts of python-ldap have different licenses.  See
+   individual directories for their licensing. In brief, these are:
+        _ldap:          public domain
+        ldapthreadlock: public domain
+        ldif:           public domain
+        win32:          unknown <public domain?>
+
+   Although not a condition of the licenses, I strongly urge that any
+   improvements you may make be sent back to us for inclusion into 
+   future versions of this package (under the same free licensing).

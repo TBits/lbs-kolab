@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+PKG := 389-admin-console
+PKGSHORT := 389-admin
+UPSTREAM_VERSION := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\(.*\)-.*$$/\1/ p' | sed -e 's/~.*//')
+MOD_MAJOR_VERSION := $(word 1, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_MINOR_VERSION := $(word 2, $(subst ., ,$(UPSTREAM_VERSION)))
+CONSOLELANG := en
+BUILT_DIR=$(CURDIR)/build
+
+override_dh_auto_clean:
+	rm -rf $(BUILT_DIR)
+
+override_dh_auto_build:
+	ant -Dbuilt.dir=$(BUILT_DIR) \
+		-Dconsole.location=/usr/share/java \
+
+override_dh_auto_install:
+	mkdir -p $(CURDIR)/debian/$(PKG)/usr/share/dirsrv/html/java
+	install -m 644 $(BUILT_DIR)/package/*.jar \
+		$(CURDIR)/debian/$(PKG)/usr/share/dirsrv/html/java
+
+	dh_link usr/share/dirsrv/html/java/$(PKGSHORT)-$(UPSTREAM_VERSION).jar \
+		usr/share/dirsrv/html/java/$(PKGSHORT)-$(MOD_MAJOR_VERSION).$(MOD_MINOR_VERSION).jar
+	dh_link usr/share/dirsrv/html/java/$(PKGSHORT)-$(UPSTREAM_VERSION).jar \
+		usr/share/dirsrv/html/java/$(PKGSHORT).jar
+	dh_link usr/share/dirsrv/html/java/$(PKGSHORT)-$(UPSTREAM_VERSION)_$(CONSOLELANG).jar \
+		usr/share/dirsrv/html/java/$(PKGSHORT)-$(MOD_MAJOR_VERSION).$(MOD_MINOR_VERSION)_$(CONSOLELANG).jar
+	dh_link usr/share/dirsrv/html/java/$(PKGSHORT)-$(UPSTREAM_VERSION)_$(CONSOLELANG).jar \
+		usr/share/dirsrv/html/java/$(PKGSHORT)_$(CONSOLELANG).jar
+
+	mkdir -p $(CURDIR)/debian/$(PKG)/usr/share/dirsrv/manual/en/admin/help
+	install -m 644 help/en/*.html $(CURDIR)/debian/$(PKG)/usr/share/dirsrv/manual/en/admin
+	install -m 644 help/en/tokens.map $(CURDIR)/debian/$(PKG)/usr/share/dirsrv/manual/en/admin
+	install -m 644 help/en/help/*.html $(CURDIR)/debian/$(PKG)/usr/share/dirsrv/manual/en/admin/help
+
+%:
+	dh $@ --with quilt

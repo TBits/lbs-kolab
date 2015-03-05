@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -e
+
+#EXTRA#
+#DEBHELPER#
+
+reload_apache()
+{
+    if apache2ctl configtest 2>/dev/null; then
+        invoke-rc.d apache2 $1 || true
+    else
+        echo "Your apache2 configuration is broken, so we're not restarting it for you."
+    fi
+}
+
+
+case "$1" in
+    remove)
+        a2dissite kolab-syncroton.conf > /dev/null || true
+        reload_apache restart
+
+        # Now remove the symlinks we created upon installation
+        rm -f /usr/share/kolab-syncroton/config/config.inc.php
+        rm -f /usr/share/kolab-syncroton/config/defaults.inc.php
+        rm -f /usr/share/kolab-syncroton/lib/plugins/kolab_auth/config.inc.php
+        rm -f /usr/share/kolab-syncroton/lib/plugins/kolab_folders/config.inc.php
+        rm -f /usr/share/kolab-syncroton/lib/plugins/libkolab/config.inc.php
+    ;;
+esac
+
+exit 0

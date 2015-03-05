@@ -1,0 +1,2 @@
+addFilter("non-executable-script .*/usr/share/php5/PEAR/test/DB/tests/run.cvs")
+addFilter("non-executable-script .*/usr/share/php5/PEAR/test/DB/tests/driver/run.cvs")

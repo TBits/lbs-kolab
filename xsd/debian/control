@@ -1,0 +1,19 @@
+Source: xsd
+Section: devel
+Priority: optional
+Maintainer: Raphael Bossek <bossekr@debian.org>
+Build-Depends: debhelper (>= 7.0.50~), quilt (>= 0.46-7~), libxerces-c-dev (>= 3.0.0), libboost-date-time-dev, libboost-filesystem-dev, libboost-regex-dev, m4, autotools-dev
+Standards-Version: 3.9.1
+
+Package: xsdcxx
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Homepage: http://codesynthesis.com
+Description: XML Data Binding for C++
+ CodeSynthesis XSD is an open-source, cross-platform W3C XML Schema to
+ C++ data binding compiler. Provided with an XML instance specification
+ (XML Schema), it generates C++ classes that represent the given
+ vocabulary as well as parsing and serialization code.
+ You can then access the data stored in XML using types and functions
+ that semantically correspond to your application domain rather than
+ dealing with intricacies of reading and writing XML.

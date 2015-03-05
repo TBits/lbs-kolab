@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+
+# ant doesn't support --builddirectory
+BUILT_DIR=$(CURDIR)/build
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf $(BUILT_DIR)
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	ant -Dlib.dir=/usr/lib \
+		-Dbuilt.dir=$(BUILT_DIR) \
+		-Dclassdest=/usr/share/java \
+		-Djss.local.location=/usr/share/java
+
+override_dh_auto_install:
+	mkdir -p $(CURDIR)/debian/libidm-console-framework-java/usr/share/java/
+	install -m 644 $(BUILT_DIR)/release/jars/*.jar $(CURDIR)/debian/libidm-console-framework-java/usr/share/java/
+
+%:
+	dh $@

@@ -1,0 +1,87 @@
+smarty3 (3.1.13-0~kolab1) unstable; urgency=low
+
+  [ Jeroen van Meeuwen ]
+  * Package with release "unbump" for Debian distributions
+  * New upstream release.
+  * /debian/control:
+    + Use my DD address in Maintainer: field.
+    + Bump Standards: to 3.9.4. No changes needed.
+  * /debian/patches:
+    + Drop patch: 001_escape-smarty-exception-messages.patch, included in new
+      upstream release.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 06 May 2013 10:19:14 +0200
+
+smarty3 (3.1.10-2) unstable; urgency=low
+
+  * Fix CVE-2012-4437: Add patch 001_escape-smarty-exception-messages.patch.
+    Closes: #688153.
+
+ -- Mike Gabriel <mike.gabriel@das-netzwerkteam.de>  Sat, 22 Sep 2012 21:32:58 +0200
+
+smarty3 (3.1.10-1) unstable; urgency=low
+
+  * New upstream release. Closes: #678095.
+
+ -- Mike Gabriel <mike.gabriel@das-netzwerkteam.de>  Tue, 19 Jun 2012 16:41:06 +0200
+
+smarty3 (3.1.8-2) unstable; urgency=low
+
+  * Package smarty3 provides smarty (closes: #657536).
+  * Make /debian/copyright machine parsable, explicitly names files that
+    have dissenting licenses, license /debian folder under GPLv2+.
+
+ -- Mike Gabriel <mike.gabriel@das-netzwerkteam.de>  Thu, 17 May 2012 00:32:29 +0200
+
+smarty3 (3.1.8-1) experimental; urgency=low
+
+  * New upstream release (rev. 4611).
+  * New package maintainer (closes: #668200).
+  * Add watch file (closes: #657385).
+  * Add Vcs-* lines to control file.
+  * Add README.source that explains how we obtain code from
+    upstream SVN. Make sure all upstream source files are
+    shipped with the Debian source package (closes: #636148).
+
+ -- Mike Gabriel <mike.gabriel@das-netzwerkteam.de>  Thu, 10 May 2012 10:44:55 +0200
+
+smarty3 (3.1.0-1) experimental; urgency=low
+
+  * New upstream release (rev. 4284)
+  * Used the code source from subversion (Closes: #636148)
+  * debian/copyright:
+    + added LexerGenerator copyright
+    + added ParserGenerator copyright
+  * Fixed security holes:
+    + multiple unspecified vulnerabilities (CVE-2009-5052, CVE-2009-5053, 
+      CVE-2010-4722, CVE-2010-4724, CVE-2010-4726)
+    + not consider the umask value when setting the permissions of files
+      (CVE-2009-5054)
+    + not prevent access to the dynamic and private object members of an 
+      assigned object (CVE-2010-4723)
+    + not properly handle an on value of the asp_tags option in the php.ini file
+      (CVE-2010-4725)
+    + not properly handle the <?php and ?> tags (CVE-2010-4727)
+
+ -- Thierry Randrianiriana <thierry@debian.org>  Sat, 17 Sep 2011 21:22:11 +0300
+
+smarty3 (3.0.8-1) unstable; urgency=low
+
+  * New upstream release (Closes: #631619)
+  * Bumped Standards-Version to 3.9.2
+  * Updated licence to LGPL-3
+
+ -- Thierry Randrianiriana <thierry@debian.org>  Wed, 20 Jul 2011 11:29:24 +0300
+
+smarty3 (3.0~rc1-2) unstable; urgency=low
+
+  * Bumped Standards-Version to 3.9.1
+  * Removed debian/watch
+
+ -- Thierry Randrianiriana <thierry@debian.org>  Tue, 21 Sep 2010 14:45:44 +0300
+
+smarty3 (3.0~rc1-1) unstable; urgency=low
+
+  * Initial release (Closes: #580754)
+
+ -- Thierry Randrianiriana <thierry@debian.org>  Sat, 08 May 2010 14:36:04 +0300

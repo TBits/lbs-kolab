@@ -1,0 +1,31 @@
+-------------------------------------------------------------------
+Tue Apr  8 07:35:52 UTC 2014 - aj@ajaissle.de
+
+- Update to 1.2.7
+  * [rh#806566] - Opening merge qualifier CoS entry using RHDS console changes the entr
+  * [rh#757773] - SSL Port issue in Console
+
+-------------------------------------------------------------------
+Fri Feb  7 14:21:36 UTC 2014 - aj@ajaissle.de
+
+- 389-console will be installed on a client, 389-ds-console goes onto an 389-admin server.
+  The 389 Console will then connect to the admin server and load the required .jars.
+  Reverted the Requires: 389-console
+
+-------------------------------------------------------------------
+Wed Jul 17 19:10:34 UTC 2013 - aj@ajaissle.de
+
+- Spec cleanup
+- Requires 389-console
+- Does not require 389-admin (389-admin only has to run on the server you connect to)
+
+-------------------------------------------------------------------
+Wed Feb 27 13:47:00 UTC 2013 - aj@ajaissle.de
+
+- New upstream release 1.2.6
+
+-------------------------------------------------------------------
+Sat Dec 18 12:08:51 UTC 2010 - nix@opensuse.org
+
+- Update to 1.2.3
+

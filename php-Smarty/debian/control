@@ -1,0 +1,31 @@
+Source: smarty3
+Section: web
+Priority: optional
+Maintainer: Mike Gabriel <sunweaver@debian.org>
+Build-Depends: 
+ debhelper (>= 7.0.50~),
+ php5-cli
+Standards-Version: 3.9.4
+Vcs-Git: git://git.debian.org/git/collab-maint/smarty3.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/smarty3.git;a=summary
+Homepage: http://www.smarty.net/
+
+Package: smarty3
+Architecture: all
+Depends:
+ php5 | php5-cgi | php5-cli,
+ ${misc:Depends}
+Provides:
+ smarty
+Description: Template engine for PHP
+ Smarty is a template engine for PHP. More specifically, it
+ facilitates a manageable way to separate application logic and content
+ from its presentation.
+ .
+ Smarty 3.1 is a departure from 2.0 compatibility. Most notably, all
+ backward compatibility has been moved to a separate class file named
+ SmartyBC.class.php. If you require compatibility with 2.0, you will
+ need to use this class.
+
+
+

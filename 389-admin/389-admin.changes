@@ -1,0 +1,205 @@
+-------------------------------------------------------------------
+Tue Jul 16 16:43:55 UTC 2013 - aj@ajaissle.de
+
+- Enable systemd support
+- Remove lockfile in init script
+- Listen on port 8080, preventing collision with existing apache2
+  servers on port 80
+
+-------------------------------------------------------------------
+Mon Jul  1 17:04:39 UTC 2013 - aj@ajaissle.de
+
+- Fix init script path
+
+-------------------------------------------------------------------
+Mon Feb 18 23:47:55 UTC 2013 - aj@ajaissle.de
+
+- Updated spec, support systemd 
+
+-------------------------------------------------------------------
+Wed Jan 23 16:50:46 UTC 2013 - aj@ajaissle.de
+
+- New upstream release 1.1.31
+
+-------------------------------------------------------------------
+Sat Dec 18 11:58:08 UTC 2010 - nix@opensuse.org
+
+- Update to 1.1.13
+
+-------------------------------------------------------------------
+Wed Feb 17 13:45:12 UTC 2010 - nix@opensuse.org
+
+- Change mod_nss dep to apache2-mod_nss to match new package name 
+
+-------------------------------------------------------------------
+Fri Jan 15 13:51:12 UTC 2010 - nix@opensuse.org
+
+- Update to 1.1.10.a3
+- Add --disable-threading as new release seems to dislike threading
+
+-------------------------------------------------------------------
+
+* Mon Sep 14 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.9-1
+- the 1.1.9 release
+
+* Tue Aug 25 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.8-6
+- rewrite perm/owner preservation code to use lua
+
+* Wed Aug 12 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.8-5
+- final rebuild for 1.1.8 release
+
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
+* Tue Jul 21 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.8-3
+- bump rev for final rebuild
+
+* Tue Jul 21 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.8-2
+- change adminutil to 389-adminutil
+
+* Thu Jun 18 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.8-1
+- bump version to 1.1.8
+- change license to GPLv2 + ASL 2.0
+- changed files that were incorrectly licensed as GPLv2+ to plain GPLv2
+
+* Wed May 13 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.7-5
+- rename to 389
+
+* Thu Apr  9 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.7-4
+- Resolves: bug 493424
+- Description: dirsrv-admin initscript looks for nonexistent library
+- Added patch to remove those modules from the httpd.conf
+
+* Wed Apr  8 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.7-3
+- Resolves: bug 494980
+- Description: setup-ds-admin.pl -u and silent setup complain about ServerIpAddress
+- CVS tag FedoraDirSrvAdmin_1_1_7_RC3 FedoraDirSrvAdmin_1_1_7_RC3_20090408
+
+* Fri Apr  3 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.7-2
+- Resolves: bug 493989
+- Description: Admin Server: valgrind invalid read in security.c when installing CRL
+
+* Tue Mar 31 2009 Rich Megginson <rmeggins@redhat.com> - 1.1.7-1
+- this is the 1.1.7 release
+- added man pages for setup, migration, remove commands
+- better error handling for command line utilities
+- fixed remove from console
+- added remove-ds-admin.pl
+- added pre and post sections in order to preserve the permissions and ownerships
+- CVS tag FedoraDirSrvAdmin_1_1_7_RC1 FedoraDirSrvAdmin_1_1_7_RC1_20090331
+
+* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
+* Mon Sep 15 2008 Rich Megginson <rmeggins@redhat.com> - 1.1.6-2
+- patch for bug 451702 not required anymore - in upstream now
+
+* Wed Jul  2 2008 Rich Megginson <rmeggins@redhat.com> - 1.1.6-1
+- add patch for bug 451702
+- The 1.1.6 release
+
+* Fri Jun  6 2008 Rich Megginson <rmeggins@redhat.com> - 1.1.5-1
+- Resolves: Bug 448366
+- genrb no longer supports -p option
+
+* Tue Apr 15 2008 Rich Megginson <rmeggins@redhat.com> - 1.1.4-1
+- Resolves: Bug 437301
+- Directory Server: shell command injection in CGI replication monitor
+- Fix: rewrite the perl script to ignore all input parameters - replmon.conf
+- file will have to be hard coded to be in the admin-serv directory
+- Resolves: Bug 437320
+- Directory Server: unrestricted access to CGI scripts
+- Fix: remove script alias for /bin/admin/admin/bin/
+
+* Wed Jan  9 2008 Rich Megginson <rmeggins@redhat.com> - 1.1.2-1
+- Fix issues associated with Fedora pkg review bug 249548
+
+* Tue Dec 11 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.1-1
+- this is the final GA candidate
+
+* Tue Nov  6 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.16
+- fix several beta blocker issues
+
+* Mon Oct 15 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.15
+- fix bogus dist macro
+- change mozldap6 to mozldap
+
+* Thu Oct 11 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.14
+- make admin server work with SELinux enabled
+- fix wording errors in setup
+
+* Mon Oct  8 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.13
+- added /etc/sysconfig/dirsrv-admin the file that allows you to set
+- the environment used to start up the admin server (e.g. keytab, ulimit, etc.)
+- the initscript and admin start script use this file now
+- This version also has a fix to print the correct error message if the admin
+- server cannot be contacted during setup or migration.
+
+* Thu Sep 27 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.12
+- fix a couple of migration issues, including the rpath $libdir problem
+- allow ds_remove from console to remove instances
+
+* Wed Sep 19 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.11
+- one line fix to fix of 295001 - console.conf clobbered
+
+* Tue Sep 18 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.10
+- fixed migration issue bugzilla 295001 - console.conf clobbered
+
+* Fri Sep 14 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.9
+- fix several more migration problems
+
+* Fri Sep 14 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.8
+- fix migration - servers are started as they are migrated now
+
+* Tue Aug 21 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.7
+- Fix the with-fhs-opt configure flag
+
+* Fri Aug 17 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.6
+- remove curses
+- make mod_admserv link against sasl
+- add the usual .m4 files to mod_admserv instead of having all of
+- the component logic in configure.in
+
+* Thu Aug 16 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.5
+- incorporate Noriko's migration fix
+
+* Wed Aug 15 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.4
+- address several migration issues
+
+* Mon Aug 13 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.3
+- there is no devel package, so remove unused .so files
+
+* Mon Aug 13 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.2
+- forgot to tag the modules
+
+* Fri Aug 10 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-1.1
+- get rid of cvsdate
+- use pkgname of dirsrv for filesystem path naming
+- get rid of devel package
+- simplify files section
+
+* Fri Aug 10 2007 Noriko Hosoi <nhosoi@redhat.com> - 1.1.0-0.3.20070810
+- updated to latest sources
+- upgraded the mozldap6 version to 6.0.4
+
+* Wed Aug  8 2007 Noriko Hosoi <nhosoi@redhat.com> - 1.1.0-0.2.20070808
+- updated to latest sources -- bug fixes in the setup scripts
+
+* Mon Aug  6 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-0.1.20070806
+- updated to latest sources
+
+* Thu Aug  2 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-0.4.20070802
+- There are no files in bindir anymore
+
+* Thu Aug  2 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-0.3.20070802
+- forgot to prepend build root to java dir creation
+
+* Thu Aug  2 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-0.2.20070802
+- forgot to add mod_admserv and mod_restartd to source
+
+* Thu Aug  2 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-0.1.20070802
+- updated to latest sources - fix build breakage
+- add console jars dir under html
+
+* Mon Jul 23 2007 Rich Megginson <rmeggins@redhat.com> - 1.1.0-0.1.20070725
+- Initial version based on fedora-ds-base.spec

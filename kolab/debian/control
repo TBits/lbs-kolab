@@ -1,0 +1,103 @@
+Source: kolab
+Section: mail
+Priority: extra
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Uploaders: Paul Klos <kolab@klos2day.nl>
+Build-Depends: debhelper (>= 8),
+    univention-config-dev | bash
+Standards-Version: 3.9.3
+Vcs-Browser: http://git.kolabsys.com/apt/kolab/
+Vcs-Git: git://git.kolabsys.com/git/apt/kolab
+Homepage: http://www.kolab.org/
+
+Package: kolab
+Architecture: all
+Depends:    kolab-cli,
+            kolab-conf,
+            kolab-imap,
+            kolab-ldap,
+            kolab-mta,
+            kolab-saslauthd,
+            kolab-server,
+            kolab-webclient,
+            ${misc:Depends},
+            ${nonucs:Depends},
+            ${ucs:Depends}
+Description: Metapackage for Kolab Groupware Server
+ Install a complete Kolab Groupware server using this metapackage.
+ The installation will include:
+  - command-line utilities,
+  - configuration management,
+  - an IMAP server,
+  - an LDAP server,
+  - a mail transport agent,
+  - an authentication daemon,
+  - a Kolab Groupware synchronization server,
+  - a web admin interface, and
+  - a Kolab webmail client interface.
+
+Package: kolab-imap
+Architecture: all
+Pre-Depends:cyrus-imapd (>= 2.4) | imap-server,
+            kolab-saslauthd
+Depends:    ${misc:Depends},
+            ${ucs:Depends}
+Description: IMAP server for Kolab Groupware server
+ This is a metapackage for the IMAP server dependencies of
+ Kolab Groupware
+
+Package: kolab-ldap
+Architecture: all
+Pre-Depends:${ucs:Pre-Depends}
+Depends:    389-ds | ldap-server,
+            kolab-schema (>= 3.0),
+            ${misc:Depends},
+            ${ucs:Depends}
+Description: LDAP server for Kolab Groupware server
+ This is a metapackage for the LDAP server dependencies of
+ Kolab Groupware
+
+Package: kolab-mta
+Architecture: all
+Pre-Depends:kolab-saslauthd,
+            postfix
+Depends:    amavisd-new,
+            clamav-daemon,
+            postfix-ldap,
+            spamassassin,
+            wallace,
+            ${misc:Depends},
+            ${ucs:Depends}
+Provides:   ${ucs:Provides}
+Conflicts:  ${ucs:Conflicts}
+Replaces:   ${ucs:Replaces}
+Description: MTA server for Kolab Groupware server
+ This is a metapackage for the MTA server dependencies of
+ Kolab Groupware
+
+Package: kolab-webclient
+Architecture: all
+Depends:    chwala,
+            iRony,
+            kolab-freebusy,
+            kolab-syncroton,
+            mysql-client,
+            mysql-server,
+            php-mdb2-driver-mysql (>= 1.5.0b2),
+            roundcubemail (>= 0.9),
+            roundcubemail-plugin-contextmenu,
+            roundcubemail-plugins-kolab (>= 3.0),
+            roundcubemail-skin-chameleon (>= 0.3),
+            ${misc:Depends},
+            ${ucs:Depends}
+Description: Webmail client for Kolab Groupware server
+ This is a metapackage for the Webmail client interface
+ dependencies of Kolab Groupware
+
+Package: kolab-ucs
+Architecture: all
+Pre-Depends: kolab-schema
+Depends:    ${misc:Depends}
+Description: Additional UCS routines for integration
+ This package installs the necessary scripts to integrate
+ Kolab Groupware in to Univention Corporate Server

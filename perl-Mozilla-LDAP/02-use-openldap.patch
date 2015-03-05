@@ -1,0 +1,42 @@
+--- libmozilla-ldap-perl-1.5.3.orig/Makefile.PL.rpm
++++ libmozilla-ldap-perl-1.5.3/Makefile.PL.rpm
+@@ -53,15 +37,25 @@
+ 
+ # name of package to use for pkg-config
+ $ldappkgname = $ENV{"LDAPPKGNAME"} || "mozldap6";
+-
++my ($DEFINES, $cflags, $libs);
++if (lc($ldappkgname) eq 'openldap') {
++	$cflags = `pkg-config --cflags nss`;
++	chomp($cflags);
++	$libs = `pkg-config --libs nss`;
++	chomp($libs);
++	$libs = "-lldap -llber $libs";
++	$DEFINES = "-DUSE_OPENLDAP -DUSE_SSL -DPRLDAP";
++} else {
++	$cflags = `pkg-config --cflags $ldappkgname`;
++	chomp($cflags);
++	$libs = `pkg-config --libs $ldappkgname`;
++	chomp($libs);
++	$DEFINES = "-DUSE_SSL -DPRLDAP";
++}
+ print "\nPerLDAP - Perl 5 Module for LDAP\n";
+ print     "================================\n";
+-$cflags = `pkg-config --cflags $ldappkgname`;
+-chomp($cflags);
+ print "Using CFLAGS = $cflags\n";
+ print     "================================\n";
+-$libs = `pkg-config --libs $ldappkgname`;
+-chomp($libs);
+ print "Using LIBS = $libs\n";
+ 
+ #
+@@ -78,7 +78,7 @@ WriteMakefile(
+ 	      'INC'		=> $cflags,
+ 	      'LIBS'		=> [$libs],
+ 	      'MYEXTLIB'	=> $my_extlib,
+-	      'DEFINE'		=> "-DUSE_SSL -DPRLDAP",
++	      'DEFINE'		=> $DEFINES,
+ 	      'XSOPT'		=> "-nolinenumbers",
+ 	      @extras
+ );

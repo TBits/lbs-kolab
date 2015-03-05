@@ -1,0 +1,15 @@
+Author: Timo Aaltonen <tjaalton@ubuntu.com>
+Date:   Wed Feb 29 19:39:45 2012 +0200
+
+    fix-script-name-cgi.patch: Use the correct name for repl-monitor perl script
+
+diff --git a/admserv/cgi-src40/repl-monitor-cgi.pl.in b/admserv/cgi-src40/repl-monitor-cgi.pl.in
+index 5529454..ffc8f18 100755
+--- a/admserv/cgi-src40/repl-monitor-cgi.pl.in
++++ b/admserv/cgi-src40/repl-monitor-cgi.pl.in
+@@ -76,4 +76,4 @@ if ( $query->url_param('servport') ne "" ) {
+ }
+ 
+ # Now the real work
+-require "@bindir@/repl-monitor.pl";
++require "@bindir@/repl-monitor";

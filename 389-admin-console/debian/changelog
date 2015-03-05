@@ -1,0 +1,52 @@
+389-admin-console (1.1.8-1) unstable; urgency=low
+
+  * New upstream release.
+  * control: Wrap the *depends.
+  * compat, control: Bump the compat, debhelper build-dep.
+  * control: Build using openjdk-6.
+  * rules: Switch to dh.
+  * control: Change the section to java.
+  * control: Add quilt to build-depends.
+  * copyright: Use DEP5 format.
+  * control: Update the description.
+  * control: Add 389-admin to Depends.
+  * control: Bump Standards-Version to 3.9.3, no changes.
+  * Override some lintian warnings.
+
+ -- Timo Aaltonen <tjaalton@ubuntu.com>  Tue, 11 Oct 2011 17:40:48 +0300
+
+389-admin-console (1.1.5-1) unstable; urgency=low
+
+  * New upstream
+  * Update my email address
+
+ -- Michele Baldessari <michele@acksyn.org>  Sun, 17 Oct 2010 18:16:39 +0200
+
+389-admin-console (1.1.4-2) unstable; urgency=low
+
+  * Move to 3.0 quilt source format
+  * Update policy to 3.9.1
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 05 Sep 2010 00:35:43 +0200
+
+389-admin-console (1.1.4-1) unstable; urgency=low
+
+  * New upstream
+  * Rename source package
+  * Add libidm-console-framework as build-dep
+  * Add ${misc:Depends} dependency
+  * Fix package content to actually contain the jars after the rename
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 09 Dec 2009 09:12:18 +0100
+
+fedora-ds-admin-console (1.1.2-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 28 Sep 2008 11:11:36 +0200
+
+fedora-ds-admin-console (1.1.1-1) unstable; urgency=low
+
+  * Initial package version.  Closes: #659693.
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 09 Apr 2008 16:09:59 +0200

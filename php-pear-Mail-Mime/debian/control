@@ -1,0 +1,27 @@
+Source: php-mail-mime
+Section: php
+Priority: optional
+Maintainer: Debian PHP PEAR Maintainers <pkg-php-pear@lists.alioth.debian.org>
+Uploaders: Thomas Goirand <zigo@debian.org>, Prach Pongpanich <prachpub@gmail.com>
+Build-Depends: debhelper (>= 8), pkg-php-tools, phpunit (>= 3.4)
+Standards-Version: 3.9.4
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-mail-mime.git
+Vcs-Git: http://anonscm.debian.org/git/pkg-php/php-mail-mime.git
+Homepage: http://pear.php.net/package/Mail_Mime/
+
+Package: php-mail-mime
+Architecture: all
+Depends: ${misc:Depends}, ${phppear:Debian-Depends}
+Recommends: ${phppear:Debian-Recommends}
+Breaks: ${phppear:Debian-Breaks}
+Description: PHP PEAR module for creating MIME messages
+ Provides classes to deal with creation and manipulation of mime messages. It
+ allows people to create e-mail messages consisting of:
+ .
+  - mime.php: Create mime email, with html, attachments, embedded images
+    etc.
+  - mimePart.php: Advanced method of creating mime messages.
+  - xmail.dtd: An XML DTD to acompany the getXML() method of the decoding
+    class.
+  - xmail.xsl: An XSLT stylesheet to transform the output of the getXML()
+    method back to an email

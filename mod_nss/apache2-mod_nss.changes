@@ -1,0 +1,50 @@
+-------------------------------------------------------------------
+Fri Aug  2 08:29:35 UTC 2013 - meissner@suse.com
+
+- mod_nss-tlsv1_1.patch: nss.conf.in missed for TLSv1.2 default.
+- mod_nss-clientauth.patch: merged from RHEL6 pkg
+- mod_nss-PK11_ListCerts_2.patch: merged from RHEL6 pkg
+- mod_nss-no_shutdown_if_not_init_2.patch: merged from RHEL6 pkg
+- mod_nss-sslmultiproxy.patch: merged from RHEL6 pkg
+- make it build on both Apache2 2.4 and 2.2 systems
+
+-------------------------------------------------------------------
+Thu Aug  1 15:06:55 UTC 2013 - meissner@suse.com
+
+- Add support for TLS v1.1 and TLS v1.2 
+  (TLS v1.2 requires mozilla nss 3.15.1 or newer.)
+  - merged in mod_nss-proxyvariables.patch and mod_nss-tlsv1_1.patch
+    from redhat to allow tls v1.1 too.
+  - ported the tls v1.1 patch to be tls v1.2 aware
+  - added mod_nss-proxyvariables.patch (from RHEL6 package)
+  - added mod_nss-tlsv1_1.patch (from RHEL6 package, enhanced with TLS 1.2)
+- mod_nss-array_overrun.patch: from RHEL6 package, fixed a array index overrun
+
+-------------------------------------------------------------------
+Fri Jul 12 10:42:06 UTC 2013 - aj@ajaissle.de
+
+- Changed source to original tar.gz 
+
+-------------------------------------------------------------------
+Thu Jul 11 14:50:42 UTC 2013 - aj@ajaissle.de
+
+- Added mod_nns-httpd24.patch to support build with apache 2.4
+
+-------------------------------------------------------------------
+Tue Jan 22 09:35:41 UTC 2013 - aj@ajaissle.de
+
+-  Changed mod_nss-conf.patch to adjust mod_nss.conf to match SUSE 
+   dir layout [bnc#799483]
+-  Cleaned up license tag
+
+-------------------------------------------------------------------
+Sun Apr 15 14:17:19 UTC 2012 - wr@rosenauer.org
+
+- import some patches from Fedora
+- removed autoreconf call
+
+-------------------------------------------------------------------
+Wed Feb 17 13:30:47 UTC 2010 - nix@opensuse.org
+
+- Fix mod_nss-conf.patch to work on SUSE
+- Rename package from mod_nss to apache2-mod_nss

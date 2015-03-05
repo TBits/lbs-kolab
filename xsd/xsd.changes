@@ -1,0 +1,42 @@
+-------------------------------------------------------------------
+Wed May  9 11:43:55 UTC 2012 - cgiboudeaux@gmx.com
+
+- Change license to SUSE-GPL-2.0-with-FLOSS-exception
+
+-------------------------------------------------------------------
+Fri May  4 09:28:12 UTC 2012 - cgiboudeaux@gmx.com
+
+- Update to 3.3.0.1
+- Spec cleanup
+
+-------------------------------------------------------------------
+Tue Jul 28 2009 - kalev@smartlink.ee
+
+- Updated to work with openSUSE
+
+-------------------------------------------------------------------
+Mon Jul 27 2009 - rel-eng@lists.fedoraproject.org
+
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
+-------------------------------------------------------------------
+Tue Jul 07 2009 - Antti.Andreimann@mail.ee
+
+- Removed redundant PostScript files from the doc package
+
+-------------------------------------------------------------------
+Mon Jul 06 2009 - Antti.Andreimann@mail.ee
+
+- Added ACE homepage to SPEC file comments
+- Added verbose=1 to MAKEFLAGS so compiler flags could be
+  verified from build logs.
+
+-------------------------------------------------------------------
+Mon Jul 04 2009 - Antti.Andreimann@mail.ee
+
+- Changed License tag to clarify which exceptions we are talking about
+
+-------------------------------------------------------------------
+Wed May 20 2009 - Antti.Andreimann@mail.ee
+
+- Initial RPM release.

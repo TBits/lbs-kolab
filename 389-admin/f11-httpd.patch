@@ -1,0 +1,15 @@
+--- admserv/cfgstuff/httpd-2.2.conf.in	1 Aug 2007 18:14:53 -0000	1.6
++++ admserv/cfgstuff/httpd-2.2.conf.in	9 Apr 2009 16:07:53 -0000
+@@ -137,12 +137,10 @@
+ LoadModule actions_module @moddir@/mod_actions.so
+ LoadModule alias_module @moddir@/mod_alias.so
+ LoadModule rewrite_module @moddir@/mod_rewrite.so
+ LoadModule cache_module @moddir@/mod_cache.so
+ LoadModule disk_cache_module @moddir@/mod_disk_cache.so
+-LoadModule file_cache_module @moddir@/mod_file_cache.so
+-LoadModule mem_cache_module @moddir@/mod_mem_cache.so
+ LoadModule cgi_module @moddir@/mod_cgi.so
+ LoadModule restartd_module     @admmoddir@/mod_restartd.so
+ LoadModule nss_module         @nssmoddir@/libmodnss.so
+ LoadModule admserv_module     @admmoddir@/mod_admserv.so
+ 

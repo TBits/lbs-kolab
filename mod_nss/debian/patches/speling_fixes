@@ -1,0 +1,14 @@
+Fix spelling typos
+Index: libapache2-mod-nss-1.0.8/nss_engine_log.c
+===================================================================
+--- libapache2-mod-nss-1.0.8.orig/nss_engine_log.c	2010-05-24 00:58:02.000000000 +0200
++++ libapache2-mod-nss-1.0.8/nss_engine_log.c	2010-05-24 00:58:11.000000000 +0200
+@@ -254,7 +254,7 @@
+     { 57, "SSL received an alert record with an unknown alert description" },
+     { 58, "SSL peer has closed the connection" },
+     { 59, "SSL peer was not expecting a handshake message it received" },
+-    { 60, "SSL peer was unable to succesfully decompress an SSL record it received" },
++    { 60, "SSL peer was unable to successfully decompress an SSL record it received" },
+     { 61, "SSL peer was unable to negotiate an acceptable set of security parameters" },
+     { 62, "SSL peer rejected a handshake message for unacceptable content" },
+     { 63, "SSL peer does not support certificates of the type it received" },

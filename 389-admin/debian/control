@@ -1,0 +1,55 @@
+Source: 389-admin
+Section: net
+Priority: optional
+Maintainer: Debian 389ds Team <pkg-fedora-ds-maintainers@lists.alioth.debian.org>
+Build-Depends: quilt, debhelper (>= 9),
+ dh-autoreconf,
+ libnspr4-dev,
+ libnss3-dev,
+ libsasl2-dev,
+ libldap2-dev (>= 2.4.28-1~),
+ libicu-dev,
+ pkg-config,
+ debconf-utils,
+ libperl-dev,
+ po-debconf,
+ 389-ds-base-dev,
+ apache2-threaded-dev,
+ libadminutil-dev,
+ apache2-mpm-worker,
+ libapache2-mod-nss,
+Standards-Version: 3.9.3
+Homepage: http://directory.fedoraproject.org
+Vcs-Git: git://git.debian.org/git/pkg-fedora-ds/389-admin.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-fedora-ds/389-admin.git
+
+Package: libds-admin-serv0
+Section: libs
+Architecture: any
+Pre-Depends: debconf (>= 0.5) | debconf-2.0, ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends},
+Multi-Arch: same
+Description: Libraries for the 389 Directory Administration Server
+ 389 Directory Administration Server is an HTTP agent that provides
+ management features for 389 Directory Server. It provides some
+ management web apps that can be used through a web browser. It
+ provides the authentication, access control, and CGI utilities used
+ by the console.
+ .
+ These are the needed libraries for it.
+
+Package: 389-admin
+Architecture: any
+Pre-Depends: debconf (>= 0.5) | debconf-2.0, ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends},
+ libds-admin-serv0 (= ${binary:Version}),
+ libnss3-tools,
+ libmozilla-ldap-perl,
+ libapache2-mod-nss,
+ 389-ds-base,
+ apache2,
+Description: 389 Directory Administration Server
+ 389 Directory Administration Server is an HTTP agent that provides
+ management features for 389 Directory Server. It provides some
+ management web apps that can be used through a web browser. It provides
+ the authentication, access control, and CGI utilities used by the console.

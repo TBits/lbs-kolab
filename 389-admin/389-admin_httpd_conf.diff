@@ -1,0 +1,46 @@
+--- admserv/cfgstuff/httpd-2.2.conf.in.orig	2013-07-16 00:39:10.000000000 +0200
++++ admserv/cfgstuff/httpd-2.2.conf.in	2013-07-17 15:59:13.362610082 +0200
+@@ -102,9 +102,9 @@ StartServers 1
+ ServerLimit 1
+ 
+ MaxClients 64
+-MinSpareThreads 32
+-MaxSpareThreads 64
+-ThreadsPerChild 64
++#MinSpareThreads 32
++#MaxSpareThreads 64
++#ThreadsPerChild 64
+ 
+ #
+ # Dynamic Shared Object (DSO) Support
+@@ -167,6 +167,7 @@ LoadModule admserv_module     @admmoddir
+ # redirections work in a sensible way.
+ #
+ #ServerName www.example.com:80
++Listen 8080
+ 
+ #
+ # UseCanonicalName: Determines how Apache constructs self-referencing 
+--- admserv/cfgstuff/httpd-2.4.conf.in.orig	2013-01-17 00:21:44.000000000 +0100
++++ admserv/cfgstuff/httpd-2.4.conf.in	2013-07-17 15:59:14.513565014 +0200
+@@ -102,9 +102,9 @@ StartServers 1
+ ServerLimit 1
+ 
+ MaxClients 64
+-MinSpareThreads 32
+-MaxSpareThreads 64
+-ThreadsPerChild 64
++#MinSpareThreads 32
++#MaxSpareThreads 64
++#ThreadsPerChild 64
+ 
+ #
+ # Dynamic Shared Object (DSO) Support
+@@ -173,6 +173,7 @@ LoadModule unixd_module         @moddir@
+ # redirections work in a sensible way.
+ #
+ #ServerName www.example.com:80
++Listen 8080
+ 
+ #
+ # UseCanonicalName: Determines how Apache constructs self-referencing 

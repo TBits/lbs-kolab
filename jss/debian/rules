@@ -1,0 +1,121 @@
+#!/usr/bin/make -f
+
+include /usr/share/quilt/quilt.make
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_BUILD_ARCH  ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+UPSTREAM_VERSION := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\(.*\)-.*$$/\1/ p' | sed -e 's/~.*//')
+MOD_MAJOR_VERSION := $(word 1, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_MINOR_VERSION := $(word 2, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_PATCH_VERSION := $(word 3, $(subst ., ,$(UPSTREAM_VERSION)))
+
+export USE_64 := $(shell echo "int main(void) { int assert[(sizeof(long) == 8) ? 1 : -1]; return 0; }" | gcc -o /dev/null -x c - 2> /dev/null && echo "USE_64=1")
+
+CFLAGS := -Wall -pipe -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2 -fno-strict-aliasing
+endif
+
+CFLAGS += $(USE_64)
+# Enable compiler optimizations and disable debugging code
+BUILD_OPT=1
+export BUILD_OPT
+export XCFLAGS="-g"
+BASEDIR := $(CURDIR)/mozilla/security/
+export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+export NSPR_INCLUDE_DIR=`/usr/bin/pkg-config --cflags-only-I nspr | sed 's/-I//'`
+export NSPR_LIB_DIR=`/usr/bin/pkg-config --libs-only-L nspr | sed 's/-L//'`
+export NSS_INCLUDE_DIR=`/usr/bin/pkg-config --cflags-only-I nss | sed 's/-I//'`
+export NSS_LIB_DIR=`/usr/bin/pkg-config --libs-only-L nss | sed 's/-L//'`
+
+export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+
+# Generate symbolic info for debuggers
+XCFLAGS="-g"
+export XCFLAGS
+export CFLAGS
+
+configure: configure-stamp
+configure-stamp: $(QUILT_STAMPFN)
+
+build: build-stamp
+build-stamp: configure
+	dh_testdir
+	make -C $(BASEDIR)/coreconf $(USE_64)
+	make -C $(BASEDIR)/jss $(USE_64)
+	touch build-stamp
+
+clean: clean-patched unpatch
+clean-patched:
+	dh_testdir
+	dh_testroot
+	-[ -f $(BASEDIR)/jss/Makefile ] || $(MAKE) -C $(BASEDIR)/jss clean
+	-[ -f $(BASEDIR)/coreconf/Makefile ] || $(MAKE) -C $(BASEDIR)/coreconf clean
+	-find . -name "*.class" -type f -exec rm -f "{}" \;
+	-find . -name "*.so.*" -type f -exec rm -f "{}" \;
+	-find . -name ".so" -type f -exec rm -f "{}" \;
+	-find . -type d -name "Linux3.0_x86_glibc_PTH_DBG.OBJ" -exec rm -rf "{}" \;
+	-find . -type d -name "Linux3.0_x86_glibc_PTH_OPT.OBJ" -exec rm -rf "{}" \;
+	-find . -type d -name "Linux3.0_x86_64_glibc_PTH_64_DBG.OBJ" -exec rm -rf "{}" \;
+	-find . -type d -name "Linux3.0_x86_64_glibc_PTH_64_OPT.OBJ" -exec rm -rf "{}" \;
+	rm -f $(BASEDIR)/jss/org/mozilla/jss/util/Debug.java
+	rm -rf $(CURDIR)/dist || true
+	dh_clean build-stamp install-stamp 
+
+install: install-stamp
+install-stamp:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	mkdir -p $(CURDIR)/debian/tmp/usr/lib/jni
+	mkdir -p $(CURDIR)/debian/tmp/usr/share/java
+	install -m 644 mozilla/dist/xpclass.jar $(CURDIR)/debian/tmp/usr/share/java/jss-$(MOD_MAJOR_VERSION).$(MOD_MINOR_VERSION).$(MOD_PATCH_VERSION).jar
+	install -m 0755 mozilla/dist/Linux*.OBJ/lib/libjss4.so $(CURDIR)/debian/tmp/usr/lib/jni
+
+#
+# FIXME - sign jss4.jar. In order to use JSS as a JCE provider it needs to be
+# signed with a Sun-issued certificate. Since we would need to make this
+# certificate and private key public to provide reproducability in the rpm
+# building we have to ship an unsigned jar.
+#
+# Instructions for getting a signing cert can be found here:
+# http://java.sun.com/javase/6/docs/technotes/guides/security/crypto/HowToImplAProvider.html#Step61
+#
+# This signing is not required by every JVM. gcj ignores the signature and does
+# not require one. The Sun and IBM JVMs both check and enforce the signature.
+# Behavior of other JVMs is not known but they probably enforce the signature
+# as well.
+
+	touch install-stamp
+
+binary-indep:
+
+binary-arch: install-stamp
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -a
+	dh_installdocs -a
+	dh_movefiles --sourcedir=debian/tmp -a -v
+	dh_link -a
+	dh_strip -a 
+	dh_compress -a
+	dh_fixperms -a
+	dh_makeshlibs -a 
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-arch
+
+.PHONY: clean install build clean-patched binary-indep binary-arch binary

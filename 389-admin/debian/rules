@@ -1,0 +1,51 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+DEB_HOST_ARCH_BITS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_BITS)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+ifeq (64,$(DEB_HOST_ARCH_BITS))
+	export USE_64=1
+else
+	# fixes build on i386
+	CPPFLAGS=-D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+endif
+
+LDFLAGS += -L/usr/lib/$(DEB_HOST_MULTIARCH)/nss
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--disable-rpath \
+		--with-openldap \
+		--with-httpd=/usr/sbin/apache2.worker \
+		--with-initddir=/etc/init.d \
+		--with-apxs=/usr/bin/apxs2
+
+override_dh_auto_install:
+	dh_auto_install --destdir=$(CURDIR)/debian/tmp
+
+override_dh_install:
+	# purge .la files
+	find $(CURDIR)/debian/tmp -name "*.la" -type f -exec rm -f "{}" \;
+
+	# rename the binaries & manpages, don't need wrappers
+	rename 's,.pl$$,,' $(CURDIR)/debian/tmp/usr/sbin/*.pl
+	rename 's,.pl,,' $(CURDIR)/debian/tmp/usr/share/man/man8/*.pl.8
+
+	chmod -x $(CURDIR)/debian/tmp/etc/default/* \
+		$(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/dirsrv/perl/*
+	dh_install
+
+override_dh_link:
+	sed -e"s/@MULTIARCH@/$(DEB_HOST_MULTIARCH)/g" \
+		debian/libds-admin-serv0.links.in > debian/libds-admin-serv0.links
+	dh_link
+
+override_dh_installinit:
+	dh_installinit --name dirsrv-admin -- defaults 15 85
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l"debian/389-admin/usr/lib/$(DEB_HOST_MULTIARCH)/:debian/389-admin/usr/lib/$(DEB_HOST_MULTIARCH)/dirsrv"
+
+%:
+	dh $@ --with quilt,autoreconf --builddir build/

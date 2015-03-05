@@ -1,0 +1,48 @@
+Author: Michele Baldessari
+Description: comment out mod_log_config (built in) and rename mod_nss
+
+dirsrv httpd.conf path fixes
+Index: 389-admin/admserv/cfgstuff/httpd-2.2.conf.in
+===================================================================
+--- 389-admin.orig/admserv/cfgstuff/httpd-2.2.conf.in	2011-10-11 15:33:59.489805355 +0300
++++ 389-admin/admserv/cfgstuff/httpd-2.2.conf.in	2011-10-11 16:04:29.993761158 +0300
+@@ -120,7 +120,7 @@
+ LoadModule authz_host_module @moddir@/mod_authz_host.so
+ LoadModule auth_basic_module @moddir@/mod_auth_basic.so
+ LoadModule authn_file_module @moddir@/mod_authn_file.so
+-LoadModule log_config_module @moddir@/mod_log_config.so
++#LoadModule log_config_module @moddir@/mod_log_config.so
+ LoadModule env_module @moddir@/mod_env.so
+ LoadModule mime_magic_module @moddir@/mod_mime_magic.so
+ LoadModule unique_id_module @moddir@/mod_unique_id.so
+@@ -132,7 +132,7 @@
+ LoadModule rewrite_module @moddir@/mod_rewrite.so
+ LoadModule cgi_module @moddir@/mod_cgi.so
+ LoadModule restartd_module     @admmoddir@/mod_restartd.so
+-LoadModule nss_module         @nssmoddir@/libmodnss.so
++LoadModule nss_module         @nssmoddir@/mod_nss.so
+ LoadModule admserv_module     @admmoddir@/mod_admserv.so
+ 
+ ### Section 2: 'Main' server configuration
+Index: 389-admin/admserv/cfgstuff/httpd.conf.in
+===================================================================
+--- 389-admin.orig/admserv/cfgstuff/httpd.conf.in	2011-10-11 16:02:22.689869333 +0300
++++ 389-admin/admserv/cfgstuff/httpd.conf.in	2011-10-11 16:04:29.997761279 +0300
+@@ -119,7 +119,7 @@
+ # LoadModule foo_module modules/mod_foo.so
+ LoadModule access_module @moddir@/mod_access.so
+ LoadModule auth_module @moddir@/mod_auth.so
+-LoadModule log_config_module @moddir@/mod_log_config.so
++#LoadModule log_config_module @moddir@/mod_log_config.so
+ LoadModule env_module @moddir@/mod_env.so
+ LoadModule mime_magic_module @moddir@/mod_mime_magic.so
+ LoadModule expires_module @moddir@/mod_expires.so
+@@ -142,7 +142,7 @@
+ LoadModule mem_cache_module @moddir@/mod_mem_cache.so
+ LoadModule cgi_module @moddir@/mod_cgi.so
+ LoadModule restartd_module     @admmoddir@/mod_restartd.so
+-LoadModule nss_module         @nssmoddir@/libmodnss.so
++LoadModule nss_module         @nssmoddir@/mod_nss.so
+ LoadModule admserv_module     @admmoddir@/mod_admserv.so
+ 
+ ### Section 2: 'Main' server configuration

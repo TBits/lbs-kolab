@@ -1,0 +1,25 @@
+libapache2-mod-nss (1.0.8-1) unstable; urgency=low
+
+  * New upstream
+  * Patch for softokn3 is not needed anymore
+  * Add doc/mod_nss.html
+  * Enable Elliptic Curve Cryptography
+  * Fix build
+  * Add ${misc:Depends}
+  * Spelling fixes
+  * Bumped policy to 3.8.3
+  * Switch to dpkg-source 3.0 (quilt) format
+  * Bumped policy to 3.8.4
+  * Removed README.source
+  * Added pkg-config, libtool & automake to B-D
+  * Changed my email address
+  * Fix compilation issues (QUILT_STAMPFN)
+
+ -- Michele Baldessari <michele@acksyn.org>  Sun, 17 Oct 2010 14:12:42 +0200
+
+libapache2-mod-nss (1.0.7-1) unstable; urgency=low
+
+  * Initial release (Closes: #XXXXX)
+  * Added patch from RH 444348
+
+ -- Michele Baldessari <michele@pupazzo.org>  Mon, 12 May 2008 22:05:09 +0200

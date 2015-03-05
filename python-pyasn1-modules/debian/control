@@ -1,0 +1,22 @@
+Source: pyasn1-modules
+Section: python
+Priority: optional
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Standards-Version: 3.9.3
+Build-Depends: debhelper (>= 5.0.37.2),
+               python-all (>= 2.6.6-3~),
+Build-Depends-Indep: python-setuptools
+X-Python-Version: >= 2.4
+Homepage: http://pyasn1.sourceforge.net/
+Vcs-Git: git://git.kolab.org/git/apt/pyasn1_modules
+Vcs-Browser: http://git.kolab.org/apt/pyasn1_modules
+
+Package: python-pyasn1-modules
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}
+Suggests: doc-base
+Description: ASN.1 library modules for Python
+ This supplements the ASN.1 module with the types and codecs in Python
+ programming language. It has been first written to support particular
+ protocol (SNMP) but then generalized  to be suitable for a wide range
+ of protocols based on ASN.1 specification.

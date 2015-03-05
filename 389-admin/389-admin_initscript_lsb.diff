@@ -1,0 +1,52 @@
+--- wrappers/initscript.in.orig	2013-01-17 00:21:44.000000000 +0100
++++ wrappers/initscript.in	2013-07-16 18:42:32.301798217 +0200
+@@ -7,6 +7,15 @@
+ # processname: @sbindir@/httpd
+ # piddir:      @localstatedir@/run/@PACKAGE_BASE_NAME@
+ #
++### BEGIN INIT INFO
++# Provides:          @package_name@
++# Required-Start:    $remote_fs
++# Required-Stop:     $remote_fs
++# Default-Start:     3 5
++# Default-Stop:      0 1 2 6
++# Short-Description: 389 Administration Server
++# Description:       Start the 389 Administration Server daemon
++### END INIT INFO
+ 
+ # Source function library.
+ if [ -f /etc/rc.d/init.d/functions ] ; then
+@@ -94,7 +103,6 @@ prog="@package_name@"
+ piddir="@localstatedir@/run/@PACKAGE_BASE_NAME@"
+ # PID file
+ pidfile=$piddir/admin-serv.pid
+-lockfile=/var/lock/subsys/@package_name@
+ 
+ [ -f $exec ] || exit 0
+ 
+@@ -163,7 +171,6 @@ start() {
+             RETVAL=1
+         fi
+     fi
+-    [ $RETVAL -eq 0 -a -d /var/lock/subsys ] && touch $lockfile
+ }
+ 
+ stop() {
+@@ -210,7 +217,6 @@ stop() {
+             fi
+         fi
+     fi
+-    [ $RETVAL -eq 0 ] && rm -f $lockfile
+ }
+ 
+ restart() {
+@@ -238,7 +244,8 @@ case "$1" in
+         $1
+         ;;
+     condrestart)
+-        [ ! -f $lockfile ] || restart
++        rcdirsrv-admin status
++        [[ ! $? -eq 0 ]] || restart
+         ;;
+     *)
+         echo Unknown command $1

@@ -1,0 +1,16 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-name: 389-admin-console
+Source: http://directory.fedoraproject.org/sources/
+
+Files: *
+Copyright: 2001 Sun Microsystems, Inc.
+	   2005, 2007 Red Hat, Inc.
+License: GPL-2
+
+Files: debian/*
+Copyright: Timo Aaltonen <tjaalton@ubuntu.com>
+License: GPL-2
+
+License: GPL-2
+ On Debian machines, the full text of the GNU General Public License
+ can be found in the file /usr/share/common-licenses/GPL-2

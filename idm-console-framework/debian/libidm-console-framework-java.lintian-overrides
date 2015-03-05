@@ -1,0 +1,4 @@
+# override these harmless warnings
+libidm-console-framework-java: codeless-jar usr/share/java/idm-console-mcc-1.1.7_en.jar
+libidm-console-framework-java: codeless-jar usr/share/java/idm-console-nmclf-1.1.7_en.jar
+

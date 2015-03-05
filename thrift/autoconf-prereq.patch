@@ -1,0 +1,12 @@
+diff -ur thrift-0.9.1.orig/configure.ac thrift-0.9.1/configure.ac
+--- thrift-0.9.1.orig/configure.ac	2013-08-19 01:54:39.000000000 +0200
++++ thrift-0.9.1/configure.ac	2014-05-15 06:04:45.521614747 +0200
+@@ -17,7 +17,7 @@
+ # under the License.
+ #
+ 
+-AC_PREREQ(2.65)
++AC_PREREQ(2.63)
+ 
+ AC_INIT([thrift], [0.9.1])
+ 

@@ -1,0 +1,46 @@
+Author: Michele Baldessari
+Description: Hyphenation fixes
+
+Index: 389-admin-1.1.11.a2/man/man8/remove-ds-admin.pl.8
+===================================================================
+--- 389-admin-1.1.11.a2.orig/man/man8/remove-ds-admin.pl.8	2010-02-27 00:10:26.000000000 +0100
++++ 389-admin-1.1.11.a2/man/man8/remove-ds-admin.pl.8	2010-05-24 17:29:47.000000000 +0200
+@@ -30,7 +30,7 @@
+ It will remove all of the data and configuration
+ of all directory servers and admin servers, with
+ no chance of recovery.  Therefore, in order to actually
+-do this, you must give the -y option.  \fBPlease use caution and backup your data if you want to keep it!\fR
++do this, you must give the \-y option.  \fBPlease use caution and backup your data if you want to keep it!\fR
+ .PP
+ .\" TeX users may be more comfortable with the \fB<whatever>\fP and
+ .\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
+@@ -39,13 +39,13 @@
+ A summary of options is included below:
+ .TP
+ .B \fB\-f\fR
+-Force removal - continue on error - otherwise, the command will abort at the first error encountered
++Force removal \- continue on error \- otherwise, the command will abort at the first error encountered
+ .TP
+ .B \fB\-d\fR
+-Enable debugging - adding more -d will make output more verbose
++Enable debugging \- adding more \-d will make output more verbose
+ .TP
+ .B \fB\-y\fR
+-Do the actual processing.  Since the command is very destructive, you must provide the -y argument in order for the operation to proceed.  \fBUse with extreme caution!\fR
++Do the actual processing.  Since the command is very destructive, you must provide the \-y argument in order for the operation to proceed.  \fBUse with extreme caution!\fR
+ .br
+ .SH AUTHOR
+ remove-ds-admin.pl was written by the 389 Project.
+Index: 389-admin-1.1.11.a2/man/man8/migrate-ds-admin.pl.8
+===================================================================
+--- 389-admin-1.1.11.a2.orig/man/man8/migrate-ds-admin.pl.8	2010-05-24 17:30:03.000000000 +0200
++++ 389-admin-1.1.11.a2/man/man8/migrate-ds-admin.pl.8	2010-05-24 17:30:11.000000000 +0200
+@@ -93,7 +93,7 @@
+ .IP
+ migrate-ds-admin.pl General.ConfigDirectoryAdminPwd=thepassword
+ .PP
+-All other paramters needed for migration will be read from the old Admin Server configuration.
++All other parameters needed for migration will be read from the old Admin Server configuration.
+ .PP
+ actualsroot:
+ This is used when you must migrate from one machine to another.  The

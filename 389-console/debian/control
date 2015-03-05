@@ -1,0 +1,24 @@
+Source: 389-console
+Section: java
+Priority: extra
+Maintainer: Timo Aaltonen <tjaalton@ubuntu.com>
+Build-Depends: debhelper (>= 8.0.0),
+ default-jdk,
+ quilt,
+ ant,
+ libjss-java,
+ libldap-java,
+ libidm-console-framework-java, 
+Standards-Version: 3.9.2
+Homepage: http://directory.fedoraproject.org
+Vcs-Git: git://git.debian.org/git/pkg-fedora-ds/389-console.git
+Vcs-Browser: http://git.debian.org/?p=pkg-fedora-ds/389-console.git;a=summary
+
+Package: 389-console
+Architecture: all
+Depends: ${misc:Depends},
+ libidm-console-framework-java,
+ java6-runtime,
+Description: 389 Management Console
+ A Java based remote management console used for managing 389
+ Administration Server and 389 Directory Server.

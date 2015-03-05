@@ -1,0 +1,26 @@
+-------------------------------------------------------------------
+Tue Dec 11 09:58:28 UTC 2012 - Ralf Lang <lang@b1-systems.de>
+
+- Fix dependency on php-macros for SLE11 case
+
+-------------------------------------------------------------------
+Thu Dec  8 13:54:20 UTC 2011 - coolo@suse.com
+
+- fix license to be in spdx.org format
+
+-------------------------------------------------------------------
+Wed Aug 24 13:47:26 UTC 2011 - lang@b1-systems.de
+
+- version 1.3.2
+- Fix referrals if host data or user credentials are passed to connect() and login() instead of the constructor (Aleksander Machniak, Bug #17107).
+- Query capabilities again after successful authentication (Jesse Crawford, Request #18382).
+- Escape quotes and backslashes in script names, and use literal strings for script names with non-ASCII characters (Aleksander Machniak, Bug #16691).
+- Work around broken STARTTLS behavior in Cyrus versions before 2.3.10 (Aleksander Machniak, Bug #18241).
+- Improve string literal parsing (Aleksander Machniak, Bug #18228).
+
+
+-------------------------------------------------------------------
+Wed Jan 26 13:22:46 UTC 2011 - lang@b1-systems.de
+
+- packaged with php-macros 
+
