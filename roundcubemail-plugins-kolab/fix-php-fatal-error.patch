@@ -1,0 +1,25 @@
+From d91d6f98a7f4c03b55d7283873d935fde0b8d50f Mon Sep 17 00:00:00 2001
+From: Daniel Hoffend <dh@dotlan.net>
+Date: Sat, 28 Feb 2015 21:25:30 +0100
+Subject: [PATCH] fixed wrong rc->user call (php fatal error)
+
+---
+ plugins/calendar/drivers/kolab/kolab_user_calendar.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/calendar/drivers/kolab/kolab_user_calendar.php b/plugins/calendar/drivers/kolab/kolab_user_calendar.php
+index 3d53206..1f1d7ac 100644
+--- a/plugins/calendar/drivers/kolab/kolab_user_calendar.php
++++ b/plugins/calendar/drivers/kolab/kolab_user_calendar.php
+@@ -283,7 +283,7 @@ class kolab_user_calendar extends kolab_calendar
+ 
+       // authentication required
+       if ($response->getStatus() == 401) {
+-        $request->setAuth($this->rc->user->get_username(), $this->rc->decrypt($_SESSION['password']));
++        $request->setAuth($this->cal->rc->user->get_username(), $this->cal->rc->decrypt($_SESSION['password']));
+         $response = $request->send();
+       }
+ 
+-- 
+1.9.1
+
