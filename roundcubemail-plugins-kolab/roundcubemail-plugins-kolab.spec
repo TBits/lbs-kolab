@@ -24,7 +24,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.2.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -51,6 +51,7 @@ Requires:       php-kolabformat >= 1.0
 Requires:       php-kolab >= 0.5
 Requires:       php-pear(HTTP_Request2)
 Requires:       php-pear(Net_LDAP3)
+Requires:       php-pear(Mail_Mime) >= 1.8.5
 Requires:       roundcubemail >= %{roundcube_version}
 Requires:       roundcubemail(plugin-calendar) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(plugin-kolab_activesync) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -1934,6 +1935,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Mar 06 2015 Daniel Hoffend <dh@dotlan.net> - 3.2.7-3
+- Fixed Mail_Mime requirements
+
 * Sat Feb 28 2015 Daniel Hoffend <dh@dotlan.net> - 3.2.7-1
 - Fix PHP Fatal Error when Freebusy is using HTTP Authentication (#4751)
 
