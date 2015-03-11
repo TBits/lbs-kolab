@@ -59,6 +59,10 @@ Requires:       webserver
 Requires:       php-common >= 5.3
 %endif
 
+%if 0%{?fedora} > 19
+Requires:       php >= 5.3
+%endif
+
 Requires:       mozldap-tools
 Requires:       php-Smarty >= 3.1.7
 Requires:       php-pear(HTTP_Request2)
