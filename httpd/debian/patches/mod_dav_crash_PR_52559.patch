@@ -1,0 +1,81 @@
+# http://svn.apache.org/r1497455
+# mod_dav: When a PROPPATCH attempts to remove a non-existent dead
+# property on a resource for which there is no dead property in the same
+# namespace httpd segfaults.
+#
+# http://svn.apache.org/r1497457
+# mod_dav: Do not fail PROPPATCH when prop namespace is not known.
+#
+# http://svn.apache.org/r1497463
+# mod_dav: Do not segfault on PROPFIND with a zero length DBM.
+#
+Index: apache2/modules/dav/fs/dbm.c
+===================================================================
+--- apache2.orig/modules/dav/fs/dbm.c
++++ apache2/modules/dav/fs/dbm.c
+@@ -191,7 +191,15 @@
+ 
+ dav_error * dav_dbm_fetch(dav_db *db, apr_datum_t key, apr_datum_t *pvalue)
+ {
+-    apr_status_t status = apr_dbm_fetch(db->file, key, pvalue);
++    apr_status_t status;
++
++    if (!key.dptr) {
++        /* no key could be created (namespace not known) => no value */
++        memset(pvalue, 0, sizeof(*pvalue));
++        status = APR_SUCCESS;
++    } else {
++        status = apr_dbm_fetch(db->file, key, pvalue);
++    }
+ 
+     return dav_fs_dbm_error(db, NULL, status);
+ }
+@@ -729,6 +737,10 @@
+ static dav_error * dav_propdb_apply_rollback(dav_db *db,
+                                              dav_deadprop_rollback *rollback)
+ {
++    if (!rollback) {
++        return NULL; /* no rollback, nothing to do */
++    }
++
+     if (rollback->value.dptr == NULL) {
+         /* don't fail if the thing isn't really there. */
+         (void) dav_dbm_delete(db, rollback->key);
+Index: apache2/modules/dav/main/props.c
+===================================================================
+--- apache2.orig/modules/dav/main/props.c
++++ apache2/modules/dav/main/props.c
+@@ -594,13 +594,14 @@
+         if (propdb->db != NULL) {
+             dav_xmlns_info *xi = dav_xmlns_create(propdb->p);
+             dav_prop_name name;
++            dav_error *err;
+ 
+             /* define (up front) any namespaces the db might need */
+             (void) (*db_hooks->define_namespaces)(propdb->db, xi);
+ 
+             /* get the first property name, beginning the scan */
+-            (void) (*db_hooks->first_name)(propdb->db, &name);
+-            while (name.ns != NULL) {
++            err = (*db_hooks->first_name)(propdb->db, &name);
++            while (!err && name.ns) {
+ 
+                 /*
+                 ** We also look for <DAV:getcontenttype> and
+@@ -619,7 +620,6 @@
+                 }
+ 
+                 if (what == DAV_PROP_INSERT_VALUE) {
+-                    dav_error *err;
+                     int found;
+ 
+                     if ((err = (*db_hooks->output_value)(propdb->db, &name,
+@@ -638,7 +638,7 @@
+                 }
+ 
+               next_key:
+-                (void) (*db_hooks->next_name)(propdb->db, &name);
++                err = (*db_hooks->next_name)(propdb->db, &name);
+             }
+ 
+             /* all namespaces have been entered into xi. generate them into

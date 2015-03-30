@@ -1,0 +1,13 @@
+# http://svn.apache.org/viewvc?view=revision&revision=1445112
+# http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=773841
+--- apache2.orig/modules/ssl/ssl_engine_vars.c
++++ apache2/modules/ssl/ssl_engine_vars.c
+@@ -431,7 +431,7 @@ static const struct {
+     { "S",     NID_surname,                1 },
+     { "D",     NID_description,            1 },
+ #ifdef NID_userId
+-    { "UID",   NID_x500UniqueIdentifier,   1 },
++    { "UID",   NID_userId,                 1 },
+ #endif
+     { "Email", NID_pkcs9_emailAddress,     1 },
+     { NULL,    0,                          0 }

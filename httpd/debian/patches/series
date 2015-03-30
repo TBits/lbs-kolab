@@ -1,0 +1,50 @@
+004_usr_bin_perl_0wnz_j00
+008_make_include_safe
+009_apache2_has_dso
+010_fhs_compliance
+032_suexec_is_shared
+033_dbm_read_hash_or_btree
+038_no_LD_LIBRARY_PATH
+045_suexec_log_cloexec
+047_fix_usage_message
+052_logresolve_linelength
+057_disablemods
+058_suexec-CVE-2007-1742
+067_fix_segfault_in_ab
+071_fix_cacheenable
+073_mod_dav_trunk_fixes
+074_link_support_progs_with_lcrypt
+075_mod_rewrite_literal_ipv6_redirect
+077_CacheIgnoreURLSessionIdentifiers
+079_polish_translation
+082_ab_num_requests
+083_dlopen_search_path
+084_customize_apxs.patch
+085_mod_cache_partial_content-2.2.x.patch
+086_upstream_trunk_bugfixes.patch
+087_mod_negotiation_CVE-2012-2687.patch
+201_build_suexec-custom
+# The patch below must not be applied by quilt at extraction time.  It depends
+# on some script-fu to be executed before. Have a look
+# to debian/rules' prepare-custom-suexec target.
+# If you're aware of that you can uncomment it at any time later and work on it
+# as you wish.
+#202_suexec-custom
+dbmmanage-perl-510.patch
+SSLProtocol-tls11-12.2.patch
+disable-ssl-compression.patch
+CVE-2012-3499_CVE-2012-4558_XSS.patch
+mod_log_forensic_693292.patch
+mod_rewrite-CVE-2013-1862.patch
+CVE-2013-1896.patch
+mod_dav_crash_PR_52559.patch
+mod_dav-CVE-2013-6438.patch
+cookie-logging-CVE-2014-0098.diff
+SSL-ECC.patch
+mod_proxy-crash-PR_50335.patch
+CVE-2014-0226_scoreboard.patch
+CVE-2014-0231_mod_cgid-DoS.patch
+CVE-2014-0118_mod_deflate-DoS.patch
+CVE-2013-5704_trailers.patch
+SNI_case_insensitve.diff
+mod_ssl_SSL_CLIENT_S_DN_UID.diff
