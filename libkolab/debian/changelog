@@ -1,0 +1,241 @@
+libkolab (0.6.0-0~kolab1) unstable; urgency=low
+
+  * Update to version 0.6.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 15 Feb 2014 14:42:32 +0200
+
+libkolab (0.5.3-0~kolab7) unstable; urgency=low
+
+  * Make dummy plugin a module to get different priorities (#2050)
+
+ -- Christoph Wickert <wickert@kolabsys.com>  Sun, 11 January 2015 17:07:41 +0100
+
+libkolab (0.5.3-0~kolab6) unstable; urgency=low
+
+  * Load dummy.so through separate ini file (#2050)
+
+ -- Christoph Wickert <wickert@kolabsys.com>  Sun, 11 January 2015 16:08:01 +0100
+
+libkolab (0.5.3-0~kolab5) unstable; urgency=low
+
+  * Bump version
+
+ -- Christoph Wickert <wickert@kolabsys.com>  Sat, 10 January 2015 16:16:21 +0100
+
+libkolab (0.5.3-0~kolab4) unstable; urgency=low
+
+  * Make sure dummy plugin gets loaded (#2050)
+
+ -- Christoph Wickert <wickert@kolabsys.com>  Sat, 10 January 2015 17:33:43 +0100
+ 
+libkolab (0.5.3-0~kolab3) unstable; urgency=low
+
+  * Add dummy plugin to workaround httpd reload issue (#2050)
+
+ -- Christoph Wickert <wickert@kolabsys.com>  Fri, 09 December 2014 17:57:13 +0100
+
+libkolab (0.5.3-0~kolab2) unstable; urgency=low
+
+  * Provide kolab/__init__.py so that it is a Python module
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 18 Nov 2014 14:42:32 +0200
+
+libkolab (0.5.3-0~kolab1) unstable; urgency=low
+
+  * New upstream release 0.5.3
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 26 Aug 2014 14:42:32 +0200
+
+libkolab (0.5.0-0~kolab5) unstable; urgency=low
+
+  * Make sure php-kolab.prerm does not depend on the existence of php5dismod
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 09 Jul 2014 14:42:32 +0200
+
+libkolab (0.5.0-0~kolab4) unstable; urgency=low
+
+  * Rebuild with php-kolabformat sorted out (#1632)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 02 Mar 2014 09:00:00 +0100
+
+libkolab (0.5.0-0~kolab3) unstable; urgency=low
+
+  * add libcalendaring as dependancy to php-kolab, bug 2359
+
+ -- Timotheus Pokorra <timotheus@pokorra.de>  Thu, 07 Nov 2013 14:56:00 +0200
+
+libkolab (0.5.0-0~kolab2) unstable; urgency=low
+
+  * Correct versioned dependency on libkolabxml1 from (>> 0.9) to (>= 1.0)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 16 Oct 2013 09:56:00 +0200
+
+libkolab (0.5.0-0~kolab1) unstable; urgency=low
+
+  * Upstream release 0.5.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 14 Oct 2013 15:36:55 +0100
+
+libkolab (0.5~dev20130521-1) unstable; urgency=low
+
+  * Latest for Kolab 3.1
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 08 Sep 2013 15:36:55 +0100
+
+libkolab (0.4.2-3) unstable; urgency=low
+
+  * Revert to single build, depend only on kdepimlibs.
+  * Update changelog
+
+ -- Paul Klos <kolab@klos2day.nl>  Tue, 23 Apr 2013 20:45:12 +0200
+
+libkolab (0.4.2-2) unstable; urgency=low
+
+  * Update changelog
+  * Depend on libkolabxml0 (>= 0.8.4)
+
+ -- Paul Klos <kolab@klos2day.nl>  Mon, 22 Apr 2013 18:01:30 +0200
+
+libkolab (0.4.2-1) unstable; urgency=low
+
+  * Imported Upstream version 0.4.2
+  * Build the package twice: once for clients, once for servers.
+    The client build depends on kdepimlibs. The server build
+    depends on libcalendaring.
+  * Build-depend on kdelibs5-dev
+  * Build-depend on kdepimlibs5-dev
+  * Correct copy-paste errors in overrides
+  * Duplicate dh_install for client and server
+  * New binary package libkolab-kde for the libkolab that depends on KDE/Qt
+  * Add debug info
+  * Copy kolab.ini manually in rules file
+  * Copy kolab.ini after installing the other files
+    and make sure the path exists
+  * Fix install locations
+  * Depend on correct version of libkolabxml Add Conflicts for
+    libkolab0 and libkolab-kde0
+  * More verbosity
+  * Correct library names
+  * Use server build output for all packages except libkolab-kde
+  * Correct dh_auto_build/dh_auto_install options
+  * Create separate client and server builds.
+    The server build is still called libkolab and depends on libcalendaring.
+    The client build is named libkolab-kde, and links against kdepimlibs.
+  * Set target names sooner.
+    Build failed because apparently the target name is required sooner.
+  * Correct library names
+  * Remove unneccesary build dependency on kdelibs5-dev.
+  * Create separate -dev, php and python packages.
+    All 4 packages (libkolab, libkolab-dev, php-kolab and python-kolab)
+    must be supplied in both a server and a KDE falvour.
+  * Correct long lines
+  * Call dh_install for all packages
+  * Add package conflicts
+  * Make php-kolab-kde depend on PHP api
+  * Correct dh_install call for python-kolab-kde
+  * Separate shlibs file for libkolab and libkolab-kde
+  * Updated loong descriptions
+  * Add LIB_INSTALL_DIR
+  * Update changelog
+
+ -- Paul Klos <kolab@klos2day.nl>  Sun, 21 Apr 2013 23:19:24 +0200
+
+libkolab (0.4.0-3) unstable; urgency=low
+
+  * Prepare for transition into Debian proper
+
+ -- Paul Klos <kolab@klos2day.nl>  Wed, 03 Apr 2013 00:04:34 +0200
+
+libkolab (0.4.0-2) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Correct loading of libkolab PHP bindings modules
+  * Pull in php-kolabformat just to make sure kolabformat.so is loaded
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 26 Nov 2012 15:36:55 +0100
+
+libkolab (0.4.0-1) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Imported Upstream version 0.4.0
+  * Update kolab.ini to match the new module from libkolab
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 25 Nov 2012 06:53:46 -0500
+
+libkolab (0.3.1-4) unstable; urgency=low
+
+  [ Paul Klos ]
+  * Make the dependency on PHP API architecture-dependent.
+  * Corrected email address format in previous changelog entry. Set section to python for python-kolab.
+  * Create ini file for PHP module in /usr
+  * Manage kolab.ini file for PHP module from maintainer scripts.
+  * Solves Lintian warning maintainer-script-needs-depends-on-ucf.
+  * Solves Lintian warning libkolab source: unknown-field-in-dsc original-maintainer.
+
+  [ Jeroen van Meeuwen ]
+  * Rebuild
+
+ -- Paul Klos <kolab@klos2day.nl>  Wed, 24 Oct 2012 20:15:12 -0400
+
+libkolab (0.3.1-3) unstable; urgency=low
+
+  * Rebuild
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  5 Oct 2012 20:09:01 +0100
+
+libkolab (0.3.1-2.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Make PHP API dependency architecture-dependent.
+  * Corrected email address format in previous changelog entry.
+  * Set section to python for python-kolab.
+
+ -- Paul Klos <kolab@klos2day.nl>  Wed, 17 Oct 2012 21:45:00 +0200
+
+libkolab (0.3.1-2.1) UNRELEASED; urgency=low
+
+  [ Michael Kiefer ]
+  * Non-maintainer upload.
+  * added possible dependency on phpapi-20100525+lfs to php-kolab 
+
+ -- Michael Kiefer <Michael-Kiefer@web.de>  Sat, 29 Sep 2012 23:27:43 +0200
+
+libkolab (0.3.1-2) unstable; urgency=low
+
+  * Fix typo in dependency on phpapi
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen>  Tue, 11 Sep 2012 16:32:27 +0200
+
+libkolab (0.3.1-1) unstable; urgency=low
+
+  * Build for Debian Wheezy
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Fri,  7 Sep 2012 15:53:19 +0100
+
+libkolab (0.2.1-0ubuntu1) quantal; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 19 Jul 2012 12:50:43 +0100
+
+libkolab (0.2.0+repack1-0ubuntu2) quantal; urgency=low
+
+  * Enable parallel building.
+  * Switch to debhelper compat level v9 which exports build flags.
+  * Add a watch file.
+  * Use pkgkde_symbolshelper dh addon.
+  * Update symbols file on amd64.
+  * Pass --fail-missing to dh_install.
+
+ -- Felix Geyer <debfx@ubuntu.com>  Tue, 17 Jul 2012 19:48:01 +0200
+
+libkolab (0.2.0+repack1-0ubuntu1) quantal; urgency=low
+
+  * Initial release.
+  * Repack with licence files from upstream
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 05 Jul 2012 12:55:57 +0100

@@ -1,0 +1,5 @@
+libkolab-0.5-swigutils.cmake.patch -p1
+0001-Add-support-for-exceptions.patch -p1
+0002-Support-for-THISANDFUTURE.patch -p1
+0003-Move-QT_DECLARE_METADATA-logic-to-cmake.patch -p1
+0004-kolabformat-upgrade-fix-excluded-dates.patch -p1

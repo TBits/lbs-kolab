@@ -1,0 +1,262 @@
+From ad9c52c79a3b5de87bfa7a3f45e207e6d6ee1d4b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sandro=20Knau=C3=9F?= <mail@sandroknauss.de>
+Date: Wed, 18 Feb 2015 16:54:47 +0100
+Subject: [PATCH 1/2] Add support for exceptions.
+
+Read/Write Exceptions to iCal.
+
+KOLAB: #4618
+---
+ icalendar/icalendar.cpp                       | 34 +++++++++++++++--
+ tests/icalendartest.cpp                       | 53 ++++++++++++++++++++++++++-
+ tests/icalendartest.h                         |  3 ++
+ tests/testfiles/v3/event/errorswithsameid.ics | 45 +++++++++++++++++++++++
+ tests/testfiles/v3/event/exceptions.ics       | 35 ++++++++++++++++++
+ 5 files changed, 166 insertions(+), 4 deletions(-)
+ create mode 100644 tests/testfiles/v3/event/errorswithsameid.ics
+ create mode 100644 tests/testfiles/v3/event/exceptions.ics
+
+diff --git a/icalendar/icalendar.cpp b/icalendar/icalendar.cpp
+index be7c0e6..3ed41ae 100644
+--- a/icalendar/icalendar.cpp
++++ b/icalendar/icalendar.cpp
+@@ -39,13 +39,21 @@ std::string toICal(const std::vector<Event> &events)
+     KCalCore::Calendar::Ptr calendar(new KCalCore::MemoryCalendar(Kolab::Conversion::getTimeSpec(true, std::string())));
+     foreach (const Event &event, events) {
+         KCalCore::Event::Ptr kcalEvent = Conversion::toKCalCore(event);
+-        kcalEvent->setCreated(KDateTime::currentUtcDateTime()); //sets dtstamp
++        if (!kcalEvent->created().isValid()) {
++            kcalEvent->setCreated(KDateTime::currentUtcDateTime()); //sets dtstamp
++        }
+         calendar->addEvent(kcalEvent);
++        foreach(const Event &exception, event.exceptions()) {
++            KCalCore::Event::Ptr kcalException = Conversion::toKCalCore(exception);
++            if (!kcalException->created().isValid()) {
++                kcalException->setCreated(KDateTime::currentUtcDateTime()); //sets dtstamp
++            }
++            calendar->addEvent(kcalException);
++        }
+     }
+     KCalCore::ICalFormat format;
+     format.setApplication("libkolab", LIBKOLAB_LIB_VERSION_STRING);
+ //     qDebug() << format.createScheduleMessage(calendar->events().first(), KCalCore::iTIPRequest);
+-
+     return Conversion::toStdString(format.toString(calendar));
+     
+ }
+@@ -57,8 +65,28 @@ std::vector< Event > fromICalEvents(const std::string &input)
+     format.setApplication("libkolab", LIBKOLAB_LIB_VERSION_STRING);
+     format.fromString(calendar, Conversion::fromStdString(input));
+     std::vector<Event> events;
++    QMap< QString, int > uidMap;
+     foreach (const KCalCore::Event::Ptr &event, calendar->events()) {
+-        events.push_back(Conversion::fromKCalCore(*event));
++        Event e = Conversion::fromKCalCore(*event);
++        if (!e.recurrenceID().isValid()) {
++            if (uidMap.contains(event->uid())) {
++                e.setExceptions(events.at(uidMap[event->uid()]).exceptions());
++                events[uidMap[event->uid()]] = e;
++            } else {
++                events.push_back(e);
++                uidMap.insert(event->uid(), events.size()-1);
++            }
++        } else {
++            if (!uidMap.contains(event->uid())) {
++                Event e;
++                e.setUid("");
++                events.push_back(e);
++                uidMap.insert(event->uid(), events.size()-1);
++            }
++            std::vector<Event> exceptions = events.at( uidMap[event->uid()]).exceptions();
++            exceptions.push_back(e);
++            events.at(uidMap[event->uid()]).setExceptions(exceptions);
++        }
+     }
+     return events;
+ }
+diff --git a/tests/icalendartest.cpp b/tests/icalendartest.cpp
+index 1e13d65..b1dd60b 100644
+--- a/tests/icalendartest.cpp
++++ b/tests/icalendartest.cpp
+@@ -24,6 +24,8 @@
+ #include "icalendar/icalendar.h"
+ 
+ #include "testhelpers.h"
++#include "testutils.h"
++#include <kolabformat/kolabobject.h>
+ 
+ void ICalendarTest::testFromICalEvent()
+ {
+@@ -32,11 +34,60 @@ void ICalendarTest::testFromICalEvent()
+     ev1.setStart(Kolab::cDateTime(2011,10,10,12,1,1,true));
+     ev1.setEnd(Kolab::cDateTime(2011,10,11,12,1,1,true));
+     events.push_back(ev1);
+-    events.push_back(ev1);
+     const std::vector<Kolab::Event> &result = Kolab::fromICalEvents(Kolab::toICal(events));
+     qDebug() << QString::fromStdString(Kolab::toICal(result));
+ }
+ 
++void ICalendarTest::testFromICalEventWithExceptions()
++{
++    QFile icalFile( getPath("v3/event/exceptions.ics") );
++    QVERIFY( icalFile.open( QFile::ReadOnly ) );
++    std::vector<Kolab::Event> events = Kolab::fromICalEvents(icalFile.readAll().constData());
++    QCOMPARE((int)events.size(), 1);
++    Kolab::Event out = events.at(0);
++    QCOMPARE((int)out.exceptions().size(), 2);
++}
++
++void ICalendarTest::testFromICalEventErrorsWithSameID()
++{
++    /* This is not a really usecase, it should make sure,
++     * that the underlying KCalCore strips out events with same uid/or recurrenceID.
++     * 2015/02/18: KCaclCore is only returns one event with one exception for the icalFile
++     * testdata/v3/event/errorswithsameid.ics
++     */
++    QFile icalFile( getPath("v3/event/errorswithsameid.ics") );
++    QVERIFY( icalFile.open( QFile::ReadOnly ) );
++    std::vector<Kolab::Event> events = Kolab::fromICalEvents(icalFile.readAll().constData());
++    QCOMPARE((int)events.size(), 1);
++    Kolab::Event out = events.at(0);
++    QCOMPARE((int)out.exceptions().size(), 1);
++}
++
++void ICalendarTest::testReadWriteForEventWithExceptions()
++{
++    std::vector<Kolab::Event> events;
++    Kolab::Event ev1;
++    ev1.setUid("uid");
++    ev1.setStart(Kolab::cDateTime(2011,10,10,12,1,1,true));
++    ev1.setEnd(Kolab::cDateTime(2011,10,11,12,1,1,true));
++    std::vector<Kolab::Event> exceptions;
++    Kolab::Event ex1;
++    ex1.setUid(ev1.uid());
++    ex1.setRecurrenceID(Kolab::cDateTime(2011,10,11,12,1,1,true), false);
++    exceptions.push_back(ex1);
++    ev1.setExceptions(exceptions);
++    Kolab::RecurrenceRule rrule;
++    rrule.setInterval(1);
++    rrule.setFrequency(Kolab::RecurrenceRule::Daily);
++    ev1.setRecurrenceRule(rrule);
++    events.push_back(ev1);
++    const std::vector<Kolab::Event> &result = Kolab::fromICalEvents(Kolab::toICal(events));
++    Kolab::Event out = result.at(0);
++    QCOMPARE((int)result.size(), 1);
++    QCOMPARE((int)out.exceptions().size(), 1);
++    QCOMPARE(out.exceptions().at(0).recurrenceID(), ex1.recurrenceID());
++}
++
+ void ICalendarTest::testToICal()
+ {
+     std::vector<Kolab::Event> events;
+diff --git a/tests/icalendartest.h b/tests/icalendartest.h
+index 4f82ecc..7e1f405 100644
+--- a/tests/icalendartest.h
++++ b/tests/icalendartest.h
+@@ -27,6 +27,9 @@ private slots:
+ //     void testEventConflict_data();
+     void testToICal();
+     void testFromICalEvent();
++    void testFromICalEventWithExceptions();
++    void testReadWriteForEventWithExceptions();
++    void testFromICalEventErrorsWithSameID();
+ 
+     void testToITip();
+     void testToIMip();
+diff --git a/tests/testfiles/v3/event/errorswithsameid.ics b/tests/testfiles/v3/event/errorswithsameid.ics
+new file mode 100644
+index 0000000..1aa12a3
+--- /dev/null
++++ b/tests/testfiles/v3/event/errorswithsameid.ics
+@@ -0,0 +1,45 @@
++BEGIN:VCALENDAR
++VERSION:2.0
++PRODID:-//Test//
++CALSCALE:GREGORIAN
++BEGIN:VEVENT
++UID:D5A98F4AD36FE911EC7FB8F89209C4E3-FCBB6C4091F28CA0
++DTSTAMP;VALUE=DATE-TIME:20150216T000000Z
++CREATED;VALUE=DATE-TIME:20150216T000000Z
++LAST-MODIFIED;VALUE=DATE-TIME:20150216T000000Z
++RRULE:FREQ=DAILY;INTERVAL=1
++SUMMARY:Daily
++DTSTART;VALUE=DATE-TIME:20150101T010000Z
++DTEND;VALUE=DATE-TIME:20150101T020000Z
++END:VEVENT
++BEGIN:VEVENT
++UID:D5A98F4AD36FE911EC7FB8F89209C4E3-FCBB6C4091F28CA0
++DTSTAMP;VALUE=DATE-TIME:20150216T000000Z
++CREATED;VALUE=DATE-TIME:20150216T000000Z
++LAST-MODIFIED;VALUE=DATE-TIME:20150216T000000Z
++RECURRENCE-ID;VALUE=DATE-TIME;RANGE=THISANDFUTURE:20150103T000000Z
++SUMMARY:thisandfuture
++DTSTART;VALUE=DATE-TIME:20150103T020000Z
++DTEND;VALUE=DATE-TIME:20150103T030000Z
++END:VEVENT
++BEGIN:VEVENT
++UID:D5A98F4AD36FE911EC7FB8F89209C4E3-FCBB6C4091F28CA0
++DTSTAMP;VALUE=DATE-TIME:20150216T000000Z
++CREATED;VALUE=DATE-TIME:20150216T000000Z
++LAST-MODIFIED;VALUE=DATE-TIME:20150216T000000Z
++RRULE:FREQ=DAILY;INTERVAL=1
++SUMMARY:Invalid second incidence
++DTSTART;VALUE=DATE-TIME:20150101T050000Z
++DTEND;VALUE=DATE-TIME:20150101T060000Z
++END:VEVENT
++BEGIN:VEVENT
++UID:D5A98F4AD36FE911EC7FB8F89209C4E3-FCBB6C4091F28CA0
++DTSTAMP;VALUE=DATE-TIME:20150216T000000Z
++CREATED;VALUE=DATE-TIME:20150216T000000Z
++LAST-MODIFIED;VALUE=DATE-TIME:20150216T000000Z
++RECURRENCE-ID;VALUE=DATE-TIME:20150103T000000Z
++SUMMARY: same recurence id like the one with THISANDFUTURE
++DTSTART;VALUE=DATE-TIME:20150103T030000Z
++DTEND;VALUE=DATE-TIME:20150103T040000Z
++END:VEVENT
++END:VCALENDAR
+\ No newline at end of file
+diff --git a/tests/testfiles/v3/event/exceptions.ics b/tests/testfiles/v3/event/exceptions.ics
+new file mode 100644
+index 0000000..60776c6
+--- /dev/null
++++ b/tests/testfiles/v3/event/exceptions.ics
+@@ -0,0 +1,35 @@
++BEGIN:VCALENDAR
++VERSION:2.0
++PRODID:-//Test//
++CALSCALE:GREGORIAN
++BEGIN:VEVENT
++UID:D5A98F4AD36FE911EC7FB8F89209C4E3-FCBB6C4091F28CA0
++DTSTAMP;VALUE=DATE-TIME:20150216T000000Z
++CREATED;VALUE=DATE-TIME:20150216T000000Z
++LAST-MODIFIED;VALUE=DATE-TIME:20150216T000000Z
++RRULE:FREQ=DAILY;INTERVAL=1
++SUMMARY:Daily
++DTSTART;VALUE=DATE-TIME:20150101T010000Z
++DTEND;VALUE=DATE-TIME:20150101T020000Z
++END:VEVENT
++BEGIN:VEVENT
++UID:D5A98F4AD36FE911EC7FB8F89209C4E3-FCBB6C4091F28CA0
++DTSTAMP;VALUE=DATE-TIME:20150216T000000Z
++CREATED;VALUE=DATE-TIME:20150216T000000Z
++LAST-MODIFIED;VALUE=DATE-TIME:20150216T000000Z
++RECURRENCE-ID;VALUE=DATE-TIME;RANGE=THISANDFUTURE:20150103T000000Z
++SUMMARY:thisandfuture
++DTSTART;VALUE=DATE-TIME:20150103T020000Z
++DTEND;VALUE=DATE-TIME:20150103T030000Z
++END:VEVENT
++BEGIN:VEVENT
++UID:D5A98F4AD36FE911EC7FB8F89209C4E3-FCBB6C4091F28CA0
++DTSTAMP;VALUE=DATE-TIME:20150216T000000Z
++CREATED;VALUE=DATE-TIME:20150216T000000Z
++LAST-MODIFIED;VALUE=DATE-TIME:20150216T000000Z
++RECURRENCE-ID;VALUE=DATE-TIME:20150104T000000Z
++SUMMARY: exception
++DTSTART;VALUE=DATE-TIME:20150104T030000Z
++DTEND;VALUE=DATE-TIME:20150104T040000Z
++END:VEVENT
++END:VCALENDAR
+\ No newline at end of file
+-- 
+2.1.0
+

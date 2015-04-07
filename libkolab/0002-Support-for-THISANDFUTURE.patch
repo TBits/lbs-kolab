@@ -1,0 +1,130 @@
+From b756fa4ceef4b953859878f3c700ed45ecaed409 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sandro=20Knau=C3=9F?= <mail@sandroknauss.de>
+Date: Wed, 18 Feb 2015 16:50:59 +0100
+Subject: [PATCH 2/2] Support for THISANDFUTURE
+
+convert ThisAndFuture from/to iCal.
+
+KOLAB: 4654
+---
+ conversion/kcalconversion.cpp |  7 ++++---
+ tests/icalendartest.cpp       |  3 ++-
+ tests/kcalconversiontest.cpp  | 20 ++++++++++++++++++--
+ 3 files changed, 24 insertions(+), 6 deletions(-)
+
+diff --git a/conversion/kcalconversion.cpp b/conversion/kcalconversion.cpp
+index a82b6a2..b06a5d0 100644
+--- a/conversion/kcalconversion.cpp
++++ b/conversion/kcalconversion.cpp
+@@ -661,7 +661,8 @@ void setTodoEvent(KCalCore::Incidence &i, const T &e)
+         i.setNonKDECustomProperty(CUSTOM_KOLAB_URL, fromStdString(e.url()));
+     }
+     if (e.recurrenceID().isValid()) {
+-        i.setRecurrenceId(toDate(e.recurrenceID())); //TODO THISANDFUTURE
++        i.setRecurrenceId(toDate(e.recurrenceID()));
++        i.setThisAndFuture(e.thisAndFuture());
+     }
+     setRecurrence(i, e);
+     foreach (const Kolab::Alarm a, e.alarms()) {
+@@ -699,7 +700,7 @@ void setTodoEvent(KCalCore::Incidence &i, const T &e)
+         alarm->setSnoozeTime(toDuration(a.duration()));
+         alarm->setRepeatCount(a.numrepeat());
+         alarm->setEnabled(true);
+-        i.addAlarm(alarm);       
++        i.addAlarm(alarm);
+     }
+ }
+ 
+@@ -712,7 +713,7 @@ void getTodoEvent(T &i, const I &e)
+         i.setOrganizer(Kolab::ContactReference(Kolab::ContactReference::EmailReference, toStdString(e.organizer()->email()), toStdString(e.organizer()->name()))); //TODO handle uid too
+     }
+     i.setUrl(toStdString(e.nonKDECustomProperty(CUSTOM_KOLAB_URL)));
+-    i.setRecurrenceID(fromDate(e.recurrenceId()), false); //TODO THISANDFUTURE
++    i.setRecurrenceID(fromDate(e.recurrenceId()), e.thisAndFuture());
+     getRecurrence(i, e);
+     std::vector <Kolab::Alarm> alarms;
+     foreach (const KCalCore::Alarm::Ptr &a, e.alarms()) {
+diff --git a/tests/icalendartest.cpp b/tests/icalendartest.cpp
+index b1dd60b..bf55031 100644
+--- a/tests/icalendartest.cpp
++++ b/tests/icalendartest.cpp
+@@ -73,7 +73,7 @@ void ICalendarTest::testReadWriteForEventWithExceptions()
+     std::vector<Kolab::Event> exceptions;
+     Kolab::Event ex1;
+     ex1.setUid(ev1.uid());
+-    ex1.setRecurrenceID(Kolab::cDateTime(2011,10,11,12,1,1,true), false);
++    ex1.setRecurrenceID(Kolab::cDateTime(2011,10,11,12,1,1,true), true);
+     exceptions.push_back(ex1);
+     ev1.setExceptions(exceptions);
+     Kolab::RecurrenceRule rrule;
+@@ -86,6 +86,7 @@ void ICalendarTest::testReadWriteForEventWithExceptions()
+     QCOMPARE((int)result.size(), 1);
+     QCOMPARE((int)out.exceptions().size(), 1);
+     QCOMPARE(out.exceptions().at(0).recurrenceID(), ex1.recurrenceID());
++    QCOMPARE(out.exceptions().at(0).thisAndFuture(), true);
+ }
+ 
+ void ICalendarTest::testToICal()
+diff --git a/tests/kcalconversiontest.cpp b/tests/kcalconversiontest.cpp
+index c62a8e0..e1d4ca9 100644
+--- a/tests/kcalconversiontest.cpp
++++ b/tests/kcalconversiontest.cpp
+@@ -162,7 +162,7 @@ void KCalConversionTest::testConversion_data()
+         kcal.setDtEnd(toDate(date2));
+         kcal.setTransparency(KCalCore::Event::Transparent);
+         
+-        kcal.setRecurrenceId(toDate(date2)); //TODO THISANDFUTURE
++        kcal.setRecurrenceId(toDate(date2));
+         kcal.recurrence()->setDaily(3);
+         kcal.recurrence()->setDuration(5);
+         kcal.recurrence()->addRDateTime(toDate(date2));
+@@ -231,7 +231,7 @@ void KCalConversionTest::testConversion_data()
+         rrule.setBymonth(intVector);
+         
+         kolab.setRecurrenceRule(rrule);
+-        kolab.setRecurrenceID(date2, true);
++        kolab.setRecurrenceID(date2, false);
+         kolab.setRecurrenceDates(std::vector<Kolab::cDateTime>() << date2 << Kolab::cDateTime(date2.year(), date2.month(), date2.day()));
+         kolab.setExceptionDates(std::vector<Kolab::cDateTime>() << date3 << Kolab::cDateTime(date3.year(), date3.month(), date3.day()));
+         
+@@ -337,7 +337,21 @@ void KCalConversionTest::testConversion_data()
+         kolab.setSummary(std::string(QString("äöü%@$£é¤¼²°€Š�").toUtf8().constData()));
+         
+         QTest::newRow("latin1+Unicode") << kcal << kolab;
++    }
++    {
++        KCalCore::Event kcal;
++        kcal.setUid("uid");
++        kcal.setCreated(toDate(date));
++        kcal.setLastModified(toDate(date));
++        kcal.setRecurrenceId(toDate(date));
++        kcal.setThisAndFuture(true);
+ 
++        Kolab::Event kolab;
++        kolab.setUid("uid");
++        kolab.setCreated(date);
++        kolab.setLastModified(date);
++        kolab.setRecurrenceID(date, true);
++        QTest::newRow("thisandfuture") << kcal << kolab;
+     }
+ }
+ 
+@@ -361,6 +375,7 @@ void KCalConversionTest::testConversion()
+     QCOMPARE(e->transparency(), kcal.transparency());
+     QCOMPARE(*e->recurrence(), *kcal.recurrence());
+     QCOMPARE(e->recurrenceId(), kcal.recurrenceId());
++    QCOMPARE(e->thisAndFuture(), kcal.thisAndFuture());
+     QCOMPARE(e->recurrenceType(), kcal.recurrenceType());
+     QCOMPARE(e->summary(), kcal.summary());
+     QCOMPARE(e->description(), kcal.description());
+@@ -396,6 +411,7 @@ void KCalConversionTest::testConversion()
+     
+     QCOMPARE(b.recurrenceRule(), kolab.recurrenceRule());
+     QCOMPARE(b.recurrenceID(), kolab.recurrenceID());
++    QCOMPARE(b.thisAndFuture(), kolab.thisAndFuture());
+     QCOMPARE(b.recurrenceDates(), kolab.recurrenceDates());
+     QCOMPARE(b.exceptionDates(), kolab.exceptionDates());
+     
+-- 
+2.1.0
+
