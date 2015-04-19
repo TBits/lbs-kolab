@@ -24,7 +24,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.2.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -925,8 +925,8 @@ for plugin in $(find %{name}-%{version}/plugins -mindepth 1 -maxdepth 1 -type d 
         echo "    touch %%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
         echo "fi"
         echo ""
-        if [ ! -z "$(find ${plugin} -type d -name \"SQL\")" ]; then
-            echo "for dir in \$(find /usr/share/roundcubemail/plugins/$(basename ${plugin})/ -type d -name \"SQL\"); do"
+        if [ ! -z "$(find ${plugin} -type d -name SQL)" ]; then
+            echo "for dir in \$(find /usr/share/roundcubemail/plugins/$(basename ${plugin})/ -type d -name SQL); do"
             echo "    # Skip plugins with multiple drivers and no kolab driver"
             echo "    if [ ! -z \"\$(echo \${dir} | grep driver)\" ]; then"
             echo "        if [ -z \"\$(echo \${dir} | grep kolab)\" ]; then"
@@ -1366,6 +1366,20 @@ if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; the
     touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
 fi
 
+for dir in $(find /usr/share/roundcubemail/plugins/calendar/ -type d -name SQL); do
+    # Skip plugins with multiple drivers and no kolab driver
+    if [ ! -z "$(echo ${dir} | grep driver)" ]; then
+        if [ -z "$(echo ${dir} | grep kolab)" ]; then
+            continue
+        fi
+    fi
+
+    /usr/share/roundcubemail/bin/updatedb.sh \
+        --dir ${dir} \
+        --package calendar \
+        >/dev/null 2>&1 || :
+done
+
 %posttrans -n roundcubemail-plugin-kolab_activesync
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     if [ -f "%{php_inidir}/apc.ini" ]; then
@@ -1576,6 +1590,20 @@ if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; the
     touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
 fi
 
+for dir in $(find /usr/share/roundcubemail/plugins/libkolab/ -type d -name SQL); do
+    # Skip plugins with multiple drivers and no kolab driver
+    if [ ! -z "$(echo ${dir} | grep driver)" ]; then
+        if [ -z "$(echo ${dir} | grep kolab)" ]; then
+            continue
+        fi
+    fi
+
+    /usr/share/roundcubemail/bin/updatedb.sh \
+        --dir ${dir} \
+        --package libkolab \
+        >/dev/null 2>&1 || :
+done
+
 %posttrans -n roundcubemail-plugin-logon_page
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     if [ -f "%{php_inidir}/apc.ini" ]; then
@@ -1665,6 +1693,20 @@ if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; the
     %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
     touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
 fi
+
+for dir in $(find /usr/share/roundcubemail/plugins/tasklist/ -type d -name SQL); do
+    # Skip plugins with multiple drivers and no kolab driver
+    if [ ! -z "$(echo ${dir} | grep driver)" ]; then
+        if [ -z "$(echo ${dir} | grep kolab)" ]; then
+            continue
+        fi
+    fi
+
+    /usr/share/roundcubemail/bin/updatedb.sh \
+        --dir ${dir} \
+        --package tasklist \
+        >/dev/null 2>&1 || :
+done
 
 %posttrans -n roundcubemail-plugin-tinymce_config
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
@@ -1935,6 +1977,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Sun Apr 19 2015 Daniel Hoffend <dh@dotlan.net> - 3.2.7-4
+- fixed check post install database update
+
 * Fri Mar 06 2015 Daniel Hoffend <dh@dotlan.net> - 3.2.7-3
 - Fixed Mail_Mime requirements
 
