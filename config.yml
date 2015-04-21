@@ -1,6 +1,4 @@
 lbs:
   centos:
-    '6':
-      repos: ['epel-release']
-    '7':
-      repos: ['epel-release']
+    '7': 
+      repos: ['http://download.opensuse.org/repositories/openSUSE:Tools/CentOS_7/openSUSE:Tools.repo']
