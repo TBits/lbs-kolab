@@ -41,9 +41,9 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.1.0
+Version:        1.1.1.3
 
-Release:        4%{?dist}
+Release:        1%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -64,10 +64,15 @@ Patch202:       default-configuration.patch
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 
+BuildRequires:  php-Net-LDAP3
+BuildRequires:  php-pdo
+BuildRequires:  php-phpunit-PHPUnit
+
 %if 0%{?suse_version} < 1
 BuildRequires:  python-cssmin
 BuildRequires:  uglify-js
 %endif
+
 BuildRequires:  python
 
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -1363,8 +1368,8 @@ for plugin in $(find %{name}-%{version}/plugins -mindepth 1 -maxdepth 1 -type d 
         echo "    touch %%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
         echo "fi"
         echo ""
-        if [ ! -z "$(find ${plugin} -type d -name \"SQL\")" ]; then
-            echo "for dir in \$(find /usr/share/roundcubemail/plugins/$(basename $plugin)/ -type d -name \"SQL\"); do"
+        if [ ! -z "$(find ${plugin} -type d -name SQL)" ]; then
+            echo "for dir in \$(find /usr/share/roundcubemail/plugins/$(basename $plugin)/ -type d -name SQL); do"
             echo "    # Skip plugins with multiple drivers and no kolab driver"
             echo "    if [ ! -z \"\$(echo \$dir | grep driver)\" ]; then"
             echo "        if [ -z \"\$(echo \$dir | grep kolab)\" ]; then"
@@ -1931,6 +1936,11 @@ done
 if [ -L %{plugindir}/enigma/home -a ! -d %{plugindir}/enigma/home ]; then
     %{__rm} -rf %{plugindir}/enigma/home >/dev/null 2>&1 || :
 fi
+
+%check
+pushd %{name}-%{version}/tests
+phpunit --debug || :
+popd
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -2989,6 +2999,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Mar 27 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.1.1.3-1
+- Check in 3 revisions ahead of 1.1.1 release
+
 * Wed Feb 25 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.1.0-4
 - Repack of 1.1 release branch at bbbd02bd
 
