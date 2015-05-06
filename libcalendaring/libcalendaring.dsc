@@ -2,7 +2,7 @@ Format: 1.0
 Source: libcalendaring
 Binary: libcalendaring-dev, libcalendaring
 Architecture: any
-Version: 4.9.1-1
+Version: 4.9.1-2
 Maintainer: Jeroen van Meeuwen <vanmeeuwen@kolabyss.com>
 Homepage: http://kolab.org/about/libcalendaring
 Standards-Version: 3.9.3

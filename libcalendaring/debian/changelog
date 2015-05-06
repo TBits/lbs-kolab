@@ -1,3 +1,9 @@
+libcalendaring (4.9.1-2) unstable; urgency=low
+
+  * Force rebuild for Debian Jessie, so that the package depends on libical1a rather than libical1 (#5015)
+
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 30 Apr 2015 16:59:15 +0200
+
 libcalendaring (4.9.1-1) unstable; urgency=low
 
   * Release of version 4.9.1
