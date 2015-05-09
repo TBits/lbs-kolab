@@ -1,0 +1,12 @@
+--- a/plugins/kolab_auth/kolab_auth_ldap.php	2015-05-08 08:57:56.354200998 +0200
++++ b/plugins/kolab_auth/kolab_auth_ldap.php	2015-05-08 08:58:15.022200125 +0200
+@@ -27,7 +27,7 @@
+  */
+ class kolab_auth_ldap extends rcube_ldap_generic
+ {
+-    private $icache = array();
++    protected $icache = array();
+     private $conf = array();
+     private $fieldmap = array();
+ 
+

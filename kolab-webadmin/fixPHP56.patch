@@ -1,0 +1,20 @@
+--- a/lib/Auth/LDAP.php	2015-04-19 16:38:13.000000000 +0200
++++ b/lib/Auth/LDAP.php	2015-05-07 20:41:50.458518461 +0200
+@@ -1411,7 +1411,7 @@
+     /**
+      * Translate a domain name into it's corresponding root dn.
+      */
+-    private function domain_root_dn($domain)
++    public function domain_root_dn($domain)
+     {
+         if (empty($domain)) {
+             return false;
+@@ -1556,7 +1556,7 @@
+      *
+      * @return string
+      */
+-    private function _standard_root_dn($associatedDomains)
++    protected function _standard_root_dn($associatedDomains)
+     {
+         if (is_array($associatedDomains)) {
+             // Usually, the associatedDomain in position 0 is the naming attribute associatedDomain

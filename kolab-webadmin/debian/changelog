@@ -1,3 +1,9 @@
+kolab-webadmin (3.2.6-0~kolab5) unstable; urgency=low
+
+  * add patch for php 5.6, access level of derived methods (#5033)
+
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 07 May 2015 22:08:00 +0100
+
 kolab-webadmin (3.2.6-0~kolab4) unstable; urgency=low
 
   * adding default acl for domainrelated object. fixes #4731

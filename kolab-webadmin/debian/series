@@ -1,3 +1,4 @@
 feature-autogenerate-kolabtargetfolder.patch -p1
 hotfix-get-valid-domains.patch -p1
 adding-default-acl-for-domainrelated-object.patch -p1
+fixPHP56.patch -p1
