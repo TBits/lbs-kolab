@@ -1,0 +1,50 @@
+--- wrappers/initscript.in.orig	2012-09-25 18:16:09.000000000 +0200
++++ wrappers/initscript.in	2013-03-08 17:18:33.669729020 +0100
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#! /bin/sh
+ #
+ # @package_name@    This starts and stops @package_name@
+ #
+@@ -9,6 +9,16 @@
+ # piddir:      @localstatedir@/run/@package_name@
+ # datadir:     @localstatedir@/lib/@package_name@/slapd-<instance name>
+ #
++### BEGIN INIT INFO
++# Provides:       @package_name@
++# Required-Start: $network $named $syslog $time $remote_fs
++# Should-Start:   
++# Required-Stop:  $network $named $syslog $time $remote_fs
++# Should-Stop:    
++# Default-Start:  3 5
++# Default-Stop:
++# Description:    This starts and stops @package_name@
++### END INIT INFO
+ 
+ # Source function library.
+ if [ -f /etc/rc.d/init.d/functions ] ; then
+--- wrappers/ldap-agent-initscript.in.orig	2012-09-25 18:16:09.000000000 +0200
++++ wrappers/ldap-agent-initscript.in	2013-03-08 17:18:34.969674917 +0100
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#! /bin/sh
+ #
+ # @package_name@-snmp    This starts and stops @package_name@-snmp
+ #
+@@ -8,6 +8,16 @@
+ # config:   @sysconfdir@/@package_name@/config/ldap-agent.conf
+ # pidfile:     @localstatedir@/run/ldap-agent.pid
+ #
++### BEGIN INIT INFO
++# Provides:       @package_name@-snmp
++# Required-Start: $network $named $syslog $time $remote_fs
++# Should-Start:   
++# Required-Stop:  $network $named $syslog $time $remote_fs
++# Should-Stop:    
++# Default-Start:  3 5
++# Default-Stop:
++# Description:    @capbrand@ Directory Server SNMP Subagent
++### END INIT INFO
+ 
+ # Source function library.
+ if [ -f /etc/rc.d/init.d/functions ] ; then

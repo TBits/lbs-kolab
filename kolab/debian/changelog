@@ -1,3 +1,9 @@
+kolab (3.1.9-3) unstable; urgency=low
+
+  * add alternative dependency for 389-ds-base so that kolab-ldap can be installed without 389-console
+
+ -- Michael Telatynski <postmaster@webdevguru.co.uk>  Mon, 11 May 2015 16:42:00 +0000
+
 kolab (3.1.9-2) unstable; urgency=low
 
   * add the new chameleon skin as requirement for kolab-webclient

@@ -49,7 +49,7 @@ Description: IMAP server for Kolab Groupware server
 Package: kolab-ldap
 Architecture: all
 Pre-Depends:${ucs:Pre-Depends}
-Depends:    389-ds | ldap-server,
+Depends:    389-ds | 389-ds-base | ldap-server,
             kolab-schema (>= 3.0),
             ${misc:Depends},
             ${ucs:Depends}
