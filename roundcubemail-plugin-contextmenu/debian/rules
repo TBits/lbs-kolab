@@ -1,0 +1,50 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_install:
+	mkdir -p $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/plugins/contextmenu/
+	cp -a \
+		CHANGELOG \
+		README.md \
+		contextmenu.js \
+		contextmenu.php \
+		localization \
+		skins \
+		$(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/plugins/contextmenu/
+
+	# Compress the CSS
+	for file in `find $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/ -type f -name "*.css"`; do \
+		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
+		install -pm 755 -d $$asset_loc ; \
+		mv -f $$file $$asset_loc/$$(basename $$file) ; \
+	done
+	
+	# Compress the JS
+	for file in `find $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/ -type f -name "*.js"`; do \
+		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
+		install -pm 755 -d $$asset_loc ; \
+		mv -f $$file $$asset_loc/$$(basename $$file) ; \
+	done
+
+	# Other assets
+	for file in $$(find $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/ -type f \
+			-name "*.eot" -o \
+			-name "*.gif" -o \
+			-name "*.ico" -o \
+			-name "*.jpg" -o \
+			-name "*.png" -o \
+			-name "*.svg" -o \
+			-name "*.swf" -o \
+			-name "*.tif" -o \
+			-name "*.ttf" -o \
+			-name "*.woff" \
+		); do \
+		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
+		install -pm 755 -d $$asset_loc ; \
+		mv -f $$file $$asset_loc/$$(basename $$file); \
+	done
+

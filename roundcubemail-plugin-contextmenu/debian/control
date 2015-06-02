@@ -1,0 +1,17 @@
+Source: roundcubemail-plugin-contextmenu
+Section: web
+Priority: extra
+Maintainer: Christoph Wickert <wickert@kolabsys.com>
+Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
+Build-Depends: debhelper (>= 8)
+Standards-Version: 3.9.3
+Vcs-Git: git://git.kolabsys.com/git/apt/roundcube-plugins-kolab
+Vcs-Browser: http://git.kolabsys.com/apt/roundcube-plugins-kolab.git
+
+Package: roundcubemail-plugin-contextmenu
+Architecture: all
+Depends:	roundcubemail (>= 0.9)
+Description: skinnable AJAX based webmail solution - Contextmenu plugin
+ Adds context menus to the message list, folder list and address book.
+ The menu includes the abilities mark messages as read/unread, delete,
+ reply and forward.
