@@ -29,12 +29,15 @@
 Summary:            Kolab Groupware Solution
 Name:               pykolab
 Version:            0.7.10
-Release:            1%{?dist}
+Release:            2%{?dist}
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
 
 Source0:            http://files.kolab.org/releases/%{name}-%{version}.tar.gz
+
+Patch0:             fix-missing-template.patch
+Patch1:             fix-setup-roundcube.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -199,6 +202,9 @@ This is the Kolab Content Filter, with plugins
 
 %prep
 %setup -q
+
+%patch0 -p1
+%patch1 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -522,6 +528,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Tue Jun 02 2015 Daniel Hoffend <dh@dotlan.net> - 0.7.10-2
+- Add missing kolab_addressbook config template for setup-kolab
+
 * Wed Feb 25 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.10-1
 - Release of version 0.7.10, see;
 
