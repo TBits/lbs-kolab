@@ -1,3 +1,9 @@
+roundcubemail (1:1.1.2.0-0~kolab1) unstable; urgency=low
+
+  * Check in maintenance upstream 1.1.2 release
+
+ -- Daniel Hoffend <dh@dotlan.net>  Fri, 09 Jun 2015 22:42:00 +0200
+
 roundcubemail (1:1.1.1.3-0~kolab2) unstable; urgency=low
 
   * enabled php gc for roundcubemail since it uses mysql instead of files #4850

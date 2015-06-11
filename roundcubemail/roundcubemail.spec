@@ -41,7 +41,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.1.1.3
+Version:        1.1.2
 
 Release:        1%{?dist}
 
@@ -2999,6 +2999,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Jun 09 2015 Daniel Hoffend <dh@dotlan.net> - 1.1.2-1
+- Check in maintenance upstream 1.1.2 release
+
 * Fri Mar 27 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.1.1.3-1
 - Check in 3 revisions ahead of 1.1.1 release
 
