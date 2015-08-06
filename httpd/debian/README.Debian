@@ -13,6 +13,7 @@ Contents
 		SSL workaround for MSIE
 		ECC keys and ECDH ciphers
 		Session ticket key life-time and forward secrecy
+		DH parameters
 
 	Suexec
 	
@@ -260,6 +261,17 @@ have provided forward secrecy. There is currently no way to change Apache's
 behavior. If you want to mitigate this kind of attack, you should consider
 increasing the frequency of graceful restarts by changing the log rotation in
 /etc/logrotate.d/apache2 from weekly to daily.
+
+DH parameters
+-------------
+
+The package in Debian has support for Diffie-Hellman (DH) parameters larger
+than 1024 bit and for custom DH parameters backported from Apache 2.2.30.
+This may cause connection failures with java clients that only support 1024
+bit DH parameters.  A work-around is to configure these client not to use DHE
+key exchange but use ECDHE or RSA instead.  A server-side work-around that
+limits the DH parameters to 1024 bits for all clients is described at
+http://httpd.apache.org/docs/trunk/ssl/ssl_faq.html#javadh
 
 
 Suexec
