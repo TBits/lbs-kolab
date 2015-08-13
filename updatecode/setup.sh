@@ -34,6 +34,21 @@ do
       continue
     fi
 
+    # do not process all packages, some have huge tar files, too big for Github (eg. erlang-yokozuna/solr-4.10.4.tgz is 143.11 MB, File manticore/manticore-0.1.1.tar.gz is 97.06 MB)
+    # check size of files in package
+    for f in $pkgname/*
+    do
+      size=`stat --printf="%s" $f`
+      if [ $size -gt $((50*1024*1024)) ]
+      then
+        rm -Rf ../../lbs-kolab/$pkgname
+        echo "*******************"
+        echo "ignoring $pkgname because file $f is too big for Github"
+        echo "*******************"
+        continue
+      fi
+    done
+
     cd $pkgname
     echo "working on $pkgname..."
 
