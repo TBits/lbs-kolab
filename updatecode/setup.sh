@@ -36,6 +36,7 @@ do
 
     # do not process all packages, some have huge tar files, too big for Github (eg. erlang-yokozuna/solr-4.10.4.tgz is 143.11 MB, File manticore/manticore-0.1.1.tar.gz is 97.06 MB)
     # check size of files in package
+    process=1
     for f in $pkgname/*
     do
       size=`stat --printf="%s" $f`
@@ -45,9 +46,14 @@ do
         echo "*******************"
         echo "ignoring $pkgname because file $f is too big for Github"
         echo "*******************"
-        continue
+        process=0
       fi
     done
+
+    if [ $process -eq 0 ]
+    then
+      continue;
+    fi
 
     cd $pkgname
     echo "working on $pkgname..."
