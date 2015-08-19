@@ -1,0 +1,21 @@
+# fix spurious errors during startup
+# Print detailed info in case of error.
+#
+# http://bugs.debian.org/794383
+--- apache2.orig/modules/ssl/ssl_engine_init.c
++++ apache2/modules/ssl/ssl_engine_init.c
+@@ -675,12 +675,14 @@ static void ssl_init_ctx_cert_chain(serv
+         }
+     }
+ 
++    ERR_clear_error();
+     n = SSL_CTX_use_certificate_chain(mctx->ssl_ctx,
+                                       (char *)chain,
+                                       skip_first, NULL);
+     if (n < 0) {
+         ap_log_error(APLOG_MARK, APLOG_ERR, 0, s,
+                 "Failed to configure CA certificate chain!");
++        ERR_print_errors_fp(stderr);
+         ssl_die();
+     }
+ 

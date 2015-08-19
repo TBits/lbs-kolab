@@ -50,3 +50,4 @@ SNI_case_insensitve.diff
 mod_ssl_SSL_CLIENT_S_DN_UID.diff
 DH-SSLCertificateFile.patch
 CVE-2015-3183.patch
+SSL_CTX_use_certificate_clear_errors.diff

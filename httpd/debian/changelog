@@ -1,4 +1,18 @@
-apache2 (2.2.22-13.2+deb7u5) wheezy; urgency=medium
+apache2 (2.2.22-13.2+deb7u6) wheezy-security; urgency=medium
+
+  * Non-maintainer upload.
+  * Merge patches from Debian 2.2.22-13+deb7u6.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Tue, 18 Aug 2015 17:15:25 +0200
+
+apache2 (2.2.22-13+deb7u6) wheezy-security; urgency=medium
+
+  * Fix regression causing spurious errors when loading certificate chain.
+    Closes: #794383
+
+ -- Stefan Fritsch <sf@debian.org>  Tue, 18 Aug 2015 11:41:11 +0200
+
+apache2 (2.2.22-13.2+deb7u5) wheezy-security; urgency=medium
 
   * Non-maintainer upload.
   * Merge patches from Debian 2.2.22-13+deb7u5.
