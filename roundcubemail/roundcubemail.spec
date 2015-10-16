@@ -41,7 +41,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.1.2
+Version:        1.1.3
 
 Release:        1%{?dist}
 
@@ -51,7 +51,7 @@ Group:          Applications/System
 License:        GPLv2
 URL:            http://www.roundcube.net
 
-# From bbbd02bd6a43ae0e2ee00519be8d56fb21161dcd
+# From 357cd5103d1c27f8416ef316c4a4c31588db45b8
 Source0:        roundcubemail-%{version}.tar.gz
 Source1:        comm.py
 
@@ -2999,6 +2999,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Oct 15 2015 Timotheus Pokorra <tp@tbits.net> - 1.1.3-1
+- Check in maintenance upstream 1.1.3 release
+
 * Fri Jun 09 2015 Daniel Hoffend <dh@dotlan.net> - 1.1.2-1
 - Check in maintenance upstream 1.1.2 release
 
