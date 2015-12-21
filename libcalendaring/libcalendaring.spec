@@ -1,6 +1,6 @@
 Name:           libcalendaring
 Version:        4.9.1
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Library for Calendaring
 
 Group:          System Environment/Libraries
@@ -68,6 +68,9 @@ popd
 %{_libdir}/libcalendaring*.a
 
 %changelog
+* Sat Dec 19 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 4.9.1-5
+- Rebuild against new libical in Enterprise Linux 7.2
+
 * Mon Feb 23 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 4.9.1-1
 - New upstream version 4.9.1
 
