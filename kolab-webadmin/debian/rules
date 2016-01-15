@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+export DH_OPTIONS=-v
+export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_install:
+	dh_install
+	find debian/kolab-webadmin/usr/share/kolab-webadmin/ -type f -name "*.enterprise" -exec rm -v {} \;
+	# Rename the Apache conf file
+	mv debian/kolab-webadmin/etc/kolab-webadmin/kolab-webadmin.conf debian/kolab-webadmin/etc/kolab-webadmin/apache.conf
+	rm -rf debian/kolab-webadmin/usr/share/kolab-webadmin/lib/ext/
+	# Some PHP files seem to be executable
+	find debian/kolab-webadmin/usr/share/kolab-webadmin/lib -type f -name "*php" -perm +1 -print0 | xargs -r0 chmod -x
+
+override_dh_compress:
+	dh_compress -X.sql
+

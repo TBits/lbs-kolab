@@ -1,0 +1,346 @@
+roundcubemail-plugins-kolab (1:3.3~dev20160111-0~kolab1.1) unstable; urgency=low
+
+  * fix package version: we need epoch 1
+
+ -- Jochen Hein <jochen@jochen.org>  Mon, 11 Jan 2016 20:15:13 +0200
+
+roundcubemail-plugins-kolab (3.3~dev20160111-0~kolab1) unstable; urgency=low
+
+  * Release of version 3.2.8
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 27 Mar 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.7-0~kolab1) unstable; urgency=low
+
+  * Release of version 3.2.7
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 25 Feb 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.6-0~kolab2) unstable; urgency=low
+
+  * added dependency to php5-curl #4507
+
+ -- Daniel Hoffend <dh@dotlan.net>  Tue, 23 Feb 2015 08:09:12 +0100
+
+roundcubemail-plugins-kolab (1:3.2.6-0~kolab1) unstable; urgency=low
+
+  * Release of version 3.2.6
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 22 Feb 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.5-0~kolab2) unstable; urgency=low
+
+  * Removed tmpdir+symlink for odfviewer
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sat, 24 Jan 2015 01:09:12 +0100
+
+roundcubemail-plugins-kolab (1:3.2.5-0~kolab1) unstable; urgency=low
+
+  * Release of version 3.2.5
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat, 14 Feb 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.4-0~kolab1) unstable; urgency=low
+
+  * Release of version 3.2.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  4 Feb 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.3-0~kolab3) unstable; urgency=low
+
+  * Removed empty kolab/skins/images folder
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sat, 24 Jan 2015 01:09:12 +0100
+
+roundcubemail-plugins-kolab (1:3.2.3-0~kolab2) unstable; urgency=low
+
+  * Fix #4095 (tags not being updated)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 22 Jan 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.3-0~kolab1) unstable; urgency=low
+
+  * Release of 3.2.3
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 21 Jan 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.2-0~kolab2) unstable; urgency=low
+
+  * fix location of assets, css, js and images
+
+ -- Timotheus Pokorra <tp@tbits.net>  Tue, 20 Jan 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.2-0~kolab1) unstable; urgency=low
+
+  * Release 0f 3.2.2
+  * Fix reference to blank.gif (#4115)
+  * Fix folder navigation when splitting assets (#4114)
+  * Clarify configuring login as functionality to limit impersonation to settings only (#4113)
+  * Fix using a group for authorization of the login as functionality (#4111)
+  * Clarify the license verbiage (#4035)
+  * Add creating a folder dialog to save to cloud dialog (#4034)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  1 Jan 2015 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.1-0~kolab1) unstable; urgency=low
+
+  * Release 0f 3.2.1
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 10 Dec 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2.0-0~kolab1) unstable; urgency=low
+
+  * Release 0f 3.2.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  4 Dec 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20141203-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot (3784b8d9a79982c1c080a909f081ad5c327406ea)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  3 Dec 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20141012-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot (22035945f202a3df44a1cfe364bf7a3c2723d7a9)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 12 Oct 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140821-0~kolab3) unstable; urgency=low
+
+  * Updated translations
+
+ -- Daniel Hoffend <dh@dotlan.net>  Thu, 29 Aug 2014 22:30:12 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140821-0~kolab2) unstable; urgency=low
+
+  * Updated translations
+
+ -- Daniel Hoffend <dh@dotlan.net>  Thu, 28 Aug 2014 22:30:12 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140821-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot (419296757aad4da3499763a775d42688c3fced70)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 21 Aug 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140820-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot (f554c201754ebc44229c74e6d3d11ef0c0059190)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 20 Aug 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140812-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot (f75cc4757d3759da158cf60c32e0a9a9217592a7)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 12 Aug 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140624-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 24 Jun 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140404-0~kolab3) unstable; urgency=low
+
+  * New git master head snapshot
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  4 Apr 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140214-0~kolab3) unstable; urgency=low
+
+  * added patches to fix the outdated mysql-inital file and fix a kolab_storage_cache::save() bug
+
+ -- Daniel Hoffend <dh@dotlan.net>  Tue, 25 Feb 2014 11:40:12 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140214-0~kolab2) unstable; urgency=low
+
+  * added bin/updatedb.sh command to the postinst section.
+
+ -- Daniel Hoffend <dh@dotlan.net>  Wed, 19 Feb 2014 00:10:12 +0200
+
+roundcubemail-plugins-kolab (1:3.2~dev20140214-0~kolab1) unstable; urgency=low
+
+  * New snapshot release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 14 Feb 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.12-0~kolab1) unstable; urgency=low
+
+  * New upstream release
+  * Fix memory consumption issues on very large result sets (#2828)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 28 Jan 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.11-0~kolab1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 28 Jan 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.10-0~kolab1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  9 Jan 2014 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.9-0~kolab1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 26 Dec 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.8-0~kolab1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 25 Nov 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.7-0~kolab2) unstable; urgency=low
+
+  * If both kolab.inc.php and libkolab.inc.php exist (in postinst), make sure only libkolab.inc.php exists
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 22 Nov 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.7-0~kolab1.1) unstable; urgency=low
+
+  * include kolab_logo.png in the debian.tar.gz file, no absolute reference to build directory
+
+ -- Timotheus Pokorra <timotheus@pokorra.de>  Wed, 13 Nov 2013 20:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.7-0~kolab1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 11 Nov 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.6-0~kolab3) unstable; urgency=low
+
+  * add empty directories for enigma and odfviewer plugin, needed for files plugin
+
+ -- Timotheus Pokorra <timotheus@pokorra.de>  Thu, 07 Nov 2013 09:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.6-0~kolab2) unstable; urgency=low
+
+  * include patches, similar to CentOS package
+
+ -- Timotheus Pokorra <timotheus@pokorra.de>  Mon, 04 Nov 2013 07:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.6-0~kolab1) unstable; urgency=low
+
+  * New upstream version 3.1.6
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 31 Oct 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.5-0~kolab2) unstable; urgency=low
+
+  * adding kolab_logo.png, bug 2423
+
+ -- Timotheus Pokorra <timotheus@pokorra.de>  Wed, 30 Oct 2013 7:00:00 +0200
+
+roundcubemail-plugins-kolab (1:3.1.5-0~kolab1) unstable; urgency=low
+
+  * New upstream version, with major caching improvements
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 18 Oct 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.4-2) unstable; urgency=low
+
+  * Repackage with different php-kolab dependency
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  8 Oct 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.4-1~kolab1) unstable; urgency=low
+
+  * New upstream version 3.1.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon,  7 Oct 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.3-1) unstable; urgency=low
+
+  * New upstream version 3.1.3
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 19 Sep 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.2-1) unstable; urgency=low
+
+  * New upstream version 3.1.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 11 Sep 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.1.1-1) unstable; urgency=low
+
+  * New upstream version 3.1.1
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon,  9 Sep 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.0.1-2) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Provide the symbolic link from odfviewer plugin (#1793) Fix the symbolic link from the libkolab plugin configuration to the actual file written out by pykolab's setup-kolab
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 30 Apr 2013 18:41:13 +0200
+
+roundcubemail-plugins-kolab (1:3.0.1-1) unstable; urgency=low
+
+  * Imported upstream version 3.0.1
+
+ -- Paul Klos <kolab@klos2day.nl>  Tue, 08 Jan 2013 22:51:58 +0100
+
+roundcubemail-plugins-kolab (1:3.0~dev26.git20bb0b66-2) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Make it clear we require libkolab's php-kolab bindings >= 0.4
+  * Require php-net-url2 instead of php-net-url (#1437)
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 10 Dec 2012 18:46:52 +0100
+
+roundcubemail-plugins-kolab (1:3.0~dev26.git20bb0b66-1) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Imported Upstream version 3.0~dev26.git20bb0b66
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 25 Nov 2012 07:31:18 -0500
+
+roundcubemail-plugins-kolab (3.0-4gite410dff2) unstable; urgency=low
+
+  [ Paul Klos ]
+  * Move to debhelper compat version 9
+  * Fix copyright
+  * Do not install LICENSE files and .gitignore files
+  * Add myself to Uploaders
+
+  [ Jeroen van Meeuwen ]
+  * Rebuild
+
+ -- Paul Klos <kolab@klos2day.nl>  Tue, 06 Nov 2012 14:05:59 -0500
+
+roundcubemail-plugins-kolab (3.0-2gite410dff2) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Simplify
+  * Use basename, not dirname
+  * Rename the package
+  * Fix file permissions
+  * Ship postinst for fixing permissions
+  * Correct path
+  * Increase strict conflict/replace/provide roundcube-plugins-kolab
+  * Only fix permissions on files not named *.sh
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 05 Oct 2012 12:24:44 -0400
+
+roundcubemail-plugins-kolab (3.0-1gite410dff2) unstable; urgency=low
+
+  * Make sure we pull in php-kolab and php-kolabformat
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 11 Sep 2012 15:52:05 +0200
+

@@ -1,0 +1,20 @@
+Source: kolab-freebusy
+Section: mail
+Priority: extra
+Maintainer: Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.3
+Homepage: http://www.kolab.org
+Vcs-Git: git://git.kolabsys.com/git/apt/kolab-freebusy
+Vcs-Browser: http://git.kolabsys.com/apt/kolab-freebusy
+
+Package: kolab-freebusy
+Architecture: all
+Depends: ${misc:Depends},
+        php-net-ldap3,
+        roundcubemail,
+        roundcubemail-plugins-kolab
+Description: Free/Busy for Kolab Groupware
+ The Kolab Groupware Free/Busy web application offers simple
+ and extended Free/Busy information for Kolab Groupware users,
+ as well as third party groupware.

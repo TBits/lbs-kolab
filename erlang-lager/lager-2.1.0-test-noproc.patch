@@ -1,0 +1,12 @@
+Only in lager-2.1.0/: .eunit
+diff -ur lager-2.1.0.1.tmpfs/test/lager_test_backend.erl lager-2.1.0/test/lager_test_backend.erl
+--- lager-2.1.0.1.tmpfs/test/lager_test_backend.erl	2014-11-03 17:57:48.000000000 +0100
++++ lager-2.1.0/test/lager_test_backend.erl	2015-05-17 14:53:04.953873200 +0200
+@@ -651,7 +651,6 @@
+             TestBody("bad arg1",badarg1,"gen_server crash terminated with reason: bad argument in crash:handle_call/3"),
+             TestBody("bad arg2",badarg2,"gen_server crash terminated with reason: bad argument in call to erlang:iolist_to_binary([\"foo\",bar]) in crash:handle_call/3"),
+             TestBody("bad record",badrecord,"gen_server crash terminated with reason: bad record state in crash:handle_call/3"),
+-            TestBody("noproc",noproc,"gen_server crash terminated with reason: no such process or port in call to gen_event:call(foo, bar, baz)"),
+             TestBody("badfun",badfun,"gen_server crash terminated with reason: bad function booger in crash:handle_call/3")
+         ]
+     }.

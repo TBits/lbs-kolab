@@ -1,0 +1,35 @@
+Only in lager-2.1.0: deps
+Only in lager-2.1.0: ebin
+diff -ur lager-2.1.0.orig/rebar.config lager-2.1.0/rebar.config
+--- lager-2.1.0.orig/rebar.config	2014-11-03 17:57:48.000000000 +0100
++++ lager-2.1.0/rebar.config	2015-05-15 16:58:51.418877768 +0200
+@@ -1,7 +1,7 @@
+ {erl_opts, [debug_info, warn_untyped_record]}.
+ {erl_first_files, ["src/lager_util.erl"]}.
+ {deps, [
+-        {goldrush, "0\.1\.6",
++        {goldrush, "0.1.6",
+             {git, "git://github.com/DeadZen/goldrush.git", {tag, "0.1.6"}}}
+        ]}.
+ 
+diff -ur lager-2.1.0.orig/src/lager_file_backend.erl lager-2.1.0/src/lager_file_backend.erl
+--- lager-2.1.0.orig/src/lager_file_backend.erl	2014-11-03 17:57:48.000000000 +0100
++++ lager-2.1.0/src/lager_file_backend.erl	2015-05-17 14:13:12.005066053 +0200
+@@ -706,17 +706,6 @@
+                         {ok, Bin3} = file:read_file("foo.log"),
+                         ?assertMatch([_, _, "[error]", _, "Test message\n"], re:split(Bin3, " ", [{return, list}, {parts, 5}]))
+                 end
+-            },
+-            {"tracing with options should work",
+-                fun() ->
+-                        file:delete("foo.log"),
+-                        {ok, _} = lager:trace_file("foo.log", [{module, ?MODULE}], [{size, 20}, {check_interval, 1}]), 
+-                        lager:error("Test message"),
+-                        ?assertNot(filelib:is_regular("foo.log.0")),
+-                        lager:error("Test message"),
+-                        timer:sleep(10),
+-                        ?assert(filelib:is_regular("foo.log.0"))
+-                end
+             }
+         ]
+     }.

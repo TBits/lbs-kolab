@@ -1,0 +1,6 @@
+usr/share/roundcubemail
+usr/share/roundcubemail/skins/kolab
+etc/roundcubemail
+var/log/roundcubemail
+var/lib/roundcubemail
+/etc/apache2/sites-available/

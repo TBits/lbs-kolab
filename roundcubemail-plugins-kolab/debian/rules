@@ -1,0 +1,55 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_install:
+	dh_install -XLICENSE -X.gitignore
+	
+	# Some png files are executable
+	find  $(CURDIR)/debian/roundcubemail-plugins-kolab/usr/share/roundcubemail/plugins/ -type f -name *.png -perm -1 -exec chmod -x {} \;
+	
+	# Some js files are executable
+	find  $(CURDIR)/debian/roundcubemail-plugins-kolab/usr/share/roundcubemail/plugins/ -type f -name *.js -perm -1 -exec chmod -x {} \;
+	
+	# Copy plugin configuration files to the correct location
+	for conffile in $$(find $(CURDIR)/debian/roundcubemail-plugins-kolab/usr/share/roundcubemail/plugins -type f -name "config.inc.php.dist"); do \
+		plugin=$$(basename $$(dirname $$conffile)); \
+		mv $$conffile $(CURDIR)/debian/roundcubemail-plugins-kolab/etc/roundcubemail/$$plugin.inc.php; \
+		ln -s ../../../../../etc/roundcubemail/$$plugin.inc.php $(CURDIR)/debian/roundcubemail-plugins-kolab/usr/share/roundcubemail/plugins/$$plugin/config.inc.php; \
+	done
+	
+	# Compress the CSS
+	for file in `find $(CURDIR)/debian/roundcubemail-plugins-kolab/usr/share/roundcubemail/ -type f -name "*.css"`; do \
+		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
+		install -pm 755 -d $$asset_loc ; \
+		mv -f $$file $$asset_loc/$$(basename $$file) ; \
+	done
+	
+	# Compress the JS
+	for file in `find $(CURDIR)/debian/roundcubemail-plugins-kolab/usr/share/roundcubemail/ -type f -name "*.js"`; do \
+		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
+		install -pm 755 -d $$asset_loc ; \
+		mv -f $$file $$asset_loc/$$(basename $$file) ; \
+	done
+
+	# Other assets
+	for file in $$(find $(CURDIR)/debian/roundcubemail-plugins-kolab/usr/share/roundcubemail/ -type f \
+			-name "*.eot" -o \
+			-name "*.gif" -o \
+			-name "*.ico" -o \
+			-name "*.jpg" -o \
+			-name "*.png" -o \
+			-name "*.svg" -o \
+			-name "*.swf" -o \
+			-name "*.tif" -o \
+			-name "*.ttf" -o \
+			-name "*.woff" \
+		); do \
+		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
+		install -pm 755 -d $$asset_loc ; \
+		mv -f $$file $$asset_loc/$$(basename $$file); \
+	done
+

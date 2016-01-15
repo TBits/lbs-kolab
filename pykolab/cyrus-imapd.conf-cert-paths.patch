@@ -1,0 +1,15 @@
+diff -ur pykolab-0.7.12.orig/share/templates/imapd.conf.tpl pykolab-0.7.12/share/templates/imapd.conf.tpl
+--- pykolab-0.7.12.orig/share/templates/imapd.conf.tpl	2015-05-13 14:52:54.000000000 +0200
++++ pykolab-0.7.12/share/templates/imapd.conf.tpl	2015-05-13 15:35:12.623343019 +0200
+@@ -6,8 +6,8 @@
+ sasl_pwcheck_method: saslauthd
+ sasl_mech_list: PLAIN LOGIN
+ allowplaintext: no
+-tls_server_cert: /etc/pki/cyrus-imapd/cyrus-imapd.pem
+-tls_server_key: /etc/pki/cyrus-imapd/cyrus-imapd.pem
++tls_server_cert: /etc/ssl/private/cyrus-imapd.pem
++tls_server_key: /etc/ssl/private/cyrus-imapd.pem
+ # uncomment this if you're operating in a DSCP environment (RFC-4594)
+ # qosmarking: af13
+ auth_mech: pts
+Only in pykolab-0.7.12/share/templates: imapd.conf.tpl.orig
