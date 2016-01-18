@@ -1,0 +1,39 @@
+From 23f2b0cdb0caf86209ab5eba86628380abb74d0f Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Tue, 12 Mar 2013 12:35:41 +0400
+Subject: [PATCH 1/1] Remove support for parametrized modules
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ tests/src/erlydtl_example_variable_storage.erl | 5 -----
+ tests/src/erlydtl_unittests.erl                | 2 --
+ 2 files changed, 7 deletions(-)
+ delete mode 100644 tests/src/erlydtl_example_variable_storage.erl
+
+diff --git a/tests/src/erlydtl_example_variable_storage.erl b/tests/src/erlydtl_example_variable_storage.erl
+deleted file mode 100644
+index c9ab246..0000000
+--- a/tests/src/erlydtl_example_variable_storage.erl
++++ /dev/null
+@@ -1,5 +0,0 @@
+--module(erlydtl_example_variable_storage, [SomeVar]).
+--compile(export_all).
+-
+-some_var() ->
+-    SomeVar.
+diff --git a/tests/src/erlydtl_unittests.erl b/tests/src/erlydtl_unittests.erl
+index 021b537..9b871dd 100644
+--- a/tests/src/erlydtl_unittests.erl
++++ b/tests/src/erlydtl_unittests.erl
+@@ -77,8 +77,6 @@ tests() ->
+                     <<"{{ var1.attr }}">>, [{var1, gb_trees:insert(attr, "Othello", gb_trees:empty())}], <<"Othello">>},
+                 {"Render variable with attribute in arity-1 func",
+                     <<"I enjoy {{ var1.game }}">>, [{var1, fun (game) -> "Othello" end}], <<"I enjoy Othello">>},
+-                {"Render variable in parameterized module",
+-                    <<"{{ var1.some_var }}">>, [{var1, erlydtl_example_variable_storage:new("foo")}], <<"foo">>},
+                 {"Nested attributes",
+                     <<"{{ person.city.state.country }}">>, [{person, [{city, [{state, [{country, "Italy"}]}]}]}],
+                     <<"Italy">>}
+-- 
+1.8.1.4
+

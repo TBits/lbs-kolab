@@ -1,6 +1,6 @@
 Name:           roundcubemail-skin-chameleon
-Version:        0.3.6
-Release:        3%{?dist}
+Version:        0.3.7
+Release:        1%{?dist}
 Summary:        Kolab skin for Roundcube
 
 Group:          Web/Applications
@@ -124,6 +124,9 @@ mv %{buildroot}/%{_datadir}/roundcubemail/skins/chameleon/watermark.html \
 %{_datadir}/roundcubemail/public_html/assets/skins/chameleon/
 
 %changelog
+* Sat Jan 16 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.7-1
+- Release 0.3.7
+
 * Thu Dec  3 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.6-3
 - Allow building with php-based less
 

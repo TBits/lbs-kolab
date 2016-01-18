@@ -38,7 +38,7 @@ BuildArch:      noarch
 BuildRequires:  composer
 BuildRequires:  php-Monolog
 BuildRequires:  php-sabre-dav >= 2.1.3
-BuildRequires:  roundcubemail
+BuildRequires:  roundcubemail(core)
 BuildRequires:  roundcubemail-plugins-kolab
 
 %if 0%{?suse_version}
@@ -55,7 +55,7 @@ Requires:       php-ldap
 Requires:       php-Monolog
 Requires:       php-pear(Net_LDAP3)
 Requires:       php-sabre-dav >= 2.1.3
-Requires:       roundcubemail
+Requires:       roundcubemail(core)
 Requires:       roundcubemail-plugins-kolab
 
 %if 0%{?fedora} >= 21

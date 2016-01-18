@@ -11,7 +11,7 @@
 # Set this to true when starting a rebuild of the whole erlang stack. There's
 # a cyclical dependency between erlang-rebar and erlang-getopt so this package
 # (rebar) needs to get built first in bootstrap mode.
-%global bootstrap 1
+%global bootstrap 0
 
 Name:           erlang-%{realname}
 Version:        2.5.1
