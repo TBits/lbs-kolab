@@ -1,3 +1,15 @@
+pykolab (0.8.0-0~kolab1) unstable; urgency=low
+
+  * Release 0.8.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 19 Jan 2016 01:49:00 +0100
+
+pykolab (0.7.18-0~kolab1) unstable; urgency=low
+
+  * Release 0.7.18
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 18 Jan 2016 01:49:00 +0100
+
 pykolab (0.7.18~dev20151228-0~kolab1) unstable; urgency=low
 
   * Release 0.7.16

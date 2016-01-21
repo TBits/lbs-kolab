@@ -28,14 +28,16 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.7.18
-Release:            0.20151228.git%{?dist}
+Version:            0.8.0
+Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
 
-Source0:            pykolab-0.7.18.tar.gz
+Source0:            pykolab-0.8.0.tar.gz
 Source1:            pykolab.logrotate
+
+Patch0001:          0001-Fix-mistake-in-manticore-configuration-template.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -210,6 +212,8 @@ This is the Kolab Content Filter, with plugins
 
 %prep
 %setup -q
+
+%patch0001 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v

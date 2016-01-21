@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+case "$1" in
+    configure)
+        if [ -x "$(which ucr 2>/dev/null)" ]; then
+            ucr set repository/online/unmaintained='yes'
+        fi
+    ;;
+esac
+
+exit 0

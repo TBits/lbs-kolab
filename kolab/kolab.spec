@@ -68,6 +68,7 @@ Requires:       389-ds-base
 %else
 Requires:       389-ds
 %endif
+Requires:       guam
 Requires:       kolab-schema
 # Install or setup-kolab will fail
 Requires:       python-sqlalchemy
@@ -98,6 +99,8 @@ Requires:       iRony
 Requires:       kolab-autoconf
 Requires:       kolab-freebusy
 Requires:       kolab-syncroton
+Requires:       manticore
+Requires:       mongodb-server
 # Install or /usr/bin/mysql isn't available
 Requires:       mysql
 

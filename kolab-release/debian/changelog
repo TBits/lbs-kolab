@@ -1,0 +1,65 @@
+kolab-release (16.0-1) stable; urgency=low
+
+  * Kolab 16
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat, 16 Jan 2016 02:29:34 +0100
+
+kolab-enterprise-release (14.0-2) stable; urgency=low
+
+  * Kolab Enterprise 14 pointing to UCS 4.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun,  9 Nov 2014 02:29:34 +0100
+
+kolab-enterprise-release (14.0-1) stable; urgency=low
+
+  * Kolab Enterprise 14 version
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  2 Oct 2014 02:29:34 +0100
+
+kolab-enterprise-release (13.2-2) stable; urgency=low
+
+  * Bump release for OBS build
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 13 Jul 2014 02:29:34 +0100
+
+kolab-enterprise-release (13.1-1) stable; urgency=low
+
+  * Release Kolab Enterprise 13 for UCS 3
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 10 Feb 2014 02:29:34 +0100
+
+kolab-enterprise-release (2.3.3-3) stable; urgency=low
+
+  * Make -development depend on base package (#1600)
+
+ -- Christoph Wickert <wickert@kolabsys.com>  Tue, 29 Jan 2013 20:20:23 +0100
+
+kolab-enterprise-release (2.3.3-2) stable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Correct the filename for apt.conf.d
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 28 Jan 2013 02:29:34 +0100
+
+kolab-enterprise-release (2.3.2-1) stable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Remove files
+  * Add conflicts with the community repository configuration packages
+  * Add mirror.kolabsys.com.ca.cert
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 27 Jan 2013 18:38:56 +0100
+
+kolab-enterprise-release (2.3.1-1) stable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Add a -development sub-package
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 14 Dec 2012 17:49:08 +0100
+

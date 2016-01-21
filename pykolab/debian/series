@@ -1,1 +1,2 @@
 cyrus-imapd.conf-cert-paths.patch -p1
+0001-Fix-mistake-in-manticore-configuration-template.patch -p1
