@@ -1,7 +1,7 @@
 From 6769c10da417e65698f71e0f34d0b15a597a3641 Mon Sep 17 00:00:00 2001
 From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
 Date: Tue, 19 Jan 2016 12:55:44 +0100
-Subject: [PATCH] Fix mistake in manticore configuration template
+Subject: [PATCH 1/2] Fix mistake in manticore configuration template
 
 ---
  share/templates/manticore.js.tpl | 2 +-

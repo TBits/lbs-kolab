@@ -54,6 +54,7 @@ This is the Kolab Groupware Configuration component meta-package
 Summary:        Kolab Groupware IMAP Component
 Group:          Applications/System
 Requires:       cyrus-imapd
+Requires:       guam
 Requires:       kolab-saslauthd
 Requires:       pykolab
 
@@ -68,7 +69,6 @@ Requires:       389-ds-base
 %else
 Requires:       389-ds
 %endif
-Requires:       guam
 Requires:       kolab-schema
 # Install or setup-kolab will fail
 Requires:       python-sqlalchemy

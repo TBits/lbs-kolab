@@ -1,3 +1,9 @@
+pykolab (0.8.0-0~kolab2) unstable; urgency=low
+
+  * Fix guam template
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 25 Jan 2016 01:49:00 +0100
+
 pykolab (0.8.0-0~kolab1) unstable; urgency=low
 
   * Release 0.8.0

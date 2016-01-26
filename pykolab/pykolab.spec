@@ -38,6 +38,7 @@ Source0:            pykolab-0.8.0.tar.gz
 Source1:            pykolab.logrotate
 
 Patch0001:          0001-Fix-mistake-in-manticore-configuration-template.patch
+Patch0002:          0002-Fix-default-template-for-Guam.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -214,6 +215,7 @@ This is the Kolab Content Filter, with plugins
 %setup -q
 
 %patch0001 -p1
+%patch0002 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
