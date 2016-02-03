@@ -2,18 +2,18 @@
 #!BuildIgnore   httpd
 %endif
 
+%global debug_package %{nil}
+
 Name:           kolab
-Version:        16.0.0
+Version:        16.0.1
 Release:        1%{?dist}
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
 License:        GPL
 URL:            http://www.kolab.org
-Source0:        %{name}-%{version}.tar.gz
+Source0:        %{name}-16.0.0.tar.gz
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-
-BuildArch:      noarch
 
 # Other meta-packages
 Requires:       kolab-conf
@@ -99,8 +99,10 @@ Requires:       iRony
 Requires:       kolab-autoconf
 Requires:       kolab-freebusy
 Requires:       kolab-syncroton
+%ifnarch %{arm}
 Requires:       manticore
 Requires:       mongodb-server
+%endif
 # Install or /usr/bin/mysql isn't available
 Requires:       mysql
 
@@ -124,7 +126,8 @@ Requires:       roundcubemail-plugins-kolab
 This is the Kolab Groupware web client meta-package
 
 %prep
-%setup -q
+%setup -q -n kolab-16.0.0
+
 
 %build
 
@@ -157,6 +160,9 @@ This is the Kolab Groupware web client meta-package
 %doc README
 
 %changelog
+* Sun Jan 31 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-1
+- Set the build architecture back to not noarch
+
 * Fri Jan 15 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.0-1
 - Release Kolab 16
 
