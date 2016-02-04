@@ -2,6 +2,12 @@
 #!BuildIgnore   httpd
 %endif
 
+%if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
+%global with_systemd 0
+%else
+%global with_systemd 1
+%endif
+
 %global debug_package %{nil}
 
 Name:           kolab
@@ -12,7 +18,7 @@ Summary:        The Kolab Groupware Solution
 Group:          Applications/System
 License:        GPL
 URL:            http://www.kolab.org
-Source0:        %{name}-16.0.0.tar.gz
+Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 # Other meta-packages
@@ -81,6 +87,13 @@ component
 Summary:        The Kolab Groupware Mail Transfer Agent (MTA) meta-package
 Group:          Applications/System
 Requires:       amavisd-new
+
+%if 0%{?with_systemd}
+Requires:       clamav-system-systemd
+%else
+Requires:       clamav-system-sysvinit
+%endif
+
 Requires:       postfix
 Requires:       postfix-kolab
 Requires:       spamassassin
@@ -126,8 +139,7 @@ Requires:       roundcubemail-plugins-kolab
 This is the Kolab Groupware web client meta-package
 
 %prep
-%setup -q -n kolab-16.0.0
-
+%setup -q
 
 %build
 

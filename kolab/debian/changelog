@@ -1,3 +1,9 @@
+kolab (16.0.1-1) unstable; urgency=low
+
+  * Correct case-sensitivity problem in depending on iRony -> irony
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  3 Feb 2016 12:56:00 +0100
+
 kolab (16.0.0-1) unstable; urgency=low
 
   * Release Kolab 16

@@ -2,7 +2,7 @@ Format: 1.0
 Source: kolab
 Binary: kolab, kolab-imap, kolab-ldap, kolab-mta, kolab-webclient
 Architecture: all
-Version: 16.0.0-3
+Version: 16.0.1-1
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.kolab.org/
@@ -18,5 +18,5 @@ Package-List:
  kolab-mta deb mail extra
  kolab-webclient deb mail extra
 Files: 
- 00000000000000000000000000000000 0 kolab-16.0.0.tar.gz
+ 00000000000000000000000000000000 0 kolab-16.0.1.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

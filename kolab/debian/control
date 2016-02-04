@@ -78,7 +78,7 @@ Description: MTA server for Kolab Groupware server
 Package: kolab-webclient
 Architecture: all
 Depends:    chwala,
-            iRony,
+            irony,
             kolab-freebusy,
             kolab-syncroton,
             mysql-client,
