@@ -26,10 +26,12 @@ Group:              System Environment/Daemons
 License:            GPLv3+
 URL:                https://kolab.org/about/guam
 
-# From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
+# From refs/tags/guam-0.7.1
 Source0:            guam-0.7.1.tar.gz
 
+# Remove patches as soon as 0.7.2 drops
 Patch0001:          0001-Stop-switching-to-user-group-guam.-Ref.-T971.patch
+Patch0002:          0002-Set-HOME-environment-variable.patch
 
 BuildRequires:      erlang
 BuildRequires:      erlang-eimap >= 0.1.5
@@ -71,7 +73,9 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
+# Remove patches as soon as 0.7.2 drops
 %patch0001 -p1
+%patch0002 -p1
 
 %build
 rebar compile
@@ -156,6 +160,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Thu Feb  4 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.1-2
+- Add environment variable HOME
+
 * Tue Feb  2 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.1-1
 - Check in systemd init script fixes
 

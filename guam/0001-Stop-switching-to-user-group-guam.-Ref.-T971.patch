@@ -1,7 +1,7 @@
 From bdea873af6dde6b1ab8c33fa45738a0b92f2fa14 Mon Sep 17 00:00:00 2001
 From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
 Date: Tue, 2 Feb 2016 14:06:28 +0100
-Subject: [PATCH] Stop switching to user/group guam. Ref. T971
+Subject: [PATCH 1/2] Stop switching to user/group guam. Ref. T971
 
 ---
  guam.service | 6 ++++--

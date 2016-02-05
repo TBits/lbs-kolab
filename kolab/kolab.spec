@@ -89,9 +89,9 @@ Group:          Applications/System
 Requires:       amavisd-new
 
 %if 0%{?with_systemd}
-Requires:       clamav-system-systemd
+Requires:       clamav-server-systemd
 %else
-Requires:       clamav-system-sysvinit
+Requires:       clamav-server-sysvinit
 %endif
 
 Requires:       postfix

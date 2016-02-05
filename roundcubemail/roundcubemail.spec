@@ -43,7 +43,7 @@
 Name:           roundcubemail
 Version: 1.2
 
-Release: 0.20160115.git%{?dist}
+Release: 0.20160119.git%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -1585,6 +1585,7 @@ pushd %{name}-%{version}
 # use dist files as config files
 %{__install} -pm 644 config/config.inc.php.sample %{buildroot}%{confdir}/config.inc.php
 %{__install} -pm 644 config/defaults.inc.php %{buildroot}%{confdir}/defaults.inc.php
+%{__install} -pm 644 config/mimetypes.php %{buildroot}%{confdir}/mimetypes.php
 
 pushd %{buildroot}%{datadir}
 %{__ln_s} ../../..%{confdir} config
@@ -2753,6 +2754,7 @@ fi
 %config(noreplace) %{_ap_sysconfdir}/conf.d/%{name}.conf
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/config.inc.php
 %attr(0640,root,%{httpd_group}) %{confdir}/defaults.inc.php
+%attr(0640,root,%{httpd_group}) %{confdir}/mimetypes.php
 %attr(0770,root,%{httpd_group}) %dir %{logdir}
 %attr(0770,root,%{httpd_group}) %dir %{tmpdir}
 %dir %{_localstatedir}/lib/rpm-state/
