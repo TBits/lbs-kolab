@@ -1,0 +1,4 @@
+usr/include/svrcore.h
+usr/lib/pkgconfig/svrcore.pc
+usr/lib/libsvrcore.so
+usr/lib/libsvrcore.a

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+set -e
+
+#EXTRA#
+#DEBHELPER#
+
+if [ -d "/etc/php5/mods-available" ]; then
+    inidir=/etc/php5/mods-available/
+else
+    inidir=/etc/php5/conf.d/
+fi
+
+module=kolab
+package=php-${module}
+inifile=${module}.ini
+
+if [ "$1" = "remove" ]; then
+    if [ -x "$(which php5dismod 2>/dev/null)" ]; then
+        php5dismod ${module}
+    elif [ -f "${inidir}/${inifile}" ]; then
+        rm -f "${inidir}/${inifile}"
+    fi
+fi
+
+# Dummy plugin (workaround for #2050)
+module=kolabdummy
+package=php-kolab
+inifile=${module}.ini
+
+if [ "$1" = "remove" ]; then
+    if [ -x "$(which php5dismod 2>/dev/null)" ]; then
+        php5dismod ${module}
+    elif [ -f "${inidir}/${inifile}" ]; then
+        rm -f "${inidir}/${inifile}"
+    fi
+fi
+# End dummy plugin
+
+exit 0

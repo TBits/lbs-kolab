@@ -1,0 +1,76 @@
+From 69cab50c4c632ac2b0f6f92cff822fce90b6e407 Mon Sep 17 00:00:00 2001
+From: Sean Cribbs <sean@basho.com>
+Date: Fri, 15 Feb 2013 16:09:41 -0600
+Subject: [PATCH 06/10] Move setting bucket properties to riak_api, see
+ basho/riak_api#31 basho/riak_pb#30
+
+---
+ src/riak_kv_app.erl       |  2 +-
+ src/riak_kv_pb_bucket.erl | 24 +-----------------------
+ 2 files changed, 2 insertions(+), 24 deletions(-)
+
+diff --git a/src/riak_kv_app.erl b/src/riak_kv_app.erl
+index eb662da..b70b1fb 100644
+--- a/src/riak_kv_app.erl
++++ b/src/riak_kv_app.erl
+@@ -28,7 +28,7 @@
+ 
+ -define(SERVICES, [{riak_kv_pb_object, 3, 6}, %% ClientID stuff
+                    {riak_kv_pb_object, 9, 14}, %% Object requests
+-                   {riak_kv_pb_bucket, 15, 22}, %% Bucket requests
++                   {riak_kv_pb_bucket, 15, 18}, %% Bucket requests
+                    {riak_kv_pb_mapred, 23, 24}, %% MapReduce requests
+                    {riak_kv_pb_index, 25, 26} %% Secondary index requests
+                   ]).
+diff --git a/src/riak_kv_pb_bucket.erl b/src/riak_kv_pb_bucket.erl
+index 1f40c7d..f54cedc 100644
+--- a/src/riak_kv_pb_bucket.erl
++++ b/src/riak_kv_pb_bucket.erl
+@@ -26,8 +26,6 @@
+ %% <pre>
+ %% 15 - RpbListBucketsReq
+ %% 17 - RpbListKeysReq
+-%% 19 - RpbGetBucketReq
+-%% 21 - RpbSetBucketReq
+ %% </pre>
+ %%
+ %% <p>This service produces the following responses:</p>
+@@ -35,8 +33,6 @@
+ %% <pre>
+ %% 16 - RpbListBucketsResp
+ %% 18 - RpbListKeysResp{1,}
+-%% 20 - RpbGetBucketResp
+-%% 22 - RpbSetBucketResp
+ %% </pre>
+ %%
+ %% <p>The semantics are unchanged from their original
+@@ -88,25 +84,7 @@ process(rpblistbucketsreq,
+ process(#rpblistkeysreq{bucket=B}=Req, #state{client=C} = State) ->
+     %% stream_list_keys results will be processed by process_stream/3
+     {ok, ReqId} = C:stream_list_keys(B),
+-    {reply, {stream, ReqId}, State#state{req = Req, req_ctx = ReqId}};
+-
+-%% Get bucket properties
+-process(#rpbgetbucketreq{bucket=B},
+-        #state{client=C} = State) ->
+-    Props = C:get_bucket(B),
+-    PbProps = riak_pb_kv_codec:encode_bucket_props(Props),
+-    {reply, #rpbgetbucketresp{props = PbProps}, State};
+-
+-%% Set bucket properties
+-process(#rpbsetbucketreq{bucket=B, props = PbProps},
+-        #state{client=C} = State) ->
+-    Props = riak_pb_kv_codec:decode_bucket_props(PbProps),
+-    case C:set_bucket(B, Props) of
+-        ok ->
+-            {reply, rpbsetbucketresp, State};
+-        {error, Details} ->
+-            {error, {format, "Invalid bucket properties: ~p", [Details]}, State}
+-    end.
++    {reply, {stream, ReqId}, State#state{req = Req, req_ctx = ReqId}}.
+ 
+ %% @doc process_stream/3 callback. Handles streaming keys messages.
+ process_stream({ReqId, done}, ReqId,
+-- 
+1.8.3.1
+

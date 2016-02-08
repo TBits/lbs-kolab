@@ -1,0 +1,26 @@
+From 287ea4524bdbc39dd10f9039b8feeeeb96e78bc5 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Mon, 11 Mar 2013 21:41:22 +0400
+Subject: [PATCH 1/2] Allow building against riak_pb 1.3.x
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ rebar.config | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rebar.config b/rebar.config
+index 281e7b9..c41a09f 100644
+--- a/rebar.config
++++ b/rebar.config
+@@ -5,7 +5,7 @@
+ {deps, [
+         {lager, "1.2.2", {git, "git://github.com/basho/lager.git",
+                           {tag, "1.2.2"}}},
+-        {riak_pb, "1.3.0", {git, "git://github.com/basho/riak_pb.git",
++        {riak_pb, "1.3.*", {git, "git://github.com/basho/riak_pb.git",
+                             {tag, "1.3.0"}}},
+         {riak_core, "1.3.2", {git, "git://github.com/basho/riak_core.git",
+                               {tag, "1.3.2"}}}
+-- 
+1.8.3.1
+

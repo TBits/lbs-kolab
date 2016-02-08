@@ -1,0 +1,12 @@
+diff -ur riak_kv-2.1.0.orig/priv/riak_kv.schema riak_kv-2.1.0/priv/riak_kv.schema
+--- riak_kv-2.1.0.orig/priv/riak_kv.schema	2015-04-01 19:25:19.000000000 +0200
++++ riak_kv-2.1.0/priv/riak_kv.schema	2015-12-31 19:03:22.506970429 +0100
+@@ -28,7 +28,7 @@
+ %% @doc Specifies the storage engine used for Riak's key-value data
+ %% and secondary indexes (if supported).
+ {mapping, "storage_backend", "riak_kv.storage_backend", [
+-  {default, {{storage_backend}} },
++  {default, memory },
+   {datatype, {enum, [bitcask, leveldb, memory, multi, prefix_multi]}}
+ ]}.
+ 

@@ -1,0 +1,7 @@
+composer (1.0.0-0.4) unstable; urgency=low
+
+  * Build from same tarball as the RPM
+  * based on PPA from Ross Duggan <ross.duggan@acm.org> on https://launchpad.net/~duggan/+archive/ubuntu/composer/+packages
+
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 07 May 2015 17:47:06 +0000
+

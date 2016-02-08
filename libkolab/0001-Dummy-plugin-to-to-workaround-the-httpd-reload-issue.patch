@@ -1,0 +1,33 @@
+From b7d0c724af32d3d70cfd48694d3cf113b703c89e Mon Sep 17 00:00:00 2001
+From: Christian Mollekopf <mollekopf@kolabsys.com>
+Date: Fri, 28 Nov 2014 16:21:35 +0100
+Subject: [PATCH] Dummy plugin to to workaround the httpd reload issue.
+
+See https://issues.kolab.org/show_bug.cgi?id=2050
+---
+ CMakeLists.txt | 1 +
+ dummy.i        | 1 +
+ 2 files changed, 2 insertions(+)
+ create mode 100644 dummy.i
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 99eef60..d7f724e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -209,5 +209,6 @@ endif(PYTHON_BINDINGS)
+ 
+ if(PHP_BINDINGS)
+     generatePHPBindings(kolabshared shared.i)
++    generatePHPBindings(dummy dummy.i)
+     add_subdirectory(kolabformat/php)
+ endif(PHP_BINDINGS)
+diff --git a/dummy.i b/dummy.i
+new file mode 100644
+index 0000000..24c258f
+--- /dev/null
++++ b/dummy.i
+@@ -0,0 +1 @@
++/* This is a dummy plugin that does nothing. See https://issues.kolab.org/show_bug.cgi?id=2050 */
+-- 
+1.9.3
+

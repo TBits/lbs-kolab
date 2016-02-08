@@ -1,0 +1,45 @@
+From 1ba3dab46561523b0abf5c2aa1f818c81ad35c4f Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Wed, 18 Jul 2012 22:55:53 +0400
+Subject: [PATCH 02/10] Guard eunit include to prevent automatic dependency
+ picking up
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ src/riak_kv_bucket.erl  | 2 ++
+ src/riak_kv_put_fsm.erl | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/riak_kv_bucket.erl b/src/riak_kv_bucket.erl
+index e839459..339b10c 100644
+--- a/src/riak_kv_bucket.erl
++++ b/src/riak_kv_bucket.erl
+@@ -25,7 +25,9 @@
+ 
+ -export([validate/1]).
+ 
++-ifdef(TEST).
+ -include_lib("eunit/include/eunit.hrl").
++-endif.
+ 
+ -type prop() :: {PropName::atom(), PropValue::any()}.
+ -type error() :: {PropName::atom(), ErrorReason::atom()}.
+diff --git a/src/riak_kv_put_fsm.erl b/src/riak_kv_put_fsm.erl
+index 33e5108..f3bad4d 100644
+--- a/src/riak_kv_put_fsm.erl
++++ b/src/riak_kv_put_fsm.erl
+@@ -23,9 +23,9 @@
+ %% @doc coordination of Riak PUT requests
+ 
+ -module(riak_kv_put_fsm).
+-%-ifdef(TEST).
++-ifdef(TEST).
+ -include_lib("eunit/include/eunit.hrl").
+-%-endif.
++-endif.
+ -include_lib("riak_kv_vnode.hrl").
+ -include_lib("riak_kv_js_pools.hrl").
+ -include("riak_kv_wm_raw.hrl").
+-- 
+1.8.3.1
+

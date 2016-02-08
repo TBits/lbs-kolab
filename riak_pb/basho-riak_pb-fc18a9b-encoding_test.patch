@@ -1,0 +1,23 @@
+diff -ur basho-riak_pb-fc18a9b.1.version/test/encoding_test.erl basho-riak_pb-fc18a9b/test/encoding_test.erl
+--- basho-riak_pb-fc18a9b.1.version/test/encoding_test.erl	2014-05-30 21:07:44.000000000 +0200
++++ basho-riak_pb-fc18a9b/test/encoding_test.erl	2015-05-17 14:23:51.602090760 +0200
+@@ -82,19 +82,5 @@
+                                              riak_pb_kv_codec:encode_content({MetaData, Value}))))),
+                  ?assertEqual([], dict:to_list(MetaData2)),
+                  ?assertEqual(Value, Value2)
+-             end)},
+-     {"msg code encode decode",
+-      ?_test(begin
+-                 msg_code_encode_decode(0)
+              end)}
+     ].
+-
+-msg_code_encode_decode(256) -> ok;
+-msg_code_encode_decode(N) ->
+-    case riak_pb_codec:msg_type(N) of
+-        undefined ->
+-            ignore;
+-        MsgType ->
+-            ?assertEqual(N, riak_pb_codec:msg_code(MsgType))
+-    end,
+-    msg_code_encode_decode(N+1).

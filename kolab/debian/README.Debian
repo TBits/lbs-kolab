@@ -1,0 +1,20 @@
+kolab for Debian
+----------------
+
+Version 3.0.0-10 allows you to install another imap server.
+The preferred server is still cyrus-imapd, but any package
+that provides imap-server can be installed without breaking
+the Kolab installation.
+
+The same applies to LDAP. 389-ds is preferred, but another LDAP
+server, such as openldap (slapd) that also provides ldap-server
+can be installed as well.
+
+Note that setup-kolab only works when the preferred servers are
+installed, so in terms of configuration you're on your own if you
+install a different server.
+
+Note also that this in itself does not easily enable an installation
+across multiple servers. That is still a work in progress.
+
+ -- Paul Klos <kolab@klos2day.nl>  Sun, 25 Aug 2013 15:33:17 +0200

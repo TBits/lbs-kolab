@@ -1,0 +1,320 @@
+kolab (16.0.1-1) unstable; urgency=low
+
+  * Correct case-sensitivity problem in depending on iRony -> irony
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  3 Feb 2016 12:56:00 +0100
+
+kolab (16.0.0-1) unstable; urgency=low
+
+  * Release Kolab 16
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 15 Jan 2016 12:56:00 +0100
+
+kolab (3.1.9-3) unstable; urgency=low
+
+  * add alternative dependency for 389-ds-base so that kolab-ldap can be installed without 389-console
+
+ -- Michael Telatynski <postmaster@webdevguru.co.uk>  Mon, 11 May 2015 16:42:00 +0000
+
+kolab (3.1.9-2) unstable; urgency=low
+
+  * add the new chameleon skin as requirement for kolab-webclient
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sat, 24 Jan 2015 01:17:10 +0100
+
+kolab (3.1.9-1) unstable; urgency=low
+
+  * Increase compatibility level with Cyrus IMAP 2.5 without being incompatible with 2.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun,  9 Nov 2014 12:56:00 +0100
+
+kolab (3.1.8-2) unstable; urgency=low
+
+  * Nuke dependency on threading as default roundcubemail plugin
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 12 Oct 2014 12:56:00 +0100
+
+kolab (3.1.8-1) unstable; urgency=low
+
+  * Fix logo location and introduce the use of asset paths
+  * Set Kolab SMTP Access Policy to on by default, now that
+    we ship a version of Postfix that can handle it.
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 13 Jul 2014 12:56:00 +0100
+
+kolab (3.1.4-1) unstable; urgency=low
+
+  * Refresh the configuration for kolab-mta on UCS
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  2 May 2014 12:56:00 +0100
+
+kolab (3.1.2-1) unstable; urgency=low
+
+  * Adjust kolab.pref and ensure $HOME is set for webclient join script
+  * Also ensure $USER is set, and export both $USER and $HOME
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  7 Mar 2014 12:56:00 +0100
+
+kolab (3.1.0-38) unstable; urgency=low
+
+  * Drop kolab.list from apt sources
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  6 Mar 2014 12:56:00 +0100
+
+kolab (3.1.0-37) unstable; urgency=low
+
+  * Set USER and GROUP for the init.d script's chmod/chown routine on log directories and files
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  5 Mar 2014 12:56:00 +0100
+
+kolab (3.1.0-36) unstable; urgency=low
+
+  * Start kolab-saslauthd with the correct permissions
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 14 Feb 2014 12:56:00 +0100
+
+kolab (3.1.0-34.4) unstable; urgency=low
+
+  * Ship new configuration for kolab3 schema
+  * kolab-ucs depends on univention-legacy-kolab-schema no longer, instead Pre-Depends on
+    kolab-schema
+  * Add univention-kolab3-wrapper schema
+  * Revert back to using univention's special internal post user
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 12 Feb 2014 12:56:00 +0100
+
+kolab (3.1.0-34) unstable; urgency=low
+
+  * Silence some of the repetitive actions
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 10 Feb 2014 12:56:00 +0100
+
+kolab (3.1.0-33) unstable; urgency=low
+
+  * Fix a syntax error in the configuration file template for kolab_files.inc.php
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 24 Jan 2014 12:56:00 +0100
+
+kolab (3.1.0-32) unstable; urgency=low
+
+  * Add setting mail/kolab/https to synchronize http/https settings between various
+    components, including Roundcube <-> kolab_files <-> Chwala
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 23 Jan 2014 12:56:00 +0100
+
+kolab (3.1.0-31) unstable; urgency=low
+
+  * Add settings to control the mime format and debug level
+  * Fix ssl verification settings
+  * Correct socket to LMTP path
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 16 Jan 2014 12:56:00 +0100
+
+kolab (3.1.0-28) unstable; urgency=low
+
+  * kolab-ucs really requires univention-legacy-kolab-schema to be installed 
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 13 Jan 2014 12:56:00 +0100
+
+kolab (3.1.0-25) unstable; urgency=low
+
+  * Update roundcube settings
+  * Remove INBOX/ prefix from autocreate_folders
+  * Recover some lost changes
+  * Correct creation of univention-directory-listener hook link
+  * Correct permissions on /etc/kolab/kolab.conf and /var/lib/kolab for UCS
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 26 Nov 2013 12:56:00 +0100
+
+kolab (3.1.0-22.14) unstable; urgency=low
+
+  * Install kolab-ldap after univention-legacy-kolab-schema
+  * Extend UDM settings
+  * Load kolab schema
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 22 Nov 2013 12:56:00 +0100
+
+kolab (3.1.0-22.10) unstable; urgency=low
+
+  * generate passphrases for cyrus-admin in preinst scripts
+  * Ship kolab.conf as part of kolab-ucs
+  * Start kolab-saslauthd in kolab-imap and kolab-mta postinst, after join scripts
+  * install kolab-saslauthd before kolab-imap and kolab-mta
+  * cyrus-imapd should be installed before kolab-imap is
+  * Do not start kolab-saslauthd in kolab-ucs join script
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 21 Nov 2013 12:56:00 +0100
+
+kolab (3.1.0-21) unstable; urgency=low
+
+  * Do not test for an imap server when adding a cyrus administrator user
+  * kolab-imap and kolab-mta have to separately depend on kolab-saslauthd
+  * Repack kolab-3.1.tar.gz
+  * Avoid too many reloads and restarts
+  * Conflict with, Provide and Replace univention-mail-postfix
+  * Fix Cyrus IMAP missing option
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 20 Nov 2013 12:56:00 +0100
+
+kolab (3.1.0-14) unstable; urgency=low
+
+  * Correct ldap_servers setting
+  * Correct cyrus-imap admin username (kolab.conf)
+  * Add ptloader to cyrus.conf
+  * Correct /etc/imapd.conf template (comments)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 19 Nov 2013 12:56:00 +0100
+
+kolab (3.1.0-12) unstable; urgency=low
+
+  * Add generic kolab-ucs package
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 18 Nov 2013 12:56:00 +0100
+
+kolab (3.1.0-11) unstable; urgency=low
+
+  * Correct locations of imapd.conf/cyrus.conf
+  * Remove obsolete /etc/pam.d/ configuration
+  * Refresh /etc/imapd.conf template
+  * Correct locations of SQL files to be loaded
+  * Correct name of kolab-mta password change script call in join script
+  * Add univention configuration for kolab-imap and kolab-mta
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 15 Nov 2013 12:56:00 +0100
+
+kolab (3.1.0-2) unstable; urgency=low
+
+  * Add default plugins for kolab-webclient
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 31 Oct 2013 12:56:00 +0100
+
+kolab (3.1.0-1) unstable; urgency=low
+
+  * Kolab web client includes chwala and iRony
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun,  8 Sep 2013 12:56:00 +0100
+
+kolab (3.0.0-10) unstable; urgency=low
+
+  * Remove duplicate sections
+  * Spelling corrections
+  * Add Debian source format
+  * Missed one meta-package
+  * Depend kolab-mta on cyrus-imapd or other IMAP server
+  * Allow other ldap-server for kolab-ldap
+  * Add myself to Uploaders
+  * Add README.Debian
+
+ -- Paul Klos <kolab@klos2day.nl>  Sun, 25 Aug 2013 15:48:44 +0200
+
+kolab (3.0.0-9) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Update kolab-webclient dependencies
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 05 Oct 2012 12:34:49 -0400
+
+kolab (3.0.0-8) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Add dependency on wallace (#1063)
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 02 Oct 2012 12:16:28 -0400
+
+kolab (3.0.0-7) unstable; urgency=low
+
+  * Have the webclient depend on mysql-server (#1059)
+  * Make the mta sub-package depend on amavisd-new, clamav-daemon and
+    spamassassin (#1060)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat, 29 Sep 2012 12:30:42 +0200
+
+kolab (3.0.0-6) unstable; urgency=low
+
+  * kolab-ldap should depend on our schema extensions package as well
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 28 Sep 2012 03:18:26 +0200
+
+kolab (3.0.0-5) unstable; urgency=low
+
+  * Actually also depend on postfix-ldap since we'll be using LDAP lookup tables
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 11 Sep 2012 16:58:47 +0200
+
+kolab (3.0.0-4.3) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Another attempt to fix the kolab-mta dependencies
+  * Add back the dependency on kolab-webclient now that roundcube-plugins-kolab is available
+
+ -- Michael Kiefer <Michael-Kiefer@web.de>  Mon, 10 Sep 2012 22:06:03 +0200
+
+kolab (3.0.0-4.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Attempted fix for kolab-mta dependencies
+
+ -- Paul Klos <kolab@klos2day.nl>  Sat, 08 Sep 2012 13:00:00 +0200
+
+kolab (3.0.0-4.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Remove Breaks/Conflicts
+
+ -- Paul Klos <kolab@klos2day.nl>  Fri, 07 Sep 2012 18:00:00 +0200
+
+kolab (3.0.0-4) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Conflict / Break exim4-config as well
+
+  [ Kolab Systems User ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 07 Sep 2012 13:00:21 +0200
+
+kolab (3.0.0-3) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Attempt without stating the exim4 metapackage
+
+  [ Kolab Systems User ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 07 Sep 2012 01:08:27 +0200
+
+kolab (3.0.0-2) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Add Breaks: exim4
+
+  [ Kolab Systems User ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 07 Sep 2012 01:03:37 +0200
+
+kolab (3.0.0-1) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Depend on postfix and conflict with exim4 (recommended by Andre Heinecke)
+
+  [ Kolab Systems User ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 07 Sep 2012 00:55:20 +0200
+
+kolab (2.4.1-5) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Obsolete more exim4 packages
+  * Temporarily disable dependency on kolab-webclient
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen <vanmeeuwen@auto.kolabsys.com>  Wed, 22 Aug 2012 15:38:28 +0200
+
+kolab (2.4.1-2) unstable; urgency=low
+
+  * Initial package
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  6 Jun 2012 00:00:00 +0000

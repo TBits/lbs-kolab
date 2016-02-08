@@ -1,0 +1,2 @@
+version=3
+opts="dversionmangle=s/\+dfsg//" http://ftp.mozilla.org/pub/mozilla.org/directory/c-sdk/releases/v(.*)/src/mozldap-(.*)\.tar\.gz

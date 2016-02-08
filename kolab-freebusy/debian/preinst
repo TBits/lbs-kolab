@@ -1,0 +1,40 @@
+#!/bin/bash
+
+function relink_config() {
+    if [ -d "/usr/share/kolab-freebusy/config" ]; then
+        if [ -L "/usr/share/kolab-freebusy/config" ]; then
+            rm -rf /usr/share/kolab-freebusy/config
+            mkdir /usr/share/kolab-freebusy/config
+            cd /usr/share/kolab-freebusy/config
+            ln -sf /etc/kolab-freebusy/config.ini config.ini
+        fi
+    fi
+}
+
+reload_apache()
+{
+    if apache2ctl configtest 2>/dev/null; then
+        # Workaround for #2050
+        # invoke-rc.d apache2 $1 || true
+        service apache2 stop && sleep 5 && service apache2 start || true
+    else
+        echo "Your apache2 configuration is broken, so we're not restarting it for you."
+    fi
+}
+
+
+case "$1" in
+    install|upgrade)
+        relink_config
+
+        # rename old apache/http sites rom sitename to sitename.conf
+        if [ -e /etc/apache2/sites-available/kolab-freebusy -a ! -e /etc/apache2/sites-available/kolab-freebusy.conf ]; then
+            if [ -h /etc/apache2/sites-enabled/kolab-freebusy ]; then
+                a2dissite kolab-freebusy
+            fi
+            mv /etc/apache2/sites-available/kolab-freebusy /etc/apache2/sites-available/kolab-freebusy.conf
+            a2ensite kolab-freebusy.conf
+            reload_apache
+        fi
+    ;;
+esac

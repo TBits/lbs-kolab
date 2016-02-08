@@ -1,0 +1,12 @@
+diff -ur basho-eleveldb-5bdcab1-disable-perf/src/eleveldb.app.src basho-eleveldb-5bdcab1/src/eleveldb.app.src
+--- basho-eleveldb-5bdcab1-disable-perf/src/eleveldb.app.src	2015-06-15 22:51:01.000000000 +0200
++++ basho-eleveldb-5bdcab1/src/eleveldb.app.src	2015-07-08 16:30:32.597504843 +0200
+@@ -1,7 +1,7 @@
+ {application, eleveldb,
+  [
+   {description, ""},
+-  {vsn, git},
++  {vsn, "2.1.2"},
+   {registered, []},
+   {applications, [
+                   kernel,

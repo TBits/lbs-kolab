@@ -1,0 +1,13 @@
+diff -ur uwiger-parse_trans-8a86b84.orig/src/parse_trans.app.src uwiger-parse_trans-8a86b84/src/parse_trans.app.src
+--- uwiger-parse_trans-8a86b84.orig/src/parse_trans.app.src	2015-06-27 11:17:48.000000000 +0200
++++ uwiger-parse_trans-8a86b84/src/parse_trans.app.src	2015-07-08 16:55:36.197521741 +0200
+@@ -22,7 +22,7 @@
+ %%% @end
+ {application, parse_trans,
+     [{description, "Parse transform library"},
+-        {vsn, git},
++        {vsn, "2.9.2"},
+         {registered, []},
+         {applications, [kernel, stdlib, syntax_tools]},
+   {env, []}
+Only in uwiger-parse_trans-8a86b84.orig/src: .parse_trans.app.src.swp

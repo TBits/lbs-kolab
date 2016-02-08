@@ -1,0 +1,47 @@
+Source: mozilla-ldap-sdk
+Section: libs
+Priority: optional
+Maintainer: Michele Baldessari <michele@acksyn.org>
+Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
+Build-Depends: debhelper (>= 5.0.0), libnss3-dev, libsasl2-dev, libsvrcore-dev, pkg-config, quilt, autoconf, libtool, autotools-dev
+Build-Conflicts: autoconf2.13, automake1.4
+Standards-Version: 3.9.1
+Vcs-Svn: svn://svn.debian.org/svn/pkg-fedora-ds/mozilla-ldap-sdk/trunk/
+Vcs-Browser: http://svn.debian.org/viewsvn/pkg-fedora-ds/mozilla-ldap-sdk/trunk/
+Homepage: http://wiki.mozilla.org/LDAP_C_SDK
+
+Package: mozldap-tools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Mozilla LDAP client utilities
+ The Mozilla LDAP C SDK includes a set of LDAP client
+ utilities capable of a unique set of LDAP features.
+
+Package: libmozldap-0d
+Architecture: any
+Depends: ${shlibs:Depends}, libnss3-1d, libsvrcore0, libsasl2-2, ${misc:Depends}
+Description: Mozilla LDAP client library
+ The Mozilla LDAP C SDK is a set of libraries that
+ allow applications to communicate with LDAP (Lightweight
+ Directory Access Protocol) directory servers.  
+
+Package: libmozldap-dev
+Section: libdevel
+Architecture: any
+Depends: libmozldap-0d (= ${binary:Version}), libnss3-dev, libsvrcore-dev, libsasl2-dev, ${misc:Depends}
+Description: Mozilla LDAP development library
+ This package allows development of LDAP applications 
+ using the Mozilla LDAP libraries. It includes headers, 
+ libraries and links to allow static and dynamic linking.
+
+Package: libmozldap-0d-dbg
+Section: debug
+Priority: extra
+Architecture: any
+Depends: libmozldap-0d (>= ${source:Version}), libnss3-dev, libsvrcore-dev, libsasl2-dev, ${misc:Depends}
+Description: Debugging information for the Mozilla LDAP client library
+ This package provides detached debugging information for the Mozilla
+ LDAP (Lightweight Directory Access Protocol) client libraries. It is 
+ useful primarily to permit better backtraces and crash dump analysis after
+ problems with the libraries. GDB will find this debug information
+ automatically.

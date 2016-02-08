@@ -1,0 +1,12 @@
+diff -ur basho-riak-erlang-client-d224a82.orig/src/riakc.app.src basho-riak-erlang-client-d224a82/src/riakc.app.src
+--- basho-riak-erlang-client-d224a82.orig/src/riakc.app.src	2014-12-15 18:49:25.000000000 +0100
++++ basho-riak-erlang-client-d224a82/src/riakc.app.src	2015-05-17 10:51:37.073152269 +0200
+@@ -1,7 +1,7 @@
+ %% -*- erlang -*-
+ {application, riakc,
+  [{description, "Riak Client"},
+-  {vsn, git},
++  {vsn, "2.0.1"},
+   {applications, [
+                   kernel,
+                   stdlib,

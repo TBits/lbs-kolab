@@ -1,0 +1,4 @@
+etc/kolab-freebusy
+usr/share/kolab-freebusy
+var/cache/kolab-freebusy
+var/log/kolab-freebusy

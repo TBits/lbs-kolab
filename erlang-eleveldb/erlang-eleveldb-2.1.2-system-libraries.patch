@@ -1,0 +1,24 @@
+diff -ur basho-eleveldb-5bdcab1.orig/rebar.config basho-eleveldb-5bdcab1/rebar.config
+--- basho-eleveldb-5bdcab1.orig/rebar.config	2015-06-15 22:51:01.000000000 +0200
++++ basho-eleveldb-5bdcab1/rebar.config	2015-07-08 13:55:25.635283767 +0200
+@@ -13,14 +13,9 @@
+        ]}.
+ 
+ {port_env, [
+-         %% Make sure to set -fPIC when compiling leveldb
+-             {"CFLAGS", "$CFLAGS -Wall -O3 -fPIC"},
+-             {"CXXFLAGS", "$CXXFLAGS -Wall -O3 -fPIC"},
+-             {"DRV_CFLAGS", "$DRV_CFLAGS -O3 -Wall -I c_src/leveldb/include"},
+-             {"DRV_LDFLAGS", "$DRV_LDFLAGS c_src/leveldb/libleveldb.a c_src/system/lib/libsnappy.a -lstdc++"}
+-             ]}.
+-
+-{pre_hooks, [{'get-deps', "c_src/build_deps.sh get-deps"},
+-             {compile, "c_src/build_deps.sh"}]}.
+-
+-{post_hooks, [{clean, "c_src/build_deps.sh clean"}]}.
++        %% Make sure to set -fPIC when compiling leveldb
++        {"CFLAGS", "$CFLAGS -Wall -O3 -fPIC"},
++        {"CXXFLAGS", "$CXXFLAGS -Wall -O3 -fPIC"},
++        {"DRV_CFLAGS", "$DRV_CFLAGS -O3 -Wall"},
++        {"DRV_LDFLAGS", "$DRV_LDFLAGS -lleveldb -lsnappy -lstdc++"}
++    ]}.

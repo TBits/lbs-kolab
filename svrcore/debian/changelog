@@ -1,0 +1,124 @@
+svrcore (1:4.0.4-14) unstable; urgency=low
+
+  * Change my email address
+
+ -- Michele Baldessari <michele@acksyn.org>  Sat, 16 Oct 2010 22:03:53 +0200
+
+svrcore (1:4.0.4-13) unstable; urgency=low
+
+  * Bump Standards-Version to 3.9.1
+
+ -- Michele Baldessari <michele@pupazzo.org>  Thu, 09 Sep 2010 21:08:37 +0200
+
+svrcore (1:4.0.4-12) unstable; urgency=low
+
+  * Autoreconf in before configure
+
+ -- Michele Baldessari <michele@pupazzo.org>  Tue, 31 Aug 2010 18:25:20 +0200
+
+svrcore (1:4.0.4-11) unstable; urgency=low
+
+  * Standards-Version is 3.8.4
+  * Switch to dpkg-source 3.0 (quilt) format
+
+ -- Michele Baldessari <michele@pupazzo.org>  Mon, 19 Apr 2010 18:10:44 +0200
+
+svrcore (1:4.0.4-10) unstable; urgency=low
+
+  * Fix weak-dev dependency
+  * Add misc:Depends
+  * Standards-Version is 3.8.3
+  * Fix configure arguments (as documented in autotools-dev)
+  * Build-Depend on libtool, autoconf and automake and run autoreconf
+  * Added libsvrcore0.symbols file (package is lintian clean now)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 27 Jan 2010 00:47:11 +0100
+
+svrcore (1:4.0.4-9) unstable; urgency=low
+
+  * Switched away from dfsg-free tarball (the ico and ntpgen.rc files fall under 
+    the main LICENSE)
+  * Added Vcs-Broswer and Vcs-Svn fields
+  * Move -dbg package to "debug" section
+  * Standards-Version is 3.8.1, no changes needed. 
+
+ -- Michele Baldessari <michele@pupazzo.org>  Mon, 13 Apr 2009 20:19:29 +0200
+
+svrcore (4.0.4+dfsg-8) unstable; urgency=low
+
+  * Fixed watch file
+  * Removes INSTALL as documentation
+  * Upgraded to 3.8.0 of policy
+  * Added README.source
+
+ -- Michele Baldessari <michele@pupazzo.org>  Fri, 22 Aug 2008 13:28:18 +0200
+
+svrcore (4.0.4+dfsg-7) unstable; urgency=low
+
+  * Cleaned up the description a bit more
+
+ -- Michele Baldessari <michele@pupazzo.org>  Wed, 23 Jul 2008 23:10:18 +0200
+
+svrcore (4.0.4+dfsg-6) unstable; urgency=low
+
+  * Fixed up the descriptions a bit
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 25 May 2008 21:06:40 +0200
+
+svrcore (4.0.4+dfsg-5) unstable; urgency=low
+
+  * Added NEWS and INSTALL doc files
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 17 May 2008 20:13:24 +0200
+
+svrcore (4.0.4+dfsg-4) unstable; urgency=low
+
+  * Added README.Debian
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 17 May 2008 16:01:38 +0200
+
+svrcore (4.0.4+dfsg-3) unstable; urgency=low
+
+  * Fixed short description of libsvrcore0-dbg
+
+ -- Michele Baldessari <michele@pupazzo.org>  Mon, 05 May 2008 21:38:12 +0200
+
+svrcore (4.0.4+dfsg-2) unstable; urgency=low
+
+  * Switched copyright to parseable format
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 27 Apr 2008 11:56:01 +0200
+
+svrcore (4.0.4+dfsg-1) unstable; urgency=low
+
+  * Removed the maintainer-upload-has-incorrect-version-number lintian warning
+    (switched to integer versioning)
+  * Cleaned two other lintian warnings
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 26 Apr 2008 22:14:36 +0200
+
+svrcore (4.0.4+dfsg-0.3) unstable; urgency=low
+
+  * Removed dependency on cdbs, not using it anymore
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 26 Apr 2008 21:54:03 +0200
+
+svrcore (4.0.4+dfsg-0.2) unstable; urgency=low
+
+  * Made the tarball DFSG-free (removed .ico and ntpgen.rc files without
+    copyright, they're used only in the Windows build anyway)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 26 Apr 2008 19:33:18 +0200
+
+svrcore (4.0.4-0.1) unstable; urgency=low
+
+  * Fixed watch file
+  * Switched to parseable copyright format
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 26 Apr 2008 19:16:25 +0200
+
+svrcore (4.0.4-0) unstable; urgency=low
+
+  * Initial Release. (Closes: #XXXXXX)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Thu, 27 Mar 2008 23:56:17 +0200

@@ -1,0 +1,14 @@
+Source: php-net-url2
+Section: web
+Priority: optional
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Build-Depends: debhelper (>= 5)
+Build-Depends-Indep: php-pear
+Standards-Version: 3.9.1
+
+Package: php-net-url2
+Architecture: all
+Depends: php-pear (>= 5.2.0-8)
+Description: Class for parsing and handling URLs
+ Provides parsing of URLs into their constituent parts (scheme, host,
+ path, etc.), URL generation, and resolving of relative URLs.

@@ -1,0 +1,12 @@
+diff -ur hyperthunk-hamcrest-erlang-4002aa0.orig/rebar.config hyperthunk-hamcrest-erlang-4002aa0/rebar.config
+--- hyperthunk-hamcrest-erlang-4002aa0.orig/rebar.config	2012-11-09 02:43:02.000000000 +0100
++++ hyperthunk-hamcrest-erlang-4002aa0/rebar.config	2015-05-15 19:10:05.555682584 +0200
+@@ -4,7 +4,7 @@
+ {cover_enabled, true}.
+ {clean_files, ["logs", "build", "include/hamcrest.hrl"]}.
+ {deps, [
+-  {proper, "1.0", {git, "http://github.com/manopapad/proper.git", "master"}}
++  {proper, "1.*", {git, "http://github.com/manopapad/proper.git", "master"}}
+ ]}.
+ 
+ %{pre_hooks, [

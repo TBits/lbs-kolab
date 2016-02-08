@@ -1,0 +1,43 @@
+kolab-schema (3.3-0~kolab1) unstable; urgency=low
+
+  * Check in version 3.3
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  9 Sep 2015 14:32:35 +0200
+
+kolab-schema (3.2-0) unstable; urgency=low
+
+  * Check in version 3.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 28 Nov 2014 14:32:35 +0200
+
+kolab-schema (3.1-3) unstable; urgency=low
+
+  * Fresh version of UCS compatibility
+  * Remove the schema copy we create upon removal of the package
+  * Obsolete univention-legacy-kolab-schema
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 12 Feb 2014 14:32:35 +0200
+
+kolab-schema (3.0-4) unstable; urgency=low
+
+  [ Paul Klos ]
+  * Solve Lintian error changelog-file-not-compressed changelog.Debian
+  * Add myself to Uploaders
+  * Change debhelper compat level to 9
+
+  [ Jeroen van Meeuwen ]
+  * Rebuild
+
+ -- Paul Klos <kolab@klos2day.nl>  Tue, 23 Oct 2012 11:34:37 +0200
+
+kolab-schema (3.0-2) unstable; urgency=low
+
+  * Add documentation and skip compression
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 28 Sep 2012 14:32:35 +0200
+
+kolab-schema (3.0-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 12 Sep 2012 11:34:49 +0200

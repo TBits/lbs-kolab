@@ -1,0 +1,64 @@
+mozilla-ldap-sdk (6.0.5-3) unstable; urgency=low
+
+  * Attempt to build in OBS
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat,  7 Sep 2013 13:42:23 +0100
+
+mozilla-ldap-sdk (6.0.5+dfsg-7) unstable; urgency=low
+
+  * Fixed watch file
+  * 3.8.0 policy
+  * Fix "dpatch-missing-description" lintian warning
+
+ -- Michele Baldessari <michele@pupazzo.org>  Fri, 22 Aug 2008 13:40:38 +0200
+
+mozilla-ldap-sdk (6.0.5+dfsg-6) unstable; urgency=low
+
+  * Renamed the source package to mozilla-ldap-sdk
+  * Renamed the binary packages to libmozillaldap
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 26 Jul 2008 08:20:26 +0200
+
+mozldap (6.0.5+dfsg-5) unstable; urgency=low
+
+  * Fixed up descriptions a bit
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 25 May 2008 21:17:39 +0200
+
+mozldap (6.0.5+dfsg-4) unstable; urgency=low
+
+  * Removed spurious copyright file outside debian/ dir
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 18 May 2008 00:37:52 +0200
+
+mozldap (6.0.5+dfsg-3) unstable; urgency=low
+
+  * Removed silly mozldap.pc creation in debian/rules in favor of shipping a
+    complete new .pc file.
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 17 May 2008 20:40:08 +0200
+
+mozldap (6.0.5+dfsg-2) unstable; urgency=low
+
+  * Fixed wrong copyright
+  * Package mostly lintian clean
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 27 Apr 2008 11:56:30 +0200
+
+mozldap (6.0.5+dfsg-1) unstable; urgency=low
+
+  * Switched to parseable copyright format
+  * Switched to a DFSG tarball (removed non-free
+    ldap/docs/ldap-c-api-internet-draft.txt, ldap/examples/macintosh,
+    ldap/examples/windows/winldap/res)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 27 Apr 2008 11:30:29 +0200
+
+mozldap (6.0.5-1) unstable; urgency=low
+
+  * Adapted the icedov portability fixes by Peter Salinger (suggested by Mike
+    Hommey)
+  * Removed the binary and the windows-only examples (FIXME: these should be
+    removed from the source package too)
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 26 Apr 2008 22:41:22 +0200

@@ -1,0 +1,2 @@
+debian/composer.phar /usr/lib/composer
+debian/composer.sh /usr/bin

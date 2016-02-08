@@ -1,0 +1,26 @@
+From 76babf69257309d11722a4d5e229cac22c93d866 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Mon, 8 Oct 2012 23:34:57 +0400
+Subject: [PATCH 2/3] Fix version string
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ src/folsom.app.src | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/folsom.app.src b/src/folsom.app.src
+index 3380bed..0b52569 100644
+--- a/src/folsom.app.src
++++ b/src/folsom.app.src
+@@ -2,7 +2,7 @@
+ {application, folsom,
+  [
+   {description, ""},
+-  {vsn, git},
++  {vsn, "0.7.4"},
+   {registered, [folsom_meter_timer_server,
+                 folsom_metrics_histogram_ets,
+                 folsom_sup]},
+-- 
+1.8.1.4
+

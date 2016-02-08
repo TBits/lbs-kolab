@@ -1,0 +1,20 @@
+From f2f14f36092f296174269e7a040d145ded429df4 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Sun, 16 Nov 2014 20:21:21 +0300
+Subject: [PATCH] Fix edoc compilation
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+
+diff --git a/src/getopt.erl b/src/getopt.erl
+index e32ae12..fb61057 100644
+--- a/src/getopt.erl
++++ b/src/getopt.erl
+@@ -892,7 +892,7 @@ get_env_var(Prefix, Suffix, []) ->
+     Prefix ++ Suffix.
+ 
+ 
+--spec line_length() -> 0..?LINE_LENGTH.
++-spec line_length() -> 0..75.
+ line_length() ->
+     case io:columns() of
+         {ok, Columns} when Columns < ?LINE_LENGTH ->

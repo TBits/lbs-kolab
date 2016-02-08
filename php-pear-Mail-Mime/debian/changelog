@@ -1,0 +1,112 @@
+php-mail-mime (1.8.8-1) unstable; urgency=low
+
+  * New upstream release (Closes: #718823)
+  * Add myself as uploader
+  * Use phppear-substvars in control file
+  * Switch debian/copyright to format 1.0
+  * Bump debhelper compat to 9
+  * Update a debian/watch file
+  * Bump Standards-Version to 3.9.4
+
+ -- Prach Pongpanich <prachpub@gmail.com>  Tue, 06 Aug 2013 12:00:34 +0700
+
+php-mail-mime (1.8.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * Now depends on phpunit and runs unit tests at build time.
+  * Standard-Version is not 3.9.3 (no changes).
+
+ -- Thomas Goirand <zigo@debian.org>  Mon, 21 May 2012 16:43:35 +0000
+
+php-mail-mime (1.8.2-1) unstable; urgency=low
+
+  * New upstream version (Closes: #656265).
+  * Now using the PKG PEAR team as maintainer.
+  * Bumped Standards-Version to 3.9.2 (no change needed).
+  * Switching to pkg-php-tools and dh 8 auto-sequencer (so, rewrote
+  debian/rules).
+  * Now using DEP5 format for debian/copyright.
+  * Now using source format 3.0 (quilt).
+  * Fixed Vcs fields.
+
+ -- Thomas Goirand <zigo@debian.org>  Wed, 18 Jan 2012 19:26:59 +0800
+
+php-mail-mime (1.8.0-2) unstable; urgency=low
+
+  * Removed some unwanted /usr/share/php/{docs,tests} files that shouldn't be
+    in there (they are already in /usr/share/doc/php-mail-mime anyway).
+
+ -- Thomas Goirand <zigo@debian.org>  Tue, 07 Sep 2010 11:08:32 +0800
+
+php-mail-mime (1.8.0-1) unstable; urgency=low
+
+  * New upstream release (Closes: #588295, #575671).
+  * Adopting the package (Closes: #575524).
+  * Standards-Version is now 3.9.1.
+  * Now depends on debhelper 7.
+  * Section is now php.
+  * Added Vcs-Git and Vcs-Browser since I'm using the pkg-php git repo.
+  * Added a new debian/source/format.
+  * Rewrote debian/copyright so that it's formated correctly and includes all
+    the authors.
+  * Removed useless README.Debian that didn't add more info than what was in
+    the debian/control file.
+  * Removed debian/upstream-changelog as I wont have time to maintain such file
+    that by the way is useless, as everyone that knows PEAR a bit also knows
+    that such information is always available on pear.php.net if it is
+    absolutely needed.
+  * Rewrote debian/rules nearly from scratch, as the old one was pretty bad.
+    Sorry if I'm not documenting all changes to this file here, but really,
+    it's close to a full rewrite.
+  * Now Build-Depends-Indep: php-pear because I'm using the pear cli tool to
+    install this pear package in debian/php-mail-mime.
+
+ -- Thomas Goirand <zigo@debian.org>  Wed, 04 Aug 2010 18:22:18 +0800
+
+php-mail-mime (1.5.3-0.1) unstable; urgency=low
+
+  * NMU with maintainer's approval.
+  * New upstream release
+    + fixes From: over-encoding, closes: #564214.
+  * Manual update to our upstream-changelog.
+
+ -- Josip Rodin <joy-packages@debian.org>  Thu, 14 Jan 2010 09:28:34 +0100
+
+php-mail-mime (1.5.2-0.1) unstable; urgency=low
+
+  * Non-maintainer upload with maintainer approval
+  * New upstream release (Closes: #469815)
+     - This new release fixes problems related to returning non variable
+       references (Closes: #433641)
+  * Correct debian/watch, thanks to Pierre Gaufillet (Closes: #450371)
+  * Add Homepage field to debian/control
+  * Update Standards-Version to 3.7.3
+  * Update debian/upstream-changelog
+  * Depends on php-mail-mimedecode that was split off
+
+ -- Vincent Bernat <bernat@luffy.cx>  Fri, 28 Mar 2008 20:18:53 +0100
+
+php-mail-mime (1.3.1-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Change dependency from `php4-pear' to `php-pear'. (Closes: #388317)
+
+ -- Philipp Kern <pkern@debian.org>  Thu, 18 Jan 2007 10:47:46 +0100
+
+php-mail-mime (1.3.1-1) unstable; urgency=low
+
+  * New upstream
+    - Upstream fixed case-differences in encoding, dropping Debian patch
+  * Bumped policy compliance to 3.6.2 (no changes)
+  * Bumped debhelper compat level to 5
+  * Changed priority to optional (Closes: #299547)
+  * Update debian/copyright to reflect new upstream contributions
+
+ -- Jeroen van Wolffelaar <jeroen@wolffelaar.nl>  Tue, 29 Nov 2005 22:53:23 +0100
+
+php-mail-mime (1.2.1-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Jeroen van Wolffelaar <jeroen@wolffelaar.nl>  Sat, 31 Jul 2004 18:58:15 +0200
+

@@ -1,0 +1,86 @@
+diff -ur basho-riak-erlang-client-d224a82.1.version/src/riakc_pb_socket.erl basho-riak-erlang-client-d224a82/src/riakc_pb_socket.erl
+--- basho-riak-erlang-client-d224a82.1.version/src/riakc_pb_socket.erl	2014-12-15 18:49:25.000000000 +0100
++++ basho-riak-erlang-client-d224a82/src/riakc_pb_socket.erl	2015-05-17 14:31:26.653415510 +0200
+@@ -2491,82 +2491,6 @@
+     ?assertEqual({error, disconnected}, list_keys(Pid, <<"b">>)),
+     stop(Pid).
+ 
+-server_closes_socket_test() ->
+-    %% Silence SASL junk when socket closes.
+-    error_logger:tty(false),
+-    %% Set up a dummy socket to send requests on
+-    {ok, Listen} = gen_tcp:listen(0, [binary, {packet, 4}, {active, false}]),
+-    {ok, Port} = inet:port(Listen),
+-    {ok, Pid} = start("127.0.0.1", Port),
+-    {ok, Sock} = gen_tcp:accept(Listen),
+-    ?assertMatch(true, is_connected(Pid)),
+-
+-    %% Send a ping request in another process so the test doesn't block
+-    Self = self(),
+-    spawn(fun() -> Self ! ping(Pid, infinity) end),
+-
+-    %% Make sure request received then close the socket
+-    {ok, _ReqMsg} = gen_tcp:recv(Sock, 0),
+-    ok = gen_tcp:close(Sock),
+-    ok = gen_tcp:close(Listen),
+-    receive
+-        Msg1 -> % result of ping from spawned process above
+-            ?assertEqual({error, disconnected}, Msg1)
+-    end,
+-    %% Wait for spawned process to exit
+-    Mref = erlang:monitor(process, Pid),
+-    receive
+-        Msg2 ->
+-            ?assertMatch({'DOWN', Mref, process, _, _}, Msg2)
+-    end.
+-
+-auto_reconnect_server_closes_socket_test() ->
+-    %% Set up a dummy socket to send requests on
+-    {ok, Listen} = gen_tcp:listen(0, [binary, {packet, 4}, {active, false}]),
+-    {ok, Port} = inet:port(Listen),
+-    {ok, Pid} = start_link("127.0.0.1", Port, [auto_reconnect]),
+-    {ok, Sock} = gen_tcp:accept(Listen),
+-    ?assertMatch(true, is_connected(Pid)),
+-
+-    %% Send a ping request in another process so the test doesn't block
+-    Self = self(),
+-    spawn(fun() -> Self ! ping(Pid, infinity) end),
+-
+-    %% Make sure request received then close the socket
+-    {ok, _ReqMsg} = gen_tcp:recv(Sock, 0),
+-    ok = gen_tcp:close(Sock),
+-    ok = gen_tcp:close(Listen),
+-    receive
+-        Msg ->
+-            ?assertEqual({error, disconnected}, Msg)
+-    end,
+-    %% Server will not have had a chance to reconnect yet, reason counters empty.
+-    ?assertMatch({false, []}, is_connected(Pid)),
+-    stop(Pid).
+-
+-dead_socket_pid_returns_to_caller_test() ->
+-    %% Set up a dummy socket to send requests on
+-    {ok, Listen} = gen_tcp:listen(0, [binary, {packet, 4}, {active, false}]),
+-    {ok, Port} = inet:port(Listen),
+-    {ok, Pid} = start("127.0.0.1", Port),
+-    {ok, Sock} = gen_tcp:accept(Listen),
+-    ?assertMatch(true, is_connected(Pid)),
+-
+-    %% Send a ping request in another process so the test doesn't block
+-    Self = self(),
+-    spawn(fun() -> Self ! (catch ping(Pid, infinity)) end),
+-
+-    %% Make sure request received then kill the process
+-    {ok, _ReqMsg} = gen_tcp:recv(Sock, 0),
+-    exit(Pid, kill),
+-    receive
+-        Msg ->
+-            ?assertMatch({'EXIT', {killed, _}}, Msg)
+-    end,
+-    %% Cleanup
+-    ok = gen_tcp:close(Sock),
+-    ok = gen_tcp:close(Listen).
+-
+ pb_socket_test_() ->
+     {setup,
+      fun() ->

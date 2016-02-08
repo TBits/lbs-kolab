@@ -1,0 +1,28 @@
+From 28f52ced3ab1c47485ac271e3bd44910a00bce17 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Sun, 24 Mar 2013 13:42:25 +0400
+Subject: [PATCH 07/10] Fix module loading order (for tests)
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ src/riak_kv_test_util.erl | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/riak_kv_test_util.erl b/src/riak_kv_test_util.erl
+index a5f3dc0..89a518a 100644
+--- a/src/riak_kv_test_util.erl
++++ b/src/riak_kv_test_util.erl
+@@ -245,8 +245,8 @@ dep_apps(Test, Extra) ->
+         end,
+ 
+     [sasl, Silencer, crypto, public_key, ssl, riak_sysmon, os_mon,
+-     runtime_tools, erlang_js, inets, mochiweb, webmachine, sidejob,
+-     basho_stats, bitcask, compiler, syntax_tools, lager, folsom,
++     runtime_tools, erlang_js, inets, xmerl, compiler, syntax_tools, mochiweb, webmachine, sidejob,
++     basho_stats, bitcask, lager, folsom,
+      riak_core, riak_pipe, riak_api, riak_kv, DefaultSetupFun, Extra].
+ 
+ 
+-- 
+1.8.3.1
+

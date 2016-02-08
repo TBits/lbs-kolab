@@ -1,0 +1,13 @@
+diff -ur google-apputils-0.4.1.orig/setup.py google-apputils-0.4.1/setup.py
+--- google-apputils-0.4.1.orig/setup.py	1980-01-01 09:00:00.000000000 +0100
++++ google-apputils-0.4.1/setup.py	2015-12-31 22:17:49.657981796 +0100
+@@ -15,9 +15,6 @@
+ 
+ import sys
+ 
+-import ez_setup
+-ez_setup.use_setuptools()
+-
+ from setuptools import setup, find_packages
+ from setuptools.command import test
+ 

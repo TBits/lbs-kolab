@@ -1,0 +1,88 @@
+#!/usr/bin/make -f
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_BUILD_ARCH  ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+UPSTREAM_VERSION := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\(.*\)-.*$$/\1/ p' | sed -e 's/~.*//')
+MOD_MAJOR_VERSION := $(word 1, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_MINOR_VERSION := $(word 2, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_PATCH_VERSION := $(word 3, $(subst ., ,$(UPSTREAM_VERSION)))
+
+USE_64 := $(shell echo "int main(void) { int assert[(sizeof(long) == 8) ? 1 : -1]; return 0; }" | gcc -o /dev/null -x c - 2> /dev/null && echo --enable-64bit)
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+CFLAGS += -O0
+else
+CFLAGS += -O2 -fno-strict-aliasing
+endif
+
+LDFLAGS += -Wl,--as-needed
+
+# FOR AUTOCONF 2.52 AND NEWER ONLY
+ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+CONFIGURE_SWITCHES := --build $(DEB_HOST_GNU_TYPE)
+else
+CONFIGURE_SWITCHES := --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
+endif
+
+BASEDIR := $(CURDIR)/debian/tmp
+CONFIGURE_SWITCHES += --prefix=/usr \
+		--exec-prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man
+
+configure: configure-stamp
+configure-stamp: 
+	dh_testdir
+	autoreconf -i
+	CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure $(CONFIGURE_SWITCHES)
+	touch configure-stamp
+
+build: build-stamp
+build-stamp: configure
+	dh_testdir
+	$(MAKE) 
+	touch build-stamp
+
+clean: clean-patched 
+clean-patched:
+	dh_testdir
+	dh_testroot
+	[ ! -f Makefile ] || $(MAKE) distclean
+	-rm config.status config.log
+	dh_clean build-stamp install-stamp configure-stamp
+
+install: install-stamp
+install-stamp:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	mkdir -p $(BASEDIR)
+	$(MAKE) DESTDIR=$(BASEDIR) install
+	touch install-stamp
+
+binary-indep:
+binary-arch: install-stamp
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -a
+	dh_installdocs -a NEWS
+	dh_link -a
+	dh_install --sourcedir=debian/tmp -a 
+	dh_strip -a --dbg-package=libsvrcore0-dbg
+	dh_compress -a
+	dh_fixperms -a
+	dh_makeshlibs -a -V 'libsvrcore0 (>= 4.0.4)'
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-arch binary-indep
+
+.PHONY: clean install build clean-patched binary-indep binary-arch binary

@@ -1,0 +1,11 @@
+diff -ur basho-erlang-pbkdf2-3729834.orig/src/pbkdf2.app.src basho-erlang-pbkdf2-3729834/src/pbkdf2.app.src
+--- basho-erlang-pbkdf2-3729834.orig/src/pbkdf2.app.src	2014-04-11 22:40:56.000000000 +0200
++++ basho-erlang-pbkdf2-3729834/src/pbkdf2.app.src	2015-07-08 15:28:08.149656324 +0200
+@@ -1,6 +1,6 @@
+ {application, pbkdf2, [
+ 	{description, "Erlang PBKDF2 Key Derivation Function"},
+-	{vsn, git},
++	{vsn, "2.0.0"},
+ 	{registered, []},
+ 	{applications, [kernel, stdlib]},
+ 	{modules, [pbkdf2]},

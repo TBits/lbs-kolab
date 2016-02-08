@@ -1,0 +1,17 @@
+Only in eproxus-meck-3599670/test: meck_test_parametrized_module.erl.rej
+diff -ur eproxus-meck-3599670.orig/test/meck_tests.erl eproxus-meck-3599670/test/meck_tests.erl
+--- eproxus-meck-3599670.orig/test/meck_tests.erl	2014-05-05 11:33:59.000000000 +0200
++++ eproxus-meck-3599670/test/meck_tests.erl	2015-05-17 13:18:33.193112946 +0200
+@@ -1156,10 +1156,7 @@
+ 
+ remote_setup() ->
+     [] = os:cmd("epmd -daemon"),
+-    case node() of
+-      'nonode@nohost' -> Hostname = "localhost";
+-      _               -> Hostname = test_server_sup:hoststr()
+-    end,
++    Hostname = "localhost",
+     Myself = list_to_atom("meck_eunit_test@" ++ Hostname),
+     net_kernel:start([Myself, shortnames]),
+     {ok, Node} = slave:start_link(list_to_atom(Hostname), meck_remote_test,
+Only in eproxus-meck-3599670/test: meck_tests.erl.rej

@@ -1,0 +1,12 @@
+diff -ur basho-webmachine-7677c24.orig/rebar.config basho-webmachine-7677c24/rebar.config
+--- basho-webmachine-7677c24.orig/rebar.config	2015-02-11 19:40:46.000000000 +0100
++++ basho-webmachine-7677c24/rebar.config	2015-07-09 12:08:32.341212184 +0200
+@@ -6,7 +6,7 @@
+ {xref_checks, [undefined_function_calls]}.
+ 
+ {deps,
+- [{mochiweb, "2.9.0", {git, "git://github.com/basho/mochiweb.git", {tag, "v2.9.0p1"}}}
++ [{mochiweb, "2.9.*", {git, "git://github.com/basho/mochiweb.git", {tag, "v2.9.0p1"}}}
+  ]}.
+ 
+ {dev_only_deps,

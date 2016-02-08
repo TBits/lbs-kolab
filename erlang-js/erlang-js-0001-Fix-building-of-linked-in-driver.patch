@@ -1,0 +1,1452 @@
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Thu, 28 Oct 2010 12:26:25 +0400
+Subject: [PATCH] Fix building of linked-in driver
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+
+diff --git a/GNUmakefile b/GNUmakefile
+deleted file mode 100644
+index 5d16ac8..0000000
+--- a/GNUmakefile
++++ /dev/null
+@@ -1,61 +0,0 @@
+-all: deps compile
+-
+-deps:
+-	$(REBAR) get-deps
+-
+-compile:
+-	$(REBAR) compile
+-
+-verbose:
+-	$(REBAR) compile verbose=1
+-
+-clean: c_src_clean
+-	rm -rf tests_ebin docs
+-	$(REBAR) clean
+-
+-c_src:
+-	cd c_src; $(MAKE)
+-
+-c_src_clean:
+-	cd c_src; $(MAKE) clean
+-
+-distclean: clean
+-	$(REBAR) delete-deps
+-
+-test: all
+-	$(REBAR) eunit
+-
+-docs: all
+-	@mkdir -p docs
+-	@./build_docs.sh
+-
+-.PHONY: c_src c_src_clean docs build_plt clean_plt
+-
+-include rebar.mk
+-
+-APPS = kernel stdlib sasl erts ssl tools os_mon runtime_tools crypto inets \
+-	xmerl webtool snmp public_key mnesia eunit syntax_tools compiler
+-COMBO_PLT = $(HOME)/.erlang_js_dialyzer_plt
+-
+-check_plt: compile
+-	dialyzer --check_plt --plt $(COMBO_PLT) --apps $(APPS) ebin
+-
+-build_plt: compile
+-	dialyzer --build_plt --output_plt $(COMBO_PLT) --apps $(APPS) ebin
+-
+-dialyzer: compile
+-	@echo
+-	@echo Use "'make check_plt'" to check PLT prior to using this target.
+-	@echo Use "'make build_plt'" to build PLT prior to using this target.
+-	@echo
+-	@sleep 1
+-	dialyzer -Wunmatched_returns -Werror_handling -Wrace_conditions \
+-		-Wunderspecs --plt $(COMBO_PLT) ebin
+-
+-cleanplt:
+-	@echo
+-	@echo "Are you sure?  It takes about 1/2 hour to re-build."
+-	@echo Deleting $(COMBO_PLT) in 5 seconds.
+-	@ech
+-	sleep 5
+-	rm $(COMBO_PLT)
+diff --git a/Makefile b/Makefile
+index dd7df14..df3c065 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,25 +2,20 @@
+ # instead of this file. This provides compatability on systems where GNU make is
+ # not the system 'make' (eg. most non-linux UNIXes).
+ 
++REBAR ?= $(shell which rebar 2>/dev/null || which ./rebar)
++
+ all:
+-	@gmake all
++	$(REBAR) compile
+ 
+ verbose:
+-	@gmake verbose
++	$(REBAR) compile verbose=1
+ 
+-test:
+-	@gmake test
++check: test
++test: all
++	$(REBAR) eunit
+ 
+ docs:
+-	@gmake docs
+-
+-c_src: FORCE
+-	@gmake c_src
+-
+-FORCE:
+-
+-c_src_clean:
+-	@gmake c_src_clean
++	$(REBAR) doc
+ 
+ clean:
+-	@gmake clean
++	$(REBAR) clean
+diff --git a/build_docs.sh b/build_docs.sh
+deleted file mode 100755
+index a6990a8..0000000
+--- a/build_docs.sh
++++ /dev/null
+@@ -1,4 +0,0 @@
+-#!/bin/bash
+-
+-export ERL_LIBS=`cd ..;pwd`;
+-erl -noshell -eval 'edoc:application(erlang_js, [{dir, "docs"}]), init:stop().'
+\ No newline at end of file
+diff --git a/c_src/Makefile b/c_src/Makefile
+deleted file mode 100644
+index 169408a..0000000
+--- a/c_src/Makefile
++++ /dev/null
+@@ -1,62 +0,0 @@
+-# This Makefile builds the dependencies (libjs and libnspr) needed by
+-# spidermonkey_drv.so
+-
+-UNAME	:= $(shell uname -s)
+-TAR		?= tar
+-GUNZIP		?= gunzip
+-SMONKEY_VER	:= 1.8.0-rc1
+-NSPR_VER	:= 4.8
+-
+-ifeq ($(UNAME),SunOS)
+-	PATCH	?= gpatch
+-else
+-	PATCH	?= patch
+-endif
+-
+-SYSTEM_DIR := $(CURDIR)/system
+-LIB_DIR    := $(SYSTEM_DIR)/lib
+-INC_DIR    := $(SYSTEM_DIR)/include
+-
+-JS_DIR     := $(CURDIR)/js
+-NSPR_DIR   := $(CURDIR)/nsprpub
+-
+-# NSPR_SIXTYFOUR is defined in erlang_js/rebar.config
+-
+-js: $(LIB_DIR)/libjs.a
+-
+-$(LIB_DIR)/libjs.a: $(LIB_DIR)/libnspr4.a
+-	$(GUNZIP) -c js-$(SMONKEY_VER).tar.gz | $(TAR) xf -
+-	@for I in patches/js-*.patch; do \
+-		($(PATCH) -p1 < $${I} || echo "Skipping patch"); \
+-	done
+-	@$(MAKE) -C $(JS_DIR)/src BUILD_OPT=1 JS_DIST=$(SYSTEM_DIR) \
+-		JS_THREADSAFE=1 \
+-		XCFLAGS="-DHAVE_VA_COPY -DVA_COPY=va_copy $(CFLAGS)" \
+-		XLDFLAGS="$(LDFLAGS)" \
+-		-f Makefile.ref
+-	@mkdir $(INC_DIR)/js
+-	@cp $(JS_DIR)/src/*.h $(INC_DIR)/js
+-	@cp $(JS_DIR)/src/*.tbl $(INC_DIR)/js
+-	@cp $(JS_DIR)/src/*_OPT.OBJ/*.h $(INC_DIR)/js
+-	@cp $(JS_DIR)/src/*_OPT.OBJ/libjs.a $(LIB_DIR)
+-
+-$(LIB_DIR)/libnspr4.a:
+-	$(GUNZIP) -c nsprpub-$(NSPR_VER).tar.gz | $(TAR) xf -
+-	@for I in patches/nspr-*.patch; do \
+-		($(PATCH) -p1 < $${I} || echo "Skipping patch"); \
+-	done
+-	(cd $(NSPR_DIR) && \
+-	 ./configure --disable-debug --enable-optimize \
+-                     --prefix=$(SYSTEM_DIR) $(NSPR_SIXTYFOUR) && \
+-         $(MAKE) all install)
+-
+-clean:
+-	@rm -rf $(SYSTEM_DIR) $(NSPR_DIR) $(JS_DIR)
+-	@rm -rf *flymake*
+-
+-nspryoink: deps
+-	@cd deps ; \
+-	@cvs -q -d :pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot \
+-		co -r NSPR_4_8_RTM -d nsprpub mozilla/nsprpub
+-
+-.EXPORT_ALL_VARIABLES:
+diff --git a/c_src/build_driver_deps.sh b/c_src/build_driver_deps.sh
+deleted file mode 100755
+index ff5ab52..0000000
+--- a/c_src/build_driver_deps.sh
++++ /dev/null
+@@ -1,11 +0,0 @@
+-#!/bin/sh
+-
+-set -e
+-
+-if [ `basename $PWD` != "src" ]; then
+-    cd c_src
+-fi
+-
+-unset CFLAGS LDFLAGS
+-
+-make $1
+diff --git a/c_src/patches/js-src-Makefile.in.OS_RELEASE.patch b/c_src/patches/js-src-Makefile.in.OS_RELEASE.patch
+deleted file mode 100644
+index 803fc4e..0000000
+--- a/c_src/patches/js-src-Makefile.in.OS_RELEASE.patch
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- c_src/js/src/Makefile.in.orig  2010-02-11 09:35:02.511252399 -0500
+-+++ c_src/js/src/Makefile.in       2010-02-11 09:35:38.505370688 -0500
+-@@ -214,7 +214,7 @@
+- 
+- # When using gcc the assembly is inlined in the C-file (see jslock.c)
+- ifeq ($(OS_ARCH),SunOS)
+--ifneq (86,$(findstring 86,$(OS_TEST)))
+-+ifneq (86,$(findstring 86,$(OS_RELEASE)))
+- ifndef GNU_CC
+- ASFILES                = lock_$(OS_ARCH).s
+- endif
+diff --git a/c_src/patches/js-src-Makefile.ref.LIB_ASFILES.patch b/c_src/patches/js-src-Makefile.ref.LIB_ASFILES.patch
+deleted file mode 100644
+index c011b2d..0000000
+--- a/c_src/patches/js-src-Makefile.ref.LIB_ASFILES.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+---- c_src/js/src/Makefile.ref.orig	2010-02-11 09:22:46.000000000 -0800
+-+++ c_src/js/src/Makefile.ref	2010-02-11 09:26:24.000000000 -0800
+-@@ -255,7 +255,11 @@
+- endif
+- 
+- LIB_CFILES  = $(JS_CFILES)
+-+ifneq (86,$(findstring 86,$(OS_CPUARCH)))
+- LIB_ASFILES := $(wildcard *_$(OS_ARCH).s)
+-+else
+-+LIB_ASFILES :=
+-+endif
+- PROG_CFILES = js.c
+- 
+- ifdef USE_MSVC
+diff --git a/c_src/patches/js-src-Makefile.ref.jscpucfg.patch b/c_src/patches/js-src-Makefile.ref.jscpucfg.patch
+deleted file mode 100644
+index af17f67..0000000
+--- a/c_src/patches/js-src-Makefile.ref.jscpucfg.patch
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- c_src/js/src.orig/Makefile.ref	2010-02-10 12:04:17.000000000 -0800
+-+++ c_src/js/src/Makefile.ref	2010-02-10 12:06:07.000000000 -0800
+-@@ -336,7 +336,7 @@
+- 	$(OBJDIR)/jscpucfg > $@
+- 
+- $(OBJDIR)/jscpucfg: $(OBJDIR)/jscpucfg.o
+--	$(CC) -o $@ $(OBJDIR)/jscpucfg.o
+-+	$(CC) -o $@ $(OBJDIR)/jscpucfg.o $(LDFLAGS)
+- 
+- # Add to TARGETS for clobber rule
+- TARGETS += $(OBJDIR)/jsautocfg.h $(OBJDIR)/jscpucfg \
+diff --git a/c_src/patches/js-src-config-DragonFly.mk.patch b/c_src/patches/js-src-config-DragonFly.mk.patch
+deleted file mode 100644
+index 53f9dc8..0000000
+--- a/c_src/patches/js-src-config-DragonFly.mk.patch
++++ /dev/null
+@@ -1,97 +0,0 @@
+---- c_src/js.orig/src/config/Dragonfly.mk	1969-12-31 19:00:00.000000000 -0500
+-+++ c_src/js/src/config/DragonFly.mk	2011-03-30 20:50:05.000000000 -0400
+-@@ -0,0 +1,94 @@
+-+# -*- Mode: makefile -*-
+-+#
+-+# ***** BEGIN LICENSE BLOCK *****
+-+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+-+#
+-+# The contents of this file are subject to the Mozilla Public License Version
+-+# 1.1 (the "License"); you may not use this file except in compliance with
+-+# the License. You may obtain a copy of the License at
+-+# http://www.mozilla.org/MPL/
+-+#
+-+# Software distributed under the License is distributed on an "AS IS" basis,
+-+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+-+# for the specific language governing rights and limitations under the
+-+# License.
+-+#
+-+# The Original Code is Mozilla Communicator client code, released
+-+# March 31, 1998.
+-+#
+-+# The Initial Developer of the Original Code is
+-+# Netscape Communications Corporation.
+-+# Portions created by the Initial Developer are Copyright (C) 1998
+-+# the Initial Developer. All Rights Reserved.
+-+#
+-+# Contributor(s):
+-+#
+-+# Alternatively, the contents of this file may be used under the terms of
+-+# either the GNU General Public License Version 2 or later (the "GPL"), or
+-+# the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+-+# in which case the provisions of the GPL or the LGPL are applicable instead
+-+# of those above. If you wish to allow use of your version of this file only
+-+# under the terms of either the GPL or the LGPL, and not to allow others to
+-+# use your version of this file under the terms of the MPL, indicate your
+-+# decision by deleting the provisions above and replace them with the notice
+-+# and other provisions required by the GPL or the LGPL. If you do not delete
+-+# the provisions above, a recipient may use your version of this file under
+-+# the terms of any one of the MPL, the GPL or the LGPL.
+-+#
+-+# ***** END LICENSE BLOCK *****
+-+
+-+#
+-+# Config for FreeBSD/NetBSD/OpenBSD.
+-+#
+-+
+-+#CC = gcc
+-+#CCC = g++
+-+CFLAGS+=	-Wall -Wno-format
+-+OS_CFLAGS=	-DXP_UNIX -DSVR4 
+-+OS_CFLAGS+=	-DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE # -DHAVE_LOCALTIME_R
+-+INTERP_CFLAGS+=	`pkg-config --cflags-only-I nspr`
+-+
+-+RANLIB = echo
+-+MKSHLIB = $(LD) -lm `pkg-config --libs nspr` -shared $(LDFLAGS) $(XMKSHLIBOPTS)
+-+
+-+#.c.o:
+-+#      $(CC) -c -MD $*.d $(CFLAGS) $<
+-+
+-+CPU_ARCH = $(shell uname -m)
+-+# don't filter in x86-64 architecture
+-+ifneq (amd64,$(CPU_ARCH))
+-+ifeq (86,$(findstring 86,$(CPU_ARCH)))
+-+CPU_ARCH = x86
+-+OS_CFLAGS+= -DX86_LINUX
+-+
+-+ifeq (gcc, $(CC))
+-+# if using gcc on x86, check version for opt bug 
+-+# (http://bugzilla.mozilla.org/show_bug.cgi?id=24892)
+-+GCC_VERSION := $(shell gcc -v 2>&1 | grep version | awk '{ print $$3 }')
+-+GCC_LIST:=$(sort 2.91.66 $(GCC_VERSION) )
+-+ifeq (2.91.66, $(firstword $(GCC_LIST)))
+-+CFLAGS+= -DGCC_OPT_BUG
+-+endif
+-+endif
+-+endif
+-+endif
+-+
+-+GFX_ARCH = x
+-+
+-+OS_LIBS = -lm $(LDFLAGS)
+-+
+-+ASFLAGS += -x assembler-with-cpp
+-+
+-+
+-+ifeq ($(CPU_ARCH),alpha)
+-+
+-+# Ask the C compiler on alpha linux to let us work with denormalized
+-+# double values, which are required by the ECMA spec.
+-+
+-+OS_CFLAGS += -mieee
+-+endif
+-+
+-+JS_EDITLINE = 1
+-+
+-+OS_CFLAGS += -DHAVE_VA_COPY -DVA_COPY=va_copy
+-+OS_CFLAGS += -DPIC -fPIC -DJS_HAVE_LONG_LONG -DHAVE_INTTYPES_H
+diff --git a/c_src/patches/js-src-config-FreeBSD.mk.patch b/c_src/patches/js-src-config-FreeBSD.mk.patch
+deleted file mode 100644
+index f15b4ea..0000000
+--- a/c_src/patches/js-src-config-FreeBSD.mk.patch
++++ /dev/null
+@@ -1,102 +0,0 @@
+---- c_src.orig/js/src/config/FreeBSD.mk	1969-12-31 19:00:00.000000000 -0500
+-+++ c_src/js/src/config/FreeBSD.mk	2011-03-30 20:12:51.000000000 -0400
+-@@ -0,0 +1,99 @@
+-+# -*- Mode: makefile -*-
+-+#
+-+# ***** BEGIN LICENSE BLOCK *****
+-+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+-+#
+-+# The contents of this file are subject to the Mozilla Public License Version
+-+# 1.1 (the "License"); you may not use this file except in compliance with
+-+# the License. You may obtain a copy of the License at
+-+# http://www.mozilla.org/MPL/
+-+#
+-+# Software distributed under the License is distributed on an "AS IS" basis,
+-+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+-+# for the specific language governing rights and limitations under the
+-+# License.
+-+#
+-+# The Original Code is Mozilla Communicator client code, released
+-+# March 31, 1998.
+-+#
+-+# The Initial Developer of the Original Code is
+-+# Netscape Communications Corporation.
+-+# Portions created by the Initial Developer are Copyright (C) 1998
+-+# the Initial Developer. All Rights Reserved.
+-+#
+-+# Contributor(s):
+-+#
+-+# Alternatively, the contents of this file may be used under the terms of
+-+# either the GNU General Public License Version 2 or later (the "GPL"), or
+-+# the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+-+# in which case the provisions of the GPL or the LGPL are applicable instead
+-+# of those above. If you wish to allow use of your version of this file only
+-+# under the terms of either the GPL or the LGPL, and not to allow others to
+-+# use your version of this file under the terms of the MPL, indicate your
+-+# decision by deleting the provisions above and replace them with the notice
+-+# and other provisions required by the GPL or the LGPL. If you do not delete
+-+# the provisions above, a recipient may use your version of this file under
+-+# the terms of any one of the MPL, the GPL or the LGPL.
+-+#
+-+# ***** END LICENSE BLOCK *****
+-+
+-+#
+-+# Config for all versions of Linux
+-+#
+-+
+-+CC ?= gcc
+-+CCC ?= g++
+-+CFLAGS +=  -Wall -Wno-format
+-+OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE -DHAVE_LOCALTIME_R
+-+
+-+RANLIB = echo
+-+MKSHLIB = $(LD) -shared $(XMKSHLIBOPTS)
+-+
+-+#.c.o:
+-+#      $(CC) -c -MD $*.d $(CFLAGS) $<
+-+
+-+CPU_ARCH = $(shell uname -m)
+-+# don't filter in x86-64 architecture
+-+ifneq (x86_64,$(CPU_ARCH))
+-+ifeq (86,$(findstring 86,$(CPU_ARCH)))
+-+CPU_ARCH = x86
+-+OS_CFLAGS+= -DX86_LINUX
+-+
+-+ifeq (gcc, $(CC))
+-+# if using gcc on x86, check version for opt bug 
+-+# (http://bugzilla.mozilla.org/show_bug.cgi?id=24892)
+-+GCC_VERSION := $(shell gcc -v 2>&1 | grep version | awk '{ print $$3 }')
+-+GCC_LIST:=$(sort 2.91.66 $(GCC_VERSION) )
+-+
+-+ifeq (2.91.66, $(firstword $(GCC_LIST)))
+-+CFLAGS+= -DGCC_OPT_BUG
+-+endif
+-+endif
+-+endif
+-+endif
+-+
+-+GFX_ARCH = x
+-+
+-+OS_LIBS = -lm
+-+
+-+ASFLAGS += -x assembler-with-cpp
+-+
+-+
+-+ifeq ($(CPU_ARCH),alpha)
+-+
+-+# Ask the C compiler on alpha linux to let us work with denormalized
+-+# double values, which are required by the ECMA spec.
+-+
+-+OS_CFLAGS += -mieee
+-+endif
+-+
+-+# Use the editline library to provide line-editing support.
+-+JS_READLINE = 1
+-+
+-+OS_CFLAGS += -DHAVE_VA_COPY -DVA_COPY=va_copy
+-+
+-+ifeq ($(CPU_ARCH),sparc64)
+-+OS_CFLAGS += -DPIC -fPIC
+-+else
+-+OS_CFLAGS += -DPIC -fpic
+-+endif
+diff --git a/c_src/patches/js-src-config-NetBSD.mk.patch b/c_src/patches/js-src-config-NetBSD.mk.patch
+deleted file mode 100644
+index c4cb8d8..0000000
+--- a/c_src/patches/js-src-config-NetBSD.mk.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+---- c_src/js.old/src/config/NetBSD.mk	Fri Apr  1 20:06:04 2011
+-+++ c_src/js/src/config/NetBSD.mk	Fri Apr  1 20:31:19 2011
+-@@ -0,0 +1,100 @@
+-+# -*- Mode: makefile -*-
+-+#
+-+# ***** BEGIN LICENSE BLOCK *****
+-+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+-+#
+-+# The contents of this file are subject to the Mozilla Public License Version
+-+# 1.1 (the "License"); you may not use this file except in compliance with
+-+# the License. You may obtain a copy of the License at
+-+# http://www.mozilla.org/MPL/
+-+#
+-+# Software distributed under the License is distributed on an "AS IS" basis,
+-+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+-+# for the specific language governing rights and limitations under the
+-+# License.
+-+#
+-+# The Original Code is Mozilla Communicator client code, released
+-+# March 31, 1998.
+-+#
+-+# The Initial Developer of the Original Code is
+-+# Netscape Communications Corporation.
+-+# Portions created by the Initial Developer are Copyright (C) 1998
+-+# the Initial Developer. All Rights Reserved.
+-+#
+-+# Contributor(s):
+-+#
+-+# Alternatively, the contents of this file may be used under the terms of
+-+# either the GNU General Public License Version 2 or later (the "GPL"), or
+-+# the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+-+# in which case the provisions of the GPL or the LGPL are applicable instead
+-+# of those above. If you wish to allow use of your version of this file only
+-+# under the terms of either the GPL or the LGPL, and not to allow others to
+-+# use your version of this file under the terms of the MPL, indicate your
+-+# decision by deleting the provisions above and replace them with the notice
+-+# and other provisions required by the GPL or the LGPL. If you do not delete
+-+# the provisions above, a recipient may use your version of this file under
+-+# the terms of any one of the MPL, the GPL or the LGPL.
+-+#
+-+# ***** END LICENSE BLOCK *****
+-+
+-+#
+-+# Config for all versions of Linux
+-+#
+-+
+-+CC = gcc
+-+CCC = g++
+-+CFLAGS +=  -Wall -Wno-format
+-+OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE -DHAVE_LOCALTIME_R
+-+
+-+RANLIB = echo
+-+MKSHLIB = $(CC) -shared $(XMKSHLIBOPTS)
+-+
+-+#.c.o:
+-+#      $(CC) -c -MD $*.d $(CFLAGS) $<
+-+
+-+CPU_ARCH = $(shell uname -m)
+-+# don't filter in x86-64 architecture
+-+ifneq (x86_64,$(CPU_ARCH))
+-+ifeq (86,$(findstring 86,$(CPU_ARCH)))
+-+CPU_ARCH = x86
+-+OS_CFLAGS+= -DX86_LINUX
+-+
+-+ifeq (gcc, $(CC))
+-+# if using gcc on x86, check version for opt bug 
+-+# (http://bugzilla.mozilla.org/show_bug.cgi?id=24892)
+-+GCC_VERSION := $(shell gcc -v 2>&1 | grep version | awk '{ print $$3 }')
+-+GCC_LIST:=$(sort 2.91.66 $(GCC_VERSION) )
+-+
+-+ifeq (2.91.66, $(firstword $(GCC_LIST)))
+-+CFLAGS+= -DGCC_OPT_BUG
+-+endif
+-+endif
+-+endif
+-+endif
+-+
+-+GFX_ARCH = x
+-+
+-+OS_LIBS = -lm
+-+
+-+ASFLAGS += -x assembler-with-cpp
+-+
+-+PROG_LIBS += -pthread
+-+
+-+ifeq ($(CPU_ARCH),alpha)
+-+
+-+# Ask the C compiler on alpha linux to let us work with denormalized
+-+# double values, which are required by the ECMA spec.
+-+
+-+OS_CFLAGS += -mieee
+-+endif
+-+
+-+# Use the editline library to provide line-editing support.
+-+JS_EDITLINE = 1
+-+
+-+OS_CFLAGS += -DHAVE_VA_COPY -DVA_COPY=va_copy
+-+
+-+ifeq ($(CPU_ARCH),sparc64)
+-+OS_CFLAGS += -DPIC -fPIC
+-+else
+-+OS_CFLAGS += -DPIC -fpic
+-+endif
+diff --git a/c_src/patches/js-src-config-OpenBSD.mk.patch b/c_src/patches/js-src-config-OpenBSD.mk.patch
+deleted file mode 100644
+index ef6c5a1..0000000
+--- a/c_src/patches/js-src-config-OpenBSD.mk.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+---- c_src/js.old/src/config/OpenBSD.mk	Fri Apr  1 20:06:04 2011
+-+++ c_src/js/src/config/OpenBSD.mk	Fri Apr  1 20:31:19 2011
+-@@ -0,0 +1,100 @@
+-+# -*- Mode: makefile -*-
+-+#
+-+# ***** BEGIN LICENSE BLOCK *****
+-+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+-+#
+-+# The contents of this file are subject to the Mozilla Public License Version
+-+# 1.1 (the "License"); you may not use this file except in compliance with
+-+# the License. You may obtain a copy of the License at
+-+# http://www.mozilla.org/MPL/
+-+#
+-+# Software distributed under the License is distributed on an "AS IS" basis,
+-+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+-+# for the specific language governing rights and limitations under the
+-+# License.
+-+#
+-+# The Original Code is Mozilla Communicator client code, released
+-+# March 31, 1998.
+-+#
+-+# The Initial Developer of the Original Code is
+-+# Netscape Communications Corporation.
+-+# Portions created by the Initial Developer are Copyright (C) 1998
+-+# the Initial Developer. All Rights Reserved.
+-+#
+-+# Contributor(s):
+-+#
+-+# Alternatively, the contents of this file may be used under the terms of
+-+# either the GNU General Public License Version 2 or later (the "GPL"), or
+-+# the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+-+# in which case the provisions of the GPL or the LGPL are applicable instead
+-+# of those above. If you wish to allow use of your version of this file only
+-+# under the terms of either the GPL or the LGPL, and not to allow others to
+-+# use your version of this file under the terms of the MPL, indicate your
+-+# decision by deleting the provisions above and replace them with the notice
+-+# and other provisions required by the GPL or the LGPL. If you do not delete
+-+# the provisions above, a recipient may use your version of this file under
+-+# the terms of any one of the MPL, the GPL or the LGPL.
+-+#
+-+# ***** END LICENSE BLOCK *****
+-+
+-+#
+-+# Config for all versions of Linux
+-+#
+-+
+-+CC = gcc
+-+CCC = g++
+-+CFLAGS +=  -Wall -Wno-format
+-+OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE -DHAVE_LOCALTIME_R
+-+
+-+RANLIB = echo
+-+MKSHLIB = $(CC) -shared $(XMKSHLIBOPTS)
+-+
+-+#.c.o:
+-+#      $(CC) -c -MD $*.d $(CFLAGS) $<
+-+
+-+CPU_ARCH = $(shell uname -m)
+-+# don't filter in x86-64 architecture
+-+ifneq (x86_64,$(CPU_ARCH))
+-+ifeq (86,$(findstring 86,$(CPU_ARCH)))
+-+CPU_ARCH = x86
+-+OS_CFLAGS+= -DX86_LINUX
+-+
+-+ifeq (gcc, $(CC))
+-+# if using gcc on x86, check version for opt bug 
+-+# (http://bugzilla.mozilla.org/show_bug.cgi?id=24892)
+-+GCC_VERSION := $(shell gcc -v 2>&1 | grep version | awk '{ print $$3 }')
+-+GCC_LIST:=$(sort 2.91.66 $(GCC_VERSION) )
+-+
+-+ifeq (2.91.66, $(firstword $(GCC_LIST)))
+-+CFLAGS+= -DGCC_OPT_BUG
+-+endif
+-+endif
+-+endif
+-+endif
+-+
+-+GFX_ARCH = x
+-+
+-+OS_LIBS = -lm
+-+
+-+ASFLAGS += -x assembler-with-cpp
+-+
+-+PROG_LIBS += -pthread
+-+
+-+ifeq ($(CPU_ARCH),alpha)
+-+
+-+# Ask the C compiler on alpha linux to let us work with denormalized
+-+# double values, which are required by the ECMA spec.
+-+
+-+OS_CFLAGS += -mieee
+-+endif
+-+
+-+# Use the editline library to provide line-editing support.
+-+JS_READLINE = 1
+-+
+-+OS_CFLAGS += -DHAVE_VA_COPY -DVA_COPY=va_copy
+-+
+-+ifeq ($(CPU_ARCH),sparc64)
+-+OS_CFLAGS += -DPIC -fPIC
+-+else
+-+OS_CFLAGS += -DPIC -fpic
+-+endif
+diff --git a/c_src/patches/js-src-config-SunOS5.10.mk.patch b/c_src/patches/js-src-config-SunOS5.10.mk.patch
+deleted file mode 100644
+index 1fe0367..0000000
+--- a/c_src/patches/js-src-config-SunOS5.10.mk.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+---- c_src.orig/js/src/config/SunOS5.10.mk	2008-01-19 18:12:59.000000000 -0800
+-+++ c_src/js/src/config/SunOS5.10.mk	2010-02-11 07:44:41.000000000 -0800
+-@@ -46,5 +46,15 @@
+- INCLUDES += -I/usr/sfw/include/mozilla/nspr
+- OTHER_LIBS += -L/usr/sfw/lib/mozilla -R/usr/sfw/lib/mozilla
+- 
+--CC=gcc
+-+CC         = gcc
+-+LD         = gcc
+-+MKSHLIB    = $(LD) -shared
+-+OS_CFLAGS += -fPIC
+-+CFLAGS    += -fPIC
+-+ifneq (86,$(findstring 86,$(OS_RELEASE)))
+-+ASFLAGS   += -xarch=v9 -DULTRA_SPARC
+-+DEFINES   += -DULTRA_SPARC
+-+OS_CFLAGS += -Wa,-xarch=v9,-DULTRA_SPARC
+-+CFLAGS    += -DULTRA_SPARC
+-+endif
+- 
+diff --git a/c_src/patches/js-src-config-SunOS5.10_i86pc.mk.patch b/c_src/patches/js-src-config-SunOS5.10_i86pc.mk.patch
+deleted file mode 100644
+index 6933b4b..0000000
+--- a/c_src/patches/js-src-config-SunOS5.10_i86pc.mk.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+---- /dev/null	2010-02-11 06:02:12.000000000 -0800
+-+++ c_src/js/src/config/SunOS5.10_i86pc.mk	2010-02-11 08:45:15.000000000 -0800
+-@@ -0,0 +1,48 @@
+-+# -*- Mode: makefile -*-
+-+#
+-+# ***** BEGIN LICENSE BLOCK *****
+-+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+-+#
+-+# The contents of this file are subject to the Mozilla Public License Version
+-+# 1.1 (the "License"); you may not use this file except in compliance with
+-+# the License. You may obtain a copy of the License at
+-+# http://www.mozilla.org/MPL/
+-+#
+-+# Software distributed under the License is distributed on an "AS IS" basis,
+-+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+-+# for the specific language governing rights and limitations under the
+-+# License.
+-+#
+-+# The Original Code is Mozilla Communicator client code, released
+-+# March 31, 1998.
+-+#
+-+# The Initial Developer of the Original Code is
+-+# Netscape Communications Corporation.
+-+# Portions created by the Initial Developer are Copyright (C) 1999
+-+# the Initial Developer. All Rights Reserved.
+-+#
+-+# Contributor(s):
+-+#
+-+# Alternatively, the contents of this file may be used under the terms of
+-+# either the GNU General Public License Version 2 or later (the "GPL"), or
+-+# the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+-+# in which case the provisions of the GPL or the LGPL are applicable instead
+-+# of those above. If you wish to allow use of your version of this file only
+-+# under the terms of either the GPL or the LGPL, and not to allow others to
+-+# use your version of this file under the terms of the MPL, indicate your
+-+# decision by deleting the provisions above and replace them with the notice
+-+# and other provisions required by the GPL or the LGPL. If you do not delete
+-+# the provisions above, a recipient may use your version of this file under
+-+# the terms of any one of the MPL, the GPL or the LGPL.
+-+#
+-+# ***** END LICENSE BLOCK *****
+-+
+-+#
+-+# Config stuff for SunOS5.10_i86pc, using vendor gcc and NSPR
+-+#
+-+
+-+include $(DEPTH)/config/SunOS5.1x_i86pc.mk
+-+
+-+INCLUDES += -I/usr/sfw/include/mozilla/nspr
+-+OTHER_LIBS += -L/usr/sfw/lib/mozilla -R/usr/sfw/lib/mozilla
+-+
+diff --git a/c_src/patches/js-src-config-SunOS5.11.mk.patch b/c_src/patches/js-src-config-SunOS5.11.mk.patch
+deleted file mode 100644
+index d4cb7c9..0000000
+--- a/c_src/patches/js-src-config-SunOS5.11.mk.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+---- /dev/null	2010-02-11 06:02:12.000000000 -0800
+-+++ c_src/js/src/config/SunOS5.11.mk	2010-02-11 07:44:41.000000000 -0800
+-@@ -0,0 +1,60 @@
+-+# -*- Mode: makefile -*-
+-+#
+-+# ***** BEGIN LICENSE BLOCK *****
+-+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+-+#
+-+# The contents of this file are subject to the Mozilla Public License Version
+-+# 1.1 (the "License"); you may not use this file except in compliance with
+-+# the License. You may obtain a copy of the License at
+-+# http://www.mozilla.org/MPL/
+-+#
+-+# Software distributed under the License is distributed on an "AS IS" basis,
+-+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+-+# for the specific language governing rights and limitations under the
+-+# License.
+-+#
+-+# The Original Code is Mozilla Communicator client code, released
+-+# March 31, 1998.
+-+#
+-+# The Initial Developer of the Original Code is
+-+# Netscape Communications Corporation.
+-+# Portions created by the Initial Developer are Copyright (C) 1999
+-+# the Initial Developer. All Rights Reserved.
+-+#
+-+# Contributor(s):
+-+#
+-+# Alternatively, the contents of this file may be used under the terms of
+-+# either the GNU General Public License Version 2 or later (the "GPL"), or
+-+# the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+-+# in which case the provisions of the GPL or the LGPL are applicable instead
+-+# of those above. If you wish to allow use of your version of this file only
+-+# under the terms of either the GPL or the LGPL, and not to allow others to
+-+# use your version of this file under the terms of the MPL, indicate your
+-+# decision by deleting the provisions above and replace them with the notice
+-+# and other provisions required by the GPL or the LGPL. If you do not delete
+-+# the provisions above, a recipient may use your version of this file under
+-+# the terms of any one of the MPL, the GPL or the LGPL.
+-+#
+-+# ***** END LICENSE BLOCK *****
+-+
+-+#
+-+# Config stuff for SunOS5.11, using vendor gcc and NSPR
+-+#
+-+
+-+include $(DEPTH)/config/SunOS5.5.mk
+-+
+-+INCLUDES += -I/usr/sfw/include/mozilla/nspr
+-+OTHER_LIBS += -L/usr/sfw/lib/mozilla -R/usr/sfw/lib/mozilla
+-+
+-+CC         = gcc
+-+LD         = gcc
+-+MKSHLIB    = $(LD) -shared
+-+OS_CFLAGS += -fPIC
+-+CFLAGS    += -fPIC
+-+ifneq (86,$(findstring 86,$(OS_TEST)))
+-+ASFLAGS   += -xarch=v9 -DULTRA_SPARC
+-+DEFINES   += -DULTRA_SPARC
+-+OS_CFLAGS += -Wa,-xarch=v9,-DULTRA_SPARC
+-+CFLAGS    += -DULTRA_SPARC
+-+endif
+-+
+diff --git a/c_src/patches/js-src-config-SunOS5.11_i86pc.mk.patch b/c_src/patches/js-src-config-SunOS5.11_i86pc.mk.patch
+deleted file mode 100644
+index 9964de0..0000000
+--- a/c_src/patches/js-src-config-SunOS5.11_i86pc.mk.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+---- /dev/null	2010-02-11 06:02:12.000000000 -0800
+-+++ c_src/js/src/config/SunOS5.11_i86pc.mk	2010-02-11 08:45:45.000000000 -0800
+-@@ -0,0 +1,48 @@
+-+# -*- Mode: makefile -*-
+-+#
+-+# ***** BEGIN LICENSE BLOCK *****
+-+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+-+#
+-+# The contents of this file are subject to the Mozilla Public License Version
+-+# 1.1 (the "License"); you may not use this file except in compliance with
+-+# the License. You may obtain a copy of the License at
+-+# http://www.mozilla.org/MPL/
+-+#
+-+# Software distributed under the License is distributed on an "AS IS" basis,
+-+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+-+# for the specific language governing rights and limitations under the
+-+# License.
+-+#
+-+# The Original Code is Mozilla Communicator client code, released
+-+# March 31, 1998.
+-+#
+-+# The Initial Developer of the Original Code is
+-+# Netscape Communications Corporation.
+-+# Portions created by the Initial Developer are Copyright (C) 1999
+-+# the Initial Developer. All Rights Reserved.
+-+#
+-+# Contributor(s):
+-+#
+-+# Alternatively, the contents of this file may be used under the terms of
+-+# either the GNU General Public License Version 2 or later (the "GPL"), or
+-+# the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+-+# in which case the provisions of the GPL or the LGPL are applicable instead
+-+# of those above. If you wish to allow use of your version of this file only
+-+# under the terms of either the GPL or the LGPL, and not to allow others to
+-+# use your version of this file under the terms of the MPL, indicate your
+-+# decision by deleting the provisions above and replace them with the notice
+-+# and other provisions required by the GPL or the LGPL. If you do not delete
+-+# the provisions above, a recipient may use your version of this file under
+-+# the terms of any one of the MPL, the GPL or the LGPL.
+-+#
+-+# ***** END LICENSE BLOCK *****
+-+
+-+#
+-+# Config stuff for SunOS5.11, using vendor gcc and NSPR
+-+#
+-+
+-+include $(DEPTH)/config/SunOS5.1x_i86pc.mk
+-+
+-+INCLUDES += -I/usr/sfw/include/mozilla/nspr
+-+OTHER_LIBS += -L/usr/sfw/lib/mozilla -R/usr/sfw/lib/mozilla
+-+
+diff --git a/c_src/patches/js-src-config-SunOS5.1x_i86pc.mk.patch b/c_src/patches/js-src-config-SunOS5.1x_i86pc.mk.patch
+deleted file mode 100644
+index 0ee3b33..0000000
+--- a/c_src/patches/js-src-config-SunOS5.1x_i86pc.mk.patch
++++ /dev/null
+@@ -1,72 +0,0 @@
+---- /dev/null	2010-02-11 06:02:12.000000000 -0800
+-+++ c_src/js/src/config/SunOS5.1x_i86pc.mk	2010-02-11 08:42:17.000000000 -0800
+-@@ -0,0 +1,69 @@
+-+# -*- Mode: makefile -*-
+-+#
+-+# ***** BEGIN LICENSE BLOCK *****
+-+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+-+#
+-+# The contents of this file are subject to the Mozilla Public License Version
+-+# 1.1 (the "License"); you may not use this file except in compliance with
+-+# the License. You may obtain a copy of the License at
+-+# http://www.mozilla.org/MPL/
+-+#
+-+# Software distributed under the License is distributed on an "AS IS" basis,
+-+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+-+# for the specific language governing rights and limitations under the
+-+# License.
+-+#
+-+# The Original Code is Mozilla Communicator client code, released
+-+# March 31, 1998.
+-+#
+-+# The Initial Developer of the Original Code is
+-+# Netscape Communications Corporation.
+-+# Portions created by the Initial Developer are Copyright (C) 1998
+-+# the Initial Developer. All Rights Reserved.
+-+#
+-+# Contributor(s):
+-+#
+-+# Alternatively, the contents of this file may be used under the terms of
+-+# either the GNU General Public License Version 2 or later (the "GPL"), or
+-+# the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+-+# in which case the provisions of the GPL or the LGPL are applicable instead
+-+# of those above. If you wish to allow use of your version of this file only
+-+# under the terms of either the GPL or the LGPL, and not to allow others to
+-+# use your version of this file under the terms of the MPL, indicate your
+-+# decision by deleting the provisions above and replace them with the notice
+-+# and other provisions required by the GPL or the LGPL. If you do not delete
+-+# the provisions above, a recipient may use your version of this file under
+-+# the terms of any one of the MPL, the GPL or the LGPL.
+-+#
+-+# ***** END LICENSE BLOCK *****
+-+
+-+#
+-+# Config stuff for SunOS5.1x_i86pc
+-+#
+-+
+-+AS = /usr/ccs/bin/as
+-+CC = gcc
+-+CCC = g++
+-+CFLAGS +=  -Wall -Wno-format
+-+LD = gcc
+-+
+-+RANLIB = echo
+-+
+-+#.c.o:
+-+#	$(CC) -c -MD $*.d $(CFLAGS) $<
+-+
+-+GFX_ARCH = x
+-+
+-+OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV -DSOLARIS -DHAVE_LOCALTIME_R -fPIC
+-+OS_LIBS = -lsocket -lnsl -ldl
+-+
+-+ASFLAGS += -P -L -K PIC -D_ASM -D__STDC__=0
+-+
+-+HAVE_PURIFY = 1
+-+
+-+NOSUCHFILE = /solaris-rm-f-sucks
+-+
+-+MKSHLIB = $(LD) -shared
+-+
+-+# Use the editline library to provide line-editing support.
+-+JS_EDITLINE = 1
+diff --git a/c_src/patches/js-src-config.mk.patch b/c_src/patches/js-src-config.mk.patch
+deleted file mode 100644
+index d6e44c8..0000000
+--- a/c_src/patches/js-src-config.mk.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+---- c_src.orig/js/src/config.mk	2008-03-12 10:36:06.000000000 -0400
+-+++ c_src/js/src/config.mk	2011-03-30 20:11:30.000000000 -0400
+-@@ -100,10 +100,26 @@
+- ifeq ($(OS_ARCH),Darwin)
+- OS_CONFIG      := Darwin
+- else
+-+ifeq ($(OS_ARCH), NetBSD)
+-+OS_CONFIG      := NetBSD
+-+else
+-+ifeq ($(OS_ARCH), FreeBSD)
+-+OS_CONFIG      := FreeBSD
+-+else
+-+ifeq ($(OS_ARCH), DragonFly)
+-+OS_CONFIG      := DragonFly
+-+else
+-+ifeq ($(OS_ARCH), OpenBSD)
+-+OS_CONFIG      := OpenBSD
+-+else
+- OS_CONFIG       := $(OS_ARCH)$(OS_OBJTYPE)$(OS_RELEASE)
+- endif
+- endif
+- endif
+-+endif
+-+endif
+-+endif
+-+endif
+- 
+- ASFLAGS         =
+- DEFINES         =
+-@@ -141,7 +157,9 @@
+- 
+- SO_SUFFIX = so
+- 
+-+ifneq ($(OS_ARCH),SunOS)
+- NS_USE_NATIVE = 1
+-+endif
+- 
+- # Java stuff
+- CLASSDIR     = $(DEPTH)/liveconnect/classes
+diff --git a/c_src/patches/nspr-src-Makefile.in.patch b/c_src/patches/nspr-src-Makefile.in.patch
+deleted file mode 100644
+index 2fb1f56..0000000
+--- a/c_src/patches/nspr-src-Makefile.in.patch
++++ /dev/null
+@@ -1,16 +0,0 @@
+-$OpenBSD: patch-mozilla_nsprpub_lib_tests_Makefile_in,v 1.4 2009/08/04 13:56:09 martynas Exp $
+---- mozilla/nsprpub/lib/tests/Makefile.in.orig	Sun Feb 22 20:56:04 2009
+-+++ mozilla/nsprpub/lib/tests/Makefile.in	Sat Jun 20 23:38:30 2009
+-@@ -117,6 +117,12 @@ ifeq (,$(filter-out OpenBSD,$(OS_ARCH)))
+-     endif
+- endif
+- 
+-+ifeq ($(OS_ARCH), OpenBSD)
+-+        ifeq ($(USE_PTHREADS),1)
+-+            EXTRA_LIBS = -lpthread
+-+        endif
+-+endif
+-+
+- ifeq ($(OS_ARCH), OSF1)
+- LDOPTS += -rpath $(PWD)/$(dist_libdir) -lpthread
+- endif
+diff --git a/c_src/patches/nspr-src-configure.in.patch b/c_src/patches/nspr-src-configure.in.patch
+deleted file mode 100644
+index 16aa64f..0000000
+--- a/c_src/patches/nspr-src-configure.in.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+---- c_src/nsprpub.old/configure.in	2011-03-31 21:51:51 -0400
+-+++ c_src/nsprpub/configure.in	2011-03-31 21:53:18 -0400
+-@@ -1161,6 +1161,29 @@
+-     MDCPUCFG_H=_freebsd.cfg
+-     PR_MD_CSRCS=freebsd.c
+-     ;;
+-+*-dragonfly*)
+-+		if test -z "$USE_NSPR_THREADS"; then
+-+			USE_PTHREADS=1
+-+		fi
+-+		AC_DEFINE(XP_UNIX)
+-+		AC_DEFINE(FREEBSD)
+-+		AC_DEFINE(HAVE_BSD_FLOCK)
+-+		AC_DEFINE(HAVE_SOCKLEN_T)
+-+		CFLAGS="$CFLAGS $(DSO_CFLAGS) -ansi -Wall"    MOZ_OBJFORMAT=`test -x /usr/bin/objformat && /usr/bin/objformat || echo aout`
+-+		if test "$MOZ_OBJFORMAT" = "elf"; then
+-+			DLL_SUFFIX=so
+-+		else
+-+			DLL_SUFFIX=so.1.0
+-+		fi
+-+		MKSHLIB='$(CC) $(DSO_LDOPTS) -o $@'
+-+		DSO_CFLAGS=-fPIC
+-+		DSO_LDOPTS='-shared -Wl,-soname -Wl,$(notdir $@)'
+-+		MDCPUCFG_H=_freebsd.cfg
+-+		PR_MD_CSRCS=freebsd.c
+-+		if test "$LIBRUNPATH"; then
+-+			DSO_LDOPTS="$DSO_LDOPTS -Wl,-R$LIBRUNPATH"
+-+		fi
+-+		;;
+- 
+- *-hpux*)
+-     AC_DEFINE(XP_UNIX)
+-@@ -2511,7 +2534,7 @@
+- 	if test -z "`egrep -i '(unrecognize|unknown)' conftest.out | grep pthread`" && test -z "`egrep -i '(error|incorrect)' conftest.out`" ; then
+- 	    ac_cv_have_dash_pthread=yes
+- 		case "$target_os" in
+--	    freebsd*)
+-+	    freebsd* | dragonfly*)
+- # Freebsd doesn't use -pthread for compiles, it uses them for linking
+-             ;;
+- 	    *)
+-@@ -2549,7 +2572,7 @@
+-             _PTHREAD_LDFLAGS=
+-         fi
+- 	    ;;
+--    *-freebsd*)
+-+    *-freebsd* | dragonfly*)
+- 	    AC_DEFINE(_REENTRANT)
+- 	    AC_DEFINE(_THREAD_SAFE)
+- 	    dnl -pthread links in -lc_r, so don't specify it explicitly.
+-@@ -2630,7 +2653,7 @@
+-         AC_DEFINE(_PR_NEED_PTHREAD_INIT)
+-     fi
+-     ;;
+--*-freebsd*)
+-+*-freebsd* | dragonfly*)
+-     if test -n "$USE_NSPR_THREADS"; then
+-         AC_DEFINE(_PR_LOCAL_THREADS_ONLY)
+-     fi
+diff --git a/c_src/patches/nspr-src-configure.patch b/c_src/patches/nspr-src-configure.patch
+deleted file mode 100644
+index 2bbb6a3..0000000
+--- a/c_src/patches/nspr-src-configure.patch
++++ /dev/null
+@@ -1,251 +0,0 @@
+---- c_src/nsprpub.old/configure	2011-03-31 21:51:51 -0400
+-+++ c_src/nsprpub/configure	2011-03-31 21:54:10 -0400
+-@@ -3518,6 +3518,41 @@
+-     MDCPUCFG_H=_freebsd.cfg
+-     PR_MD_CSRCS=freebsd.c
+-     ;;
+-+*-dragonfly*)
+-+		if test -z "$USE_NSPR_THREADS"; then
+-+			USE_PTHREADS=1
+-+		fi
+-+		cat >> confdefs.h <<\EOF
+-+#define XP_UNIX 1
+-+EOF
+-+
+-+		cat >> confdefs.h <<\EOF
+-+#define FREEBSD 1
+-+EOF
+-+
+-+		cat >> confdefs.h <<\EOF
+-+#define HAVE_BSD_FLOCK 1
+-+EOF
+-+
+-+		cat >> confdefs.h <<\EOF
+-+#define HAVE_SOCKLEN_T 1
+-+EOF
+-+
+-+		CFLAGS="$CFLAGS $(DSO_CFLAGS) -ansi -Wall"    MOZ_OBJFORMAT=`test -x /usr/bin/objformat && /usr/bin/objformat || echo aout`
+-+		if test "$MOZ_OBJFORMAT" = "elf"; then
+-+			DLL_SUFFIX=so
+-+		else
+-+			DLL_SUFFIX=so.1.0
+-+		fi
+-+		MKSHLIB='$(CC) $(DSO_LDOPTS) -o $@'
+-+		DSO_CFLAGS=-fPIC
+-+		DSO_LDOPTS='-shared -Wl,-soname -Wl,$(notdir $@)'
+-+		MDCPUCFG_H=_freebsd.cfg
+-+		PR_MD_CSRCS=freebsd.c
+-+		if test "$LIBRUNPATH"; then
+-+			DSO_LDOPTS="$DSO_LDOPTS -Wl,-R$LIBRUNPATH"
+-+		fi
+-+		;;
+- 
+- *-hpux*)
+-     cat >> confdefs.h <<\EOF
+-@@ -4505,17 +4540,17 @@
+-         _OPTIMIZE_FLAGS="$_OPTIMIZE_FLAGS -Olimit 4000"
+-         ac_safe=`echo "machine/builtins.h" | sed 'y%./+-%__p_%'`
+- echo $ac_n "checking for machine/builtins.h""... $ac_c" 1>&6
+--echo "configure:4509: checking for machine/builtins.h" >&5
+-+echo "configure:4544: checking for machine/builtins.h" >&5
+- if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 4514 "configure"
+-+#line 4549 "configure"
+- #include "confdefs.h"
+- #include <machine/builtins.h>
+- EOF
+- ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+--{ (eval echo configure:4519: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+-+{ (eval echo configure:4554: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+- ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+- if test -z "$ac_err"; then
+-   rm -rf conftest*
+-@@ -5164,7 +5199,7 @@
+-     ;;
+- *)
+-     echo $ac_n "checking for dlopen in -ldl""... $ac_c" 1>&6
+--echo "configure:5168: checking for dlopen in -ldl" >&5
+-+echo "configure:5203: checking for dlopen in -ldl" >&5
+- ac_lib_var=`echo dl'_'dlopen | sed 'y%./+-%__p_%'`
+- if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+-@@ -5172,7 +5207,7 @@
+-   ac_save_LIBS="$LIBS"
+- LIBS="-ldl  $LIBS"
+- cat > conftest.$ac_ext <<EOF
+--#line 5176 "configure"
+-+#line 5211 "configure"
+- #include "confdefs.h"
+- /* Override any gcc2 internal prototype to avoid an error.  */
+- /* We use char because int might match the return type of a gcc2
+-@@ -5183,7 +5218,7 @@
+- dlopen()
+- ; return 0; }
+- EOF
+--if { (eval echo configure:5187: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+-+if { (eval echo configure:5222: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+-   rm -rf conftest*
+-   eval "ac_cv_lib_$ac_lib_var=yes"
+- else
+-@@ -5200,17 +5235,17 @@
+-   echo "$ac_t""yes" 1>&6
+-   ac_safe=`echo "dlfcn.h" | sed 'y%./+-%__p_%'`
+- echo $ac_n "checking for dlfcn.h""... $ac_c" 1>&6
+--echo "configure:5204: checking for dlfcn.h" >&5
+-+echo "configure:5239: checking for dlfcn.h" >&5
+- if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 5209 "configure"
+-+#line 5244 "configure"
+- #include "confdefs.h"
+- #include <dlfcn.h>
+- EOF
+- ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+--{ (eval echo configure:5214: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+-+{ (eval echo configure:5249: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+- ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+- if test -z "$ac_err"; then
+-   rm -rf conftest*
+-@@ -5243,13 +5278,13 @@
+- 
+- if test $ac_cv_prog_gcc = yes; then
+-     echo $ac_n "checking whether ${CC-cc} needs -traditional""... $ac_c" 1>&6
+--echo "configure:5247: checking whether ${CC-cc} needs -traditional" >&5
+-+echo "configure:5282: checking whether ${CC-cc} needs -traditional" >&5
+- if eval "test \"`echo '$''{'ac_cv_prog_gcc_traditional'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-     ac_pattern="Autoconf.*'x'"
+-   cat > conftest.$ac_ext <<EOF
+--#line 5253 "configure"
+-+#line 5288 "configure"
+- #include "confdefs.h"
+- #include <sgtty.h>
+- Autoconf TIOCGETP
+-@@ -5267,7 +5302,7 @@
+- 
+-   if test $ac_cv_prog_gcc_traditional = no; then
+-     cat > conftest.$ac_ext <<EOF
+--#line 5271 "configure"
+-+#line 5306 "configure"
+- #include "confdefs.h"
+- #include <termio.h>
+- Autoconf TCGETA
+-@@ -5291,12 +5326,12 @@
+- for ac_func in lchown strerror
+- do
+- echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
+--echo "configure:5295: checking for $ac_func" >&5
+-+echo "configure:5330: checking for $ac_func" >&5
+- if eval "test \"`echo '$''{'ac_cv_func_$ac_func'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 5300 "configure"
+-+#line 5335 "configure"
+- #include "confdefs.h"
+- /* System header to define __stub macros and hopefully few prototypes,
+-     which can conflict with char $ac_func(); below.  */
+-@@ -5319,7 +5354,7 @@
+- 
+- ; return 0; }
+- EOF
+--if { (eval echo configure:5323: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+-+if { (eval echo configure:5358: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+-   rm -rf conftest*
+-   eval "ac_cv_func_$ac_func=yes"
+- else
+-@@ -5360,7 +5395,7 @@
+- if test -z "$GNU_CC"; then
+- 
+-     echo $ac_n "checking for +Olit support""... $ac_c" 1>&6
+--echo "configure:5364: checking for +Olit support" >&5
+-+echo "configure:5399: checking for +Olit support" >&5
+- if eval "test \"`echo '$''{'ac_cv_hpux_usable_olit_option'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-@@ -5399,7 +5434,7 @@
+- *)
+-     
+- echo $ac_n "checking for pthread_create in -lpthreads""... $ac_c" 1>&6
+--echo "configure:5403: checking for pthread_create in -lpthreads" >&5
+-+echo "configure:5438: checking for pthread_create in -lpthreads" >&5
+- echo "
+-     #include <pthread.h> 
+-     void *foo(void *v) { return v; } 
+-@@ -5421,7 +5456,7 @@
+-         echo "$ac_t""no" 1>&6
+-         
+- echo $ac_n "checking for pthread_create in -lpthread""... $ac_c" 1>&6
+--echo "configure:5425: checking for pthread_create in -lpthread" >&5
+-+echo "configure:5460: checking for pthread_create in -lpthread" >&5
+- echo "
+-     #include <pthread.h> 
+-     void *foo(void *v) { return v; } 
+-@@ -5443,7 +5478,7 @@
+-         echo "$ac_t""no" 1>&6
+-         
+- echo $ac_n "checking for pthread_create in -lc_r""... $ac_c" 1>&6
+--echo "configure:5447: checking for pthread_create in -lc_r" >&5
+-+echo "configure:5482: checking for pthread_create in -lc_r" >&5
+- echo "
+-     #include <pthread.h> 
+-     void *foo(void *v) { return v; } 
+-@@ -5465,7 +5500,7 @@
+-         echo "$ac_t""no" 1>&6
+-         
+- echo $ac_n "checking for pthread_create in -lc""... $ac_c" 1>&6
+--echo "configure:5469: checking for pthread_create in -lc" >&5
+-+echo "configure:5504: checking for pthread_create in -lc" >&5
+- echo "
+-     #include <pthread.h> 
+-     void *foo(void *v) { return v; } 
+-@@ -5597,14 +5632,14 @@
+-       rm -f conftest*
+-    ac_cv_have_dash_pthread=no
+-    echo $ac_n "checking whether ${CC-cc} accepts -pthread""... $ac_c" 1>&6
+--echo "configure:5601: checking whether ${CC-cc} accepts -pthread" >&5
+-+echo "configure:5636: checking whether ${CC-cc} accepts -pthread" >&5
+-    echo 'int main() { return 0; }' | cat > conftest.c
+-    ${CC-cc} -pthread -o conftest conftest.c > conftest.out 2>&1
+-    if test $? -eq 0; then
+- 	if test -z "`egrep -i '(unrecognize|unknown)' conftest.out | grep pthread`" && test -z "`egrep -i '(error|incorrect)' conftest.out`" ; then
+- 	    ac_cv_have_dash_pthread=yes
+- 		case "$target_os" in
+--	    freebsd*)
+-+	    freebsd* | dragonfly*)
+- # Freebsd doesn't use -pthread for compiles, it uses them for linking
+-             ;;
+- 	    *)
+-@@ -5620,7 +5655,7 @@
+- 			    ac_cv_have_dash_pthreads=no
+-     if test "$ac_cv_have_dash_pthread" = "no"; then
+- 	    echo $ac_n "checking whether ${CC-cc} accepts -pthreads""... $ac_c" 1>&6
+--echo "configure:5624: checking whether ${CC-cc} accepts -pthreads" >&5
+-+echo "configure:5659: checking whether ${CC-cc} accepts -pthreads" >&5
+-     	echo 'int main() { return 0; }' | cat > conftest.c
+- 	    ${CC-cc} -pthreads -o conftest conftest.c > conftest.out 2>&1
+-     	if test $? -eq 0; then
+-@@ -5640,7 +5675,7 @@
+-             _PTHREAD_LDFLAGS=
+-         fi
+- 	    ;;
+--    *-freebsd*)
+-+    *-freebsd* | dragonfly*)
+- 	    cat >> confdefs.h <<\EOF
+- #define _REENTRANT 1
+- EOF
+-@@ -5754,7 +5789,7 @@
+- 
+-     fi
+-     ;;
+--*-freebsd*)
+-+*-freebsd* | dragonfly*)
+-     if test -n "$USE_NSPR_THREADS"; then
+-         cat >> confdefs.h <<\EOF
+- #define _PR_LOCAL_THREADS_ONLY 1
+diff --git a/c_src/patches/nspr-src-prnetdb.c.patch b/c_src/patches/nspr-src-prnetdb.c.patch
+deleted file mode 100644
+index b4fb0e9..0000000
+--- a/c_src/patches/nspr-src-prnetdb.c.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+---- c_src/nsprpub.old/pr/src/misc/prnetdb.c	2011-03-31 21:51:51 -0400
+-+++ c_src/nsprpub/pr/src/misc/prnetdb.c	2011-03-31 21:53:08 -0400
+-@@ -114,6 +114,11 @@
+- #define _PR_HAVE_5_ARG_GETPROTO_R
+- #endif
+- 
+-+#if __DragonFly_version >= 200202
+-+#define _PR_HAVE_GETPROTO_R
+-+#define _PR_HAVE_5_ARG_GETPROTO_R
+-+#endif
+-+
+- /* BeOS has glibc but not the glibc-style getprotobyxxx_r functions. */
+- #if (defined(__GLIBC__) && __GLIBC__ >= 2 && !defined(XP_BEOS))
+- #define _PR_HAVE_GETPROTO_R
+diff --git a/rebar.config b/rebar.config
+index 5849de0..5a6bb36 100644
+--- a/rebar.config
++++ b/rebar.config
+@@ -10,8 +10,8 @@
+ {port_specs, [{"priv/erlang_js_drv.so", ["c_src/*.c"]}]}.
+ 
+ {port_env, [
+-             {"DRV_CFLAGS", "$DRV_CFLAGS -I c_src/system/include/js -DXP_UNIX -Wall"},
+-             {"DRV_LDFLAGS", "$DRV_LDFLAGS c_src/system/lib/libjs.a c_src/system/lib/libnspr4.a"},
++             {"DRV_CFLAGS", "$DRV_CFLAGS `pkg-config libjs --cflags`"},
++             {"DRV_LDFLAGS", "$DRV_LDFLAGS `pkg-config libjs --libs`"},
+ 
+              %% Define flags for enabling/disable 64 bit build of NSPR
+              {"-32$", "NSPR_SIXTYFOUR", "--disable-64bit"},
+@@ -39,6 +39,3 @@
+              {"freebsd.*", "MAKEFLAGS", ""}
+ 
+             ]}.
+-
+-{pre_hooks, [{compile, "make c_src"}]}.
+-{post_hooks, [{clean, "make c_src_clean"}]}.
+diff --git a/rebar.mk b/rebar.mk
+deleted file mode 100644
+index bfb4156..0000000
+--- a/rebar.mk
++++ /dev/null
+@@ -1,38 +0,0 @@
+-
+-REBAR_URL ?= http://github.com/downloads/basho/rebar/rebar
+-
+-REBAR_GLOBAL ?= $(shell which rebar)
+-REBAR_LOCAL  ?= $(shell which ./rebar)
+-REBAR_TARGET ?= $(dir $(shell which escript))
+-
+-ifneq ($(strip $(REBAR_LOCAL)), )
+-REBAR ?= $(REBAR_LOCAL)
+-else ifneq ($(strip $(REBAR_GLOBAL)), )
+-REBAR ?= $(REBAR_GLOBAL)
+-else
+-REBAR ?= rebar
+-$(warning Rebar not installed or available. Try 'make rebar-info')
+-endif
+-
+-ifneq ($(strip $(shell which wget)), )
+-REBAR_FETCH ?= wget --no-check-certificate -q -O - $(REBAR_URL)
+-else
+-REBAR_FETCH ?= curl -s -f $(REBAR_URL)
+-endif
+-
+-
+-rebar-info:
+-	@echo "Rebar needs to be either on your path or present in the current" \
+-	      "working directory:\n" \
+-	      "* 'make rebar-install' will download and install it into your Erlang path (RECOMMENDED)\n" \
+-	      "* 'make rebar-get' will download it to your current working directory\n" \
+-
+-
+-rebar-install:
+-	$(REBAR_FETCH) > $(REBAR_TARGET)/rebar
+-	chmod a+x $(REBAR_TARGET)/rebar
+-
+-rebar-get:
+-	$(REBAR_FETCH) > ./rebar
+-	chmod u+x ./rebar
+-

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#EXTRA#
+#DEBHELPER#
+
+set -e
+
+if [ "$1" = "remove" ]; then
+    a2dissite roundcubemail.conf
+fi
+
+exit 0

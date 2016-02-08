@@ -1,0 +1,26 @@
+From 10974788bcc172aba1c6532007a88e1fee139c08 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Thu, 7 Jun 2012 22:03:16 +0400
+Subject: [PATCH 3/3] Off-by one error
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ priv/generator/generator.erl |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/priv/generator/generator.erl b/priv/generator/generator.erl
+index 249167f..06ca421 100644
+--- a/priv/generator/generator.erl
++++ b/priv/generator/generator.erl
+@@ -404,7 +404,7 @@ structs(StructsFile) ->
+ do_structs(Str, Acc) ->
+     case re:run(Str,"gn_construct_.*\\(") of
+ 	nomatch -> Acc;
+-	{match,[{St,Le}]} -> [string:substr(Str,St+13,Le-14)|Acc]
++	{match,[{St,Le}]} -> [string:substr(Str,St+14,Le-14)|Acc]
+     end.
+ ins_struct(S) -> ets:insert(types,#type{what=struct,cname=S,cast=""}).
+     
+-- 
+1.7.10.2
+

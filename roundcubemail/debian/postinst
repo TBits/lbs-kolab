@@ -1,0 +1,51 @@
+#!/bin/sh
+
+#EXTRA#
+#DEBHELPER#
+
+set -e
+
+fixperms() {
+    chown -R www-data:adm \
+        /var/lib/roundcubemail \
+        /var/log/roundcubemail
+    chmod 750 \
+        /var/lib/roundcubemail \
+        /var/log/roundcubemail
+	chown -R root:www-data /etc/roundcubemail
+	find /etc/roundcubemail -type d -exec chmod u+rwx,g+rx,g-w,o-rwx {} \;
+	find /etc/roundcubemail -type f -exec chmod u+rw,u-x,g+r,g-wx,o-rwx {} \;
+}
+
+reload_apache()
+{
+    if apache2ctl configtest 2>/dev/null; then
+        invoke-rc.d apache2 $1 || true
+    else
+        echo "Your apache2 configuration is broken, so we're not restarting it for you."
+    fi
+}
+
+update_database() {
+    /usr/share/roundcubemail/bin/updatedb.sh \
+        --dir /usr/share/doc/roundcubemail/SQL/ \
+        --package roundcube \
+        >/dev/null 2>&1 || :
+}
+
+
+
+case "$1" in
+    configure)
+        fixperms
+        update_database
+        a2enmod rewrite
+        if [ -e "/etc/apache2/sites-available/roundcubemail.conf" -a ! -e "/etc/apache2/sites-enabled/roundcubemail.conf" ]; then
+            a2ensite roundcubemail.conf
+            reload_apache reload
+        fi
+    ;;
+esac
+
+exit 0
+

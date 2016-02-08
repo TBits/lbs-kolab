@@ -1,0 +1,21 @@
+[Unit]
+Description=Riak Distributed Data Store
+After=network.target
+
+[Service]
+User=riak
+Group=riak
+LimitNOFILE=16384
+Type=forking
+StandardOutput=journal
+StandardError=journal
+#Restart=always
+#StartLimitInterval=10
+#StartLimitBurst=5
+TimeoutStopSec=2
+ExecStart=/usr/bin/riak start
+ExecReload=/usr/bin/riak restart
+ExecStop=/usr/bin/riak stop
+
+[Install]
+WantedBy=multi-user.target

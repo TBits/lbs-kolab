@@ -1,0 +1,287 @@
+From 56b181026ef328c4025b3f3cd65c48aa0ac5c47b Mon Sep 17 00:00:00 2001
+From: Robert Newson <rnewson@apache.org>
+Date: Sat, 4 Jan 2014 17:32:00 +0000
+Subject: [PATCH] Support SOCKS5 protocol for replication
+
+Using "socks5" as the protocol in the "proxy" parameter of replication
+requests will cause DNS resolution and data transfer to happen via a
+SOCKS5 proxy server.
+
+COUCHDB-2025
+
+diff --git a/src/ibrowse_http_client.erl b/src/ibrowse_http_client.erl
+index 59b9e08..8a3ce49 100644
+--- a/src/ibrowse_http_client.erl
++++ b/src/ibrowse_http_client.erl
+@@ -39,7 +39,8 @@
+ 
+ -record(state, {host, port, connect_timeout,
+                 inactivity_timer_ref,
+-                use_proxy = false, proxy_auth_digest,
++                use_http_proxy = false, http_proxy_auth_digest,
++                socks5_host, socks5_port, socks5_user, socks5_password,
+                 ssl_options = [], is_ssl = false, socket,
+                 proxy_tunnel_setup = false,
+                 tunnel_setup_queue = [],
+@@ -488,9 +489,21 @@ handle_sock_closed(#state{reply_buffer = Buf, reqs = Reqs, http_status_code = SC
+             State
+     end.
+ 
+-do_connect(Host, Port, Options, #state{is_ssl      = true,
+-                                       use_proxy   = false,
+-                                       ssl_options = SSLOptions},
++do_connect(Host, Port, Options, #state{socks5_host = SocksHost}=State, Timeout)
++  when SocksHost /= undefined ->
++    ProxyOptions = [
++        {user,     State#state.socks5_user},
++        {password, State#state.socks5_password},
++        {host,     SocksHost},
++        {port,     State#state.socks5_port},
++        {is_ssl,   State#state.is_ssl},
++        {ssl_opts, State#state.ssl_options}],
++    ibrowse_socks5:connect(Host, Port, ProxyOptions,
++                           get_sock_options(SocksHost, Options, []),
++                           Timeout);
++do_connect(Host, Port, Options, #state{is_ssl         = true,
++                                       use_http_proxy = false,
++                                       ssl_options    = SSLOptions},
+            Timeout) ->
+     ssl:connect(Host, Port, get_sock_options(Host, Options, SSLOptions), Timeout);
+ do_connect(Host, Port, Options, _State, Timeout) ->
+@@ -541,7 +554,7 @@ filter_sock_options(Opts) ->
+ 
+ do_send(Req, #state{socket = Sock,
+                     is_ssl = true,
+-                    use_proxy = true,
++                    use_http_proxy = true,
+                     proxy_tunnel_setup = Pts}) when Pts /= done ->  gen_tcp:send(Sock, Req);
+ do_send(Req, #state{socket = Sock, is_ssl = true})  ->  ssl:send(Sock, Req);
+ do_send(Req, #state{socket = Sock, is_ssl = false}) ->  gen_tcp:send(Sock, Req).
+@@ -589,7 +602,7 @@ maybe_chunked_encode(Data, true) ->
+ do_close(#state{socket = undefined})            ->  ok;
+ do_close(#state{socket = Sock,
+                 is_ssl = true,
+-                use_proxy = true,
++                use_http_proxy = true,
+                 proxy_tunnel_setup = Pts
+                }) when Pts /= done ->  catch gen_tcp:close(Sock);
+ do_close(#state{socket = Sock, is_ssl = true})  ->  catch ssl:close(Sock);
+@@ -602,7 +615,7 @@ active_once(#state{socket = Socket} = State) ->
+ 
+ do_setopts(_Sock, [],   _)    ->  ok;
+ do_setopts(Sock, Opts, #state{is_ssl = true,
+-                              use_proxy = true,
++                              use_http_proxy = true,
+                               proxy_tunnel_setup = Pts}
+                              ) when Pts /= done ->  inet:setopts(Sock, Opts);
+ do_setopts(Sock, Opts, #state{is_ssl = true}) -> ssl:setopts(Sock, Opts);
+@@ -621,17 +634,28 @@ send_req_1(From,
+                 port = Port} = Url,
+            Headers, Method, Body, Options, Timeout,
+            #state{socket = undefined} = State) ->
++    ProxyHost = get_value(proxy_host, Options, false),
++    ProxyProtocol = get_value(proxy_protocol, Options, http),
+     {Host_1, Port_1, State_1} =
+-        case get_value(proxy_host, Options, false) of
+-            false ->
++        case {ProxyHost, ProxyProtocol} of
++            {false, _} ->
+                 {Host, Port, State};
+-            PHost ->
++            {_, http} ->
+                 ProxyUser     = get_value(proxy_user, Options, []),
+                 ProxyPassword = get_value(proxy_password, Options, []),
+                 Digest        = http_auth_digest(ProxyUser, ProxyPassword),
+-                {PHost, get_value(proxy_port, Options, 80),
+-                 State#state{use_proxy = true,
+-                             proxy_auth_digest = Digest}}
++                {ProxyHost, get_value(proxy_port, Options, 80),
++                 State#state{use_http_proxy = true,
++                             http_proxy_auth_digest = Digest}};
++            {_, socks5} ->
++                ProxyUser     = list_to_binary(get_value(proxy_user, Options, [])),
++                ProxyPassword = list_to_binary(get_value(proxy_password, Options, [])),
++                ProxyPort = get_value(proxy_port, Options, 1080),
++                {Host, Port,
++                 State#state{socks5_host = ProxyHost,
++                             socks5_port = ProxyPort,
++                             socks5_user = ProxyUser,
++                             socks5_password = ProxyPassword}}
+         end,
+     State_2 = check_ssl_options(Options, State_1),
+     do_trace("Connecting...~n", []),
+@@ -662,7 +686,7 @@ send_req_1(From,
+            Headers, Method, Body, Options, Timeout,
+            #state{
+                   proxy_tunnel_setup = false,
+-                  use_proxy = true,
++                  use_http_proxy = true,
+                   is_ssl    = true} = State) ->
+     Ref = case Timeout of
+               infinity ->
+@@ -850,11 +874,11 @@ add_auth_headers(#url{username = User,
+                 end,
+     add_proxy_auth_headers(State, Headers_1).
+ 
+-add_proxy_auth_headers(#state{use_proxy = false}, Headers) ->
++add_proxy_auth_headers(#state{use_http_proxy = false}, Headers) ->
+     Headers;
+-add_proxy_auth_headers(#state{proxy_auth_digest = []}, Headers) ->
++add_proxy_auth_headers(#state{http_proxy_auth_digest = []}, Headers) ->
+     Headers;
+-add_proxy_auth_headers(#state{proxy_auth_digest = Auth_digest}, Headers) ->
++add_proxy_auth_headers(#state{http_proxy_auth_digest = Auth_digest}, Headers) ->
+     [{"Proxy-Authorization", ["Basic ", Auth_digest]} | Headers].
+ 
+ http_auth_digest([], []) ->
+@@ -863,7 +887,7 @@ http_auth_digest(Username, Password) ->
+     ibrowse_lib:encode_base64(Username ++ [$: | Password]).
+ 
+ make_request(Method, Headers, AbsPath, RelPath, Body, Options,
+-             #state{use_proxy = UseProxy, is_ssl = Is_ssl}, ReqId) ->
++             #state{use_http_proxy = UseHttpProxy, is_ssl = Is_ssl}, ReqId) ->
+     HttpVsn = http_vsn_string(get_value(http_vsn, Options, {1,1})),
+     Fun1 = fun({X, Y}) when is_atom(X) ->
+                    {to_lower(atom_to_list(X)), X, Y};
+@@ -906,7 +930,7 @@ make_request(Method, Headers, AbsPath, RelPath, Body, Options,
+                         Headers_2
+                 end,
+     Headers_4 = cons_headers(Headers_3),
+-    Uri = case get_value(use_absolute_uri, Options, false) or UseProxy of
++    Uri = case get_value(use_absolute_uri, Options, false) or UseHttpProxy of
+               true ->
+                   case Is_ssl of
+                       true ->
+diff --git a/src/ibrowse_lib.erl b/src/ibrowse_lib.erl
+index 1ce6bd4..7b12cb3 100644
+--- a/src/ibrowse_lib.erl
++++ b/src/ibrowse_lib.erl
+@@ -362,9 +362,10 @@ parse_url([], get_password, Url, TmpAcc) ->
+ parse_url([], State, Url, TmpAcc) ->
+     {invalid_uri_2, State, Url, TmpAcc}.
+ 
+-default_port(http)  -> 80;
+-default_port(https) -> 443;
+-default_port(ftp)   -> 21.
++default_port(socks5) -> 1080;
++default_port(http)   -> 80;
++default_port(https)  -> 443;
++default_port(ftp)    -> 21.
+ 
+ printable_date() ->
+     {{Y,Mo,D},{H, M, S}} = calendar:local_time(),
+diff --git a/src/ibrowse_socks5.erl b/src/ibrowse_socks5.erl
+new file mode 100644
+index 0000000..d00df44
+--- /dev/null
++++ b/src/ibrowse_socks5.erl
+@@ -0,0 +1,109 @@
++% Licensed under the Apache License, Version 2.0 (the "License"); you may not
++% use this file except in compliance with the License. You may obtain a copy of
++% the License at
++%
++%   http://www.apache.org/licenses/LICENSE-2.0
++%
++% Unless required by applicable law or agreed to in writing, software
++% distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++% WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++% License for the specific language governing permissions and limitations under
++% the License.
++
++-module(ibrowse_socks5).
++
++-define(VERSION, 5).
++-define(CONNECT, 1).
++
++-define(NO_AUTH, 0).
++-define(USERPASS, 2).
++-define(UNACCEPTABLE, 16#FF).
++-define(RESERVED, 0).
++
++-define(ATYP_IPV4, 1).
++-define(ATYP_DOMAINNAME, 3).
++-define(ATYP_IPV6, 4).
++
++-define(SUCCEEDED, 0).
++
++-export([connect/5]).
++
++-import(ibrowse_lib, [get_value/2, get_value/3]).
++
++connect(TargetHost, TargetPort, ProxyOptions, Options, Timeout) ->
++    case gen_tcp:connect(get_value(host, ProxyOptions),
++                         get_value(port, ProxyOptions),
++                         Options, Timeout) of
++        {ok, Socket} ->
++            case handshake(Socket, Options) of
++                ok ->
++                    case connect(TargetHost, TargetPort, Socket) of
++                        ok ->
++                            maybe_ssl(Socket, ProxyOptions, Timeout);
++                        Else ->
++                            gen_tcp:close(Socket),
++                            Else
++                    end;
++                Else ->
++                    gen_tcp:close(Socket),
++                    Else
++            end;
++        Else ->
++            Else
++    end.
++
++handshake(Socket, ProxyOptions) when is_port(Socket) ->
++    {Handshake, Success} = case get_value(user, ProxyOptions, <<>>) of
++        <<>> ->
++            {<<?VERSION, 1, ?NO_AUTH>>, ?NO_AUTH};
++        User ->
++            Password = get_value(password, ProxyOptions, <<>>),
++            {<<?VERSION, 1, ?USERPASS, (byte_size(User)), User,
++               (byte_size(Password)), Password>>, ?USERPASS}
++    end,
++    ok = gen_tcp:send(Socket, Handshake),
++    case gen_tcp:recv(Socket, 0) of
++        {ok, <<?VERSION, Success>>} ->
++            ok;
++        {ok, <<?VERSION, ?UNACCEPTABLE>>} ->
++            {error, unacceptable};
++        {error, Reason} ->
++            {error, Reason}
++    end.
++
++connect(Host, Port, Via) when is_list(Host) ->
++    connect(list_to_binary(Host), Port, Via);
++connect(Host, Port, Via) when is_binary(Host), is_integer(Port),
++                              is_port(Via) ->
++    ok = gen_tcp:send(Via,
++        <<?VERSION, ?CONNECT, ?RESERVED, ?ATYP_DOMAINNAME,
++          (byte_size(Host)), Host/binary,
++          (Port):16>>),
++    case gen_tcp:recv(Via, 0) of
++        {ok, <<?VERSION, ?SUCCEEDED, ?RESERVED, _/binary>>} ->
++            ok;
++        {ok, <<?VERSION, Rep, ?RESERVED, _/binary>>} ->
++            {error, rep(Rep)};
++        {error, Reason} ->
++            {error, Reason}
++    end.
++
++maybe_ssl(Socket, ProxyOptions, Timeout) ->
++    IsSsl = get_value(is_ssl, ProxyOptions, false),
++    SslOpts = get_value(ssl_opts, ProxyOptions, []),
++    case IsSsl of
++        false ->
++            {ok, Socket};
++        true ->
++            ssl:connect(Socket, SslOpts, Timeout)
++    end.
++
++rep(0) -> succeeded;
++rep(1) -> server_fail;
++rep(2) -> disallowed_by_ruleset;
++rep(3) -> network_unreachable;
++rep(4) -> host_unreachable;
++rep(5) -> connection_refused;
++rep(6) -> ttl_expired;
++rep(7) -> command_not_supported;
++rep(8) -> address_type_not_supported.

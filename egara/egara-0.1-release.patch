@@ -1,0 +1,25 @@
+diff --git a/rebar.config b/rebar.config
+index add3b68..76753eb 100644
+--- a/rebar.config
++++ b/rebar.config
+@@ -1,7 +1,6 @@
+ %% -*- tab-width: 4;erlang-indent-level: 4;indent-tabs-mode: nil -*-
+ %% ex: ft=erlang ts=4 sw=4 et
+ 
+-{deps_dir, "deps"}.
+ {deps, [
+     { jsx, "2.*", { git, "https://github.com/talentdeficit/jsx.git", { tag, "v2.4.0" } } },
+     { lager, ".*", { git, "https://github.com/basho/lager.git", { tag, "2.1.0" } } },
+diff --git a/rel/reltool.config b/rel/reltool.config
+index 8df6429..27091f1 100644
+--- a/rel/reltool.config
++++ b/rel/reltool.config
+@@ -1,7 +1,7 @@
+ %% -*- mode: erlang -*-
+ %% ex: ft=erlang
+ {sys, [
+-       {lib_dirs, ["../apps/egara", "../deps"]},
++       {lib_dirs, ["../apps/egara"]},
+        {erts, [{mod_cond, derived}, {app_file, strip}]},
+        {app_file, strip},
+        {rel, "egara", "0.1",

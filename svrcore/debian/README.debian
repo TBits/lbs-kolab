@@ -1,0 +1,10 @@
+svrcore
+----------------------
+This is the Debian GNU/Linux prepackaged version of Netscape's svrcore 
+library.
+
+The files src/key.ico, src/logo.ico and src/ntgetpin.rc habe been removed
+from the original tarball due to unclear licensing. Hence the DFSG-free
+tarball.
+
+This package is maintained by Michele Baldessari <michele@acksyn.org>.

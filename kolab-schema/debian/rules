@@ -1,0 +1,35 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+export DH_OPTIONS=-v
+
+override_dh_auto_install:
+	# Test to see if we are building for a UCS platform
+	if [ -x "$$(which univention-install-config-registry 2>/dev/null)" ]; then \
+		patch -p1 < $(CURDIR)/debian/kolab-schema-3.1-for-ucs.patch ; \
+		echo "debian/univention-kolab3-wrapper.schema" >> $(CURDIR)/debian/docs ; \
+		echo "ucs:Conflicts=univention-legacy-kolab-schema" >> $(CURDIR)/debian/kolab-schema.substvars ; \
+		echo "ucs:Provides=univention-legacy-kolab-schema" >> $(CURDIR)/debian/kolab-schema.substvars ; \
+		echo "ucs:Replaces=univention-legacy-kolab-schema" >> $(CURDIR)/debian/kolab-schema.substvars ; \
+	fi
+
+	dh_auto_install
+
+override_dh_compress:
+	# Test to see if we are building for a UCS platform
+	if [ -x "$$(which univention-install-config-registry 2>/dev/null)" ]; then \
+		dh_compress -Xkolab3.ldif -Xkolab3.schema -Xunivention-kolab3-wrapper.schema ; \
+	else \
+		dh_compress -Xkolab3.ldif -Xkolab3.schema ; \
+	fi
+
+%:
+	dh $@ 
+

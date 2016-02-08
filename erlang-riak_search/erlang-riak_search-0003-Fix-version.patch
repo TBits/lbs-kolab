@@ -1,0 +1,25 @@
+From ebd5631a5bc2329b88e69436b7bb1aa693300417 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Sun, 24 Mar 2013 18:40:29 +0400
+Subject: [PATCH 3/4] Fix version
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ src/riak_search.app.src | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/riak_search.app.src b/src/riak_search.app.src
+index 74c73f8..93c1361 100644
+--- a/src/riak_search.app.src
++++ b/src/riak_search.app.src
+@@ -1,6 +1,6 @@
+ {application, riak_search,
+  [{description, "Riak Search"},
+-  {vsn, "1.3.0"},
++  {vsn, "1.3.2"},
+   {registered, []},
+   {applications, [
+                   kernel,
+-- 
+1.8.3.1
+

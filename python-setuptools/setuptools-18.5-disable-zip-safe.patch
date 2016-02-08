@@ -1,0 +1,12 @@
+--- ./setuptools/command/bdist_egg.py.orig	2015-11-15 16:25:11.514387679 +0100
++++ ./setuptools/command/bdist_egg.py	2015-11-15 16:25:16.096408293 +0100
+@@ -237,6 +237,9 @@
+                     os.unlink(path)
+ 
+     def zip_safe(self):
++        log.warn("Setting zip_safe to False by default on Fedora!"
++                 "See: https://bugzilla.redhat.com/show_bug.cgi?id=1271776")
++        return False
+         safe = getattr(self.distribution, 'zip_safe', None)
+         if safe is not None:
+             return safe

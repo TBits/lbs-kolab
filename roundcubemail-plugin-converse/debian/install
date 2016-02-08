@@ -1,0 +1,11 @@
+config.inc.php.dist etc/roundcubemail/
+converse.php usr/share/roundcubemail/plugins/converse
+css usr/share/roundcubemail/plugins/converse
+devel usr/share/roundcubemail/plugins/converse
+js usr/share/roundcubemail/plugins/converse
+LICENSE.md usr/share/roundcubemail/plugins/converse
+localization usr/share/roundcubemail/plugins/converse
+php usr/share/roundcubemail/plugins/converse
+README.md usr/share/roundcubemail/plugins/converse
+skins usr/share/roundcubemail/plugins/converse
+TROUBLESHOOTING.md usr/roundcubemail/plugins/converse

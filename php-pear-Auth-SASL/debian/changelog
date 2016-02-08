@@ -1,0 +1,18 @@
+php-auth-sasl (1.0.6-0~kolab1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun,  9 Nov 2014 23:55:05 +0100
+
+php-auth-sasl (1.0.4-1) unstable; urgency=low
+
+  * New upstream Release.
+
+ -- Benoit Mortier <benoit.mortier@opensides.be>  Mon, 22 Mar 2010 23:55:05 +0100
+
+php-auth-sasl (1.0.3-1) unstable; urgency=low
+
+  * Initial Release (Closes: #555976).
+
+ -- Benoit Mortier <benoit.mortier@opensides.be>  Fri, 13 Nov 2009 00:53:42 +0100
+

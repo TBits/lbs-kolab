@@ -1,0 +1,107 @@
+From 62959e75f7556536cbfa78d6a094263ab9d93d1e Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Sun, 10 Mar 2013 18:02:51 +0400
+Subject: [PATCH 2/4] Disable perf counts
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ c_src/eleveldb.cc   | 6 ------
+ c_src/refobjects.cc | 2 --
+ c_src/refobjects.h  | 1 -
+ c_src/workitems.cc  | 1 -
+ 4 files changed, 10 deletions(-)
+
+diff --git a/c_src/eleveldb.cc b/c_src/eleveldb.cc
+index 6f718d0..76f0201 100644
+--- a/c_src/eleveldb.cc
++++ b/c_src/eleveldb.cc
+@@ -37,7 +37,6 @@
+ #include "leveldb/write_batch.h"
+ #include "leveldb/cache.h"
+ #include "leveldb/filter_policy.h"
+-#include "leveldb/perf_count.h"
+ 
+ #ifndef INCL_THREADING_H
+     #include "threading.h"
+@@ -305,12 +304,10 @@ FindWaitingThread(
+              // to address race condition, thread might be waiting now
+              FindWaitingThread(NULL);
+ 
+-             perf()->Inc(leveldb::ePerfElevelQueued);
+              ret_flag=true;
+          }   // if
+          else
+          {
+-             perf()->Inc(leveldb::ePerfElevelDirect);
+              ret_flag=true;
+          }   // else
+      }   // if
+@@ -342,7 +339,6 @@ FindWaitingThread(
+ 
+  size_t work_queue_size() const { return work_queue.size(); }
+  bool shutdown_pending() const  { return shutdown; }
+- leveldb::PerformanceCounters * perf() const {return(leveldb::gPerfCounters);};
+ 
+ 
+  private:
+@@ -544,7 +540,6 @@ void *eleveldb_write_thread_worker(void *args)
+                     submission=h.work_queue.front();
+                     h.work_queue.pop_front();
+                     eleveldb::dec_and_fetch(&h.work_queue_atomic);
+-                    h.perf()->Inc(leveldb::ePerfElevelDequeued);
+                 }   // if
+ 
+                 h.unlock();
+@@ -670,7 +665,6 @@ ERL_NIF_TERM parse_open_option(ErlNifEnv* env, ERL_NIF_TERM item, leveldb::Optio
+             unsigned long bfsize = 16;
+             if (option[1] == eleveldb::ATOM_TRUE || enif_get_ulong(env, option[1], &bfsize))
+             {
+-                opts.filter_policy = leveldb::NewBloomFilterPolicy2(bfsize);
+             }
+         }
+     }
+diff --git a/c_src/refobjects.cc b/c_src/refobjects.cc
+index 3371ce2..288963b 100644
+--- a/c_src/refobjects.cc
++++ b/c_src/refobjects.cc
+@@ -44,13 +44,11 @@ namespace eleveldb {
+ RefObject::RefObject()
+     : m_RefCount(0)
+ {
+-        leveldb::gPerfCounters->Inc(leveldb::ePerfElevelRefCreate);
+ }   // RefObject::RefObject
+ 
+ 
+ RefObject::~RefObject()
+ {
+-    leveldb::gPerfCounters->Inc(leveldb::ePerfElevelRefDelete);
+ }   // RefObject::~RefObject
+ 
+ 
+diff --git a/c_src/refobjects.h b/c_src/refobjects.h
+index 2309afd..b454bda 100644
+--- a/c_src/refobjects.h
++++ b/c_src/refobjects.h
+@@ -28,7 +28,6 @@
+ 
+ #include "leveldb/db.h"
+ #include "leveldb/write_batch.h"
+-#include "leveldb/perf_count.h"
+ 
+ #ifndef INCL_THREADING_H
+     #include "threading.h"
+diff --git a/c_src/workitems.cc b/c_src/workitems.cc
+index 79cf7ff..89f41eb 100644
+--- a/c_src/workitems.cc
++++ b/c_src/workitems.cc
+@@ -29,7 +29,6 @@
+ 
+ #include "leveldb/cache.h"
+ #include "leveldb/filter_policy.h"
+-#include "leveldb/perf_count.h"
+ 
+ // error_tuple duplicated in workitems.cc and eleveldb.cc ... how to fix?
+ static ERL_NIF_TERM error_tuple(ErlNifEnv* env, ERL_NIF_TERM error, leveldb::Status& status)
+-- 
+1.8.3.1
+

@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --buildsystem=phppear --with phppear
+
+override_dh_auto_configure:
+	dh_auto_configure -O--buildsystem=phppear
+	sed -i '/role="test"/d' ./package.xml
+	sed -i '/phail\.php/d' ./package.xml
+
+override_dh_link:
+	dh_link -O--buildsystem=phppear

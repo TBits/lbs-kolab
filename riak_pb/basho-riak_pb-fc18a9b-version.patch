@@ -1,0 +1,30 @@
+Only in basho-riak_pb-fc18a9b/: ebin
+Only in basho-riak_pb-fc18a9b/include: riak_dt_pb.hrl
+Only in basho-riak_pb-fc18a9b/include: riak_kv_pb.hrl
+Only in basho-riak_pb-fc18a9b/include: riak_pb.hrl
+Only in basho-riak_pb-fc18a9b/include: riak_search_pb.hrl
+Only in basho-riak_pb-fc18a9b/include: riak_yokozuna_pb.hrl
+diff -ur basho-riak_pb-fc18a9b.orig/src/riak_pb.app.src basho-riak_pb-fc18a9b/src/riak_pb.app.src
+--- basho-riak_pb-fc18a9b.orig/src/riak_pb.app.src	2014-05-30 21:07:44.000000000 +0200
++++ basho-riak_pb-fc18a9b/src/riak_pb.app.src	2015-05-17 10:43:07.178619301 +0200
+@@ -1,7 +1,7 @@
+ {application, riak_pb,
+  [
+   {description, "Riak Protocol Buffers Messages"},
+-  {vsn, git},
++  {vsn, "2.0.0.16"},
+   {registered, []},
+   {applications, [
+                   kernel,
+diff -ur basho-riak_pb-fc18a9b.orig/version.py basho-riak_pb-fc18a9b/version.py
+--- basho-riak_pb-fc18a9b.orig/version.py	2014-05-30 21:07:44.000000000 +0200
++++ basho-riak_pb-fc18a9b/version.py	2015-05-17 10:40:01.998962808 +0200
+@@ -64,6 +64,8 @@
+ def get_version():
+     d = dirname(__file__)
+ 
++    return "2.0.0.16"
++
+     if isdir(join(d, '.git')):
+         # Get the version using "git describe".
+         cmd = 'git describe --tags --match [0-9]*'.split()

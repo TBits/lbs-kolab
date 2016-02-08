@@ -1,0 +1,3 @@
+usr/lib/libkolab-kde.so
+usr/lib/cmake/Libkolab/*.cmake
+usr/include/kolab/*.h

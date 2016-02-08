@@ -1,0 +1,34 @@
+From 4915f9c9fe082afd1da7c77ecac06c3e66c71087 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>
+Date: Tue, 2 Apr 2013 12:14:59 +0200
+Subject: [PATCH 3/4] fix build on s390
+
+---
+ c_src/detail.hpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/c_src/detail.hpp b/c_src/detail.hpp
+index 411226f..f74c6fe 100644
+--- a/c_src/detail.hpp
++++ b/c_src/detail.hpp
+@@ -90,7 +90,7 @@ inline uint32_t inc_and_fetch(volatile uint32_t *ptr)
+ #endif
+ }
+ 
+-#ifdef __APPLE__
++#if defined(__APPLE__) || (defined(__s390__) && !defined(__s390x__))
+ template <>
+ inline size_t inc_and_fetch(volatile size_t *ptr)
+ {
+@@ -121,7 +121,7 @@ inline uint32_t dec_and_fetch(volatile uint32_t *ptr)
+ #endif
+ }
+ 
+-#ifdef __APPLE__
++#if defined(__APPLE__) || (defined(__s390__) && !defined(__s390x__))
+ template <>
+ inline size_t dec_and_fetch(volatile size_t *ptr)
+ {
+-- 
+1.8.3.1
+

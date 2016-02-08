@@ -1,0 +1,26 @@
+From 3efe8b8600965e7f47ebdfd3e6bf0b2847d9e97b Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Wed, 9 Jan 2013 12:44:06 +0400
+Subject: [PATCH 3/3] Fix for Erlang R14B (EPEL6)
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ src/folsom_metrics.erl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/folsom_metrics.erl b/src/folsom_metrics.erl
+index a6245c0..e953780 100644
+--- a/src/folsom_metrics.erl
++++ b/src/folsom_metrics.erl
+@@ -180,7 +180,7 @@ get_history_values(Name, Count) ->
+     folsom_ets:get_history_values(Name, Count).
+ 
+ histogram_timed_update(Name, Fun) ->
+-    {Time, Value} = timer:tc(Fun),
++    {Time, Value} = timer:tc(Fun, []),
+     ok = notify({Name, Time}),
+     Value.
+ 
+-- 
+1.8.1.4
+

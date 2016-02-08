@@ -1,0 +1,46 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Mail_Mime
+Upstream-Contact: Richard Heyes <richard@phpguru.org>,
+ Tomas V.V.Cox <cox@idecnet.com>
+Source: http://pear.php.net/package/Mail_Mime/download
+
+Files: *
+Copyright: 2002-2003, Richard Heyes <richard@phpguru.org>
+ 2003-2006, PEAR <pear-group@php.net>
+ 2003-2006, Cipriano Groenendal <cipri@php.net>
+ 2003-2006, Sean Coates <sean@php.net>
+ 2003-2006, Aleksander Machniak <alec@php.net>
+ 2003-2006, Thomas V.V.Cox <cox@idecnet.com>
+License: BSD-3-clause
+
+Files: debian/*
+Copyright: 2004-2005, Jeroen van Wolffelaar <jeroen@wolffelaar.nl>
+ 2007, Philipp Kern <pkern@debian.org>
+ 2008, Vincent Bernat <bernat@luffy.cx>
+ 2010, Josip Rodin <joy-packages@debian.org>
+ 2010-2013, Thomas Goirand <zigo@debian.org>
+ 2013, Prach Pongpanich <prachpub@gmail.com>
+License: BSD-3-clause
+
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+ derived from this software without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

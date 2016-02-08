@@ -1,0 +1,2 @@
+version=3
+opts="dversionmangle=s/\+dfsg$//" http://ftp.mozilla.org/pub/mozilla.org/directory/svrcore/releases/(\d\.\d\.\d)/src/svrcore-(\d\.\d\.\d)\.tar\.bz2

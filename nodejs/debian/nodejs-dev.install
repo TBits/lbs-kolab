@@ -1,0 +1,4 @@
+deps/uv/include/uv.h usr/include/nodejs/deps/uv/include
+src/*.h usr/include/nodejs/src
+common.gypi usr/include/nodejs
+

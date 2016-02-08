@@ -1,0 +1,13 @@
+diff -ur Feuerlabs-exometer_core-21b4194.orig/src/exometer_core.app.src Feuerlabs-exometer_core-21b4194/src/exometer_core.app.src
+--- Feuerlabs-exometer_core-21b4194.orig/src/exometer_core.app.src	2015-07-08 11:40:19.000000000 +0200
++++ Feuerlabs-exometer_core-21b4194/src/exometer_core.app.src	2015-07-08 16:42:21.538587167 +0200
+@@ -2,7 +2,7 @@
+ {application, exometer_core,
+  [
+   {description, "Code instrumentation and metrics collection package."},
+-  {vsn, git},
++  {vsn, "1.4"},
+   {registered, []},
+   {applications,
+    [
+Binary files Feuerlabs-exometer_core-21b4194.orig/src/.exometer_core.app.src.swp and Feuerlabs-exometer_core-21b4194/src/.exometer_core.app.src.swp differ

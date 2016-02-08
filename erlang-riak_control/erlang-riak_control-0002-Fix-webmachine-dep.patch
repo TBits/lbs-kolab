@@ -1,0 +1,13 @@
+diff -ur basho-riak_control-4c2a98c.orig/rebar.config basho-riak_control-4c2a98c/rebar.config
+--- basho-riak_control-4c2a98c.orig/rebar.config	2015-04-01 18:36:51.000000000 +0200
++++ basho-riak_control-4c2a98c/rebar.config	2015-07-09 11:20:15.747149834 +0200
+@@ -13,7 +13,7 @@
+ {xref_queries, [{"(XC - UC) || (XU - X - B - \"(cluster_info|dtrace)\" : Mod)", []}]}.
+ 
+ {deps, [
+-       {webmachine, "1.10.8", {git, "git://github.com/basho/webmachine.git", {tag, "1.10.8"}}},
++       {webmachine, "1.*", {git, "git://github.com/basho/webmachine.git", {tag, "1.10.8"}}},
+        {riak_core, ".*", {git, "git://github.com/basho/riak_core.git", {tag, "2.1.1"}}},
+        {erlydtl, ".*", {git, "git://github.com/erlydtl/erlydtl.git", "d20b53f0"}}
+        ]}.
+Only in basho-riak_control-4c2a98c.orig/: .rebar.config.swp

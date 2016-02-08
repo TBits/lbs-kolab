@@ -1,0 +1,10 @@
+diff -ur cssmin-0.2.0.orig/setup.py cssmin-0.2.0/setup.py
+--- cssmin-0.2.0.orig/setup.py	2013-10-14 17:39:41.000000000 +0200
++++ cssmin-0.2.0/setup.py	2015-05-18 16:14:18.064872329 +0200
+@@ -13,5 +13,5 @@
+     description      = "A Python port of the YUI CSS compression algorithm.",
+     py_modules       = ['cssmin'],
+     package_dir      = {'': 'src'},
+-    entry_points     = {'console_scripts': ['cssmin = cssmin:main']},
++    scripts          = ['src/cssmin.py'],
+ )

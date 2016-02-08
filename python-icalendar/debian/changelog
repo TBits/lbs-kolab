@@ -1,0 +1,37 @@
+python-icalendar (3.8.2) unstable; urgency=low
+
+  * Imported Upstream version 3.8.2
+
+ -- Thomas Bruederli (Kolab Systems) <bruederli@kolabsys.com>  Thu, 21 Aug 2014 17:01:00 +0200
+
+python-icalendar (3.4-1) unstable; urgency=low
+
+  * Imported Upstream version 3.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 09 Jun 2013 14:43:50 +0200
+
+python-icalendar (3.3-1) unstable; urgency=low
+
+  * Imported Upstream version 3.3
+
+ -- Paul Klos <kolab@klos2day.nl>  Fri, 08 Mar 2013 22:13:22 +0100
+
+python-icalendar (3.1.5-3) unstable; urgency=low
+
+  * Build-depend on python and build with python2 support to
+    get proper cleanup on package removal
+
+ -- Paul Klos <kolab@klos2day.nl>  Fri, 08 Mar 2013 21:30:05 +0100
+
+python-icalendar (3.1.5-2) unstable; urgency=low
+
+  * Lower debhelper requirement and compat level to allow building on
+    Squeeze and UCS 3.0
+
+ -- Christoph Wickert <wickert@kolabsys.com>  Tue, 11 Dec 2012 18:46:12 +0100
+
+python-icalendar (3.1.5-1) unstable; urgency=low
+
+  * Initial release (Closes: #1056)
+
+ -- Paul Klos <kolab@klos2day.nl>  Sat, 20 Oct 2012 09:04:47 +0200

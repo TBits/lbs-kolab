@@ -1,0 +1,29 @@
+From f609c30ed00750f4df55e563fb39f3b58085dd3f Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Fri, 18 May 2012 23:00:24 +0400
+Subject: [PATCH 2/3] Fix for R15B - usage of deprecated http
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ priv/generator/generator.erl |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/priv/generator/generator.erl b/priv/generator/generator.erl
+index 46ba752..249167f 100644
+--- a/priv/generator/generator.erl
++++ b/priv/generator/generator.erl
+@@ -77,9 +77,9 @@ get_ix_http(Doc) ->
+                 [Px] -> ok
+             end,
+             [H,P]  = string:tokens(Px,":"),
+-            http:set_options([{proxy,{{H,list_to_integer(P)},[]}}])
++            httpc:set_options([{proxy,{{H,list_to_integer(P)},[]}}])
+     end,
+-    ReqPid = spawn(fun() -> exit(http:request(Doc)) end),
++    ReqPid = spawn(fun() -> exit(httpc:request(Doc)) end),
+     ReqMon = erlang:monitor(process,ReqPid),
+     receive
+         {'DOWN',ReqMon,_,_,{ok,{_,_,S}}} -> S;
+-- 
+1.7.10.2
+

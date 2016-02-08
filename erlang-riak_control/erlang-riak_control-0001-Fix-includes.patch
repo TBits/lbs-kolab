@@ -1,0 +1,138 @@
+From f29461f6225e8898cbe18bdd5d8db4d46dbd3257 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Thu, 26 Jul 2012 23:51:32 +0400
+Subject: [PATCH 1/3] Fix includes
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ src/admin_cluster_down.erl   | 2 +-
+ src/admin_cluster_join.erl   | 2 +-
+ src/admin_gui.erl            | 2 +-
+ src/admin_node.erl           | 2 +-
+ src/admin_node_leave.erl     | 2 +-
+ src/admin_node_stop.erl      | 2 +-
+ src/admin_nodes.erl          | 2 +-
+ src/admin_partitions.erl     | 2 +-
+ src/riak_control_session.erl | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/src/admin_cluster_down.erl b/src/admin_cluster_down.erl
+index a971449..fce953c 100644
+--- a/src/admin_cluster_down.erl
++++ b/src/admin_cluster_down.erl
+@@ -29,7 +29,7 @@
+         ]).
+ 
+ %% riak_control and webmachine dependencies
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ -include_lib("webmachine/include/webmachine.hrl").
+ 
+ %% mappings to the various content types supported for this resource
+diff --git a/src/admin_cluster_join.erl b/src/admin_cluster_join.erl
+index 50c33a8..cfe2a41 100644
+--- a/src/admin_cluster_join.erl
++++ b/src/admin_cluster_join.erl
+@@ -29,7 +29,7 @@
+         ]).
+ 
+ %% riak_control and webmachine dependencies
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ -include_lib("webmachine/include/webmachine.hrl").
+ 
+ %% mappings to the various content types supported for this resource
+diff --git a/src/admin_gui.erl b/src/admin_gui.erl
+index d1314e9..d6f5584 100644
+--- a/src/admin_gui.erl
++++ b/src/admin_gui.erl
+@@ -31,7 +31,7 @@
+         ]).
+ 
+ %% riak_control and webmachine dependencies
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ -include_lib("webmachine/include/webmachine.hrl").
+ 
+ %% mappings to the various content types supported for this resource
+diff --git a/src/admin_node.erl b/src/admin_node.erl
+index 6eaa1bf..36e4ad9 100644
+--- a/src/admin_node.erl
++++ b/src/admin_node.erl
+@@ -29,7 +29,7 @@
+         ]).
+ 
+ %% riak_control and webmachine dependencies
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ -include_lib("webmachine/include/webmachine.hrl").
+ 
+ %% mappings to the various content types supported for this resource
+diff --git a/src/admin_node_leave.erl b/src/admin_node_leave.erl
+index bf759a2..e04f51e 100644
+--- a/src/admin_node_leave.erl
++++ b/src/admin_node_leave.erl
+@@ -29,7 +29,7 @@
+         ]).
+ 
+ %% riak_control and webmachine dependencies
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ -include_lib("webmachine/include/webmachine.hrl").
+ 
+ %% mappings to the various content types supported for this resource
+diff --git a/src/admin_node_stop.erl b/src/admin_node_stop.erl
+index a5fecdb..32b464e 100644
+--- a/src/admin_node_stop.erl
++++ b/src/admin_node_stop.erl
+@@ -29,7 +29,7 @@
+         ]).
+ 
+ %% riak_control and webmachine dependencies
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ -include_lib("webmachine/include/webmachine.hrl").
+ 
+ %% mappings to the various content types supported for this resource
+diff --git a/src/admin_nodes.erl b/src/admin_nodes.erl
+index 44e889c..d393a27 100644
+--- a/src/admin_nodes.erl
++++ b/src/admin_nodes.erl
+@@ -29,7 +29,7 @@
+         ]).
+ 
+ %% riak_control and webmachine dependencies
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ -include_lib("webmachine/include/webmachine.hrl").
+ 
+ %% mappings to the various content types supported for this resource
+diff --git a/src/admin_partitions.erl b/src/admin_partitions.erl
+index 90383ce..59da3f2 100644
+--- a/src/admin_partitions.erl
++++ b/src/admin_partitions.erl
+@@ -29,7 +29,7 @@
+         ]).
+ 
+ %% riak_control and webmachine dependencies
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ -include_lib("webmachine/include/webmachine.hrl").
+ 
+ %% mappings to the various content types supported for this resource
+diff --git a/src/riak_control_session.erl b/src/riak_control_session.erl
+index 2b34fcb..99e5cac 100644
+--- a/src/riak_control_session.erl
++++ b/src/riak_control_session.erl
+@@ -48,7 +48,7 @@
+ -export([get_my_info/0]).
+ 
+ %% record definitions
+--include_lib("riak_control/include/riak_control.hrl").
++-include("../include/riak_control.hrl").
+ 
+ -record(state,
+         { vsn         :: version(),
+-- 
+1.8.3.1
+

@@ -1,0 +1,27 @@
+From b6d9504796712c5ad3ef81eb45d7e902b17bae00 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Wed, 18 Jul 2012 22:41:10 +0400
+Subject: [PATCH 01/10] Use system-wide mochijson2
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ src/riak_kv_js_vm.erl | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/riak_kv_js_vm.erl b/src/riak_kv_js_vm.erl
+index 2cf6367..66cb7fa 100644
+--- a/src/riak_kv_js_vm.erl
++++ b/src/riak_kv_js_vm.erl
+@@ -372,7 +372,7 @@ maybe_idle(#state{in_batch=true}) ->
+ build_arg_list([], Accum) ->
+     lists:reverse(Accum);
+ build_arg_list([H|[]], Accum) ->
+-    build_arg_list([], [js_mochijson2:encode(H)|Accum]);
++    build_arg_list([], [mochijson2:encode(H)|Accum]);
+ build_arg_list([H|T], Accum) ->
+-    build_arg_list(T, [[js_mochijson2:encode(H), ","]|Accum]).
++    build_arg_list(T, [[mochijson2:encode(H), ","]|Accum]).
+ 
+-- 
+1.8.3.1
+

@@ -1,0 +1,28 @@
+From f1259cd3a696f753124c5889e755f4d02a88f5aa Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Sat, 6 Jul 2013 09:35:28 +0400
+Subject: [PATCH 4/4] TEMPORARILY skip verify_compactions option
+
+This isn't supported yet in system-wide leveldb, only in Basho's fork.
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ c_src/eleveldb.cc | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/c_src/eleveldb.cc b/c_src/eleveldb.cc
+index 76f0201..adb3a63 100644
+--- a/c_src/eleveldb.cc
++++ b/c_src/eleveldb.cc
+@@ -605,8 +605,6 @@ ERL_NIF_TERM parse_open_option(ErlNifEnv* env, ERL_NIF_TERM item, leveldb::Optio
+             opts.error_if_exists = (option[1] == eleveldb::ATOM_TRUE);
+         else if (option[0] == eleveldb::ATOM_PARANOID_CHECKS)
+             opts.paranoid_checks = (option[1] == eleveldb::ATOM_TRUE);
+-        else if (option[0] == eleveldb::ATOM_VERIFY_COMPACTIONS)
+-            opts.verify_compactions = (option[1] == eleveldb::ATOM_TRUE);
+         else if (option[0] == eleveldb::ATOM_MAX_OPEN_FILES)
+         {
+             int max_open_files;
+-- 
+1.8.3.1
+

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+#DEBHELPER#
+#EXTRA#
+
+if [ "$1" = "purge" ]; then
+    # For some reason, this does not happen automatically
+    rm -rf /etc/roundcubemail/calendar.inc.php
+    rm -rf /etc/roundcubemail/kolab_auth.inc.php
+    rm -rf /etc/roundcubemail/kolab_folders.inc.php
+    rm -rf /etc/roundcubemail/kolab.inc.php
+    rm -rf /etc/roundcubemail/owncloud.inc.php
+    rm -rf /etc/roundcubemail/recipient_to_contact.inc.php
+    rm -rf /etc/roundcubemail/terms.html
+    rm -rf /etc/roundcubemail/terms.inc.php
+    rm -rf /var/log/roundcubemail/*
+fi
+
+exit 0

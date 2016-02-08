@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -e
+
+fix_permissions() {
+	chown -R www-data:adm /var/lib/roundcubemail
+	chown -R www-data:adm /var/log/roundcubemail
+	chown -R root:www-data /etc/roundcubemail
+	find /etc/roundcubemail -type d -exec chmod u+rwx,g+rx,g-w,o-rwx {} \;
+	find /etc/roundcubemail -type f -exec chmod u+rw,u-x,g+r,g-wx,o-rwx {} \;
+}
+
+update_database() {
+	for plugin in calendar kolab_activesync kolab_addressbook \
+		kolab_auth kolab_config kolab_delegation kolab_files \
+		kolab_folders libkolab libcalendaring odfviewer \
+		owncloud piwik_analytics tasklist; do
+
+	    for dir in `find /usr/share/roundcubemail/plugins/ -type d -name "SQL"`; do
+		/usr/share/roundcubemail/bin/updatedb.sh \
+		    --dir $dir \
+		    --package ${plugin} \
+		    >/dev/null 2>&1 || :
+	    done
+	done
+}
+
+case $1 in
+	*)
+		fix_permissions
+		update_database
+        if [ -f "/etc/roundcubemail/kolab.inc.php" -a -f "/etc/roundcubemail/libkolab.inc.php" ]; then
+            rm -rf /etc/roundcubemail/libkolab.inc.php
+            mv /etc/roundcubemail/kolab.inc.php /etc/roundcubemail/libkolab.inc.php
+        fi
+	;;
+esac
+
+#DEBHELPER#
