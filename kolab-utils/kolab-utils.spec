@@ -1,3 +1,4 @@
+
 %if 0%{?opensuse_bs}
 #!BuildIgnore   httpd
 %endif
