@@ -23,7 +23,7 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:       kolab-autoconf
-Version:    1
+Version:    0.1
 Release:    0.20150702.git5399081%{?dist}
 Summary:    Autodiscovery for clients of Kolab Groupware
 
@@ -32,7 +32,7 @@ License:    GPLv3+
 URL:        https://kolab.org
 Source0:    http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
 
-Requires:   php(Net_LDAP3)
+Requires:   php-pear(Net_LDAP3)
 Obsoletes:  kolab-autodiscover < %{version}-%{release}
 Provides:   kolab-autodiscover = %{version}-%{release}
 BuildArch:  noarch

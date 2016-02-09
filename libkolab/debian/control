@@ -24,10 +24,9 @@ X-Python-Version: >= 2.7
 Standards-Version: 3.9.3
 Homepage: http://git.kolab.org/libkolab
 
-Package: libkolab0
+Package: libkolab2
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}, libkolabxml1 (>= 1.0)
-Conflicts: libkolab-kde0
+Depends: ${misc:Depends}, ${shlibs:Depends}, libkolabxml1v5 (>= 1.0)
 Description: Maps KDE containers to Kolab formats
  libkolab provides conversions from/to KDE containers, mime message
  handling and facilities to read and write kolabv2 and kolabv3.
@@ -46,7 +45,7 @@ Description: Maps KDE containers to Kolab formats
 
 Package: php-kolab
 Architecture: any
-Depends: libkolab0 (= ${binary:Version}),
+Depends: libkolab2 (>= ${binary:Version}),
 	php-kolabformat,
 	ucf,
 	libcalendaring (>= 4.9.1),
@@ -64,7 +63,7 @@ Description: PHP bindings for Kolab Library
 Package: python-kolab
 Architecture: any
 Section: python
-Depends: libkolab0 (= ${binary:Version}),
+Depends: libkolab2 (= ${binary:Version}),
 	python,
 	${misc:Depends},
 	${shlibs:Depends}
@@ -79,7 +78,7 @@ Description: Python bindings for Kolab Library
 Package: libkolab-dev
 Section: libdevel
 Architecture: any
-Depends: libkolab0 (= ${binary:Version}),
+Depends: libkolab2 (= ${binary:Version}),
          libcalendaring-dev (>= 4.9.1),
          ${misc:Depends}
 Conflicts: libkolab-kde-dev

@@ -1,3 +1,9 @@
+libkolab (2.0~dev20151230-0~kolab2)  unstable; urgency=low
+
+  * Fix Debian packages
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  9 Feb 2016 09:09:09 +0100
+
 libkolab (2.0~dev20151230-0~kolab1)  unstable; urgency=low
 
   * Check in latest git master HEAD version

@@ -28,7 +28,6 @@ Build-Depends:  autotools-dev,
                 python-icalendar,
                 python-minimal,
                 python-nose,
-                python-support,
                 univention-config-dev | bash
 Package-List: 
  kolab-cli deb python optional
