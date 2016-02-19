@@ -1,0 +1,24 @@
+From b69774ffd6ea41f2c6851654cc8c3e2e550bf4b9 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Thu, 4 Feb 2016 09:13:44 +0100
+Subject: [PATCH 2/2] Set HOME environment variable
+
+---
+ guam.service | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/guam.service b/guam.service
+index 591daf3..c21da29 100644
+--- a/guam.service
++++ b/guam.service
+@@ -7,6 +7,7 @@ ExecStart=/usr/sbin/guam foreground
+ Restart=always
+ StandardOutput=syslog
+ SyslogIdentifier=guam
++Environment=HOME=/opt/kolab_guam/
+ 
+ # No proper setuid/setgid in guam yet. See T971.
+ #User=guam
+-- 
+2.4.3
+

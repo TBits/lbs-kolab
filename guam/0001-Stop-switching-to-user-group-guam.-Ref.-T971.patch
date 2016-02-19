@@ -1,0 +1,29 @@
+From bdea873af6dde6b1ab8c33fa45738a0b92f2fa14 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Tue, 2 Feb 2016 14:06:28 +0100
+Subject: [PATCH 1/2] Stop switching to user/group guam. Ref. T971
+
+---
+ guam.service | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/guam.service b/guam.service
+index 3fac8c6..591daf3 100644
+--- a/guam.service
++++ b/guam.service
+@@ -7,8 +7,10 @@ ExecStart=/usr/sbin/guam foreground
+ Restart=always
+ StandardOutput=syslog
+ SyslogIdentifier=guam
+-User=guam
+-Group=guam
++
++# No proper setuid/setgid in guam yet. See T971.
++#User=guam
++#Group=guam
+ 
+ [Install]
+ WantedBy=multi-user.target
+-- 
+2.4.3
+
