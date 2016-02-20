@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.8
-Release:            0.20160111.git%{?dist}
+Release:            0.20160219.git%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -28,10 +28,6 @@ URL:                https://kolab.org/about/guam
 
 # From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
 Source0:            guam-0.8.tar.gz
-
-# Remove patches as soon as 0.7.2 drops
-Patch0001:          0001-Stop-switching-to-user-group-guam.-Ref.-T971.patch
-Patch0002:          0002-Set-HOME-environment-variable.patch
 
 BuildRequires:      erlang
 BuildRequires:      erlang-eimap >= 0.1.5
@@ -72,9 +68,6 @@ the perimeter of your IMAP environment.
 
 %prep
 %setup -q
-
-%patch0001 -p1
-%patch0002 -p1
 
 %build
 rebar compile
