@@ -2,7 +2,7 @@ Format: 1.0
 Source: nodejs
 Binary: nodejs-dev, nodejs, nodejs-dbg, nodejs-legacy
 Architecture: any all
-Version: 0.12.8-0~kolab1
+Version: 0.12.8-0~kolab2
 Maintainer: Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>
 Homepage: http://nodejs.org/
 Standards-Version: 3.9.5
