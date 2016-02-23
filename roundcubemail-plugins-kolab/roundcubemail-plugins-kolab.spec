@@ -24,7 +24,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.3
-Release:        0.20160219.git%{?dist}
+Release:        0.20160222.git%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -219,19 +219,6 @@ Provides:       roundcubemail(plugin-kolab_tags) = %{?epoch:%{epoch}:}%{version}
 %description -n roundcubemail-plugin-kolab_tags
 Plugin kolab_tags
 
-%package -n roundcubemail-plugin-kolab_zpush
-Summary:        Plugin kolab_zpush
-Group:          Applications/Internet
-Requires:       roundcubemail(core) >= %{roundcube_version}
-Requires:       roundcubemail(plugin-kolab_zpush-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(plugin-kolab_zpush-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(plugin-jqueryui) >= %{roundcube_version}
-Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-kolab_zpush) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-kolab_zpush
-Plugin kolab_zpush
-
 %package -n roundcubemail-plugin-ldap_authentication
 Summary:        Plugin ldap_authentication
 Group:          Applications/Internet
@@ -293,17 +280,6 @@ Provides:       roundcubemail(plugin-odfviewer) = %{?epoch:%{epoch}:}%{version}-
 
 %description -n roundcubemail-plugin-odfviewer
 Plugin odfviewer
-
-%package -n roundcubemail-plugin-owncloud
-Summary:        Plugin owncloud
-Group:          Applications/Internet
-Requires:       roundcubemail(core) >= %{roundcube_version}
-Requires:       roundcubemail(plugin-owncloud-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(plugin-owncloud-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-owncloud) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-owncloud
-Plugin owncloud
 
 %package -n roundcubemail-plugin-pdfviewer
 Summary:        Plugin pdfviewer
@@ -446,14 +422,6 @@ Provides:       roundcubemail(plugin-kolab_tags-assets) = %{?epoch:%{epoch}:}%{v
 %description -n roundcubemail-plugin-kolab_tags-assets
 Plugin kolab_tags Assets
 
-%package -n roundcubemail-plugin-kolab_zpush-assets
-Summary:        Plugin kolab_zpush Assets
-Group:          Applications/Internet
-Provides:       roundcubemail(plugin-kolab_zpush-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-kolab_zpush-assets
-Plugin kolab_zpush Assets
-
 %package -n roundcubemail-plugin-ldap_authentication-assets
 Summary:        Plugin ldap_authentication Assets
 Group:          Applications/Internet
@@ -501,14 +469,6 @@ Provides:       roundcubemail(plugin-odfviewer-assets) = %{?epoch:%{epoch}:}%{ve
 
 %description -n roundcubemail-plugin-odfviewer-assets
 Plugin odfviewer Assets
-
-%package -n roundcubemail-plugin-owncloud-assets
-Summary:        Plugin owncloud Assets
-Group:          Applications/Internet
-Provides:       roundcubemail(plugin-owncloud-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-owncloud-assets
-Plugin owncloud Assets
 
 %package -n roundcubemail-plugin-pdfviewer-assets
 Summary:        Plugin pdfviewer Assets
@@ -686,54 +646,6 @@ Provides:       roundcubemail(plugin-kolab_tags-skin-larry) = %{?epoch:%{epoch}:
 %description -n roundcubemail-plugin-kolab_tags-skin-larry
 Plugin kolab_tags / Skin larry
 
-%package -n roundcubemail-plugin-kolab_zpush-skin-larry
-Summary:        Plugin kolab_zpush / Skin larry
-Group:          Applications/Internet
-Requires:       roundcubemail(plugin-kolab_zpush) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(skin-larry) >= %{roundcube_version}
-Requires:       roundcubemail(plugin-kolab_zpush-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-kolab_zpush-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-kolab_zpush-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-kolab_zpush-skin-larry
-Plugin kolab_zpush / Skin larry
-
-%package -n roundcubemail-plugin-kolab_zpush-skin-classic
-Summary:        Plugin kolab_zpush / Skin classic
-Group:          Applications/Internet
-Requires:       roundcubemail(plugin-kolab_zpush) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(skin-classic) >= %{roundcube_version}
-Requires:       roundcubemail(plugin-kolab_zpush-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-kolab_zpush-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-kolab_zpush-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-kolab_zpush-skin-classic
-Plugin kolab_zpush / Skin classic
-
-%package -n roundcubemail-plugin-owncloud-skin-larry
-Summary:        Plugin owncloud / Skin larry
-Group:          Applications/Internet
-Requires:       roundcubemail(plugin-owncloud) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(skin-larry) >= %{roundcube_version}
-Requires:       roundcubemail(plugin-owncloud-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-owncloud-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-owncloud-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-owncloud-skin-larry
-Plugin owncloud / Skin larry
-
-%package -n roundcubemail-plugin-owncloud-skin-classic
-Summary:        Plugin owncloud / Skin classic
-Group:          Applications/Internet
-Requires:       roundcubemail(plugin-owncloud) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(skin-classic) >= %{roundcube_version}
-Requires:       roundcubemail(plugin-owncloud-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-owncloud-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-owncloud-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-owncloud-skin-classic
-Plugin owncloud / Skin classic
-
 %package -n roundcubemail-plugin-tasklist-skin-larry
 Summary:        Plugin tasklist / Skin larry
 Group:          Applications/Internet
@@ -842,22 +754,6 @@ Provides:       roundcubemail(plugin-kolab_tags-skin-larry-assets) = %{?epoch:%{
 %description -n roundcubemail-plugin-kolab_tags-skin-larry-assets
 Plugin kolab_tags / Skin larry (Assets Package)
 
-%package -n roundcubemail-plugin-kolab_zpush-skin-larry-assets
-Summary:        Plugin kolab_zpush / Skin larry (Assets)
-Group:          Applications/Internet
-Provides:       roundcubemail(plugin-kolab_zpush-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-kolab_zpush-skin-larry-assets
-Plugin kolab_zpush / Skin larry (Assets Package)
-
-%package -n roundcubemail-plugin-kolab_zpush-skin-classic-assets
-Summary:        Plugin kolab_zpush / Skin classic (Assets)
-Group:          Applications/Internet
-Provides:       roundcubemail(plugin-kolab_zpush-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-kolab_zpush-skin-classic-assets
-Plugin kolab_zpush / Skin classic (Assets Package)
-
 %package -n roundcubemail-plugin-libcalendaring-skin-larry-assets
 Summary:        Plugin libcalendaring / Skin larry (Assets)
 Group:          Applications/Internet
@@ -884,22 +780,6 @@ Provides:       roundcubemail(plugin-libkolab-skin-larry-assets) = %{?epoch:%{ep
 %description -n roundcubemail-plugin-libkolab-skin-larry-assets
 Plugin libkolab / Skin larry (Assets Package)
 
-%package -n roundcubemail-plugin-owncloud-skin-larry-assets
-Summary:        Plugin owncloud / Skin larry (Assets)
-Group:          Applications/Internet
-Provides:       roundcubemail(plugin-owncloud-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-owncloud-skin-larry-assets
-Plugin owncloud / Skin larry (Assets Package)
-
-%package -n roundcubemail-plugin-owncloud-skin-classic-assets
-Summary:        Plugin owncloud / Skin classic (Assets)
-Group:          Applications/Internet
-Provides:       roundcubemail(plugin-owncloud-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-owncloud-skin-classic-assets
-Plugin owncloud / Skin classic (Assets Package)
-
 %package -n roundcubemail-plugin-tasklist-skin-larry-assets
 Summary:        Plugin tasklist / Skin larry (Assets)
 Group:          Applications/Internet
@@ -912,6 +792,9 @@ Plugin tasklist / Skin larry (Assets Package)
 %setup -q  -c "%{name}-%{version}"
 
 pushd %{name}-%{version}
+
+rm -rf plugins/kolab_zpush
+rm -rf plugins/owncloud
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -969,6 +852,9 @@ for plugin in $(find %{name}-%{version}/plugins -mindepth 1 -maxdepth 1 -type d 
     (
         echo "%files -n roundcubemail-plugin-$(basename ${plugin}) -f plugin-$(basename ${plugin}).files"
         echo "%defattr(-,root,root,-)"
+        if [ -d "${plugin}/config" -o -f "${plugin}/config.inc.php" -o -f "${plugin}/config.inc.php.dist" ]; then
+            echo "%attr(0640,root,%%{httpd_group}) %config(noreplace) %%{_sysconfdir}/roundcubemail/$(basename ${plugin}).inc.php"
+        fi
         echo ""
     ) >> plugins.files
 
@@ -1372,11 +1258,6 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
-%pre -n roundcubemail-plugin-kolab_zpush
-if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
-fi
-
 %pre -n roundcubemail-plugin-ldap_authentication
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
@@ -1398,11 +1279,6 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
 fi
 
 %pre -n roundcubemail-plugin-odfviewer
-if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
-fi
-
-%pre -n roundcubemail-plugin-owncloud
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
@@ -1622,21 +1498,6 @@ if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; the
     touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
 fi
 
-%posttrans -n roundcubemail-plugin-kolab_zpush
-if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
-%if 0%{?with_systemd}
-            /bin/systemctl condrestart %{httpd_name}.service
-%else
-            /sbin/service %{httpd_name} condrestart
-%endif
-        fi
-    fi
-    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
-    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
-fi
-
 %posttrans -n roundcubemail-plugin-ldap_authentication
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
@@ -1713,21 +1574,6 @@ if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; the
 fi
 
 %posttrans -n roundcubemail-plugin-odfviewer
-if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
-%if 0%{?with_systemd}
-            /bin/systemctl condrestart %{httpd_name}.service
-%else
-            /sbin/service %{httpd_name} condrestart
-%endif
-        fi
-    fi
-    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
-    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
-fi
-
-%posttrans -n roundcubemail-plugin-owncloud
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
@@ -1869,9 +1715,6 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_tags -f plugin-kolab_tags.files
 %defattr(-,root,root,-)
 
-%files -n roundcubemail-plugin-kolab_zpush -f plugin-kolab_zpush.files
-%defattr(-,root,root,-)
-
 %files -n roundcubemail-plugin-ldap_authentication -f plugin-ldap_authentication.files
 %defattr(-,root,root,-)
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/ldap_authentication.inc.php
@@ -1891,10 +1734,6 @@ rm -rf %{buildroot}
 
 %files -n roundcubemail-plugin-odfviewer -f plugin-odfviewer.files
 %defattr(-,root,root,-)
-
-%files -n roundcubemail-plugin-owncloud -f plugin-owncloud.files
-%defattr(-,root,root,-)
-%attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/owncloud.inc.php
 
 %files -n roundcubemail-plugin-pdfviewer -f plugin-pdfviewer.files
 %defattr(-,root,root,-)
@@ -1946,9 +1785,6 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_tags-assets -f plugin-kolab_tags-assets.files
 %defattr(-,root,root,-)
 
-%files -n roundcubemail-plugin-kolab_zpush-assets -f plugin-kolab_zpush-assets.files
-%defattr(-,root,root,-)
-
 %files -n roundcubemail-plugin-ldap_authentication-assets -f plugin-ldap_authentication-assets.files
 %defattr(-,root,root,-)
 
@@ -1965,9 +1801,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-odfviewer-assets -f plugin-odfviewer-assets.files
-%defattr(-,root,root,-)
-
-%files -n roundcubemail-plugin-owncloud-assets -f plugin-owncloud-assets.files
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-pdfviewer-assets -f plugin-pdfviewer-assets.files
@@ -2018,18 +1851,6 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_tags-skin-larry -f plugin-kolab_tags-skin-larry.files
 %defattr(-,root,root,-)
 
-%files -n roundcubemail-plugin-kolab_zpush-skin-larry -f plugin-kolab_zpush-skin-larry.files
-%defattr(-,root,root,-)
-
-%files -n roundcubemail-plugin-kolab_zpush-skin-classic -f plugin-kolab_zpush-skin-classic.files
-%defattr(-,root,root,-)
-
-%files -n roundcubemail-plugin-owncloud-skin-larry -f plugin-owncloud-skin-larry.files
-%defattr(-,root,root,-)
-
-%files -n roundcubemail-plugin-owncloud-skin-classic -f plugin-owncloud-skin-classic.files
-%defattr(-,root,root,-)
-
 %files -n roundcubemail-plugin-tasklist-skin-larry -f plugin-tasklist-skin-larry.files
 %defattr(-,root,root,-)
 
@@ -2069,22 +1890,10 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_tags-skin-larry-assets -f plugin-kolab_tags-skin-larry-assets.files
 %defattr(-,root,root,-)
 
-%files -n roundcubemail-plugin-kolab_zpush-skin-larry-assets -f plugin-kolab_zpush-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files -n roundcubemail-plugin-kolab_zpush-skin-classic-assets -f plugin-kolab_zpush-skin-classic-assets.files
-%defattr(-,root,root,-)
-
 %files -n roundcubemail-plugin-libcalendaring-skin-larry-assets -f plugin-libcalendaring-skin-larry-assets.files
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-libkolab-skin-larry-assets -f plugin-libkolab-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files -n roundcubemail-plugin-owncloud-skin-larry-assets -f plugin-owncloud-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files -n roundcubemail-plugin-owncloud-skin-classic-assets -f plugin-owncloud-skin-classic-assets.files
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-tasklist-skin-larry-assets -f plugin-tasklist-skin-larry-assets.files

@@ -1,4 +1,4 @@
-roundcubemail (1:1.2~dev20160219-0~kolab1) unstable; urgency=low
+roundcubemail (1:1.2~dev20160222-0~kolab1) unstable; urgency=low
 
   * fix secure URL regex for debian
 
