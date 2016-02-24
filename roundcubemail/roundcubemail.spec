@@ -66,6 +66,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 
 BuildRequires:  php-Net-LDAP3
 BuildRequires:  php-pdo
+BuildRequires:  php-pear >= 1.9.0
 BuildRequires:  php-phpunit-PHPUnit
 
 %if 0%{?suse_version} < 1
