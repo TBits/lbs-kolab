@@ -30,15 +30,15 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           kolab-syncroton
-Version:        2.3.2
-Release:        1%{?dist}
+Version:        2.3.3
+Release:        0.20160222.git%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
 License:        LGPLv2
 URL:            http://www.syncroton.org
 
-Source0:        http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
+Source0:        kolab-syncroton-2.3.3.tar.gz
 Source1:        kolab-syncroton.logrotate
 
 BuildArch:      noarch

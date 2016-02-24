@@ -6,7 +6,7 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    c4c24f547a5509c6c661b11ecf4ff524d2bf6a44
+%global gh_commit    6b06c03376219b3d608e1f878514ec105ed1b577
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     fruux
 %global gh_project   sabre-http
@@ -15,7 +15,7 @@
 
 Name:           php-%{gh_project}
 Summary:        Library for dealing with http requests and responses
-Version:        2.0.4
+Version:        3.0.5
 Release:        1%{?dist}
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -85,7 +85,8 @@ The objects are extendable and easily mockable.
 
 
 %prep
-%setup -q -n %{gh_project}-%{gh_commit}
+##%%setup -q -n %{gh_project}-%{gh_commit}
+%setup -q -n %{gh_project}-%{version}
 
 : Create trivial PSR0 autoloader
 cat <<EOF | tee psr0.php
@@ -103,8 +104,8 @@ EOF
 
 %install
 # Install as a PSR-0 library
-mkdir -p %{buildroot}%{_datadir}/php
-cp -pr lib/Sabre %{buildroot}%{_datadir}/php/Sabre
+mkdir -p %{buildroot}%{_datadir}/php/Sabre/HTTP
+cp -pr lib/* %{buildroot}%{_datadir}/php/Sabre/HTTP/.
 
 
 %check
@@ -121,7 +122,7 @@ phpunit \
 
 
 %files
-%doc ChangeLog composer.json LICENSE README.md
+%doc ChangeLog.md composer.json LICENSE README.md
 %{_datadir}/php/Sabre/HTTP
 
 
