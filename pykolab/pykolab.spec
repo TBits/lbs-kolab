@@ -51,7 +51,10 @@ BuildRequires:      gcc
 BuildRequires:      gettext
 BuildRequires:      glib2-devel
 BuildRequires:      intltool
+BuildRequires:      MySQL-python
 BuildRequires:      python
+BuildRequires:      python-augeas
+BuildRequires:      python-gnupg
 BuildRequires:      python-icalendar
 BuildRequires:      python-kolab
 BuildRequires:      python-kolabformat

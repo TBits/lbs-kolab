@@ -5,7 +5,7 @@ Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Build-Depends: debhelper (>= 8),
     univention-config-dev | bash
-Standards-Version: 3.9.3
+Standards-Version: 3.9.6
 Vcs-Browser: http://git.kolabsys.com/apt/kolab/
 Vcs-Git: git://git.kolabsys.com/git/apt/kolab
 Homepage: http://www.kolab.org/
@@ -39,6 +39,7 @@ Description: Metapackage for Kolab Groupware Server
 Package: kolab-imap
 Architecture: all
 Pre-Depends:cyrus-imapd (>= 2.4) | imap-server,
+            guam,
             kolab-saslauthd
 Depends:    ${misc:Depends},
             ${ucs:Depends}

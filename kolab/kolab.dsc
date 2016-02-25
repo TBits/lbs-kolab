@@ -6,7 +6,7 @@ Version: 16.0.1-1
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.kolab.org/
-Standards-Version: 3.9.3
+Standards-Version: 3.9.6
 Vcs-Browser: http://git.kolabsys.com/apt/kolab/
 Vcs-Git: git://git.kolabsys.com/git/apt/kolab
 Build-Depends: debhelper (>= 8),

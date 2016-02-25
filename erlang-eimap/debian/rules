@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+DESTDIR = $(CURDIR)/debian/erlang-eimap
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	rebar compile -v
+
+override_dh_auto_install:
+	mkdir -p $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/ebin \
+	      $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/src
+	install -D -m 644 ebin/eimap.app \
+	        $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/ebin/eimap.app
+	install -D -m 644 ebin/*.beam \
+	        $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/ebin/
+	install -D -m 644 src/*.hrl \
+	        $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/src/

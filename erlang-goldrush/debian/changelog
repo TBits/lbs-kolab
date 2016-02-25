@@ -1,0 +1,17 @@
+erlang-goldrush (0.1.6-2~kolab1) unstable; urgency=medium
+
+  * Port package for Kolab.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Fri, 12 Feb 2016 21:40:23 +0100
+
+erlang-goldrush (0.1.6-2) unstable; urgency=medium
+
+  * Add correct Erlang dependencies
+
+ -- Philipp Huebner <debalance@debian.org>  Sat, 10 May 2014 00:08:03 +0200
+
+erlang-goldrush (0.1.6-1) unstable; urgency=low
+
+  * Initial release (Closes: #744882)
+
+ -- Philipp Huebner <debalance@debian.org>  Tue, 15 Apr 2014 21:55:38 +0200

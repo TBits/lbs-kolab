@@ -1,0 +1,35 @@
+From 398c3174cf5d5709816093c51e94e7afd3c9c103 Mon Sep 17 00:00:00 2001
+From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Date: Wed, 14 Jan 2015 08:38:20 +0900
+Subject: [PATCH] Add build target to Makefile
+
+Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+---
+ Makefile | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index d0d16f8..db23420 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+-.PHONY: clean dialyzer_warnings xref_warnings deps test
++.PHONY: clean dialyzer_warnings xref_warnings deps test all install
+ 
+-REBAR=$(PWD)/rebar
+-RETEST=$(PWD)/deps/retest/retest
++REBAR=$(CURDIR)/rebar
++RETEST=$(CURDIR)/deps/retest/retest
+ 
+ all:
+ 	./bootstrap
+@@ -34,6 +34,9 @@
+ 	@cp rebar ../rebar.wiki/rebar
+ 	(cd ../rebar.wiki && git commit -m "Update $(VSN)" rebar)
+ 
++install: all
++	install -D -m 755 ./rebar $(DESTDIR)/usr/bin/rebar
++
+ deps:
+ 	@REBAR_EXTRA_DEPS=1 ./rebar get-deps
+ 	@(cd deps/retest && $(REBAR) compile escriptize)

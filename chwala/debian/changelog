@@ -1,4 +1,4 @@
-chwala (0.4~dev20160223-0~kolab1) unstable; urgency=low
+chwala (0.4~dev20160224-0~kolab1) unstable; urgency=low
 
   * Require roundcubemail-plugin-kolab_folders and create necessary symbolic link
 

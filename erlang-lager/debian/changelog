@@ -1,0 +1,11 @@
+erlang-lager (2.1.0-1~kolab1) unstable; urgency=medium
+
+  * Bump version to 2.1.0.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Fri, 12 Feb 2016 21:39:31 +0100
+
+erlang-lager (2.0.3-1) unstable; urgency=low
+
+  * Initial release (Closes: #744880)
+
+ -- Philipp Huebner <debalance@debian.org>  Tue, 22 Apr 2014 20:43:25 +0200

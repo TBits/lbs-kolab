@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+include /usr/share/dpkg/pkg-info.mk
+
+%:
+	dh $@ --buildsystem=rebar --with rebar
+
+get-orig-source:
+	dh_testdir
+	wget -O ../erlang-goldrush_$(DEB_VERSION_UPSTREAM).orig.tar.gz \
+		https://github.com/DeadZen/goldrush/archive/$(DEB_VERSION_UPSTREAM).tar.gz

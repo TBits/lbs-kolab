@@ -1,0 +1,88 @@
+Format: Format: http://dep.debian.net/deps/dep5
+Name: rebar
+Maintainer: Nobuhiro Iwamatsu <iwamatsu@debian.org>
+Source: https://github.com/rebar/rebar.git
+
+Files: src/getopt.erl
+Copyright: Juan Jose Comellas <juanjo@comellas.org>
+License: BSD-2-clause
+
+Files: src/mustache.erl
+Copyright: Copyright (c) 2009 Tom Preston-Werner <tom@mojombo.com>
+License: MIT
+
+Files: src/rebar_abnfc_compiler.erl
+Copyright (c) 2010 Anthony Ramine (nox@dev-extend.eu),
+License: MIT
+
+Files: src/rebar_appups.erl
+       src/rebar_upgrade.erl
+Copyright: Copyright (c) 2011 Joe Williams (joe@joetify.com)
+License: MIT
+
+Files: src/rebar_asn1_compiler.erl
+Files: src/rebar_eunit.erl
+Files: src/rebar_utils.erl
+Copyright: Copyright (c) 2009, 2010 Dave Smith (dizzyd@dizzyd.com)
+License: MIT
+
+Files: src/rebar.erl
+       src/rebar_app_utils.erl
+       src/rebar_base_compiler.erl
+       src/rebar_cleaner.erl
+       src/rebar_config.erl
+       src/rebar_core.erl
+       src/rebar_ct.erl
+       src/rebar_deps.erl
+       src/rebar_edoc.erl
+       src/rebar_erlc_compiler.erl
+       src/rebar_erlydtl_compiler.erl
+       src/rebar_escripter.erl
+       src/rebar_file_utils.erl
+       src/rebar_lfe_compiler.erl
+       src/rebar_log.erl
+       src/rebar_otp_app.erl
+       src/rebar_port_compiler.erl
+       src/rebar_protobuffs_compiler.erl
+       src/rebar_rel_utils.erl
+       src/rebar_reltool.erl
+       src/rebar_require_vsn.erl
+       src/rebar_subdirs.erl
+       src/rebar_templater.erl
+       src/rebar_xref.erl
+Copyright: Copyright (c) 2009 Dave Smith (dizzyd@dizzyd.com)
+License: MIT
+
+Files: src/rebar_neotoma_compiler.erl
+Copyright: Copyright (c) 2010 Cliff Moon (cliff@moonpolysoft.com)
+License: MIT
+
+Files: *
+Copyright: Copyright 2005-2011, Basho Team and other contributors
+License: Apache-2.0
+
+Files: debian/*
+Copyright: Copyright 2012, Nobuhiro Iwamatsu <iwamatsu@debian.org>
+License: MIT
+
+License: The MIT License
+ Permission is hereby granted, free of charge, to any person obtaining 
+ a copy of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
+ the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+License: Apache-2.0
+ On Debian systems, the full text of the Apache License (Version 2.0)
+ can be found in the file  `/usr/share/common-licenses/Apache-2.0' file.
