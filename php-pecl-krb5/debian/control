@@ -1,0 +1,24 @@
+Source: php-krb5
+Section: web
+Priority: optional
+Maintainer:  <jochen@jochen.org>
+Build-Depends: debhelper (>= 7), dh-make-php, libtool, po-debconf, xsltproc, php5-dev, libkrb5-dev
+Standards-Version: 3.9.1
+
+Package: php5-krb5
+Architecture: any
+Depends: ${shlibs:Depends}, ${php:Depends}, ${misc:Depends}
+Description: krb5 module for PHP 5
+ Features:
+ .
+ + An interface for maintaining credential caches (KRB5CCache),
+    that can be used for authenticating against a kerberos5 realm
+ + Bindings for nearly the complete GSSAPI (RFC2744) + The
+ administrative interface (KADM5) + Support for HTTP Negotiate
+ authentication via GSSAPI
+ .
+ Documentation: + see docs/ for the API documentation + there are
+ several pieces of example code in the examples/ directory + see
+ below for install instructions
+
+

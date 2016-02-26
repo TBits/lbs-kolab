@@ -1,0 +1,6 @@
+php-krb5 (1.0.0-1) unstable; urgency=low
+
+  * Initial Release (Closes: #<ITP bug number>).
+
+ --  <jochen@jochen.org>  Tue, 12 Jan 2016 06:42:53 +0100
+

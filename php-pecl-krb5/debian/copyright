@@ -1,0 +1,20 @@
+This package was debianized by  <jochen@jochen.org> using dh-make-pecl
+on Tue, 12 Jan 2016 06:42:53 +0100.
+
+It was downloaded from http://pecl.php.net/package/krb5
+
+Upstream Author(s):
+
+    Moritz Bechler
+
+Copyright:
+
+    Copyright (C) 2014 Moritz Bechler
+
+License:
+
+    Array
+
+The Debian packaging is copyright 2009,  <jochen@jochen.org> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+

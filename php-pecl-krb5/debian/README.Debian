@@ -1,0 +1,7 @@
+php-krb5 for Debian
+--------------------------
+
+This extension has been created with dh-make-pecl which is part
+of dh-make-php.
+
+ --  <jochen@jochen.org>, Tue, 12 Jan 2016 06:42:53 +0100
