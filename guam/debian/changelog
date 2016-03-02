@@ -1,3 +1,9 @@
+guam (0.8-1+git20160219~kolab1) unstable; urgency=medium
+
+  * Bump to new git version.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sat, 27 Feb 2016 23:30:08 +0100
+
 guam (0.8-1+git20160111~kolab1) unstable; urgency=medium
 
   * Bump to new git version.
