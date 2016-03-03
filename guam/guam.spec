@@ -18,7 +18,7 @@
 %{!?_unitdir: %global _unitdir /usr/lib/systemd/system}
 
 Name:               guam
-Version:            0.7.1
+Version:            0.7.2
 Release:            1%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
@@ -26,12 +26,8 @@ Group:              System Environment/Daemons
 License:            GPLv3+
 URL:                https://kolab.org/about/guam
 
-# From refs/tags/guam-0.7.1
-Source0:            guam-0.7.1.tar.gz
-
-# Remove patches as soon as 0.7.2 drops
-Patch0001:          0001-Stop-switching-to-user-group-guam.-Ref.-T971.patch
-Patch0002:          0002-Set-HOME-environment-variable.patch
+# From refs/tags/guam-0.7.2
+Source0:            guam-0.7.2.tar.gz
 
 BuildRequires:      erlang
 BuildRequires:      erlang-eimap >= 0.1.5
@@ -72,10 +68,6 @@ the perimeter of your IMAP environment.
 
 %prep
 %setup -q
-
-# Remove patches as soon as 0.7.2 drops
-%patch0001 -p1
-%patch0002 -p1
 
 %build
 rebar compile
@@ -160,6 +152,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Wed Mar  2 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.2-1
+- Release 0.7.2
+
 * Thu Feb  4 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.1-2
 - Add environment variable HOME
 
