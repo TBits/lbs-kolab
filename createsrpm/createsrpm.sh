@@ -10,6 +10,15 @@ fi
 
 branch=$1
 
+# run this now. so that we get reminded to load the ssh key
+error=0
+echo "mkdir public_html/kolab/$branch" | sftp tpokorra@fedorapeople.org || error=1
+if [ $error -eq 1 ]
+then
+  echo "please load the ssh key"
+  exit -1
+fi
+
 cd ~
 if [ -d rpmbuild ]
 then
@@ -49,7 +58,6 @@ do
   rpmbuild -bs $f
 done
 
-echo "mkdir public_html/kolab/$branch" | sftp tpokorra@fedorapeople.org
 for f in SRPMS/*.src.rpm
 do
   echo "put $f" | sftp tpokorra@fedorapeople.org:public_html/kolab/$branch
