@@ -8,7 +8,7 @@ fi
 
 # branch is the name of the project on OBS: eg Kolab:3.4, Kolab:3.4:Updates, Kolab:Development
 branch=$1
-yum -y install osc git || exit -1
+yum -y install osc git wget || exit -1
 
 cp ~/.ssh/oscrc ~/.oscrc
 
