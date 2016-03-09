@@ -73,6 +73,15 @@ do
     # make sure that we only have lowercase letters in the dsc filename
     mv $debpkgname.dsc ${debpkgname,,}".dsc"
 
+    # check if we need to download the tarball (eg. Kolab 3.4 libkolabxml)
+    if [[ "$pkgname" == "libkolabxml" ]]
+    then
+      if [ ! -f libkolabxml-1.1.tar.gz ]
+      then
+        wget https://cgit.kolab.org/libkolabxml/snapshot/libkolabxml-f4a151d78de1a44db6c4b645c753852928664122.tar.gz -O libkolabxml-1.1.tar.gz
+      fi
+    fi 
+
     rm -f _service
     rm -Rf .osc
     cd ..
