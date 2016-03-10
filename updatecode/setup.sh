@@ -78,7 +78,11 @@ do
     then
       if [ ! -f libkolabxml-1.1.tar.gz ]
       then
-        wget https://cgit.kolab.org/libkolabxml/snapshot/libkolabxml-f4a151d78de1a44db6c4b645c753852928664122.tar.gz -O libkolabxml-1.1.tar.gz
+        wget https://cgit.kolab.org/libkolabxml/snapshot/libkolabxml-f4a151d78de1a44db6c4b645c753852928664122.tar.gz -O libkolabxml.tar.gz
+        tar xzf libkolabxml.tar.gz
+        mv libkolabxml-f4a151d78de1a44db6c4b645c753852928664122 libkolabxml-1.1
+        tar czf libkolabxml-1.1.tar.gz libkolabxml-1.1
+        rm -Rf libkolabxml-1.1
       fi
     fi 
 
