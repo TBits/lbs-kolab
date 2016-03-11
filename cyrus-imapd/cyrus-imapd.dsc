@@ -2,7 +2,7 @@ Format: 1.0
 Source: cyrus-imapd
 Binary: cyrus-imapd
 Architecture: any
-Version: 2.5.7-0~kolab1
+Version: 2.5.7-0~kolab8.1
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.cyrusimap.org/

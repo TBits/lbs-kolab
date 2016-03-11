@@ -35,13 +35,13 @@
 
 Name:           kolab-webadmin
 Version: 3.2.11
-Release: 0.20151020.git%{?dist}
+Release: 0.20160310.git%{?dist}
 Summary:        Kolab Groupware Server Web Administration Interface
 License:        AGPLv3+
 Group:          Productivity/Office/Organizers
 Url:            http://www.kolab.org
 
-Source0:        http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
+Source0:        kolab-webadmin-3.2.11.tar.gz
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
