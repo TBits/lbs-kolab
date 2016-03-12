@@ -29,7 +29,7 @@ URL:                https://kolab.org/about/guam
 # From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
 Source0:            guam-0.8.tar.gz
 
-BuildRequires:      erlang
+BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-eimap >= 0.1.5
 BuildRequires:      erlang-goldrush
 BuildRequires:      erlang-lager >= 2.1.0
@@ -38,7 +38,7 @@ BuildRequires:      erlang-rebar >= 2.5.1
 Requires(pre):      shadow-utils
 Requires(postun):   shadow-utils
 
-Requires:           erlang
+Requires:           erlang >= 17.4
 Requires:           erlang-eimap >= 0.1.2
 Requires:           erlang-goldrush
 Requires:           erlang-lager >= 2.1.0
