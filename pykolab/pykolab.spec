@@ -28,17 +28,14 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.0
-Release:            1%{?dist}
+Version:            0.8.1
+Release:            2%{?dist}
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
 
-Source0:            pykolab-0.8.0.tar.gz
+Source0:            pykolab-0.8.1.tar.gz
 Source1:            pykolab.logrotate
-
-Patch0001:          0001-Fix-mistake-in-manticore-configuration-template.patch
-Patch0002:          0002-Fix-default-template-for-Guam.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -54,7 +51,14 @@ BuildRequires:      gcc
 BuildRequires:      gettext
 BuildRequires:      glib2-devel
 BuildRequires:      intltool
+%if 0%{?suse_version}
+BuildRequires:      python-mysql
+%else
+BuildRequires:      MySQL-python
+%endif
 BuildRequires:      python
+BuildRequires:      python-augeas
+BuildRequires:      python-gnupg
 BuildRequires:      python-icalendar
 BuildRequires:      python-kolab
 BuildRequires:      python-kolabformat
@@ -205,6 +209,7 @@ Requires:           python-mysql
 %else
 Requires:           MySQL-python
 %endif
+Requires:           python-gnupg
 Requires:           python-icalendar >= 3.0
 Requires:           %{name}-xml = %{version}-%{release}
 
@@ -213,9 +218,6 @@ This is the Kolab Content Filter, with plugins
 
 %prep
 %setup -q
-
-%patch0001 -p1
-%patch0002 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -542,6 +544,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Wed Mar 09 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.1-2
+- wallace requires python-gnupg to be installed. avoid ImportError: No module named gnupg
+
 * Wed Oct 14 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.16-1
 - New upstream release 0.7.16
 
