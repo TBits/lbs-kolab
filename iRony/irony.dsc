@@ -2,7 +2,7 @@ Format: 1.0
 Source: irony
 Binary: irony
 Architecture: all
-Version: 0.4~dev20150721-0~kolab1
+Version: 0.4~dev20160315-0~kolab1
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.kolab.org/

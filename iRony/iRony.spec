@@ -32,7 +32,7 @@
 
 Name:           iRony
 Version: 0.4
-Release:	    0.2.git%{?dist}
+Release:	    0.20160315.git%{?dist}
 Summary:        DAV for Kolab Groupware
 
 Group:          Applications/Internet
@@ -40,7 +40,7 @@ License:        AGPLv3+
 URL:            http://kolab.org
 
 # From f7e4e0e36b62f10d2570d6fccef686c3e1c43af0
-Source0:        http://mirror.kolabsys.com/pub/releases/iRony-%{version}.tar.gz
+Source0:        iRony-0.4.tar.gz
 Source1:        iRony.conf
 Source2:        iRony.logrotate
 
