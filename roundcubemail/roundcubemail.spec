@@ -43,7 +43,7 @@
 Name:           roundcubemail
 Version: 1.2
 
-Release: 0.20160315.git%{?dist}
+Release: 0.20160316.git%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
