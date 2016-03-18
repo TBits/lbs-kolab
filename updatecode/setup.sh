@@ -74,7 +74,7 @@ do
     mv $debpkgname.dsc ${debpkgname,,}".dsc"
 
     # check if we need to download the tarball (eg. Kolab 3.4 libkolabxml)
-    if [[ "$branch" == "Kolab_3.4" ]]
+    if [[ "$branch" == "Kolab:3.4" ]]
     then
      if [[ "$pkgname" == "libkolabxml" ]]
      then
@@ -86,6 +86,7 @@ do
         tar xzf libkolabxml.tar.gz
         mv libkolabxml-f4a151d78de1a44db6c4b645c753852928664122 libkolabxml-1.1
         tar czf libkolabxml-1.1.tar.gz libkolabxml-1.1
+        rm -Rf libkolabxml.tar.gz
         rm -Rf libkolabxml-1.1
       fi
      fi
