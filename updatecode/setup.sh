@@ -75,6 +75,7 @@ do
 
     # check if we need to download the tarball (eg. Kolab 3.4 libkolabxml)
     if [[ "$branch" == "Kolab_3.4" ]]
+    then
      if [[ "$pkgname" == "libkolabxml" ]]
      then
       if [ -f ../../../lbs-kolab/libkolabxml/libkolabxml-1.1.tar.gz ]
