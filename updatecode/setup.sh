@@ -78,8 +78,8 @@ do
      if [[ "$pkgname" == "libkolabxml" ]]
      then
       if [ -f ../../../lbs-kolab/libkolabxml/libkolabxml-1.1.tar.gz ]
-        cp ../../../lbs-kolab/libkolabxml/libkolabxml-1.1.tar.gz .
       then
+        cp ../../../lbs-kolab/libkolabxml/libkolabxml-1.1.tar.gz .
       else
         wget https://cgit.kolab.org/libkolabxml/snapshot/libkolabxml-f4a151d78de1a44db6c4b645c753852928664122.tar.gz -O libkolabxml.tar.gz
         tar xzf libkolabxml.tar.gz
