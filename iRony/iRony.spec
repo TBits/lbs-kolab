@@ -32,7 +32,7 @@
 
 Name:           iRony
 Version: 0.4
-Release:	    0.20160315.git%{?dist}
+Release:	    0.20160321.git%{?dist}
 Summary:        DAV for Kolab Groupware
 
 Group:          Applications/Internet
