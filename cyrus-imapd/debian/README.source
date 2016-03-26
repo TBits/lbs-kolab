@@ -1,0 +1,41 @@
+This package is based on the cyrus-imapd package. The Debian Kolab Maintainers
+maintain a separate source package for use with Kolab.
+The Cyrus Maintainers know and accept this.
+
+This package is made using the "cyrus-to-kolab" script available from the
+Debian Kolab Maintainers repository under the kolab-cyrus-imapd/scripts
+directory.
+
+Information about the original Cyrus package follows.  Be aware that the
+file names will be different in some cases.
+
+
+Debian packages for cyrus-imapd-2.2 use the dpatch patch system.
+
+If you are not familiar with this patch system, this document provides you
+with a very short description of how to patch the sources. It assumes that
+you want to add a patch on top of what the package already contains, not that
+you want to edit one of the existing patches.
+
+1) cd to the main source directory (the one containing debian/)
+3) Tell dpatch that you intend to edit your patch:
+      dpatch-edit-patch patch 99_your.dpatch \
+                   99-update-autoconf.dpatch \
+	--description="Description of your patch" \
+        --add2list
+   That command will create the new patch as file
+   debian/patches/99_your.dpatch, adding the Description to the patch header,
+   apply all patches up to 99-update-autoconf.dpatch, add your patch to the
+   list of patches that are to be applied on build and open a shell for you
+   in which you can do the edits.
+   If you want to edit your patch again later on, the first line of the above
+   multiline command will suffice.
+4) Do the edits you want to do and exit the shell with an
+   exit code of 0 (a plain "exit" will do that). If you want
+   to abort your edit, use "exit 230".
+5) Once finished, run "dpatch deapply-all" to unpatch the whole tree again
+   (i.e. return to an unpatched source, preserving your edits as
+   debian/patches/99_your.dpatch, which is now listed in debian/patches/00list
+   and will be applied automatically on package builds).
+
+Document your patch in debian/changelog, please.
