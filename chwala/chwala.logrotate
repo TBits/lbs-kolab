@@ -4,5 +4,6 @@
     notifempty
     size 30k
     create 0660 apache apache
+    su apache apache
 }
 
