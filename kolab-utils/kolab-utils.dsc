@@ -2,7 +2,7 @@ Format: 1.0
 Source: kolab-utils
 Binary: kolab-utils
 Architecture: any
-Version: 3.1~dev20140624-0~kolab1
+Version: 3.1.2-0~kolab1
 Maintainer: Paul Klos <kolab@klos2day.nl>
 Homepage: http://git.kolab.org/kolab-utils
 Standards-Version: 3.9.3
@@ -18,8 +18,8 @@ Build-Depends:  debhelper (>= 8),
                 libossp-uuid-dev,
                 libqt4-dev,
                 libxerces-c-dev
-Package-List: 
+Package-List:
  kolab-utils deb libs optional
-Files: 
- 00000000000000000000000000000000 0 kolab-utils-3.1.tar.gz
+Files:
+ 00000000000000000000000000000000 0 kolab-utils-3.1.2.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

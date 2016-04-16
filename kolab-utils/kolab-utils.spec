@@ -10,8 +10,8 @@
 %endif
 
 Name:           kolab-utils
-Version:        3.1
-Release:        0.1.dev20140624.git8ebf74a1%{?dist}
+Version:        3.1.2
+Release:        1%{?dist}
 Summary:        Kolab Utilities
 
 Group:          System Environment/Base
@@ -21,6 +21,8 @@ URL:            http://www.kolab.org/about/kolab-utils
 
 # From 8ebf74a167bdde08da49bec1ffe126a7c799c4a9
 Source0:        http://git.kolab.org/kolab-utils/snapshot/%{name}-%{version}.tar.gz
+
+Patch0002:      0002-no-tests-for-fbdaemon.patch
 
 BuildRequires:  cmake
 BuildRequires:  libcurl-devel
@@ -43,6 +45,10 @@ Utilities for Kolab
 
 %prep
 %setup -q
+
+%if 0%{?fedora}
+%patch0002 -p1
+%endif
 
 %build
 mkdir -p build
@@ -82,6 +88,9 @@ mkdir -p %{buildroot}/%{_sharedstatedir}/kolab-freebusy/
 %attr(0750,root,%{httpd_group}) %dir %{_sharedstatedir}/kolab-freebusy
 
 %changelog
+* Fri Apr 15 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.1.2-1
+- Release version 3.1.2
+
 * Tue Oct 29 2013 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.0.5-3
 - Do not require httpd at all
 - Set QT_NO_GLIB=1 in cron

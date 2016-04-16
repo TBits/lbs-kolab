@@ -22,6 +22,6 @@ Architecture: any
 Depends: ${misc:Depends},
 	${shlibs:Depends}
 Description: Kolab Utils
- Various utilities for Kolab, for migrating from Kolab 2 to 3,                                                                                                                
- upgrade the message format from Kolab 2 to 3 (kolab-formatupgrade)                                                                                                           
- and the free-busy daemon. 
+ Various utilities for Kolab, for migrating from Kolab 2 to 3,
+ upgrade the message format from Kolab 2 to 3 (kolab-formatupgrade)
+ and the free-busy daemon.
