@@ -1,3 +1,9 @@
+kolab-utils (3.1.2-0~kolab1) unstable; urgency=low
+
+  * Release of version 3.1.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 15 Apr 2016 23:00:55 +0100
+
 kolab-utils (3.1~dev20140624-0~kolab1) unstable; urgency=low
 
   * New git master head snapshot
