@@ -32,7 +32,7 @@
 
 Name:           chwala
 Version: 0.4
-Release: 0.20160224.git%{?dist}
+Release: 0.20160427.git%{?dist}
 Summary:        Glorified WebDAV, done right
 
 Group:          Applications/Internet
