@@ -1,0 +1,1134 @@
+diff -urN xapian-core-1.2.16.orig/include/Makefile.mk xapian-core-1.2.16/include/Makefile.mk
+--- xapian-core-1.2.16.orig/include/Makefile.mk	2013-12-04 01:13:14.000000000 +0100
++++ xapian-core-1.2.16/include/Makefile.mk	2014-01-18 12:13:18.299275423 +0100
+@@ -28,6 +28,7 @@
+ 	include/xapian/query.h\
+ 	include/xapian/queryparser.h\
+ 	include/xapian/registry.h\
++	include/xapian/snippetgenerator.h\
+ 	include/xapian/stem.h\
+ 	include/xapian/termgenerator.h\
+ 	include/xapian/termiterator.h\
+diff -urN xapian-core-1.2.16.orig/include/xapian/snippetgenerator.h xapian-core-1.2.16/include/xapian/snippetgenerator.h
+--- xapian-core-1.2.16.orig/include/xapian/snippetgenerator.h	1970-01-01 01:00:00.000000000 +0100
++++ xapian-core-1.2.16/include/xapian/snippetgenerator.h	2014-01-18 12:13:18.299275423 +0100
+@@ -0,0 +1,178 @@
++/** @file snippetgenerator.h
++ * @brief parse free text and generate snippets
++ */
++/* Copyright (C) 2007,2009,2011 Olly Betts
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
++ */
++
++#ifndef XAPIAN_INCLUDED_SNIPPETGENERATOR_H
++#define XAPIAN_INCLUDED_SNIPPETGENERATOR_H
++
++#include <xapian/base.h>
++#include <xapian/types.h>
++#include <xapian/unicode.h>
++#include <xapian/visibility.h>
++
++#include <string>
++
++namespace Xapian {
++
++class Stem;
++
++/** Parses a piece of text and generate snippets.
++ *
++ * This module takes a piece of text and parses it to produce words which are
++ * then used to match against a set of matched terms previously returned
++ * from a query.  The output is a snippet, i.e. string showing the matches
++ * highlighted and some surrounding context.
++ */
++class XAPIAN_VISIBILITY_DEFAULT SnippetGenerator {
++  public:
++    /// @private @internal Class representing the SnippetGenerator internals.
++    class Internal;
++    /// @private @internal Reference counted internals.
++    Xapian::Internal::RefCntPtr<Internal> internal;
++
++    /// Copy constructor.
++    SnippetGenerator(const SnippetGenerator & o);
++
++    /// Assignment.
++    SnippetGenerator & operator=(const SnippetGenerator & o);
++
++    /// Default constructor.
++    SnippetGenerator();
++
++    /// Destructor.
++    ~SnippetGenerator();
++
++    /// Set the Xapian::Stem object to be used for generating stemmed terms.
++    void set_stemmer(const Xapian::Stem & stemmer);
++
++    /** Add a match term to be highlighted.
++     *
++     * The term will be stemmed if a stemmer has been configured.
++     * The term will be matched case insensitively but the case
++     * will be preserved in the snippets output.
++     *
++     * @param term  A term to be highlighted in the snippets.
++     */
++    void add_match(const std::string & term);
++
++    /** Accept some text.
++     *
++     * @param itor	Utf8Iterator pointing to the text to index.
++     */
++    void accept_text(const Xapian::Utf8Iterator & itor);
++
++    /** Accept some text in a std::string.
++     *
++     * @param text	The text to index.
++     */
++    void accept_text(const std::string & text) {
++	return accept_text(Utf8Iterator(text));
++    }
++
++    /** Increase the term position used by index_text.
++     *
++     *  This can be used between indexing text from different fields or other
++     *  places to prevent phrase searches from spanning between them (e.g.
++     *  between the title and body text, or between two chapters in a book).
++     *
++     *  @param delta	Amount to increase the term position by (default: 100).
++     */
++    void increase_termpos(Xapian::termcount delta = 100);
++
++    /// Get the current term position.
++    Xapian::termcount get_termpos() const;
++
++    /** Set the current term position.
++     *
++     *  @param termpos	The new term position to set.
++     */
++    void set_termpos(Xapian::termcount termpos);
++
++    /** Get the pre-match string.
++     */
++    std::string get_pre_match() const;
++
++    /** Set the pre-match string.
++     *
++     * Matched terms are shown in the snippets string surrounded
++     * by the pre-match and post-match strings, whose default values
++     * are "<b>" and "</b>".
++     *
++     * @param text  The new pre-match string to set.
++     */
++    void set_pre_match(std::string & text);
++
++    /** Get the post-match string.
++     */
++    std::string get_post_match() const;
++
++    /** Set the post-match string.
++     *
++     * Matched terms are shown in each snippet string surrounded
++     * by the pre-match and post-match strings, whose default values
++     * are "<b>" and "</b>".
++     *
++     * @param text  The new post-match string to set.
++     */
++    void set_post_match(std::string & text);
++
++    /** Get the inter-snippet string.
++     */
++    std::string get_inter_snippet() const;
++
++    /** Set the inter-snippet string.
++     *
++     * Snippets are shown separated by the inter-snippet string, whose
++     * default value is "...".
++     *
++     * @param text  The new inter-snippet string to set.
++     */
++    void set_inter_snippet(std::string & text);
++
++    /** Get the context length, in words
++     */
++    unsigned get_context_length() const;
++
++    /** Set the context length, in words
++     *
++     * Before and after each highlighted match, each snippet
++     * shows some context.  This parameter controls how many
++     * words of context are shown.
++     */
++    void set_context_length(unsigned length);
++
++    /** Get the resulting snippets string.
++     */
++    std::string get_snippets();
++
++    /** Reset the snippets state for another set of text.
++     *
++     * Resets the snippet results, matches, termpos, and any saved
++     * context, so that another document or another field of the same
++     * document can be accepted.  Preserves parameters like stemmer etc.
++     */
++    void reset();
++
++    /// Return a string describing this object.
++    std::string get_description() const;
++};
++
++}
++
++#endif // XAPIAN_INCLUDED_SNIPPETGENERATOR_H
+diff -urN xapian-core-1.2.16.orig/include/xapian.h xapian-core-1.2.16/include/xapian.h
+--- xapian-core-1.2.16.orig/include/xapian.h	2013-12-04 01:13:14.000000000 +0100
++++ xapian-core-1.2.16/include/xapian.h	2014-01-18 12:13:18.299275423 +0100
+@@ -68,6 +68,7 @@
+ #include <xapian/queryparser.h>
+ #include <xapian/valuesetmatchdecider.h>
+ #include <xapian/weight.h>
++#include <xapian/snippetgenerator.h>
+ 
+ // Stemming
+ #include <xapian/stem.h>
+diff -urN xapian-core-1.2.16.orig/queryparser/Makefile.mk xapian-core-1.2.16/queryparser/Makefile.mk
+--- xapian-core-1.2.16.orig/queryparser/Makefile.mk	2013-12-04 01:13:23.000000000 +0100
++++ xapian-core-1.2.16/queryparser/Makefile.mk	2014-01-18 12:13:18.300275419 +0100
+@@ -8,7 +8,8 @@
+ 	queryparser/cjk-tokenizer.h\
+ 	queryparser/queryparser_internal.h\
+ 	queryparser/queryparser_token.h\
+-	queryparser/termgenerator_internal.h
++	queryparser/termgenerator_internal.h\
++	queryparser/snippetgenerator_internal.h
+ 
+ lemon_built_sources =\
+ 	queryparser/queryparser_internal.cc\
+@@ -62,4 +63,6 @@
+ 	queryparser/queryparser.cc\
+ 	queryparser/queryparser_internal.cc\
+ 	queryparser/termgenerator.cc\
+-	queryparser/termgenerator_internal.cc
++	queryparser/termgenerator_internal.cc\
++	queryparser/snippetgenerator.cc\
++	queryparser/snippetgenerator_internal.cc
+diff -urN xapian-core-1.2.16.orig/queryparser/snippetgenerator.cc xapian-core-1.2.16/queryparser/snippetgenerator.cc
+--- xapian-core-1.2.16.orig/queryparser/snippetgenerator.cc	1970-01-01 01:00:00.000000000 +0100
++++ xapian-core-1.2.16/queryparser/snippetgenerator.cc	2014-01-18 12:13:18.301275414 +0100
+@@ -0,0 +1,151 @@
++/** @file snippetgenerator.cc
++ * @brief SnippetGenerator class implementation
++ */
++/* Copyright (C) 2007 Olly Betts
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
++ */
++
++#include <config.h>
++
++#include <xapian/snippetgenerator.h>
++#include <xapian/types.h>
++
++#include "snippetgenerator_internal.h"
++
++#include "str.h"
++
++using namespace std;
++using namespace Xapian;
++
++SnippetGenerator::SnippetGenerator(const SnippetGenerator & o) : internal(o.internal) { }
++
++SnippetGenerator &
++SnippetGenerator::operator=(const SnippetGenerator & o) {
++    internal = o.internal;
++    return *this;
++}
++
++SnippetGenerator::SnippetGenerator() : internal(new SnippetGenerator::Internal) { }
++
++SnippetGenerator::~SnippetGenerator() { }
++
++void
++SnippetGenerator::set_stemmer(const Xapian::Stem & stemmer)
++{
++    internal->stemmer = stemmer;
++}
++
++void
++SnippetGenerator::add_match(const std::string & term)
++{
++    internal->add_match(term);
++}
++
++void
++SnippetGenerator::accept_text(const Xapian::Utf8Iterator & itor)
++{
++    internal->accept_text(itor);
++}
++
++void
++SnippetGenerator::increase_termpos(Xapian::termcount delta)
++{
++    internal->termpos += delta;
++}
++
++Xapian::termcount
++SnippetGenerator::get_termpos() const
++{
++    return internal->termpos;
++}
++
++void
++SnippetGenerator::set_termpos(Xapian::termcount termpos)
++{
++    internal->termpos = termpos;
++}
++
++std::string
++SnippetGenerator::get_pre_match() const
++{
++    return internal->pre_match;
++}
++
++void
++SnippetGenerator::set_pre_match(std::string & text)
++{
++    internal->pre_match = text;
++}
++
++std::string
++SnippetGenerator::get_post_match() const
++{
++    return internal->post_match;
++}
++
++void
++SnippetGenerator::set_post_match(std::string & text)
++{
++    internal->post_match = text;
++}
++
++std::string
++SnippetGenerator::get_inter_snippet() const
++{
++    return internal->inter_snippet;
++}
++
++void
++SnippetGenerator::set_inter_snippet(std::string & text)
++{
++    internal->inter_snippet = text;
++}
++
++unsigned
++SnippetGenerator::get_context_length() const
++{
++    return internal->context_length;
++}
++
++void
++SnippetGenerator::set_context_length(unsigned length)
++{
++    internal->context_length = length;
++}
++
++std::string
++SnippetGenerator::get_snippets()
++{
++    return internal->result;
++}
++
++void
++SnippetGenerator::reset()
++{
++    internal->reset();
++}
++
++string
++SnippetGenerator::get_description() const
++{
++    string s("Xapian::SnippetGenerator(");
++    if (internal.get()) {
++	s += "stem=";
++	s += internal->stemmer.get_description();
++    }
++    s += ")";
++    return s;
++}
+diff -urN xapian-core-1.2.16.orig/queryparser/snippetgenerator_internal.cc xapian-core-1.2.16/queryparser/snippetgenerator_internal.cc
+--- xapian-core-1.2.16.orig/queryparser/snippetgenerator_internal.cc	1970-01-01 01:00:00.000000000 +0100
++++ xapian-core-1.2.16/queryparser/snippetgenerator_internal.cc	2014-01-18 12:15:09.221768695 +0100
+@@ -0,0 +1,423 @@
++/** @file snippetgenerator_internal.cc
++ * @brief SnippetGenerator class internals
++ */
++/* Copyright (C) 2007,2010,2011 Olly Betts
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
++ */
++
++#include <config.h>
++
++#include "snippetgenerator_internal.h"
++
++#include <xapian/queryparser.h>
++#include <xapian/unicode.h>
++
++#include "stringutils.h"
++
++#include <limits>
++#include <string>
++#include "cjk-tokenizer.h"
++
++using namespace std;
++
++namespace Xapian {
++
++// 'ngram_len' is the length in *characters* (not octets) of an N-gram,
++// or 0 if 'term' is a complete term.  We use this to detect when we
++// are being passed N-grams.  We also rely on the behaviour of the
++// CJKTokenizer class which returns N-grams in increasing length order,
++// so that when ngram_len==1 we know the N-gram base position just
++// incremented.
++
++void
++SnippetGenerator::Internal::accept_term(const string & term,
++					termcount pos, int ngram_len)
++{
++    string stem = Unicode::tolower(term);
++    if (stemmer.internal.get())
++	stem = stemmer(stem);
++
++    // we don't keep context across termpos discontinuities
++    if (pos > (lastpos+2)) {
++	context.clear();
++	leading_nonword = "";
++	pending_1gram = "";
++	ignore_1grams = 0;
++    }
++    if (ngram_len <= 1)
++	xpos += (pos - lastpos);
++    lastpos = pos;
++    nwhitespace = 0;
++
++    if (matches.find(stem) != matches.end()) {
++	// found a match
++	if (xpos > horizon + context.size() + 1 && result != "") {
++	    // there was a gap from the end of the context after
++	    // the previous snippet, so start a new snippet
++	    result += inter_snippet;
++	} else {
++	    result += leading_nonword;
++	}
++	leading_nonword = "";
++
++	if (ngram_len == 1 && pending_1gram != "") {
++	    push_context(pending_1gram);
++	    pending_1gram = "";
++	}
++
++	// flush the before-context
++	while (!context.empty()) {
++	    result += context.front();
++	    context.pop_front();
++	}
++
++	// emit the match, highlighted
++	result += pre_match;
++	result += term;
++	result += post_match;
++
++	// some following 1-grams may be included in the
++	// match text, so don't add them to context.
++	ignore_1grams = (ngram_len > 1 ? ngram_len-1 : 0);
++
++	// set the horizon to mark the end of the after-context
++	horizon = xpos + context_length + ignore_1grams;
++    } else if (xpos <= horizon) {
++	// the after-context for a match
++	if (ngram_len == 0) {
++	    result += term;
++	} else if (ngram_len == 1) {
++	    if (ignore_1grams)
++		ignore_1grams--;
++	    else
++		result += term;
++	}
++	// don't keep N>1 N-grams in context, they're redundant
++    } else {
++	// not explicitly in a context, but remember the
++	// term in the context queue for later
++	if (ngram_len == 0) {
++	    push_context(term);
++	} else if (ngram_len == 1) {
++	    if (pending_1gram != "") {
++		push_context(pending_1gram);
++		pending_1gram = "";
++	    }
++	    if (ignore_1grams)
++		ignore_1grams--;
++	    else
++		pending_1gram = term;
++	}
++	// don't keep N>1 N-grams in context, they're redundant
++    }
++}
++
++void
++SnippetGenerator::Internal::push_context(const string & term)
++{
++    context.push_back(term);
++    while (context.size() > context_length) {
++	context.pop_front();
++	leading_nonword = "";
++    }
++    // this order handles the context_length=0 case gracefully
++}
++
++void
++SnippetGenerator::Internal::accept_nonword_char(unsigned ch, termcount pos)
++{
++    if (context.empty() && leading_nonword != "") {
++	Unicode::append_utf8(leading_nonword, ch);
++	return;
++    }
++    xpos += (pos - lastpos);
++
++    if (Unicode::is_whitespace(ch)) {
++	if (++nwhitespace > 1)
++	    return;
++	ch = ' ';
++    } else {
++	nwhitespace = 0;
++    }
++
++    if (pending_1gram != "") {
++	push_context(pending_1gram);
++	pending_1gram = "";
++    }
++    ignore_1grams = 0;
++
++    if (!pos) {
++	// non-word characters before the first word
++	Unicode::append_utf8(leading_nonword, ch);
++    }
++    else if (xpos <= horizon) {
++	// the last word of the after-context of a snippet
++	if (ch == ' ' && xpos == horizon) {
++	    // after-context ends on first whitespace
++	    // after the last word in the horizon,
++	    // ...unless another one abuts it, but we
++	    // don't know that yet, so keep it around
++	    // just in case
++	    Unicode::append_utf8(leading_nonword, ch);
++	    return;
++	}
++
++	// the after-context for a match
++	Unicode::append_utf8(result, ch);
++    } else {
++	if (context.size())
++	    Unicode::append_utf8(context.back(), ch);
++    }
++}
++
++// Put a limit on the size of terms to help prevent the index being bloated
++// by useless junk terms.
++static const unsigned int MAX_PROB_TERM_LENGTH = 64;
++// FIXME: threshold is currently in bytes of UTF-8 representation, not unicode
++// characters - what actually makes most sense here?
++
++inline bool
++U_isupper(unsigned ch) {
++    return (ch < 128 && C_isupper((unsigned char)ch));
++}
++
++inline unsigned check_wordchar(unsigned ch) {
++    if (Unicode::is_wordchar(ch)) return ch;
++    return 0;
++}
++
++/** Value representing "ignore this" when returned by check_infix() or
++ *  check_infix_digit().
++ */
++const unsigned UNICODE_IGNORE = numeric_limits<unsigned>::max();
++
++inline unsigned check_infix(unsigned ch) {
++    if (ch == '\'' || ch == '&' || ch == 0xb7 || ch == 0x5f4 || ch == 0x2027) {
++	// Unicode includes all these except '&' in its word boundary rules,
++	// as well as 0x2019 (which we handle below) and ':' (for Swedish
++	// apparently, but we ignore this for now as it's problematic in
++	// real world cases).
++	return ch;
++    }
++    // 0x2019 is Unicode apostrophe and single closing quote.
++    // 0x201b is Unicode single opening quote with the tail rising.
++    if (ch == 0x2019 || ch == 0x201b) return '\'';
++    if (ch >= 0x200b && (ch <= 0x200d || ch == 0x2060 || ch == 0xfeff))
++	return UNICODE_IGNORE;
++    return 0;
++}
++
++inline unsigned check_infix_digit(unsigned ch) {
++    // This list of characters comes from Unicode's word identifying algorithm.
++    switch (ch) {
++	case ',':
++	case '.':
++	case ';':
++	case 0x037e: // GREEK QUESTION MARK
++	case 0x0589: // ARMENIAN FULL STOP
++	case 0x060D: // ARABIC DATE SEPARATOR
++	case 0x07F8: // NKO COMMA
++	case 0x2044: // FRACTION SLASH
++	case 0xFE10: // PRESENTATION FORM FOR VERTICAL COMMA
++	case 0xFE13: // PRESENTATION FORM FOR VERTICAL COLON
++	case 0xFE14: // PRESENTATION FORM FOR VERTICAL SEMICOLON
++	    return ch;
++    }
++    if (ch >= 0x200b && (ch <= 0x200d || ch == 0x2060 || ch == 0xfeff))
++	return UNICODE_IGNORE;
++    return 0;
++}
++
++inline bool
++is_digit(unsigned ch) {
++    return (Unicode::get_category(ch) == Unicode::DECIMAL_DIGIT_NUMBER);
++}
++
++inline unsigned check_suffix(unsigned ch) {
++    if (ch == '+' || ch == '#') return ch;
++    // FIXME: what about '-'?
++    return 0;
++}
++
++void
++SnippetGenerator::Internal::accept_text(Utf8Iterator itor)
++{
++    bool cjk_ngram = CJK::is_cjk_enabled();
++
++    while (true) {
++	// Advance to the start of the next term.
++	unsigned ch;
++	while (true) {
++	    if (itor == Utf8Iterator()) return;
++	    ch = check_wordchar(*itor);
++	    if (ch) break;
++	    accept_nonword_char(*itor, termpos);
++	    ++itor;
++	}
++
++	string term;
++	// Look for initials separated by '.' (e.g. P.T.O., U.N.C.L.E).
++	// Don't worry if there's a trailing '.' or not.
++	if (U_isupper(*itor)) {
++	    const Utf8Iterator end;
++	    Utf8Iterator p = itor;
++	    do {
++		Unicode::append_utf8(term, Unicode::tolower(*p++));
++	    } while (p != end && *p == '.' && ++p != end && U_isupper(*p));
++	    // One letter does not make an acronym!  If we handled a single
++	    // uppercase letter here, we wouldn't catch M&S below.
++	    if (term.size() > 1) {
++		// Check there's not a (lower case) letter or digit
++		// immediately after it.
++		if (p == end || !Unicode::is_wordchar(*p)) {
++		    itor = p;
++		    goto endofterm;
++		}
++	    }
++	    term.resize(0);
++	}
++
++	while (true) {
++	    if (cjk_ngram &&
++		CJK::codepoint_is_cjk(*itor) &&
++		Unicode::is_wordchar(*itor)) {
++		const string & cjk = CJK::get_cjk(itor);
++		for (CJKTokenIterator tk(cjk); tk != CJKTokenIterator(); ++tk) {
++		    const string & cjk_token = *tk;
++		    if (cjk_token.size() > MAX_PROB_TERM_LENGTH) continue;
++
++		    // Add unstemmed form positional information.
++		    accept_term(cjk_token, ++termpos, tk.get_length());
++		}
++		while (true) {
++		    if (itor == Utf8Iterator()) return;
++		    ch = check_wordchar(*itor);
++		    if (ch) break;
++		    accept_nonword_char(*itor, termpos);
++		    ++itor;
++		}
++	    }
++	    unsigned prevch;
++	    do {
++		Unicode::append_utf8(term, ch);
++		prevch = ch;
++		if (++itor == Utf8Iterator() ||
++		    (cjk_ngram && CJK::codepoint_is_cjk(*itor)))
++		    goto endofterm;
++		ch = check_wordchar(*itor);
++	    } while (ch);
++
++	    Utf8Iterator next(itor);
++	    ++next;
++	    if (next == Utf8Iterator()) break;
++	    unsigned nextch = check_wordchar(*next);
++	    if (!nextch) break;
++	    unsigned infix_ch = *itor;
++	    if (is_digit(prevch) && is_digit(*next)) {
++		infix_ch = check_infix_digit(infix_ch);
++	    } else {
++		// Handle things like '&' in AT&T, apostrophes, etc.
++		infix_ch = check_infix(infix_ch);
++	    }
++	    if (!infix_ch) break;
++	    if (infix_ch != UNICODE_IGNORE)
++		Unicode::append_utf8(term, infix_ch);
++	    ch = nextch;
++	    itor = next;
++	}
++
++	{
++	    size_t len = term.size();
++	    unsigned count = 0;
++	    while ((ch = check_suffix(*itor))) {
++		if (++count > 3) {
++		    term.resize(len);
++		    break;
++		}
++		Unicode::append_utf8(term, ch);
++		if (++itor == Utf8Iterator()) goto endofterm;
++	    }
++	    // Don't index fish+chips as fish+ chips.
++	    if (Unicode::is_wordchar(*itor))
++		term.resize(len);
++	}
++
++endofterm:
++	if (term.size() > MAX_PROB_TERM_LENGTH) continue;
++	accept_term(term, ++termpos, 0);
++    }
++}
++
++void
++SnippetGenerator::Internal::add_match(const std::string & str)
++{
++    unsigned ch;
++    Utf8Iterator itor(str);
++    while (true) {
++
++	// skip non-word characters
++	while (true) {
++	    if (itor == Utf8Iterator()) return;
++	    ch = check_wordchar(*itor);
++	    ++itor;
++	    if (ch) break;
++	}
++
++	string term;
++	Unicode::append_utf8(term, ch);
++
++#if 0
++	// treat CJK characters as 1-character terms
++	// this is probably wrong.
++	if (CJK::codepoint_is_cjk(ch)) {
++	    matches.insert(term);
++	    continue;
++	}
++#endif
++
++	// collect word characters into a term
++	while (true) {
++	    if (itor == Utf8Iterator()) break;
++	    ch = check_wordchar(*itor);
++	    if (!ch) break;
++	    Unicode::append_utf8(term, ch);
++	    ++itor;
++	}
++
++	string stem = Unicode::tolower(term);
++	if (stemmer.internal.get())
++	    stem = stemmer(stem);
++	matches.insert(stem);
++    }
++}
++
++void
++SnippetGenerator::Internal::reset()
++{
++    result = "";
++    horizon = 0;
++    lastpos = 0;
++    xpos = 0;
++    nwhitespace = 0;
++    context.clear();
++    matches.clear();
++    termpos = 0;
++    leading_nonword = "";
++    pending_1gram = "";
++    ignore_1grams = 0;
++}
++
++}
+diff -urN xapian-core-1.2.16.orig/queryparser/snippetgenerator_internal.h xapian-core-1.2.16/queryparser/snippetgenerator_internal.h
+--- xapian-core-1.2.16.orig/queryparser/snippetgenerator_internal.h	1970-01-01 01:00:00.000000000 +0100
++++ xapian-core-1.2.16/queryparser/snippetgenerator_internal.h	2014-01-18 12:15:01.721802963 +0100
+@@ -0,0 +1,70 @@
++/** @file snippetgenerator_internal.h
++ * @brief SnippetGenerator class internals
++ */
++/* Copyright (C) 2007 Olly Betts
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
++ */
++
++#ifndef XAPIAN_INCLUDED_SNIPPETGENERATOR_INTERNAL_H
++#define XAPIAN_INCLUDED_SNIPPETGENERATOR_INTERNAL_H
++
++#include <xapian/base.h>
++#include <xapian/snippetgenerator.h>
++#include <xapian/queryparser.h>
++#include <xapian/stem.h>
++#include <tr1/unordered_set>
++#include <queue>
++
++namespace Xapian {
++
++class SnippetGenerator::Internal : public Xapian::Internal::RefCntBase {
++    friend class SnippetGenerator;
++    Stem stemmer;
++    std::string pre_match;
++    std::string post_match;
++    std::string inter_snippet;
++    termcount context_length;
++    std::tr1::unordered_set<std::string> matches;
++    unsigned nwhitespace;
++    std::string leading_nonword;
++    std::string pending_1gram;
++    unsigned ignore_1grams;
++
++    termcount horizon;
++    termcount lastpos;
++    termcount xpos;	// doesn't count N>1 N-grams
++    std::deque<std::string> context;
++    std::string result;
++
++    termcount termpos;
++
++    void push_context(const std::string & term);
++    void accept_term(const std::string & term, termcount pos, int ngram_len);
++    void accept_nonword_char(unsigned ch, termcount pos);
++
++  public:
++    Internal() : pre_match("<b>"), post_match("</b>"),
++		 inter_snippet("..."), context_length(5),
++		 nwhitespace(0), horizon(0), lastpos(0),
++		 termpos(0) { }
++    void add_match(const std::string & term);
++    void accept_text(Utf8Iterator itor);
++    void reset();
++};
++
++}
++
++#endif // XAPIAN_INCLUDED_SNIPPETGENERATOR_INTERNAL_H
+diff -urN xapian-core-1.2.16.orig/tests/termgentest.cc xapian-core-1.2.16/tests/termgentest.cc
+--- xapian-core-1.2.16.orig/tests/termgentest.cc	2013-12-04 01:13:56.000000000 +0100
++++ xapian-core-1.2.16/tests/termgentest.cc	2014-01-18 12:15:09.222768690 +0100
+@@ -1,4 +1,4 @@
+-/* termgentest.cc: Tests of Xapian::TermGenerator
++/* termgentest.cc: Tests of Xapian::TermGenerator & SnippetGenerator
+  *
+  * Copyright (C) 2002,2003,2004,2005,2006,2007,2008,2009,2010,2013 Olly Betts
+  * Copyright (C) 2007 Lemur Consulting Ltd
+@@ -835,12 +835,243 @@
+     return true;
+ }
+ 
++static bool test_snipgen1()
++{
++    Xapian::SnippetGenerator snipgen;
++    snipgen.set_context_length(3);
++
++    std::string text("Readymade photo booth (typeWriter), occupy "
++		     "DreamCatcher Polaroid four loko butcher "
++		     "gentrify. Williamsburg, banh mi gastropub.");
++
++    snipgen.reset();
++    snipgen.add_match("readymade");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "<b>Readymade</b> "
++				       "photo booth (typeWriter),");
++
++    snipgen.reset();
++    snipgen.add_match("Readymade");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "<b>Readymade</b> "
++				       "photo booth (typeWriter),");
++
++    snipgen.reset();
++    snipgen.add_match("reAdyMaDe");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "<b>Readymade</b> "
++				       "photo booth (typeWriter),");
++
++    snipgen.reset();
++    snipgen.add_match("photo");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "Readymade "
++				       "<b>photo</b> "
++				       "booth (typeWriter), occupy");
++
++    snipgen.reset();
++    snipgen.add_match("occupy");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "photo booth (typeWriter), "
++				       "<b>occupy</b> "
++				       "DreamCatcher Polaroid four");
++
++    snipgen.reset();
++    snipgen.add_match("gastropub");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "Williamsburg, banh mi "
++				       "<b>gastropub</b>.");
++
++    snipgen.reset();
++    snipgen.add_match("dreamcatcher");
++    snipgen.add_match("butcher");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "booth (typeWriter), occupy "
++				       "<b>DreamCatcher</b> "
++				       "Polaroid four loko "
++				       "<b>butcher</b> "
++				       "gentrify. Williamsburg, banh");
++
++    snipgen.reset();
++    snipgen.add_match("occupy");
++    snipgen.add_match("williamsburg");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "photo booth (typeWriter), "
++				       "<b>occupy</b> "
++				       "DreamCatcher Polaroid four loko butcher gentrify. "
++				       "<b>Williamsburg</b>, "
++				       "banh mi gastropub.");
++
++    snipgen.reset();
++    snipgen.add_match("occupy");
++    snipgen.add_match("banh");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "photo booth (typeWriter), "
++				       "<b>occupy</b> "
++				       "DreamCatcher Polaroid four"
++				       "..."
++				       "butcher gentrify. Williamsburg, "
++				       "<b>banh</b> "
++				       "mi gastropub.");
++
++    return true;
++}
++
++static bool test_sg_first_nonword()
++{
++    Xapian::SnippetGenerator snipgen;
++    snipgen.set_context_length(3);
++
++    // first character is a non-word character - this
++    // exercises some obscure code paths
++    std::string text("[Brooklyn] Re: locavore cosby sweater");
++
++    // no match at all
++    snipgen.reset();
++    snipgen.add_match("readymade");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "");
++
++    // matched first word
++    snipgen.reset();
++    snipgen.add_match("brooklyn");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "["
++				       "<b>Brooklyn</b>"
++				       "] Re: locavore cosby");
++
++    // matched second word
++    snipgen.reset();
++    snipgen.add_match("re");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "[Brooklyn] "
++				       "<b>Re</b>: "
++				       "locavore cosby sweater");
++
++    return true;
++}
++
++static bool test_sg_cjk_punctuation()
++{
++    Xapian::SnippetGenerator snipgen;
++    snipgen.set_context_length(3);
++    Xapian::Stem stemmer("en");
++    snipgen.set_stemmer(stemmer);
++
++    std::string text("申込み殺到！Nexus7が0円！WiMAX月額3,770円使い放題とセットでお得");
++
++    // the text contains U+FF01 FULLWIDTH EXCLAMATION MARK which
++    // is both a CJK character and a non-word character; it should
++    // be handled as non-word text and appear in both the before
++    // and after contexts
++    snipgen.reset();
++    snipgen.add_match("Nexus7");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "み殺到！<b>Nexus7</b>が0円！");
++
++    return true;
++}
++
++static bool test_sg_cjk_ngrams()
++{
++    Xapian::SnippetGenerator snipgen;
++    snipgen.set_context_length(3);
++    Xapian::Stem stemmer("en");
++    snipgen.set_stemmer(stemmer);
++
++    std::string text("申込み殺到！Nexus7が0円！WiMAX月額3,770円使い放題とセットでお得");
++
++    // a one-character CJK search term should be matched
++    snipgen.reset();
++    snipgen.add_match("放");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "円使い<b>放</b>題とセ");
++
++    // a two-character CJK search term should be matched
++    snipgen.reset();
++    snipgen.add_match("放題");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "円使い<b>放題</b>とセッ");
++
++    return true;
++}
++
++static bool test_sg_stem()
++{
++    Xapian::SnippetGenerator snipgen;
++    snipgen.set_context_length(3);
++    Xapian::Stem stemmer("en");
++    snipgen.set_stemmer(stemmer);
++
++    std::string text("She sells sea shells by the sea shore");
++
++    snipgen.reset();
++    snipgen.add_match("shells");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "She sells sea <b>shells</b> by the sea");
++
++    snipgen.reset();
++    snipgen.add_match("shell");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "She sells sea <b>shells</b> by the sea");
++
++    snipgen.reset();
++    snipgen.add_match("shelled");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "She sells sea <b>shells</b> by the sea");
++
++    snipgen.reset();
++    snipgen.add_match("shelling");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "She sells sea <b>shells</b> by the sea");
++
++    return true;
++}
++
++static bool test_sg_match_punctuation()
++{
++    Xapian::SnippetGenerator snipgen;
++    snipgen.set_context_length(3);
++    Xapian::Stem stemmer("en");
++    snipgen.set_stemmer(stemmer);
++
++    std::string text("alpha beta gamma delta put-a-bird-on-it epsilon zeta eta theta");
++
++    // a simple word search term should be matched
++    snipgen.reset();
++    snipgen.add_match("bird");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "delta put-a-<b>bird</b>-on-it epsilon");
++
++    // adding a search term including punctuation is like
++    // adding multiple search terms
++    snipgen.reset();
++    snipgen.add_match("a-bird");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "gamma delta put-<b>a</b>-<b>bird</b>-on-it epsilon");
++
++    snipgen.reset();
++    snipgen.add_match("put-a-bird-on-it");
++    snipgen.accept_text(text);
++    TEST_EQUAL(snipgen.get_snippets(), "beta gamma delta "
++				       "<b>put</b>-<b>a</b>-<b>bird</b>-<b>on</b>-<b>it</b> "
++				       "epsilon zeta eta");
++
++    return true;
++}
++
+ /// Test cases for the TermGenerator.
+ static const test_desc tests[] = {
+     TESTCASE(termgen1),
+     TESTCASE(tg_spell1),
+     TESTCASE(tg_spell2),
+     TESTCASE(tg_max_word_length1),
++    TESTCASE(snipgen1),
++    TESTCASE(sg_first_nonword),
++    TESTCASE(sg_stem),
++    TESTCASE(sg_cjk_punctuation),
++    TESTCASE(sg_cjk_ngrams),
++    TESTCASE(sg_match_punctuation),
+     END_OF_TESTCASES
+ };
+ 
