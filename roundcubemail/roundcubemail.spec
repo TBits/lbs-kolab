@@ -41,7 +41,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.1.4
+Version:        1.1.5
 
 Release:        1%{?dist}
 
@@ -3000,6 +3000,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri May 13 2016 Timotheus Pokorra <tp@tbits.net> - 1.1.5-1
+- Check in maintenance upstream 1.1.5 release
+
 * Mon Jan 11 2016 Timotheus Pokorra <tp@tbits.net> - 1.1.4-1
 - Check in maintenance upstream 1.1.4 release
 

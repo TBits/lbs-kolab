@@ -24,7 +24,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.2.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -656,18 +656,6 @@ Provides:       roundcubemail(plugin-kolab_zpush-skin-classic) = %{?epoch:%{epoc
 %description -n roundcubemail-plugin-kolab_zpush-skin-classic
 Plugin kolab_zpush / Skin classic
 
-%package -n roundcubemail-plugin-libcalendaring-skin-larry
-Summary:        Plugin libcalendaring / Skin larry
-Group:          Applications/Internet
-Requires:       roundcubemail(plugin-libcalendaring) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(skin-larry) >= %{roundcube_version}
-Requires:       roundcubemail(plugin-libcalendaring-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-libcalendaring-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail(plugin-libcalendaring-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description -n roundcubemail-plugin-libcalendaring-skin-larry
-Plugin libcalendaring / Skin larry
-
 %package -n roundcubemail-plugin-owncloud-skin-larry
 Summary:        Plugin owncloud / Skin larry
 Group:          Applications/Internet
@@ -811,6 +799,11 @@ Plugin kolab_zpush / Skin classic (Assets Package)
 %package -n roundcubemail-plugin-libcalendaring-skin-larry-assets
 Summary:        Plugin libcalendaring / Skin larry (Assets)
 Group:          Applications/Internet
+Requires:       roundcubemail(plugin-libcalendaring) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail(skin-larry) >= %{roundcube_version}
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-larry
+Provides:       roundcubemail(plugin-libcalendaring-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail(plugin-libcalendaring-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-libcalendaring-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-libcalendaring-skin-larry-assets
@@ -1913,9 +1906,6 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_zpush-skin-classic -f plugin-kolab_zpush-skin-classic.files
 %defattr(-,root,root,-)
 
-%files -n roundcubemail-plugin-libcalendaring-skin-larry -f plugin-libcalendaring-skin-larry.files
-%defattr(-,root,root,-)
-
 %files -n roundcubemail-plugin-owncloud-skin-larry -f plugin-owncloud-skin-larry.files
 %defattr(-,root,root,-)
 
@@ -1977,6 +1967,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Sat Dec 19 2015 Timotheus Pokorra <tp@tbits.net> - 3.2.7-5
+- dropping roundcubemail-plugin-libcalendaring-skin-larry because it is empty (#5303)
+- rpm 4.13 rejects empty sub packages
+
 * Sun Apr 19 2015 Daniel Hoffend <dh@dotlan.net> - 3.2.7-4
 - fixed check post install database update
 

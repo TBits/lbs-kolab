@@ -1,3 +1,9 @@
+roundcubemail (1:1.1.5.0-0~kolab1) unstable; urgency=low
+
+  * Check in maintenance upstream 1.1.5 release
+
+ -- Timotheus Pokorra <tp@tbits.net>  Fri, 13 May 2016 08:42:00 +0200
+
 roundcubemail (1:1.1.4.0-0~kolab1) unstable; urgency=low
 
   * Check in maintenance upstream 1.1.4 release

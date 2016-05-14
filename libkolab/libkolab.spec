@@ -30,7 +30,7 @@ Name:           libkolab
 %endif
 
 Version:        0.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Kolab Object Handling Library
 
 License:        LGPLv3+
@@ -44,7 +44,7 @@ Patch0003:      0003-Move-QT_DECLARE_METADATA-logic-to-cmake.patch
 Patch0004:      0004-kolabformat-upgrade-fix-excluded-dates.patch
 
 BuildRequires:  cmake
-%if 0%{?rhel} > 7 || 0%{?fedora} > 21
+%if 0%{?rhel} > 7 || 0%{?fedora} > 23
 BuildRequires:  kdepimlibs-devel >= 4.9
 %else
 # Note: available within kolabsys.com infrastructure only, as being (essentially) a
@@ -73,7 +73,7 @@ The libkolab library is an advanced library to  handle Kolab objects.
 %endif
 Summary:        Kolab library development headers
 Requires:       libkolab%{?_isa} = %{version}
-%if 0%{?rhel} > 7 || 0%{?fedora} > 21
+%if 0%{?rhel} > 7 || 0%{?fedora} > 23
 BuildRequires:  kdepimlibs-devel >= 4.9
 %else
 # Note: available within kolabsys.com infrastructure only, as being (essentially) a
@@ -162,7 +162,7 @@ cmake \
     -DBoost_NO_BOOST_CMAKE=TRUE \
     -Wno-fatal-errors -Wno-errors \
     -DINCLUDE_INSTALL_DIR=%{_includedir} \
-%if 0%{?rhel} < 8 && 0%{?fedora} < 22
+%if 0%{?rhel} < 8 && 0%{?fedora} < 24
     -DUSE_LIBCALENDARING=ON \
 %endif
     -DPHP_BINDINGS=ON \
@@ -264,6 +264,9 @@ rm -rf %{buildroot}
 %{python_sitearch}/kolab/shared.py*
 
 %changelog
+* Sat Dec 19 2015 Timotheus Pokorra <tp@tbits.net> - 0.6.0-2
+- build for Fedora 23 with libcalendaring
+
 * Sun Feb 15 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.6.0-1
 - Update to version 0.6.0
 
