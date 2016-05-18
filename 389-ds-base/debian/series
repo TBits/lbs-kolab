@@ -1,2 +1,0 @@
-debian-default_user.patch -p1
-fix-sasl-path.diff -p1
