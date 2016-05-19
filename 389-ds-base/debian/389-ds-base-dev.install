@@ -1,0 +1,3 @@
+usr/include/dirsrv/*
+usr/lib*/dirsrv/libslapd.so
+usr/lib*/pkgconfig/*

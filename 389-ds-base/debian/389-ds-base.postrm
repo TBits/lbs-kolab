@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+. /usr/share/debconf/confmodule
+
+if [ "$1" = "purge" ]; then
+    rmdir --ignore-fail-on-non-empty /etc/dirsrv >/dev/null
+    if getent group dirsrv > /dev/null; then
+        deluser --system dirsrv || true
+    fi
+fi
+
+#DEBHELPER#
