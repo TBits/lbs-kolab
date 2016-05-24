@@ -33,7 +33,9 @@ BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-eimap >= 0.1.5
 BuildRequires:      erlang-goldrush
 BuildRequires:      erlang-lager >= 2.1.0
+BuildRequires:      erlang-lager_syslog >= 2.0.3
 BuildRequires:      erlang-rebar >= 2.5.1
+BuildRequires:      erlang-syslog >= 1.0.3
 
 Requires(pre):      shadow-utils
 Requires(postun):   shadow-utils
