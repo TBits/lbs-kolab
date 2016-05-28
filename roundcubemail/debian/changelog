@@ -1,3 +1,9 @@
+roundcubemail (1:1.2~dev20160119-0~kolab2) unstable; urgency=low
+
+  * apply security patch for XSS vulnerability CVE-2016-5103
+
+ -- Timotheus Pokorra <tp@tbits.net>  Fri, 27 May 2016 08:42:00 +0200
+
 roundcubemail (1:1.2~dev20160119-0~kolab1) unstable; urgency=low
 
   * fix secure URL regex for debian
