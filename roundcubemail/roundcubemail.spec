@@ -43,7 +43,7 @@
 Name:           roundcubemail
 Version:        1.1.5
 
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -60,6 +60,8 @@ Source21:       roundcubemail.logrotate
 
 Patch201:       ticket-466-changes.patch
 Patch202:       default-configuration.patch
+
+Patch203:       CVE-2016-5103.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1246,6 +1248,7 @@ pushd %{name}-%{version}
 
 %patch201 -p1
 %patch202 -p1
+%patch203 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -3000,6 +3003,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri May 27 2016 Timotheus Pokorra <tp@tbits.net> - 1.1.5-2
+- apply security patch for XSS vulnerability CVE-2016-5103
+
 * Fri May 13 2016 Timotheus Pokorra <tp@tbits.net> - 1.1.5-1
 - Check in maintenance upstream 1.1.5 release
 
