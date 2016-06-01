@@ -12,19 +12,36 @@ yum -y install osc git wget || exit -1
 
 cp ~/.ssh/oscrc ~/.oscrc
 
+cd ~
+mkdir -p work_$branch
+cd work_$branch
+
 eval `ssh-agent`
 ssh-add ~/.ssh/gitkey
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 # git does not like colons in branch names...
 gitbranch=${branch//:/_}
-git clone -b $gitbranch --single-branch --depth 1 git@github.com:TBits/lbs-kolab.git || \
+if [ -d lbs-kolab ]
+then
+  cd lbs-kolab
+  git pull
+  cd ..
+else
+  git clone -b $gitbranch --single-branch --depth 1 git@github.com:TBits/lbs-kolab.git || \
       (git clone -b master --single-branch --depth 1 git@github.com:TBits/lbs-kolab.git && cd lbs-kolab && git checkout -b $gitbranch && git push origin $gitbranch && cd ..) || \
       exit -1
+fi
 
-mkdir osc
-cd osc
-
-osc -A https://obs.kolabsys.com/ checkout --current-dir $branch | tee /tmp/osc.log || exit -1
+if [ -d osc/$branch ]
+then
+  cd osc/$branch
+  osc update || exit -1
+  cd ..
+else
+  mkdir -p osc
+  cd osc
+  osc -A https://obs.kolabsys.com/ checkout --current-dir $branch || exit -1
+fi
 
 cd $branch
 for pkgname in *
