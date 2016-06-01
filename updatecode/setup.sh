@@ -139,6 +139,9 @@ do
     cp -R $pkgname ../../lbs-kolab/
 done
 
+# clean up the temp directory
+rm -Rf osc.work
+
 cd ../../lbs-kolab
 git add .
 git config user.name "LBS BuildBot"
