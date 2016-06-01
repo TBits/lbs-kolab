@@ -36,14 +36,19 @@ if [ -d osc/$branch ]
 then
   cd osc/$branch
   osc update || exit -1
-  cd ..
+  cd ../..
 else
   mkdir -p osc
   cd osc
   osc -A https://obs.kolabsys.com/ checkout --current-dir $branch || exit -1
+  cd ..
 fi
 
-cd $branch
+# do not modify the files in osc directly
+rm -Rf osc.work
+cp -R osc osc.work
+cd osc.work/$branch
+
 for pkgname in *
 do
     if [ ! -d $pkgname ]
