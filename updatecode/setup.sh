@@ -120,8 +120,8 @@ done
 
 cd ../../lbs-kolab
 git add .
-git config --global user.name "LBS BuildBot"
-git config --global user.email tp@tbits.net
+git config user.name "LBS BuildBot"
+git config user.email tp@tbits.net
 
 TODAY=`date +%Y%m%d`
 git commit -a -m "updated $branch to latest version from OBS ($TODAY)"
