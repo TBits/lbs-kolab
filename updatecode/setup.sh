@@ -85,15 +85,31 @@ do
       debpkgname="php-net-ldap3"
     fi
 
-    tar xzf debian.tar.gz
-    rm -Rf debian.tar.gz
-    mv debian.changelog debian/changelog
-    mv debian.control debian/control
-    mv debian.series debian/series
-    mv debian.rules debian/rules
+    if [ -f debian.tar.gz ]
+    then
+      tar xzf debian.tar.gz
+      rm -Rf debian.tar.gz
+    fi
+    if [ -f debian.changelog ]
+    then
+      mkdir -p debian
+      mv debian.changelog debian/changelog
+      mv debian.control debian/control
+      mv debian.rules debian/rules
+    fi
+    if [ -f debian.series ]
+    then
+      mv debian.series debian/series
+    fi
 
-    # make sure that we only have lowercase letters in the dsc filename
-    mv $debpkgname.dsc ${debpkgname,,}".dsc"
+    if [ -f $debpkgname.dsc ] 
+    then
+      if [[ "$debpkgname.dsc" != "${debpkgname,,}"".dsc" ]]
+      then
+        # make sure that we only have lowercase letters in the dsc filename
+        mv $debpkgname.dsc ${debpkgname,,}".dsc"
+      fi
+    fi
 
     # check if we need to download the tarball (eg. Kolab 3.4 libkolabxml)
     if [[ "$branch" == "Kolab:3.4" ]]
