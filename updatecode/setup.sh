@@ -61,12 +61,21 @@ do
     process=1
     for f in $pkgname/*
     do
-      size=`stat --printf="%s" $f`
-      if [ $size -gt $((50*1024*1024)) ]
+      if [ -f $f ]
       then
+        size=`stat --printf="%s" $f`
+        if [ $size -gt $((50*1024*1024)) ]
+        then
+          rm -Rf ../../lbs-kolab/$pkgname
+          echo "*******************"
+          echo "ignoring $pkgname because file $f is too big for Github"
+          echo "*******************"
+          process=0
+        fi
+      else
         rm -Rf ../../lbs-kolab/$pkgname
         echo "*******************"
-        echo "ignoring $pkgname because file $f is too big for Github"
+        echo "ignoring $pkgname because it does not contain any files"
         echo "*******************"
         process=0
       fi
