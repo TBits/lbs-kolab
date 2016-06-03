@@ -20,8 +20,8 @@
 %global _cyrusgroup mail
 %global _cyrexecdir %{_exec_prefix}/lib/%{_name}
 
-%global real_version 2.5.7
-#%%global snapshot_version 7
+%global real_version 2.5.8
+%global snapshot_version 12
 %global dot_snapshot_version %{?snapshot_version:.%{snapshot_version}}
 
 ##
@@ -34,6 +34,7 @@
 
 %global with_dav        0
 %global with_tcpwrap    0
+%global with_zlib       0
 
 Name:               cyrus-imapd
 Summary:            A high-performance mail server with IMAP, POP3, NNTP and SIEVE support
@@ -328,6 +329,9 @@ LDFLAGS="$LDFLAGS -pie"; export LDFLAGS
     --with-extraident="Kolab-%{version}-%{release}" \
 %if 0%{?with_tcpwrap} < 1
     --without-wrap \
+%endif
+%if 0%{?with_zlib} < 1
+    --without-zlib \
 %endif
 %if 0%{?with_dav}
     --with-http \
@@ -748,6 +752,21 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Thu Jun 02 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.8.12-1
+- Check in 12 revisions ahead of upstream 2.5.8 release
+
+* Mon May 09 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.7.26-1
+- Check in 26 revisions ahead of upstream 2.5.7 release
+
+* Fri Apr 29 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.7.25-1
+- Check in 25 revisions ahead of upstream 2.5.7 release
+
+* Mon Mar 21 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.7.10-1
+- Check in 10 revisions ahead of upstream 2.5.7 release
+
+* Thu Mar 10 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.7.8-1
+- Check in 8 revisions ahead of upstream 2.5.7 release
+
 * Wed Dec 16 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.7-1
 - Upstream release 2.5.7
 

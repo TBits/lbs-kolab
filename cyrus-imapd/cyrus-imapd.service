@@ -8,7 +8,6 @@ EnvironmentFile=/etc/sysconfig/cyrus-imapd
 ExecStartPre=/usr/lib/cyrus-imapd/cyr_systemd_helper start
 ExecStart=/usr/lib/cyrus-imapd/cyrus-master $CYRUSOPTIONS
 ExecStopPost=/usr/lib/cyrus-imapd/cyr_systemd_helper stop
-PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
