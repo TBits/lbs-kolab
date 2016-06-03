@@ -2,14 +2,20 @@
 # get_config [config default]
 # extracts config option from config file
 get_config() {
-  if conf=$(grep "^$1" /etc/imapd.conf); then
-    echo $conf | cut -d: -f2
-  else
-    echo $2
-  fi
+    if conf=$(grep "^$1" /etc/imapd.conf); then
+        echo $conf | cut -d: -f2
+    else
+        echo $2
+    fi
 }
 
 CONFIGDIRECTORY=$(get_config configdirectory /var/lib/imap)
+if [ ! -d ${CONFIGDIRECTORY} ]; then
+    mkdir -p ${CONFIGDIRECTORY}
+    chmod 700 ${CONFIGDIRECTORY}
+    chown cyrus:mail ${CONFIGDIRECTORY}
+fi
+
 RETVAL=0
 
 # Sometimes, there is no path
@@ -20,26 +26,36 @@ if [ -z "${runuser}" ]; then
 fi
 
 start() {
-      cd $CONFIGDIRECTORY
-      $runuser - cyrus -s /bin/sh -c "umask 166 ; /usr/lib/cyrus-imapd/cvt_cyrusdb_all import > ${CONFIGDIRECTORY}/rpm/db_import.log 2>&1" < /dev/null
-      RETVAL=$?
+    cd $CONFIGDIRECTORY
+    $runuser - cyrus -s /bin/bash -c '/usr/lib/cyrus-imapd/mkimap' >/dev/null 2>&1 < /dev/null
+
+    mkdir -p ${CONFIGDIRECTORY}/rpm
+    chown cyrus:mail ${CONFIGDIRECTORY}/rpm
+
+    $runuser - cyrus -s /bin/sh -c "umask 166 ; /usr/lib/cyrus-imapd/cvt_cyrusdb_all import > ${CONFIGDIRECTORY}/rpm/db_import.log 2>&1" < /dev/null
+    RETVAL=$?
 }
 
 stop() {
-      cd $CONFIGDIRECTORY
-      $runuser - cyrus -s /bin/sh -c "umask 166 ; /usr/lib/cyrus-imapd/cvt_cyrusdb_all export > ${CONFIGDIRECTORY}/rpm/db_export.log 2>&1" < /dev/null
-      RETVAL=$?
+    cd $CONFIGDIRECTORY
+    mkdir -p ${CONFIGDIRECTORY}/rpm
+    chown cyrus:mail ${CONFIGDIRECTORY}/rpm
+
+    $runuser - cyrus -s /bin/sh -c "umask 166 ; /usr/lib/cyrus-imapd/cvt_cyrusdb_all export > ${CONFIGDIRECTORY}/rpm/db_export.log 2>&1" < /dev/null
+    RETVAL=$?
 }
 
 case "$1" in
-  start)
-    start
-    ;;
-  stop)
-    stop
-    ;;
-  *)
-    ;;
+    start)
+            start
+        ;;
+
+    stop)
+            stop
+        ;;
+
+    *)
+        ;;
 esac
 
 exit $RETVAL
