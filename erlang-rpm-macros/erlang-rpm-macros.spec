@@ -1,14 +1,19 @@
 Name:		erlang-rpm-macros
-Version:	0.1.4
+Version:	0.2.2
 Release:	1%{?dist}
 Summary:	Macros for simplifying building of Erlang packages
 Group:		Development/Libraries
 License:	MIT
 URL:		https://github.com/lemenkov/erlang-rpm-macros
-#VCS:		scm:git:https://github.com/lemenkov/erlang-rpm-macros.git
+%if 0%{?rhel} > 6 || 0%{?fedora}
+VCS:		scm:git:https://github.com/lemenkov/erlang-rpm-macros.git
+%endif
 Source0:	https://github.com/lemenkov/erlang-rpm-macros/archive/%{version}/%{name}-%{version}.tar.gz
 BuildArch:	noarch
-Requires:	rpm-build
+Requires:	rpm-build >= 4.8
+# Requires for BEAM parsing
+Requires:	python2-pybeam
+Requires:	rpm-python
 
 
 %description
@@ -24,25 +29,56 @@ Macros for simplifying building of Erlang packages.
 
 
 %install
+install -d %{buildroot}%{_rpmconfigdir}/fileattrs
 install -d %{buildroot}%{_rpmconfigdir}/macros.d
 install -p -m 0755 erlang-find-provides.escript %{buildroot}%{_rpmconfigdir}/
-install -p -m 0755 erlang-find-provides.sh %{buildroot}%{_rpmconfigdir}/
+install -p -m 0755 erlang-find-provides.py %{buildroot}%{_rpmconfigdir}/
 install -p -m 0755 erlang-find-requires.escript %{buildroot}%{_rpmconfigdir}/
-install -p -m 0755 erlang-find-requires.sh %{buildroot}%{_rpmconfigdir}/
-install -p -m 0644 macros.erlang %{buildroot}%{_rpmconfigdir}/macros.d
+install -p -m 0755 erlang-find-requires.py %{buildroot}%{_rpmconfigdir}/
+install -p -m 0644 macros.erlang %{buildroot}%{_rpmconfigdir}/macros.d/
+install -p -m 0644 erlang.attr %{buildroot}%{_rpmconfigdir}/fileattrs/
 
 
 %files
-%doc README LICENSE
-%{_rpmconfigdir}/macros.d/macros.erlang
+%if 0%{?fedora}
+%license LICENSE
+%else
+%doc LICENSE
+%endif
+%doc README
 %{_rpmconfigdir}/erlang-find-provides.escript
-%{_rpmconfigdir}/erlang-find-provides.sh
+%{_rpmconfigdir}/erlang-find-provides.py
 %{_rpmconfigdir}/erlang-find-requires.escript
-%{_rpmconfigdir}/erlang-find-requires.sh
+%{_rpmconfigdir}/erlang-find-requires.py
+%{_rpmconfigdir}/fileattrs/erlang.attr
+%{_rpmconfigdir}/macros.d/macros.erlang
+%exclude %{_rpmconfigdir}/*.pyc
+%exclude %{_rpmconfigdir}/*.pyo
 
 
 
 %changelog
+* Thu Mar 10 2016 Peter Lemenkov <lemenkov@gmail.com> - 0.2.2-1
+- Ver. 0.2.2
+
+* Mon Mar  7 2016 Peter Lemenkov <lemenkov@gmail.com> - 0.2.1-2
+- Allow skippind dependency checking in rebar
+
+* Sun Mar  6 2016 Peter Lemenkov <lemenkov@gmail.com> - 0.2.1-1
+- Ver. 0.2.1
+
+* Tue Mar  1 2016 Peter Lemenkov <lemenkov@gmail.com> - 0.2.0-2
+- Added missing Requires
+
+* Tue Mar  1 2016 Peter Lemenkov <lemenkov@gmail.com> - 0.2.0-1
+- Ver. 0.2.0
+
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Fri Jun 13 2014 Peter Lemenkov <lemenkov@gmail.com> - 0.1.4-1
 - Ver. 0.1.4
 - Dropped support for pre-4.11 rpms (EL7 or Fedora is required)

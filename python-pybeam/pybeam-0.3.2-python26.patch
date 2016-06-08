@@ -1,0 +1,12 @@
+diff -ur pybeam-0.3.2.orig/test/eetf_construct.py pybeam-0.3.2/test/eetf_construct.py
+--- pybeam-0.3.2.orig/test/eetf_construct.py	2014-05-31 13:24:56.000000000 +0200
++++ pybeam-0.3.2/test/eetf_construct.py	2016-05-29 12:02:23.363410399 +0200
+@@ -116,7 +116,7 @@
+ 		s = erlang_types.String(b'RoBurToVoY')
+ 		self.assertEqual(c.parse(c.build(s)),s)
+ 		n = b"\x01\x00" + b"".join(map(int2byte, range(0,256)))
+-		self.assertListEqual(list(c.parse(n)), list(range(0,256)))
++		self.assertEqual(list(c.parse(n)), list(range(0,256)))
+ 		self.assertEqual(c.build(erlang_types.String(b"".join(map(int2byte, range(0,256))))), n)
+ 	def test_binary(self):
+ 		c = eetf_construct.binary

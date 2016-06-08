@@ -1,3 +1,9 @@
+rebar (2.6.1-1~kolab1) unstable; urgency=medium
+
+  * Update to 2.6.1
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Thu, 17 Mar 2016 07:07:07 +0100
+
 rebar (2.5.1-3~kolab1) unstable; urgency=medium
 
   * Adapt package for Kolab.

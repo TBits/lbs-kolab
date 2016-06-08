@@ -14,14 +14,14 @@
 %global bootstrap 1
 
 Name:           erlang-%{realname}
-Version:        2.5.1
+Version:        2.6.1
 Release:        1%{?dist}
 Summary:        Erlang Build Tools
 Group:          Development/Tools
 License:        MIT
 URL:            https://github.com/rebar/rebar
-# wget --content-disposition https://github.com/rebar/rebar/tarball/2.5.1
-Source0:        %{upstream}-%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+# From https://github.com/rebar/rebar/archive/2.6.1.tar.gz
+Source0:        %{realname}-%{version}.tar.gz
 Source1:        rebar.escript
 
 Patch1:         0001-Don-t-load-templates-from-the-bundle.patch
@@ -41,6 +41,9 @@ BuildRequires:  erlang-rebar >= 0.1
 %else
 BuildRequires:  erlang
 %endif
+BuildRequires:  erlang-rpm-macros >= 0.2.2
+
+Requires:       erlang-rpm-macros >= 0.2.2
 
 %if 0%{?bootstrap} < 1
 Requires:       erlang-erlydtl%{?_isa}
@@ -50,7 +53,6 @@ Requires:       erlang-protobuffs%{?_isa}
 %endif
 
 # FIXME wip
-#Requires:       erlang-abnfc%{?_isa}
 Requires:       erlang-asn1%{?_isa}
 Requires:       erlang-common_test%{?_isa}
 Requires:       erlang-compiler%{?_isa}
@@ -83,7 +85,8 @@ Requires:       erlang-mustache%{?_isa}
 Erlang Build Tools.
 
 %prep
-%setup -q -n %{upstream}-%{realname}-57ea1c5
+%setup -q -n %{realname}-%{version}
+
 %patch1 -p1
 
 %if 0%{?bootstrap} < 1
@@ -117,15 +120,17 @@ cp -a priv %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/
 
 
 %check
-#rebar eunit -v
-
+#rebar eunit -vv
 
 %files
-%doc LICENSE NOTES.org README.md THANKS rebar.config.sample
+%doc LICENSE README.md THANKS rebar.config.sample
 %{_bindir}/rebar
 %{_libdir}/erlang/lib/%{realname}-%{version}
 
 %changelog
+* Thu Mar 17 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.6.1-1
+- Update to version 2.6.1
+
 * Mon May 18 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.1-1
 - Use the upstream version of rebar
 

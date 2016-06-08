@@ -1,4 +1,4 @@
-From 764c71d5df5786ed5b74d11a4904b282b5a29c4a Mon Sep 17 00:00:00 2001
+From 7802b5dc11b3569cdb2c25c2703632bc84756823 Mon Sep 17 00:00:00 2001
 From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
 Date: Mon, 18 May 2015 11:48:22 +0200
 Subject: [PATCH 4/7] Allow discarding building ports
@@ -8,10 +8,10 @@ Subject: [PATCH 4/7] Allow discarding building ports
  1 file changed, 6 insertions(+)
 
 diff --git a/src/rebar_port_compiler.erl b/src/rebar_port_compiler.erl
-index 35adc3c..04a4382 100644
+index 906bcb0..9ae4778 100644
 --- a/src/rebar_port_compiler.erl
 +++ b/src/rebar_port_compiler.erl
-@@ -278,6 +278,12 @@ get_specs(Config, AppFile) ->
+@@ -300,6 +300,12 @@ get_specs(Config, AppFile) ->
                      %% No spec provided. Construct a spec
                      %% from old-school so_name and sources
                      [port_spec_from_legacy(Config, AppFile)];
@@ -25,5 +25,5 @@ index 35adc3c..04a4382 100644
                      Filtered = filter_port_specs(PortSpecs),
                      OsType = os:type(),
 -- 
-2.1.0
+2.5.0
 

@@ -62,7 +62,7 @@ Name:           libkolabxml1
 Name:           libkolabxml
 %endif
 Version: 1.2
-Release: 0.20160330.git%{?dist}
+Release: 0.20160607.git%{?dist}
 Summary:        Kolab XML format collection parser library
 
 Group:          System Environment/Libraries
