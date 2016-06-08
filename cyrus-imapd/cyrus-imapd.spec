@@ -365,6 +365,7 @@ find . -type f -name "*.pl" -exec %{__chmod} 755 {} \;
 for tool in tools/* ; do
   test -f ${tool} && %{__install} -m 755 ${tool} %{buildroot}%{_cyrexecdir}/
 done
+rm -rf %{buildroot}%{_cyrexecdir}/htmlstrip.c
 
 # Create directories
 %{__install} -d \
