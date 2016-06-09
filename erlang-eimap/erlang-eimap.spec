@@ -6,7 +6,7 @@
 %global debug_package %{nil}
 
 Name:		erlang-%{realname}
-Version:	0.2.2
+Version:	0.2.4
 Release:	0.20160111.git%{?dist}
 Summary:	Erlang IMAP client
 Group:		Development/Libraries
@@ -15,7 +15,7 @@ URL:		http://git.kolab.org/diffusion/EI/%{realname}.git
 %if 0%{?el7}%{?fedora}
 VCS:		scm:git:https://git.kolab.org/diffusion/EI/%{realname}.git
 %endif
-Source0:	erlang-eimap-0.2.2.tar.gz
+Source0:	erlang-eimap-0.2.4.tar.gz
 
 BuildRequires:	erlang-goldrush >= 0.1.7
 BuildRequires:	erlang-lager >= 2.2.0
@@ -28,7 +28,7 @@ Requires:	erlang-stdlib%{?_isa} >= R13B
 IMAP client library for Erlang
 
 %prep
-%setup -q
+%setup -q -n eimap-%{version}
 
 %build
 rebar compile -v
@@ -54,6 +54,8 @@ install -D -m 644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{ve
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
 
 %changelog
+* Wed Jun 08 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.2.4-1
+- Packaging of 0.2.4
 * Tue Jun 07 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.2.2-1
 - Packaging of 0.2.2
 * Mon Dec 21 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.1.2-1
