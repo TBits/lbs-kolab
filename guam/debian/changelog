@@ -1,3 +1,9 @@
+guam (0.8-2) unstable; urgency=medium
+
+  * Package version 0.8
+
+ -- Aaron Seigo <seigo@kolabsystems.com>  Fri, 10 Jun 2016 10:54:23 +0100
+
 guam (0.8-1+git20160219~kolab1) unstable; urgency=medium
 
   * Bump to new git version.

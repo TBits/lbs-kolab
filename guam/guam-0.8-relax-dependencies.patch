@@ -1,0 +1,12 @@
+diff -ur guam-0.8.orig/rebar.config guam-0.8/rebar.config
+--- guam-0.8.orig/rebar.config	2016-06-08 14:18:58.000000000 +0200
++++ guam-0.8/rebar.config	2016-06-10 16:08:23.558138501 +0200
+@@ -3,7 +3,7 @@
+ 
+ { deps_dir, "deps" }.
+ { deps, [
+-    { lager, "(2.0|2.1|2.2).*", { git, "git://github.com/basho/lager.git", { tag, "2.2.0" } } },
++    { lager, ".*", { git, "git://github.com/basho/lager.git" } },
+     { lager_syslog, "2.*", { git, "git://github.com/basho/lager_syslog.git", { tag, "2.1.3" } } },
+     { eimap, ".*", { git, "https://git.kolab.org/diffusion/EI/eimap.git", { tag, "0.2.2" } } }
+     %% pull in the proper version of meck before jobs 0.3 gets around to pulling in the wrong version

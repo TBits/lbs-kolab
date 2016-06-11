@@ -29,6 +29,8 @@ URL:                https://kolab.org/about/guam
 # From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
 Source0:            guam-0.8.tar.gz
 
+Patch01:            guam-0.8-relax-dependencies.patch
+
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-eimap >= 0.1.5
 BuildRequires:      erlang-goldrush
@@ -71,6 +73,8 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
+%patch01 -p1
+
 %build
 rebar compile
 mkdir -p deps
@@ -90,7 +94,7 @@ mkdir -p \
     %{buildroot}%{_var}/log/
 
 %if 0%{?with_systemd}
-install -p -m 644 guam.service \
+install -p -m 644 contrib/guam.service \
     %{buildroot}%{_unitdir}/guam.service
 %endif
 
@@ -154,6 +158,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Fri Jun 10 2016 Aaron Seigo <seigo@kolabsystems.com>
+- Package version 0.8
+
 * Tue Feb  2 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.1-1
 - Check in systemd init script fixes
 
