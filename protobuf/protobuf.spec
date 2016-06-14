@@ -322,7 +322,9 @@ install -p -m 0644 %{SOURCE2} $RPM_BUILD_ROOT%{emacs_startdir}
 %files python
 %defattr(-, root, root, -)
 %dir %{python_sitelib}/google
+%if 0%{?rhel} > 6 || 0%{?fedora}
 %exclude %{python_sitelib}/google/__init__.py*
+%endif
 %{python_sitelib}/google/protobuf/
 %{python_sitelib}/protobuf-%{version}-py2.?.egg-info
 %{python_sitelib}/protobuf-%{version}-py2.?-nspkg.pth

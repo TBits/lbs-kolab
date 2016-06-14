@@ -18,6 +18,9 @@ License:        Public Domain or ASL 2.0
 URL:            https://github.com/aseigo/erlang_iso8601
 # wget --content-disposition https://github.com/aseigo/erlang_iso8601/tarball/master
 Source0:        %{upstream}-erlang_%{realname}-%{git_tag}.tar.gz
+
+Patch0001:      0001-Erlang-R18-compatibility.patch
+
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:  erlang-rebar
 # Error:erlang(os:timestamp/0) - in R12B
@@ -30,6 +33,8 @@ Formats and parses ISO 8601 dates
 
 %prep
 %setup -q -n %{upstream}-erlang_%{realname}-%{git_tag}
+
+%patch0001 -p1
 
 %build
 rebar compile -v

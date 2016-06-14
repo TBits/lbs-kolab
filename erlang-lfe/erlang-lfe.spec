@@ -1,30 +1,24 @@
 %global realname lfe
 %global upstream rvirding
-%global git_tag 0b728d4 
-%global debug_package %{nil}
 
 
 Name:		erlang-%{realname}
-Version:	0.9.2
-Release:	1%{?dist}
+Version:	1.0
+Release:	2%{?dist}
 Summary:	Lisp Flavoured Erlang
 Group:		Development/Languages
 License:	BSD
-URL:		http://github.com/rvirding/lfe
+URL:		https://github.com/%{upstream}/%{realname}
 %if 0%{?el7}%{?fedora}
-VCS:		scm:git:https://github.com/rvirding/lfe.git
+VCS:		scm:git:https://github.com/%{upstream}/%{realname}.git
 %endif
-Source0:	https://github.com/rvirding/lfe/archive/v%{version}/%{realname}-%{version}.tar.gz
-BuildRequires:	erlang-rebar
+Source0:	https://github.com/%{upstream}/%{realname}/archive/%{version}/%{realname}-%{version}.tar.gz
+
+BuildRequires:	erlang-rebar >= 2.6.1
 BuildRequires:	pkgconfig
 BuildRequires:	emacs
 BuildRequires:	emacs-el
-
-Requires:	erlang-compiler%{?_isa}
-Requires:	erlang-erts%{?_isa}
-Requires:	erlang-kernel%{?_isa}
-# Error:erlang(unicode:characters_to_list/1) in R12B and earlier
-Requires:	erlang-stdlib%{?_isa} >= R13B
+%{?__erlang_drv_version:Requires: %{__erlang_drv_version}}
 
 
 %description
@@ -59,48 +53,81 @@ Lisp Flavoured Erlang with GNU Emacs.
 
 %prep
 %setup -q -n %{realname}-%{version}
+
 iconv -f iso-8859-1 -t UTF-8  examples/core-macros.lfe > examples/core-macros.lfe.utf8
 mv  -f examples/core-macros.lfe.utf8 examples/core-macros.lfe
 
 
 %build
-rebar compile -v
-emacs -batch -f batch-byte-compile emacs/lfe-mode.el
+ERL_LIBS=. %{rebar_compile}
+emacs -L emacs/ -batch -f batch-byte-compile emacs/inferior-lfe.el emacs/lfe-mode.el emacs/lfe-indent.el
 
 
 %install
-install -p -m 0644 -D ebin/%{realname}.app %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
-install -p -m 0644 ebin/%{realname}_*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin
+install -m 0755 -d %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/{bin,ebin,priv}
+install -p -m 0755 -D ebin/* %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
+install -p -m 0755 -D bin/*  %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/bin/
+install -p -m 0755 priv/%{realname}_drv.so %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/priv/
+install -m 0755 -d %{buildroot}/%{_bindir}
+ln -s %{_libdir}/erlang/lib/%{realname}-%{version}/bin/{lfe,lfec,lfescript} %{buildroot}%{_bindir}/
+
 mkdir -p %{buildroot}%{_emacs_sitelispdir}
 mkdir -p %{buildroot}%{_emacs_sitestartdir}
+install -p -m 0644 emacs/inferior-lfe.el %{buildroot}%{_emacs_sitelispdir}
+install -p -m 0644 emacs/inferior-lfe.elc %{buildroot}%{_emacs_sitelispdir}
 install -p -m 0644 emacs/lfe-mode.el %{buildroot}%{_emacs_sitelispdir}
 install -p -m 0644 emacs/lfe-mode.elc %{buildroot}%{_emacs_sitelispdir}
+install -p -m 0644 emacs/lfe-indent.el %{buildroot}%{_emacs_sitelispdir}
+install -p -m 0644 emacs/lfe-indent.elc %{buildroot}%{_emacs_sitelispdir}
 install -p -m 0644 emacs/lfe-start.el %{buildroot}%{_emacs_sitestartdir}
 
 
 %check
-rm -rf test/visual/test_map_e.erl
-rebar skip_deps=true eunit -v
+rebar eunit -vv
 
 
 %files
-%doc LICENSE README.md doc/ examples/
-%dir %{_libdir}/erlang/lib/%{realname}-%{version}
-%dir %{_libdir}/erlang/lib/%{realname}-%{version}/ebin
-%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
-%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}_*.beam
+%if 0%{?fedora}
+%license LICENSE
+%else
+%doc LICENSE
+%endif
+%doc README.md doc/ examples/
+%{_bindir}/lfe
+%{_bindir}/lfec
+%{_bindir}/lfescript
+%{_erllibdir}/%{realname}-%{version}
 
 
 %files -n emacs-erlang-lfe
 %{_emacs_sitestartdir}/lfe-start.el
+%{_emacs_sitelispdir}/inferior-lfe.elc
 %{_emacs_sitelispdir}/lfe-mode.elc
+%{_emacs_sitelispdir}/lfe-indent.elc
 
 
 %files -n emacs-erlang-lfe-el
+%{_emacs_sitelispdir}/inferior-lfe.el
 %{_emacs_sitelispdir}/lfe-mode.el
+%{_emacs_sitelispdir}/lfe-indent.el
 
 
 %changelog
+* Thu Mar 17 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.0-1
+- Version 1.0
+
+* Tue Mar  1 2016 Peter Lemenkov <lemenkov@gmail.com> - 0.10.1-2
+- Install CLI tools as well
+
+* Tue Mar  1 2016 Peter Lemenkov <lemenkov@gmail.com> - 0.10.1-1
+- Ver. 0.10.1
+
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Sun Nov 16 2014 Peter Lemenkov <lemenkov@gmail.com> - 0.9.0-2
 - Disable debuginfo
 

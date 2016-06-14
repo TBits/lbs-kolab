@@ -23,7 +23,7 @@ A small Erlang app that provides fast event stream processing.
 
 
 %prep
-%autosetup -n %{realname}-%{version}
+%setup -n %{realname}-%{version}
 
 
 %build
@@ -41,7 +41,11 @@ install -p -m 644 ebin/%{realname}.app ebin/*.beam %{buildroot}%{_erllibdir}/%{r
 
 
 %files
+%if 0%{?fedora}
 %license LICENSE
+%else
+%doc LICENSE
+%endif
 %doc README.org
 %{_erllibdir}/%{realname}-%{version}
 

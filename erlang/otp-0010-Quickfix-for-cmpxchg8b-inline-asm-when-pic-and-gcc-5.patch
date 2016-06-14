@@ -1,0 +1,26 @@
+From: Rickard Green <rickard@erlang.org>
+Date: Tue, 9 Feb 2016 18:23:26 +0100
+Subject: [PATCH] Quickfix for cmpxchg8b inline asm when pic and gcc >= 5.0 is
+ used
+
+
+diff -ur otp-OTP-18.3.3.0008/erts/include/internal/i386/ethr_dw_atomic.h otp-OTP-18.3.3/erts/include/internal/i386/ethr_dw_atomic.h
+--- otp-OTP-18.3.3.0008/erts/include/internal/i386/ethr_dw_atomic.h	2016-05-03 10:11:12.000000000 +0200
++++ otp-OTP-18.3.3/erts/include/internal/i386/ethr_dw_atomic.h	2016-05-29 12:39:23.181764902 +0200
+@@ -115,6 +115,8 @@
+     return (ethr_sint_t *) ETHR_DW_NATMC_MEM__(var);
+ }
+ 
++#if !ETHR_AT_LEAST_GCC_VSN__(5, 0, 0)
++
+ #if defined(ETHR_CMPXCHG8B_PIC_NO_CLOBBER_EBX) && defined(__PIC__) && __PIC__
+ #if ETHR_SIZEOF_PTR != 4
+ #  error unexpected pic issue
+@@ -144,6 +146,7 @@
+ #  endif
+ #endif
+ 
++#endif /* < gcc-5.0 */
+ 
+ #define ETHR_HAVE_ETHR_NATIVE_DW_ATOMIC_CMPXCHG_MB
+ 

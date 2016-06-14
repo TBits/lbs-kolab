@@ -1,3 +1,9 @@
+%if 0%{?rhel} > 6 || 0%{?fedora}
+%global rpmmacrosdir %{_rpmconfigdir}/macros.d
+%else
+%global rpmmacrosdir %{_sysconfdir}/rpm/
+%endif
+
 Name:		erlang-rpm-macros
 Version:	0.2.2
 Release:	1%{?dist}
@@ -30,12 +36,12 @@ Macros for simplifying building of Erlang packages.
 
 %install
 install -d %{buildroot}%{_rpmconfigdir}/fileattrs
-install -d %{buildroot}%{_rpmconfigdir}/macros.d
+install -d %{buildroot}%{rpmmacrosdir}
 install -p -m 0755 erlang-find-provides.escript %{buildroot}%{_rpmconfigdir}/
 install -p -m 0755 erlang-find-provides.py %{buildroot}%{_rpmconfigdir}/
 install -p -m 0755 erlang-find-requires.escript %{buildroot}%{_rpmconfigdir}/
 install -p -m 0755 erlang-find-requires.py %{buildroot}%{_rpmconfigdir}/
-install -p -m 0644 macros.erlang %{buildroot}%{_rpmconfigdir}/macros.d/
+install -p -m 0644 macros.erlang %{buildroot}%{rpmmacrosdir}
 install -p -m 0644 erlang.attr %{buildroot}%{_rpmconfigdir}/fileattrs/
 
 
@@ -51,7 +57,7 @@ install -p -m 0644 erlang.attr %{buildroot}%{_rpmconfigdir}/fileattrs/
 %{_rpmconfigdir}/erlang-find-requires.escript
 %{_rpmconfigdir}/erlang-find-requires.py
 %{_rpmconfigdir}/fileattrs/erlang.attr
-%{_rpmconfigdir}/macros.d/macros.erlang
+%{rpmmacrosdir}/macros.erlang
 %exclude %{_rpmconfigdir}/*.pyc
 %exclude %{_rpmconfigdir}/*.pyo
 
