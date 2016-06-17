@@ -1,5 +1,0 @@
-application:start(crypto).
-ssl:start().
-
-application:start(eimap).
-

@@ -13,17 +13,17 @@ index d0d16f8..db23420 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -1,7 +1,7 @@
--.PHONY: clean dialyzer_warnings xref_warnings deps test
-+.PHONY: clean dialyzer_warnings xref_warnings deps test all install
+-.PHONY: clean xref_warnings deps test test_eunit test_inttest
++.PHONY: clean xref_warnings deps test test_eunit test_inttest all install
  
 -REBAR=$(PWD)/rebar
 -RETEST=$(PWD)/deps/retest/retest
 +REBAR=$(CURDIR)/rebar
 +RETEST=$(CURDIR)/deps/retest/retest
+ LOG_LEVEL?=debug
+ RT_TARGETS?=inttest
  
- all:
- 	./bootstrap
-@@ -34,6 +34,9 @@
+@@ -33,6 +33,9 @@
  	@cp rebar ../rebar.wiki/rebar
  	(cd ../rebar.wiki && git commit -m "Update $(VSN)" rebar)
  
@@ -31,5 +31,5 @@ index d0d16f8..db23420 100644
 +	install -D -m 755 ./rebar $(DESTDIR)/usr/bin/rebar
 +
  deps:
- 	@REBAR_EXTRA_DEPS=1 ./rebar get-deps
+ 	@REBAR_EXTRA_DEPS=1 $(REBAR) get-deps
  	@(cd deps/retest && $(REBAR) compile escriptize)
