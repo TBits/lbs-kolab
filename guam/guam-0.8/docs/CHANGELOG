@@ -1,0 +1,17 @@
+v0.3
+
+  * FIX: ensure connection process is cleaned up when the client closes the socket or errors out before the imap connection is not terminated
+  * FIX: folder filtering now works across network packets (so if a list is split on the network; common w/large folder lists)
+  * FEATURE: implicit SSL on listeners supported with { implicit_tls, true }
+  * FEATURE: transparent STARTTLS to imap backends supported with { tls, starttls} in imap-servers config
+  * FEATURE: a listener can be bound to a specific network interface with { host, <hostname or ip addr> }
+  * FEATURE: listeners may specify which imap-servers entry to use with { imap_server, <NAME_OF_IMAP_SERVER_CONFIG> }
+  * DOCUMENTATION: added basic deployment documentation
+
+
+v0.2
+  * IMPROVEMENT: Use the 'native' Erlang SSL config for tls_config; more flexible, less custom documentation/knowledge
+  * FEATURE: STARTTLS supported between client and guam
+
+v0.1
+  * Initial release with basic rulesets and filtering of groupware folders
