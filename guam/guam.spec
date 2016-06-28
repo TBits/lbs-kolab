@@ -29,7 +29,16 @@ URL:                https://kolab.org/about/guam
 # From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
 Source0:            guam-0.8.tar.gz
 
-Patch01:            guam-0.8-relax-dependencies.patch
+Patch1:             guam-0.8-T1312-set-HOME-environment-variable-in-sysvinit-script.patch
+
+Patch0001:          0001-introduce-net_iface-for-listeners.patch
+Patch0002:          0002-lets-start-keeping-a-changelog.patch
+Patch0003:          0003-enable-ipv6-by-default.patch
+Patch0004:          0004-update-this-function-for-the-data-structure-change-i.patch
+Patch0005:          0005-correct-version-of-eimap-though-this-is-like-to-bump.patch
+Patch0006:          0006-fix-typo.patch
+Patch0007:          0007-Correct-the-actual-version-back-to-0.8.patch
+Patch0008:          0008-Relax-dependency-on-lager.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-eimap >= 0.1.5
@@ -46,6 +55,7 @@ Requires:           erlang >= 17.4
 Requires:           erlang-eimap >= 0.1.2
 Requires:           erlang-goldrush
 Requires:           erlang-lager >= 2.1.0
+Requires:           erlang-lager_syslog >= 1.0.3
 
 %if 0%{?with_systemd}
 %if 0%{?suse_version}
@@ -73,7 +83,16 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
-%patch01 -p1
+%patch1 -p1
+
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
+%patch0006 -p1
+%patch0007 -p1
+%patch0008 -p1
 
 %build
 rebar compile
@@ -90,12 +109,17 @@ mkdir -p \
     %{buildroot}%{_sysconfdir}/guam/ \
 %if 0%{?with_systemd}
     %{buildroot}%{_unitdir}/ \
+%else
+    %{buildroot}%{_initddir}/ \
 %endif
     %{buildroot}%{_var}/log/
 
 %if 0%{?with_systemd}
 install -p -m 644 contrib/guam.service \
     %{buildroot}%{_unitdir}/guam.service
+%else
+install -p -m 755 %{SOURCE1} \
+    %{buildroot}%{_initddir}/guam
 %endif
 
 cp -a rel/%{realname} %{buildroot}/opt/.
@@ -113,6 +137,17 @@ ln -s ../../../..%{_sysconfdir}/%{name}/sys.config \
 
 mv %{buildroot}/opt/%{realname}/log %{buildroot}%{_var}/log/guam
 ln -s ../..%{_var}/log/guam %{buildroot}/opt/%{realname}/log
+
+pushd %{buildroot}/opt/%{realname}/lib
+for dir in $(ls -d */ | grep -v kolab_guam); do
+    if [ ! -d ../../..%{_libdir}/erlang/lib/$(basename ${dir}) ]; then
+        echo "Skipping deletion of $(basename ${dir}), no equivalent in %{_libdir}/erlang/lib/"
+    else
+        rm -rvf ${dir}
+        ln -sv ../../..%{_libdir}/erlang/lib/$(basename ${dir}) $(basename ${dir})
+    fi
+done
+popd
 
 %check
 rebar skip_deps=true eunit -v
@@ -144,6 +179,13 @@ fi
 test -f /etc/sysconfig/guam-disable-posttrans || \
     systemctl try-restart guam.service 2>&1 || :
 
+%else
+%post
+chkconfig --add guam >/dev/null 2>&1 || :
+
+%posttrans
+test -f /etc/sysconfig/guam-disable-posttrans || \
+    %{_bindir}/service restart guam 2>&1 || :
 %endif
 
 %files
@@ -153,6 +195,8 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 
 %if 0%{?with_systemd}
 %{_unitdir}/%{name}.service
+%else
+%{_initddir}/%{name}
 %endif
 
 /opt/%{realname}/

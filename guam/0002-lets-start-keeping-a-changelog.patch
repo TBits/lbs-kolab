@@ -1,0 +1,44 @@
+From fde09ae6dd5b38642d8712893f39066d8f4f2091 Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Mon, 13 Jun 2016 10:28:02 +0200
+Subject: [PATCH 2/8] lets start keeping a changelog
+
+---
+ CHANGELOG.md | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 CHANGELOG.md
+
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+new file mode 100644
+index 0000000..5f04931
+--- /dev/null
++++ b/CHANGELOG.md
+@@ -0,0 +1,25 @@
++# Changelog
++All notable changes to this project will be documented in this file.
++
++This project adheres to [Semantic Versioning](http://semver.org/).
++
++## [Unreleased]
++### Added
++- bind to a network interface (rather than an IP/host) with net_iface
++### Changed
++- upgraded build to rebar3
++### Deprecated
++### Removed
++### Fixed
++### Security
++
++
++## [0.8.0] - 2016-06-08
++### Added
++- systemd service module
++- sysv init script
++### Changed
++- Upgraded eimap to 0.2.4
++### Fixed
++- Support more variations of the LIST command args in the filter_groupware rule
++
+-- 
+2.5.5
+

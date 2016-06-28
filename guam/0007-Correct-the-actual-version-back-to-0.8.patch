@@ -1,0 +1,25 @@
+From 1d277e7bf8225600a31413165e9d5ec3cc36a74a Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Mon, 27 Jun 2016 15:14:52 +0200
+Subject: [PATCH 7/8] Correct the actual version back to 0.8
+
+---
+ rel/reltool.config | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rel/reltool.config b/rel/reltool.config
+index 1ece54f..298f1ac 100644
+--- a/rel/reltool.config
++++ b/rel/reltool.config
+@@ -4,7 +4,7 @@
+        {lib_dirs, ["../deps"]},
+        {erts, [{mod_cond, derived}, {app_file, strip}]},
+        {app_file, strip},
+-       {rel, "kolab_guam", "0.9",
++       {rel, "kolab_guam", "0.8",
+         [
+          kernel,
+          stdlib,
+-- 
+2.5.5
+

@@ -1,0 +1,27 @@
+From 130349adeef36dcbcf65e5435d16e66974f60804 Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Mon, 20 Jun 2016 13:31:59 +0200
+Subject: [PATCH 4/8] update this function for the data structure change in
+ eimap 0.2
+
+---
+ apps/kolab_guam/src/kolab_guam_session.erl | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/apps/kolab_guam/src/kolab_guam_session.erl b/apps/kolab_guam/src/kolab_guam_session.erl
+index 60a28cb..69e239c 100644
+--- a/apps/kolab_guam/src/kolab_guam_session.erl
++++ b/apps/kolab_guam/src/kolab_guam_session.erl
+@@ -303,7 +303,8 @@ add_starttls_to_capabilities(ServerHello) ->
+             <<Prefix/binary, "STARTTLS ", Suffix/binary>>
+     end.
+ 
+-ensure_hello_does_not_have_starttls(ServerHello) ->
++ensure_hello_does_not_have_starttls(ServerResponse) ->
++    ServerHello = proplists:get_value(capabilities, ServerResponse, <<>>),
+     case binary:match(ServerHello, <<"STARTTLS">>) of
+         nomatch -> ServerHello;
+         { Start, End } ->
+-- 
+2.5.5
+

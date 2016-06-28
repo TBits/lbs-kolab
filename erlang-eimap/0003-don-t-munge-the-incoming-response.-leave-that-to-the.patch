@@ -1,0 +1,31 @@
+From bc9d05a44c7ebbfb7bbbcb1006b23d2bb76d8101 Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Mon, 20 Jun 2016 16:55:28 +0200
+Subject: [PATCH 3/3] don't munge the incoming response. leave that to the
+ application.
+
+---
+ src/eimap.erl | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/src/eimap.erl b/src/eimap.erl
+index ebf3a02..b331d1d 100644
+--- a/src/eimap.erl
++++ b/src/eimap.erl
+@@ -295,12 +295,7 @@ handle_info({ { connected, Receiver, ResponseToken }, { Capabilities, ServerID }
+     end,
+     { next_state, idle, State#state{ current_command = undefined, server_id = ServerID } };
+ handle_info({ { posttls_capabilities, Receiver, ResponseToken }, [Capabilities] }, _StateName, #state{ server_id = ServerID, passthrough = Passthrough, passthrough_recv = PassthroughReceiver } = State) ->
+-    OurCapabilities =
+-        case binary:match(Capabilities, <<"STARTTLS">>) of
+-            nomatch -> <<Capabilities/binary, " STARTTLS">>;
+-            _ -> Capabilities
+-        end,
+-    send_hello_string(OurCapabilities, ServerID, Receiver, ResponseToken, Passthrough, PassthroughReceiver),
++    send_hello_string(Capabilities, ServerID, Receiver, ResponseToken, Passthrough, PassthroughReceiver),
+     { next_state, idle, State#state{ current_command = none } };
+ handle_info({ { selected, MBox }, ok }, StateName, State) ->
+     %%lager:info("~p Selected mbox ~p", [self(), MBox]),
+-- 
+2.5.5
+

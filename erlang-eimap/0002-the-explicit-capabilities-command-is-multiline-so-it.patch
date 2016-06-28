@@ -1,0 +1,26 @@
+From ee6185b256058ee5884d01ac16faf30585480fbb Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Mon, 20 Jun 2016 16:55:01 +0200
+Subject: [PATCH 2/3] the explicit capabilities command is multiline, so it
+ produces a list response
+
+---
+ src/eimap.erl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/eimap.erl b/src/eimap.erl
+index 76f02f2..ebf3a02 100644
+--- a/src/eimap.erl
++++ b/src/eimap.erl
+@@ -294,7 +294,7 @@ handle_info({ { connected, Receiver, ResponseToken }, { Capabilities, ServerID }
+             send_hello_string(Capabilities, ServerID, Receiver, ResponseToken, Passthrough, PassthroughReceiver)
+     end,
+     { next_state, idle, State#state{ current_command = undefined, server_id = ServerID } };
+-handle_info({ { posttls_capabilities, Receiver, ResponseToken }, Capabilities }, _StateName, #state{ server_id = ServerID, passthrough = Passthrough, passthrough_recv = PassthroughReceiver } = State) ->
++handle_info({ { posttls_capabilities, Receiver, ResponseToken }, [Capabilities] }, _StateName, #state{ server_id = ServerID, passthrough = Passthrough, passthrough_recv = PassthroughReceiver } = State) ->
+     OurCapabilities =
+         case binary:match(Capabilities, <<"STARTTLS">>) of
+             nomatch -> <<Capabilities/binary, " STARTTLS">>;
+-- 
+2.5.5
+

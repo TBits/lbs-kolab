@@ -1,0 +1,51 @@
+From 86b9e66beabe4b61e7d091b8df7ad30e293c0cca Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Mon, 20 Jun 2016 12:20:06 +0200
+Subject: [PATCH 3/8] enable ipv6 by default
+
+Summary:
+Set the listen socket to ipv6 mode always
+
+Tested and works with ipv4 addresses as well
+
+Reviewers: #guam_developers, vanmeeuwen
+
+Reviewed By: vanmeeuwen
+
+Differential Revision: https://git.kolab.org/D185
+---
+ apps/kolab_guam/src/kolab_guam_listener.erl | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/apps/kolab_guam/src/kolab_guam_listener.erl b/apps/kolab_guam/src/kolab_guam_listener.erl
+index c50b4b1..ebb0c99 100644
+--- a/apps/kolab_guam/src/kolab_guam_listener.erl
++++ b/apps/kolab_guam/src/kolab_guam_listener.erl
+@@ -56,6 +56,7 @@ init([Name, Config]) ->
+ imap_config(none) -> kolab_guam_sup:default_imap_server_config();
+ imap_config(Backend) -> kolab_guam_sup:imap_server_config(Backend).
+ 
++-spec listen_options(Iface :: string(), Hostname :: string(), ImplicitTLS :: boolean(), TLSConfig :: list()) -> list().
+ listen_options(none, none, ImplicitTLS, TLSConfig) -> default_listen_options(ImplicitTLS, TLSConfig);
+ listen_options(none, Hostname, ImplicitTLS, TLSConfig) ->
+     case inet:gethostbyname(Hostname) of
+@@ -69,12 +70,13 @@ listen_options(Iface, Hostname, ImplicitTLS, TLSConfig) ->
+     case proplists:get_value(Iface, Ifaces) of
+         undefined -> listen_options(none, Hostname, ImplicitTLS, TLSConfig);
+         Info -> Addr = proplists:get_value(addr, Info, none),
+-                lager:info("YEAH! ~p", [Addr]),
++                %lager:info("YEAH! ~p", [Addr]),
+                 listen_options(none, Addr, ImplicitTLS, TLSConfig)
+     end.
+ 
+-default_listen_options(true, TLSConfig) -> [ { reuseaddr, true }, {active, once } | TLSConfig ];
+-default_listen_options(_ImplicitTLS, _Config) ->  [ { active, once }, { reuseaddr, true } ].
++default_listen_options(true, TLSConfig) -> default_listen_options() ++ TLSConfig;
++default_listen_options(_ImplicitTLS, _Config) -> default_listen_options().
++default_listen_options() -> [ { reuseaddr, true }, {active, once }, inet6 ].
+ 
+ create_initial_listeners(PID) when is_pid(PID) ->
+     lager:debug("Creating session pool for listener ~p", [PID]),
+-- 
+2.5.5
+

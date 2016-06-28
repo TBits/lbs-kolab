@@ -1,0 +1,12 @@
+diff -ur guam-0.8.orig/contrib/guam.sysvinit guam-0.8/contrib/guam.sysvinit
+--- guam-0.8.orig/contrib/guam.sysvinit	2016-06-08 14:18:58.000000000 +0200
++++ guam-0.8/contrib/guam.sysvinit	2016-06-27 16:32:03.358687603 +0200
+@@ -11,6 +11,8 @@
+ 
+ name=`basename $0`
+ 
++export HOME=/opt/kolab_guam/
++
+ start_cmd="$name start"
+ restart_cmd="$name restart"
+ stop_cmd="$name stop"
