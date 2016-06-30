@@ -29,7 +29,7 @@ URL:                https://kolab.org/about/guam
 # From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
 Source0:            guam-0.8.tar.gz
 
-Patch1:             guam-0.8-T1312-set-HOME-environment-variable-in-sysvinit-script.patch
+Patch9991:          guam-0.8-T1312-set-HOME-environment-variable-in-sysvinit-script.patch
 
 Patch0001:          0001-introduce-net_iface-for-listeners.patch
 Patch0002:          0002-lets-start-keeping-a-changelog.patch
@@ -83,7 +83,7 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
-%patch1 -p1
+%patch9991 -p1
 
 %patch0001 -p1
 %patch0002 -p1
