@@ -39,6 +39,7 @@ Patch0005:          0005-correct-version-of-eimap-though-this-is-like-to-bump.pa
 Patch0006:          0006-fix-typo.patch
 Patch0007:          0007-Correct-the-actual-version-back-to-0.8.patch
 Patch0008:          0008-Relax-dependency-on-lager.patch
+Patch0009:          0001-make-add_starttls_to_capabilities-work-also-on-the-f.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-eimap >= 0.1.5
@@ -93,6 +94,7 @@ the perimeter of your IMAP environment.
 %patch0006 -p1
 %patch0007 -p1
 %patch0008 -p1
+%patch0009 -p1
 
 %build
 rebar compile
