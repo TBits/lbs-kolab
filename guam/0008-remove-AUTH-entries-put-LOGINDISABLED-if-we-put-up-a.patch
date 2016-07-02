@@ -1,0 +1,63 @@
+From 4cb9fd2e94f7746e5ec05f0cd3c1c7cca895efa3 Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Fri, 1 Jul 2016 13:16:16 +0200
+Subject: [PATCH 8/8] remove AUTH= entries, put LOGINDISABLED if we put up a
+ STARTTLS
+
+---
+ apps/kolab_guam/src/kolab_guam_session.erl | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/apps/kolab_guam/src/kolab_guam_session.erl b/apps/kolab_guam/src/kolab_guam_session.erl
+index fb9c72b..79114b1 100644
+--- a/apps/kolab_guam/src/kolab_guam_session.erl
++++ b/apps/kolab_guam/src/kolab_guam_session.erl
+@@ -305,7 +305,8 @@ add_starttls_to_capabilities(ServerHello) ->
+         { Start, End } ->
+             Prefix = binary:part(ServerHello, 0, Start + End),
+             Suffix = binary:part(ServerHello, Start + End, size(ServerHello) - Start - End),
+-            <<Prefix/binary, "STARTTLS ", Suffix/binary>>
++            CorrectHello = <<Prefix/binary, "STARTTLS ", Suffix/binary>>,
++            remove_auth_offers(CorrectHello)
+     end.
+ 
+ add_starttls_after_imap4_atom(ServerHello) ->
+@@ -314,7 +315,8 @@ add_starttls_after_imap4_atom(ServerHello) ->
+         { Start, End } ->
+             Prefix = binary:part(ServerHello, 0, Start + End),
+             Suffix = binary:part(ServerHello, Start + End, size(ServerHello) - Start - End),
+-            <<Prefix/binary, "STARTTLS ", Suffix/binary>>
++            CorrectHello = <<Prefix/binary, "STARTTLS ", Suffix/binary>>,
++            remove_auth_offers(CorrectHello)
+     end.
+ 
+ ensure_hello_does_not_have_starttls(ServerResponse) ->
+@@ -327,3 +329,25 @@ ensure_hello_does_not_have_starttls(ServerResponse) ->
+             <<Prefix/binary, Suffix/binary>>
+     end.
+ 
++remove_auth_offers(ServerHello) ->
++    case binary:match(ServerHello, <<"AUTH=">>) of
++        nomatch -> ensure_advertise_login_disabled(ServerHello);
++        { Start, End } ->
++            Prefix = binary:part(ServerHello, 0, Start),
++            Suffix =
++            case binary:match(ServerHello, <<" ">>, [{ scope, { Start, size(ServerHello) - Start } }]) of
++                nomatch ->
++                    %% end of the line, so no suffix
++                    <<>>;
++                { SpaceStart, SpaceEnd } ->
++                    binary:part(ServerHello, SpaceStart + SpaceEnd, size(ServerHello) - SpaceStart - SpaceEnd)
++            end,
++            remove_auth_offers(<<Prefix/binary, Suffix/binary>>)
++    end.
++
++ensure_advertise_login_disabled(ServerHello) ->
++    case binary:match(ServerHello, <<"LOGINDISABLED">>) of
++        nomatch -> <<ServerHello/binary, " LOGINDISABLED">>;
++        _ -> ServerHello
++    end.
++
+-- 
+2.5.5
+

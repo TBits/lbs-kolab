@@ -1,4 +1,0 @@
-{cover, "cover.spec"}.
-{logdir, "@PATH@/test_logs"}.
-{alias, kolab_guam, "@PATH@/apps/kolab_guam"}.
-{suites, kolab_guam, [kolab_guam_sup_SUITE, kolab_guam_rules_SUITE]}.

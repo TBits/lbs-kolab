@@ -18,12 +18,12 @@ override_dh_auto_test:
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/opt $(DESTDIR)/usr/sbin $(DESTDIR)/etc/guam \
 	      $(DESTDIR)/lib/systemd/system $(DESTDIR)/var/log
-	install -p -m 644 guam.service \
+	install -p -m 644 contrib/guam.service \
 	        $(DESTDIR)/lib/systemd/system/guam.service
 	cp -a rel/kolab_guam $(DESTDIR)/opt/
 	chmod +x $(DESTDIR)/opt/kolab_guam/bin/install_upgrade.escript
 	echo '#!/bin/bash' > $(DESTDIR)/usr/sbin/guam
-	echo 'exec /opt/kolab_guam/bin/kolab_guam $*' \
+	echo 'exec /opt/kolab_guam/bin/kolab_guam $$*' \
 	     >> $(DESTDIR)/usr/sbin/guam
 	mv $(DESTDIR)/opt/kolab_guam/releases/$(DEB_VERSION_UPSTREAM)/sys.config \
 	   $(DESTDIR)/etc/guam/sys.config

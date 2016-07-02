@@ -1,3 +1,9 @@
+guam (0.8-2mic1) unstable; urgency=medium
+
+  * add patches from rpm builds
+
+ -- hede <kolab983@der-he.de>  Tue, 28 Jun 2016 06:54:23 +0100
+
 guam (0.8-2) unstable; urgency=medium
 
   * Package version 0.8

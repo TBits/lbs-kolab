@@ -1,0 +1,225 @@
+diff -ur guam-0.8.orig/apps/kolab_guam/src/kolab_guam_listener.erl guam-0.8/apps/kolab_guam/src/kolab_guam_listener.erl
+--- guam-0.8.orig/apps/kolab_guam/src/kolab_guam_listener.erl	2016-06-08 14:18:58.000000000 +0200
++++ guam-0.8/apps/kolab_guam/src/kolab_guam_listener.erl	2016-07-01 13:33:11.784314048 +0200
+@@ -35,11 +35,12 @@
+ %% gen_server API
+ init([Name, Config]) ->
+     Host = proplists:get_value(host, Config, none),
++    NetIface = proplists:get_value(net_iface, Config, none),
+     Port = proplists:get_value(port, Config, ?DEFAULT_IMAP_PORT),
+     ImplicitTLS = proplists:get_value(implicit_tls, Config, false),
+     TLSConfig = proplists:get_value(tls_config, Config, []),
+     Rules = proplists:get_value(rules, Config, []),
+-    Options = listen_options(Host, ImplicitTLS, TLSConfig),
++    Options = listen_options(NetIface, Host, ImplicitTLS, TLSConfig),
+     lager:info("Starting listener \"~p\" on port ~B (~p) with ~B rules", [Name, Port, Options, length(Rules)]),
+     { ok, ListenSocket } = listen(ImplicitTLS, Port, Options),
+     spawn_link(?MODULE, cleanup, [ListenSocket]),
+@@ -55,17 +56,27 @@
+ imap_config(none) -> kolab_guam_sup:default_imap_server_config();
+ imap_config(Backend) -> kolab_guam_sup:imap_server_config(Backend).
+ 
+-listen_options(none, ImplicitTLS, TLSConfig) -> default_listen_options(ImplicitTLS, TLSConfig);
+-listen_options(Hostname, ImplicitTLS, TLSConfig) ->
++-spec listen_options(Iface :: string(), Hostname :: string(), ImplicitTLS :: boolean(), TLSConfig :: list()) -> list().
++listen_options(none, none, ImplicitTLS, TLSConfig) -> default_listen_options(ImplicitTLS, TLSConfig);
++listen_options(none, Hostname, ImplicitTLS, TLSConfig) ->
+     case inet:gethostbyname(Hostname) of
+         { ok, { hostent, _HostName, _Unused, inet, _Ver, [IP] } } ->
+             [ { ip, IP } | default_listen_options(ImplicitTLS, TLSConfig) ];
+         _ ->
+-            listen_options(none, ImplicitTLS, TLSConfig)
++            listen_options(none, none, ImplicitTLS, TLSConfig)
++    end;
++listen_options(Iface, Hostname, ImplicitTLS, TLSConfig) ->
++    { ok, Ifaces } = inet:getifaddrs(),
++    case proplists:get_value(Iface, Ifaces) of
++        undefined -> listen_options(none, Hostname, ImplicitTLS, TLSConfig);
++        Info -> Addr = proplists:get_value(addr, Info, none),
++                %lager:info("YEAH! ~p", [Addr]),
++                listen_options(none, Addr, ImplicitTLS, TLSConfig)
+     end.
+ 
+-default_listen_options(true, TLSConfig) -> [ { reuseaddr, true }, {active, once } | TLSConfig ];
+-default_listen_options(_ImplicitTLS, _Config) ->  [ { active, once }, { reuseaddr, true } ].
++default_listen_options(true, TLSConfig) -> default_listen_options() ++ TLSConfig;
++default_listen_options(_ImplicitTLS, _Config) -> default_listen_options().
++default_listen_options() -> [ { reuseaddr, true }, {active, once }, inet6 ].
+ 
+ create_initial_listeners(PID) when is_pid(PID) ->
+     lager:debug("Creating session pool for listener ~p", [PID]),
+diff -ur guam-0.8.orig/apps/kolab_guam/src/kolab_guam_session.erl guam-0.8/apps/kolab_guam/src/kolab_guam_session.erl
+--- guam-0.8.orig/apps/kolab_guam/src/kolab_guam_session.erl	2016-06-08 14:18:58.000000000 +0200
++++ guam-0.8/apps/kolab_guam/src/kolab_guam_session.erl	2016-07-01 13:34:12.008992665 +0200
+@@ -71,10 +71,12 @@
+ handle_info({ ssl, Socket, Data }, State) ->
+     %lager:debug("Data coming in from client over SSL, ~p", [Data]),
+     process_client_data(Socket, Data, State);
+-handle_info({ server_hello, ServerHello }, #state{ imap_session = ImapSession, tls_config = TLSConfig, socket = Socket, client_tls_active = TLSActive, deflator = Deflator } = State) ->
+-    CorrectedHello = correct_hello(TLSActive, TLSConfig, ServerHello),
++handle_info({ server_hello, ServerHello }, #state{ imap_session = ImapSession, tls_config = TLSConfig, socket = Socket, client_implicit_tls = ImplicitTLS, client_tls_active = TLSActive, deflator = Deflator } = State) ->
++    CorrectedHello = correct_hello(TLSActive, ImplicitTLS, TLSConfig, ServerHello),
++    ServerIdent = proplists:get_value(server_id, ServerHello, <<>>),
++    FullGreeting = <<"* OK [CAPABILITIES ", CorrectedHello/binary, "] ", ServerIdent/binary, "\r\n">>,
+     eimap:start_passthrough(ImapSession, self()),
+-    relay_response(Socket, postprocess_server_data(Deflator, <<CorrectedHello/binary, "\r\n">>), TLSActive),
++    relay_response(Socket, postprocess_server_data(Deflator, FullGreeting), TLSActive),
+     { noreply, State };
+ handle_info({ { rule_data, Module, ResponseToken }, Data }, #state{ rules_active = ActiveRules } = State) ->
+     %lager:debug("Got back data requested by rule ~p: ~p", [Module, Data]),
+@@ -275,17 +277,20 @@
+ set_socket_active(true, Socket) -> ssl:setopts(Socket, [{ active, once }]);
+ set_socket_active(_, Socket) -> inet:setopts(Socket, [{ active, once }]).
+ 
+--spec correct_hello(TLSActive :: true | false, TlSConfig :: [] | list(), ServerHello :: binary()) -> CorrectedHello :: binary().
+-correct_hello(true, _TLSConfig, ServerHello) ->
++-spec correct_hello(TLSActive :: true | false, ImplicitTLS :: true | false, TlSConfig :: [] | list(), ServerHello :: binary()) -> CorrectedHello :: binary().
++correct_hello(true, true, _TLSConfig, ServerResponse) ->
+     % the connection is already secured, so don't advertise starttls to the client
+-    ensure_hello_does_not_have_starttls(ServerHello);
+-correct_hello(_TLSActive, [], ServerHello) ->
++    ensure_hello_does_not_have_starttls(ServerResponse);
++correct_hello(true, _ImplicitTLS, _TLSConfig, ServerResponse) ->
++    % the connection is already secured, so don't advertise starttls to the client
++    ensure_hello_does_not_have_starttls(ServerResponse);
++correct_hello(_TLSActive, _ImplicitTLS, [], ServerResponse) ->
+     % guam does not have a TLS config and so can not provide TLS to the client
+-    ensure_hello_does_not_have_starttls(ServerHello);
+-correct_hello(_TLSAcive, _TLSConfig, ServerHello) ->
++    ensure_hello_does_not_have_starttls(ServerResponse);
++correct_hello(_TLSActive, _ImplicitTLS, _TLSConfig, ServerResponse) ->
+     % guam has a TLS config, and it is not currently active, so make sure to include
+     % STARTTLS in our response regardless of what the backend says
+-    ensure_hello_has_starttls(ServerHello).
++    ensure_hello_has_starttls(ServerResponse).
+ 
+ ensure_hello_has_starttls(ServerResponse) ->
+     ServerHello = proplists:get_value(capabilities, ServerResponse, <<>>),
+@@ -296,14 +301,26 @@
+ 
+ add_starttls_to_capabilities(ServerHello) ->
+     case binary:match(ServerHello, <<"CAPABILITY ">>) of
+-        nomatch -> ServerHello;
++        nomatch -> add_starttls_after_imap4_atom(ServerHello);
++        { Start, End } ->
++            Prefix = binary:part(ServerHello, 0, Start + End),
++            Suffix = binary:part(ServerHello, Start + End, size(ServerHello) - Start - End),
++            CorrectHello = <<Prefix/binary, "STARTTLS ", Suffix/binary>>,
++            remove_auth_offers(CorrectHello)
++    end.
++
++add_starttls_after_imap4_atom(ServerHello) ->
++    case binary:match(ServerHello, <<"IMAP4rev1 ">>) of
++        nomatch -> <<"STARTTLS ", ServerHello/binary>>;
+         { Start, End } ->
+             Prefix = binary:part(ServerHello, 0, Start + End),
+             Suffix = binary:part(ServerHello, Start + End, size(ServerHello) - Start - End),
+-            <<Prefix/binary, "STARTTLS ", Suffix/binary>>
++            CorrectHello = <<Prefix/binary, "STARTTLS ", Suffix/binary>>,
++            remove_auth_offers(CorrectHello)
+     end.
+ 
+-ensure_hello_does_not_have_starttls(ServerHello) ->
++ensure_hello_does_not_have_starttls(ServerResponse) ->
++    ServerHello = proplists:get_value(capabilities, ServerResponse, <<>>),
+     case binary:match(ServerHello, <<"STARTTLS">>) of
+         nomatch -> ServerHello;
+         { Start, End } ->
+@@ -312,3 +329,25 @@
+             <<Prefix/binary, Suffix/binary>>
+     end.
+ 
++remove_auth_offers(ServerHello) ->
++    case binary:match(ServerHello, <<"AUTH=">>) of
++        nomatch -> ensure_advertise_login_disabled(ServerHello);
++        { Start, End } ->
++            Prefix = binary:part(ServerHello, 0, Start),
++            Suffix =
++            case binary:match(ServerHello, <<" ">>, [{ scope, { Start, size(ServerHello) - Start } }]) of
++                nomatch ->
++                    %% end of the line, so no suffix
++                    <<>>;
++                { SpaceStart, SpaceEnd } ->
++                    binary:part(ServerHello, SpaceStart + SpaceEnd, size(ServerHello) - SpaceStart - SpaceEnd)
++            end,
++            remove_auth_offers(<<Prefix/binary, Suffix/binary>>)
++    end.
++
++ensure_advertise_login_disabled(ServerHello) ->
++    case binary:match(ServerHello, <<"LOGINDISABLED">>) of
++        nomatch -> <<ServerHello/binary, " LOGINDISABLED">>;
++        _ -> ServerHello
++    end.
++
+Only in guam-0.8: CHANGELOG.md
+diff -ur guam-0.8.orig/contrib/guam.sysvinit guam-0.8/contrib/guam.sysvinit
+--- guam-0.8.orig/contrib/guam.sysvinit	2016-06-08 14:18:58.000000000 +0200
++++ guam-0.8/contrib/guam.sysvinit	2016-07-01 13:33:49.086734379 +0200
+@@ -11,6 +11,8 @@
+ 
+ name=`basename $0`
+ 
++export HOME=/opt/kolab_guam/
++
+ start_cmd="$name start"
+ restart_cmd="$name restart"
+ stop_cmd="$name stop"
+diff -ur guam-0.8.orig/docs/deployment.md guam-0.8/docs/deployment.md
+--- guam-0.8.orig/docs/deployment.md	2016-06-08 14:18:58.000000000 +0200
++++ guam-0.8/docs/deployment.md	2016-07-01 13:32:52.850100693 +0200
+@@ -84,14 +84,26 @@
+                 { rules, [ { filter_groupware, [] } ] },
+                 { tls_config, [ { certfile, "/etc/ssl/sample.pem" } ] }
+             ]
++       },
++       { default, [
++                { net_iface, "eth0" },
++                { port, 1993 },
++                { imap_server, default },
++                { implicit_tls, true },
++                { rules, [ { filter_groupware, [] } ] },
++                { tls_config, [ { certfile, "/etc/ssl/sample.pem" } ] }
++            ]
+         }
+     }
+ 
+ The host entry is optional, and is used to bind the connection to a specific
+-network interface. Leaving it empty will cause Guam to bind to the port accross
++network interface by ip address. Alternatively, the net_iface may be defined and
++guam will attempt to bind to an address on that network device. net_iface overrides
++host, though host will be used as a fallback if net_iface does not produce a network
++interface. Leaving host and net_iface empty will cause Guam to bind to the port accross
+ all network interfaces available to it.
+ 
+-port defines the port it is listening on.
++port defines the port the listener is active on.
+ 
+ imap_server refers to the entry in the imap_servers block. If not provided, the
+ default entry in the imap_servers configuration is used.
+diff -ur guam-0.8.orig/rebar.config guam-0.8/rebar.config
+--- guam-0.8.orig/rebar.config	2016-06-08 14:18:58.000000000 +0200
++++ guam-0.8/rebar.config	2016-07-01 13:33:41.190645404 +0200
+@@ -3,9 +3,9 @@
+ 
+ { deps_dir, "deps" }.
+ { deps, [
+-    { lager, "(2.0|2.1|2.2).*", { git, "git://github.com/basho/lager.git", { tag, "2.2.0" } } },
++    { lager, "3.*", { git, "git://github.com/basho/lager.git" } },
+     { lager_syslog, "2.*", { git, "git://github.com/basho/lager_syslog.git", { tag, "2.1.3" } } },
+-    { eimap, ".*", { git, "https://git.kolab.org/diffusion/EI/eimap.git", { tag, "0.2.2" } } }
++    { eimap, ".*", { git, "https://git.kolab.org/diffusion/EI/eimap.git", { tag, "0.2.4" } } }
+     %% pull in the proper version of meck before jobs 0.3 gets around to pulling in the wrong version
+    ]
+ }.
+diff -ur guam-0.8.orig/rel/reltool.config guam-0.8/rel/reltool.config
+--- guam-0.8.orig/rel/reltool.config	2016-06-08 14:18:58.000000000 +0200
++++ guam-0.8/rel/reltool.config	2016-07-01 13:33:35.894585727 +0200
+@@ -4,7 +4,7 @@
+        {lib_dirs, ["../deps"]},
+        {erts, [{mod_cond, derived}, {app_file, strip}]},
+        {app_file, strip},
+-       {rel, "kolab_guam", "0.9",
++       {rel, "kolab_guam", "0.8",
+         [
+          kernel,
+          stdlib,

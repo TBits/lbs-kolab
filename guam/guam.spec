@@ -40,6 +40,9 @@ Patch0006:          0006-fix-typo.patch
 Patch0007:          0007-Correct-the-actual-version-back-to-0.8.patch
 Patch0008:          0008-Relax-dependency-on-lager.patch
 Patch0009:          0001-make-add_starttls_to_capabilities-work-also-on-the-f.patch
+Patch0010:          0006-correct-response-for-mplicit_tls-listeners.patch
+Patch0011:          0007-do-a-full-OK-CAPABILITY-banner-for-all-correct_hello.patch
+Patch0012:          0008-remove-AUTH-entries-put-LOGINDISABLED-if-we-put-up-a.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-eimap >= 0.1.5
@@ -95,6 +98,9 @@ the perimeter of your IMAP environment.
 %patch0007 -p1
 %patch0008 -p1
 %patch0009 -p1
+%patch0010 -p1
+%patch0011 -p1
+%patch0012 -p1
 
 %build
 rebar compile

@@ -1,0 +1,58 @@
+From 18bd1abb8a1221b16b2ec53641b07d8ef49130ea Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Fri, 1 Jul 2016 12:40:04 +0200
+Subject: [PATCH 6/8] correct response for mplicit_tls listeners
+
+---
+ apps/kolab_guam/src/kolab_guam_session.erl | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/apps/kolab_guam/src/kolab_guam_session.erl b/apps/kolab_guam/src/kolab_guam_session.erl
+index 1f3869b..df195a1 100644
+--- a/apps/kolab_guam/src/kolab_guam_session.erl
++++ b/apps/kolab_guam/src/kolab_guam_session.erl
+@@ -71,8 +71,8 @@ handle_info({ tcp, Socket, Data }, #state{ client_tls_active = false } = State)
+ handle_info({ ssl, Socket, Data }, State) ->
+     %lager:debug("Data coming in from client over SSL, ~p", [Data]),
+     process_client_data(Socket, Data, State);
+-handle_info({ server_hello, ServerHello }, #state{ imap_session = ImapSession, tls_config = TLSConfig, socket = Socket, client_tls_active = TLSActive, deflator = Deflator } = State) ->
+-    CorrectedHello = correct_hello(TLSActive, TLSConfig, ServerHello),
++handle_info({ server_hello, ServerHello }, #state{ imap_session = ImapSession, tls_config = TLSConfig, socket = Socket, client_implicit_tls = ImplicitTLS, client_tls_active = TLSActive, deflator = Deflator } = State) ->
++    CorrectedHello = correct_hello(TLSActive, ImplicitTLS, TLSConfig, ServerHello),
+     eimap:start_passthrough(ImapSession, self()),
+     relay_response(Socket, postprocess_server_data(Deflator, <<CorrectedHello/binary, "\r\n">>), TLSActive),
+     { noreply, State };
+@@ -275,18 +275,26 @@ start_client_compression(Socket, TLS, Tag) ->
+ set_socket_active(true, Socket) -> ssl:setopts(Socket, [{ active, once }]);
+ set_socket_active(_, Socket) -> inet:setopts(Socket, [{ active, once }]).
+ 
+--spec correct_hello(TLSActive :: true | false, TlSConfig :: [] | list(), ServerHello :: binary()) -> CorrectedHello :: binary().
+-correct_hello(true, _TLSConfig, ServerHello) ->
++-spec correct_hello(TLSActive :: true | false, ImplicitTLS :: true | false, TlSConfig :: [] | list(), ServerHello :: binary()) -> CorrectedHello :: binary().
++correct_hello(true, true, _TLSConfig, ServerHello) ->
++    % the connection is already secured, so don't advertise starttls to the client
++    build_hello_for_implicit_tls(ServerHello);
++correct_hello(true, _ImplicitTLS, _TLSConfig, ServerHello) ->
+     % the connection is already secured, so don't advertise starttls to the client
+     ensure_hello_does_not_have_starttls(ServerHello);
+-correct_hello(_TLSActive, [], ServerHello) ->
++correct_hello(_TLSActive, _ImplicitTLS, [], ServerHello) ->
+     % guam does not have a TLS config and so can not provide TLS to the client
+     ensure_hello_does_not_have_starttls(ServerHello);
+-correct_hello(_TLSActive, _TLSConfig, ServerHello) ->
++correct_hello(_TLSActive, _ImplicitTLS, _TLSConfig, ServerHello) ->
+     % guam has a TLS config, and it is not currently active, so make sure to include
+     % STARTTLS in our response regardless of what the backend says
+     ensure_hello_has_starttls(ServerHello).
+ 
++build_hello_for_implicit_tls(ServerResponse) ->
++    NoTLSCapabilities = ensure_hello_does_not_have_starttls(ServerResponse),
++    ServerIdent = proplists:get_value(server_id, ServerResponse, <<>>),
++    <<"* OK [CAPABILITIES ", NoTLSCapabilities/binary, "] ", ServerIdent/binary>>.
++
+ ensure_hello_has_starttls(ServerResponse) ->
+     ServerHello = proplists:get_value(capabilities, ServerResponse, <<>>),
+     case binary:match(ServerHello, <<"STARTTLS">>) of
+-- 
+2.5.5
+

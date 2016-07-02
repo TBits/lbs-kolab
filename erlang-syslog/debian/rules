@@ -1,0 +1,6 @@
+#!/usr/bin/make -f
+%:
+	dh $@ --buildsystem=rebar --with rebar
+
+get-orig-source:
+	uscan --verbose --rename --force

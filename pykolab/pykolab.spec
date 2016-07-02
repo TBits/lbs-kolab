@@ -37,6 +37,8 @@ URL:                http://kolab.org/
 Source0:            pykolab-0.8.1.tar.gz
 Source1:            pykolab.logrotate
 
+Patch0001:          0001-Use-the-correct-constants-import-and-__version__-val.patch
+
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
 
@@ -228,6 +230,8 @@ This is the Kolab Content Filter, with plugins
 
 %prep
 %setup -q
+
+%patch0001 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
