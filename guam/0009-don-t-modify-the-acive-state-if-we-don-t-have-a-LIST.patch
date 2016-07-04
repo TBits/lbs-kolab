@@ -1,0 +1,32 @@
+From 2cb99c736820d9f5e30b975ca3956def88a471f6 Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Fri, 1 Jul 2016 17:24:33 +0200
+Subject: [PATCH 9/9] don't modify the acive state if we don't have a LIST
+ command
+
+---
+ apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
+index a383ad9..eec374c 100644
+--- a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
++++ b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
+@@ -31,12 +31,12 @@ applies(_ConnectionDetails, Buffer, State) ->
+ 
+ apply_to_client_message(ImapSession, Buffer, State) ->
+     { Tag, Command, Data } = eimap_utils:split_command_into_components(Buffer),
+-    { Active, StateTag }=
++    { Active, StateTag } =
+     case lists:any(fun(T) -> (Command =:= T) andalso
+                              ((binary:match(Data, <<"*">>) =/= nomatch) orelse (binary:match(Data, <<"%">>) =/= nomatch)) end,
+                    State#state.trigger_commands) of
+         true -> fetch_metadata(ImapSession, State), { true, Tag };
+-        _ -> { false, <<>> }
++        _ -> { State#state.active, <<>> }
+     end,
+     %lager:info("Client sent: ~s ~s ~p", [Command, Data, Active]),
+     { Buffer, State#state{ active = Active, tag = StateTag }}.
+-- 
+2.5.5
+

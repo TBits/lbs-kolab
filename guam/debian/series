@@ -1,1 +1,2 @@
 guam-0.8-debian-concat.patch -p1
+0009-don-t-modify-the-acive-state-if-we-don-t-have-a-LIST.patch -p1

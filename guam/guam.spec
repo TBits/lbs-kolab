@@ -43,6 +43,7 @@ Patch0009:          0001-make-add_starttls_to_capabilities-work-also-on-the-f.pa
 Patch0010:          0006-correct-response-for-mplicit_tls-listeners.patch
 Patch0011:          0007-do-a-full-OK-CAPABILITY-banner-for-all-correct_hello.patch
 Patch0012:          0008-remove-AUTH-entries-put-LOGINDISABLED-if-we-put-up-a.patch
+Patch0013:          0009-don-t-modify-the-acive-state-if-we-don-t-have-a-LIST.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-eimap >= 0.1.5
@@ -101,6 +102,7 @@ the perimeter of your IMAP environment.
 %patch0010 -p1
 %patch0011 -p1
 %patch0012 -p1
+%patch0013 -p1
 
 %build
 rebar compile
