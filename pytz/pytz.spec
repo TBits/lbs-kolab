@@ -2,6 +2,7 @@
 %global with_python3 1
 %else
 %{!?python2_sitelib: %global python2_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python2_version: %global python2_version %(%{__python} -c "from distutils.sysconfig import get_python_version; print get_python_version()")}
 %endif
 
 Name:           pytz

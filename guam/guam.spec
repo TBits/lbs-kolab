@@ -43,15 +43,38 @@ Patch0009:          0001-make-add_starttls_to_capabilities-work-also-on-the-f.pa
 Patch0010:          0006-correct-response-for-mplicit_tls-listeners.patch
 Patch0011:          0007-do-a-full-OK-CAPABILITY-banner-for-all-correct_hello.patch
 Patch0012:          0008-remove-AUTH-entries-put-LOGINDISABLED-if-we-put-up-a.patch
-Patch0013:          0009-don-t-modify-the-acive-state-if-we-don-t-have-a-LIST.patch
+Patch0013:          0011-switch-to-triggering-on-any-list-where-the-last-two-.patch
 
 BuildRequires:      erlang >= 17.4
-BuildRequires:      erlang-eimap >= 0.1.5
-BuildRequires:      erlang-goldrush
-BuildRequires:      erlang-lager >= 2.1.0
+BuildRequires:      erlang-asn1
+BuildRequires:      erlang-common_test
+BuildRequires:      erlang-compiler
+BuildRequires:      erlang-crypto
+BuildRequires:      erlang-debugger
+BuildRequires:      erlang-eimap >= 0.2.4
+BuildRequires:      erlang-erts
+BuildRequires:      erlang-et
+BuildRequires:      erlang-goldrush >= 0.1.8
+BuildRequires:      erlang-kernel
+BuildRequires:      erlang-lager >= 3.1.0
 BuildRequires:      erlang-lager_syslog >= 2.0.3
+BuildRequires:      erlang-mnesia
+BuildRequires:      erlang-observer
+BuildRequires:      erlang-public_key
 BuildRequires:      erlang-rebar >= 2.5.1
+BuildRequires:      erlang-runtime_tools
+BuildRequires:      erlang-sasl
+BuildRequires:      erlang-snmp
+BuildRequires:      erlang-ssh
+BuildRequires:      erlang-ssl
+BuildRequires:      erlang-stdlib
+BuildRequires:      erlang-syntax_tools
 BuildRequires:      erlang-syslog >= 1.0.3
+BuildRequires:      erlang-test_server
+BuildRequires:      erlang-tools
+BuildRequires:      erlang-webtool
+BuildRequires:      erlang-wx
+BuildRequires:      erlang-xmerl
 
 Requires(pre):      shadow-utils
 Requires(postun):   shadow-utils
@@ -128,7 +151,7 @@ mkdir -p \
 install -p -m 644 contrib/guam.service \
     %{buildroot}%{_unitdir}/guam.service
 %else
-install -p -m 755 %{SOURCE1} \
+install -p -m 755 contrib/guam.sysvinit \
     %{buildroot}%{_initddir}/guam
 %endif
 
@@ -150,17 +173,25 @@ ln -s ../..%{_var}/log/guam %{buildroot}/opt/%{realname}/log
 
 pushd %{buildroot}/opt/%{realname}/lib
 for dir in $(ls -d */ | grep -v kolab_guam); do
-    if [ ! -d ../../..%{_libdir}/erlang/lib/$(basename ${dir}) ]; then
-        echo "Skipping deletion of $(basename ${dir}), no equivalent in %{_libdir}/erlang/lib/"
+    dir=$(basename ${dir})
+    if [ ! -d %{_libdir}/erlang/lib/${dir} ]; then
+        echo "Skipping deletion of ${dir}, no equivalent in %{_libdir}/erlang/lib/"
     else
         rm -rvf ${dir}
-        ln -sv ../../..%{_libdir}/erlang/lib/$(basename ${dir}) $(basename ${dir})
+        ln -sv ../../..%{_libdir}/erlang/lib/${dir} ${dir}
     fi
 done
 popd
 
 %check
 rebar skip_deps=true eunit -v
+
+%pretrans
+pushd /opt/kolab_guam/lib
+for dir in $(ls -d */ | grep -v kolab_guam); do
+    dir=$(basename ${dir})
+    rm -rf -- ${dir}
+done
 
 %pre
 if [ $1 == 1 ]; then

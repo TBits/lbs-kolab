@@ -254,6 +254,7 @@ find %{buildroot} -type f -name "*.la" -exec rm -f {} \;
 pushd python
 python ./setup.py install --root=%{buildroot} --record=INSTALLED_FILES --optimize=1
 popd
+rm -rf %{buildroot}%{python_sitelib}/google/__init__.py*
 %endif
 install -p -m 644 -D %{SOURCE1} %{buildroot}%{_datadir}/vim/vimfiles/ftdetect/proto.vim
 install -p -m 644 -D editors/proto.vim %{buildroot}%{_datadir}/vim/vimfiles/syntax/proto.vim
@@ -322,12 +323,11 @@ install -p -m 0644 %{SOURCE2} $RPM_BUILD_ROOT%{emacs_startdir}
 %files python
 %defattr(-, root, root, -)
 %dir %{python_sitelib}/google
-%if 0%{?rhel} > 6 || 0%{?fedora}
-%exclude %{python_sitelib}/google/__init__.py*
-%endif
 %{python_sitelib}/google/protobuf/
 %{python_sitelib}/protobuf-%{version}-py2.?.egg-info
+%if 0%{?rhel} > 5 || 0%{?fedora}
 %{python_sitelib}/protobuf-%{version}-py2.?-nspkg.pth
+%endif
 %doc python/README.txt
 %doc examples/add_person.py examples/list_people.py examples/addressbook.proto
 %endif

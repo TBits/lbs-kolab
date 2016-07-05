@@ -1,8 +1,8 @@
 From f251c62827c1696dd2e0369800c82cc569c57011 Mon Sep 17 00:00:00 2001
 From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
 Date: Fri, 1 Jul 2016 16:31:50 +0200
-Subject: [PATCH] Use the correct constants import and __version__ value from
- it
+Subject: [PATCH 1/2] Use the correct constants import and __version__ value
+ from it
 
 ---
  pykolab/imap/cyrus.py | 4 ++--
