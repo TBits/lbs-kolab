@@ -1,0 +1,19 @@
+Source: erlang-lager
+Priority: optional
+Maintainer: Philipp Huebner <debalance@debian.org>
+Uploaders: Christoph Erhardt <kolab@sicherha.de>
+Build-Depends: debhelper (>= 9), dh-rebar, erlang-goldrush
+Standards-Version: 3.9.5
+Section: libs
+Homepage: https://github.com/basho/lager
+
+
+Package: erlang-lager
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, erlang-base | ${erlang-abi:Depends},
+         ${erlang:Depends}, erlang-goldrush
+Description: logging framework for Erlang
+ Lager (as in the beer) is a logging framework for Erlang. Its purpose is
+ to provide a more traditional way to perform logging in an erlang application
+ that plays nicely with traditional UNIX logging tools like logrotate and
+ syslog.

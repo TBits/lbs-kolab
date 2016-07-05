@@ -18,30 +18,72 @@
 %{!?_unitdir: %global _unitdir /usr/lib/systemd/system}
 
 Name:               guam
-Version:            0.7.2
-Release:            1%{?dist}
+Version:            0.8
+Release:            0.20160219.git%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
 License:            GPLv3+
 URL:                https://kolab.org/about/guam
 
-# From refs/tags/guam-0.7.2
-Source0:            guam-0.7.2.tar.gz
+# From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
+Source0:            guam-0.8.tar.gz
 
-BuildRequires:      erlang
-BuildRequires:      erlang-eimap >= 0.1.5
-BuildRequires:      erlang-goldrush
-BuildRequires:      erlang-lager >= 2.1.0
+Patch9991:          guam-0.8-T1312-set-HOME-environment-variable-in-sysvinit-script.patch
+
+Patch0001:          0001-introduce-net_iface-for-listeners.patch
+Patch0002:          0002-lets-start-keeping-a-changelog.patch
+Patch0003:          0003-enable-ipv6-by-default.patch
+Patch0004:          0004-update-this-function-for-the-data-structure-change-i.patch
+Patch0005:          0005-correct-version-of-eimap-though-this-is-like-to-bump.patch
+Patch0006:          0006-fix-typo.patch
+Patch0007:          0007-Correct-the-actual-version-back-to-0.8.patch
+Patch0008:          0008-Relax-dependency-on-lager.patch
+Patch0009:          0001-make-add_starttls_to_capabilities-work-also-on-the-f.patch
+Patch0010:          0006-correct-response-for-mplicit_tls-listeners.patch
+Patch0011:          0007-do-a-full-OK-CAPABILITY-banner-for-all-correct_hello.patch
+Patch0012:          0008-remove-AUTH-entries-put-LOGINDISABLED-if-we-put-up-a.patch
+Patch0013:          0011-switch-to-triggering-on-any-list-where-the-last-two-.patch
+
+BuildRequires:      erlang >= 17.4
+BuildRequires:      erlang-asn1
+BuildRequires:      erlang-common_test
+BuildRequires:      erlang-compiler
+BuildRequires:      erlang-crypto
+BuildRequires:      erlang-debugger
+BuildRequires:      erlang-eimap >= 0.2.4
+BuildRequires:      erlang-erts
+BuildRequires:      erlang-et
+BuildRequires:      erlang-goldrush >= 0.1.8
+BuildRequires:      erlang-kernel
+BuildRequires:      erlang-lager >= 3.1.0
+BuildRequires:      erlang-lager_syslog >= 2.0.3
+BuildRequires:      erlang-mnesia
+BuildRequires:      erlang-observer
+BuildRequires:      erlang-public_key
 BuildRequires:      erlang-rebar >= 2.5.1
+BuildRequires:      erlang-runtime_tools
+BuildRequires:      erlang-sasl
+BuildRequires:      erlang-snmp
+BuildRequires:      erlang-ssh
+BuildRequires:      erlang-ssl
+BuildRequires:      erlang-stdlib
+BuildRequires:      erlang-syntax_tools
+BuildRequires:      erlang-syslog >= 1.0.3
+BuildRequires:      erlang-test_server
+BuildRequires:      erlang-tools
+BuildRequires:      erlang-webtool
+BuildRequires:      erlang-wx
+BuildRequires:      erlang-xmerl
 
 Requires(pre):      shadow-utils
 Requires(postun):   shadow-utils
 
-Requires:           erlang
+Requires:           erlang >= 17.4
 Requires:           erlang-eimap >= 0.1.2
 Requires:           erlang-goldrush
 Requires:           erlang-lager >= 2.1.0
+Requires:           erlang-lager_syslog >= 1.0.3
 
 %if 0%{?with_systemd}
 %if 0%{?suse_version}
@@ -69,6 +111,22 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
+%patch9991 -p1
+
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
+%patch0006 -p1
+%patch0007 -p1
+%patch0008 -p1
+%patch0009 -p1
+%patch0010 -p1
+%patch0011 -p1
+%patch0012 -p1
+%patch0013 -p1
+
 %build
 rebar compile
 mkdir -p deps
@@ -84,12 +142,17 @@ mkdir -p \
     %{buildroot}%{_sysconfdir}/guam/ \
 %if 0%{?with_systemd}
     %{buildroot}%{_unitdir}/ \
+%else
+    %{buildroot}%{_initddir}/ \
 %endif
     %{buildroot}%{_var}/log/
 
 %if 0%{?with_systemd}
-install -p -m 644 guam.service \
+install -p -m 644 contrib/guam.service \
     %{buildroot}%{_unitdir}/guam.service
+%else
+install -p -m 755 contrib/guam.sysvinit \
+    %{buildroot}%{_initddir}/guam
 %endif
 
 cp -a rel/%{realname} %{buildroot}/opt/.
@@ -108,8 +171,27 @@ ln -s ../../../..%{_sysconfdir}/%{name}/sys.config \
 mv %{buildroot}/opt/%{realname}/log %{buildroot}%{_var}/log/guam
 ln -s ../..%{_var}/log/guam %{buildroot}/opt/%{realname}/log
 
+pushd %{buildroot}/opt/%{realname}/lib
+for dir in $(ls -d */ | grep -v kolab_guam); do
+    dir=$(basename ${dir})
+    if [ ! -d %{_libdir}/erlang/lib/${dir} ]; then
+        echo "Skipping deletion of ${dir}, no equivalent in %{_libdir}/erlang/lib/"
+    else
+        rm -rvf ${dir}
+        ln -sv ../../..%{_libdir}/erlang/lib/${dir} ${dir}
+    fi
+done
+popd
+
 %check
 rebar skip_deps=true eunit -v
+
+%pretrans
+pushd /opt/kolab_guam/lib
+for dir in $(ls -d */ | grep -v kolab_guam); do
+    dir=$(basename ${dir})
+    rm -rf -- ${dir}
+done
 
 %pre
 if [ $1 == 1 ]; then
@@ -138,6 +220,13 @@ fi
 test -f /etc/sysconfig/guam-disable-posttrans || \
     systemctl try-restart guam.service 2>&1 || :
 
+%else
+%post
+chkconfig --add guam >/dev/null 2>&1 || :
+
+%posttrans
+test -f /etc/sysconfig/guam-disable-posttrans || \
+    %{_bindir}/service restart guam 2>&1 || :
 %endif
 
 %files
@@ -147,16 +236,15 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 
 %if 0%{?with_systemd}
 %{_unitdir}/%{name}.service
+%else
+%{_initddir}/%{name}
 %endif
 
 /opt/%{realname}/
 
 %changelog
-* Wed Mar  2 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.2-1
-- Release 0.7.2
-
-* Thu Feb  4 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.1-2
-- Add environment variable HOME
+* Fri Jun 10 2016 Aaron Seigo <seigo@kolabsystems.com>
+- Package version 0.8
 
 * Tue Feb  2 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.7.1-1
 - Check in systemd init script fixes

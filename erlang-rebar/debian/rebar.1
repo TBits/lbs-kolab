@@ -1,0 +1,55 @@
+.TH "REBAR" 1 "31 Jul 2012" "REBAR" "REBAR"
+.SH NAME
+rebar \- Sophisticated build-tool for Erlang projects that follows OTP principles
+.SH SYNOPSIS
+.B rebar
+[\-h] [\-c] [\-v <verbose>] [\-V] [\-f] [\-D <defines>] [\-j <jobs>] [\-C <config>] [\-p] [var=value,...] <command,...>
+.SH DESCRIPTION
+\fBrebar\fP is an Erlang build tool that makes it easy to compile and  
+test Erlang applications, port drivers and releases.
+
+\fBrebar\fP is a self-contained Erlang script, so it's easy to distribute or even  
+embed directly in a project. Where possible, rebar uses standard Erlang/OTP  
+conventions for project structures, thus minimizing the amount of build  
+configuration work. rebar also provides dependency management, enabling  
+application writers to easily re-use common libraries from a variety of  
+locations (git, hg, etc).
+
+.SH OPTIONS:
+.TP
+.B \\-h, \\--help
+Show the program options
+.TP
+.B \\-c, \\--commands
+Show available commands
+.TP
+.B \\-v, \\--verbose
+Verbosity level (-v, -vv, -vvv, --verbose 3). Default: 0
+.TP
+.B \\-V, \\--version
+Show version information
+.TP
+.B \\-f, \\--force
+Force
+.TP
+.B \\-D
+Define compiler macro
+.TP
+.B \\-j, \\--jobs
+Number of concurrent workers a command may use. Default: 3
+.TP
+.B \\-C, \\--config
+Rebar config file to use
+.TP
+.B \\-p, \\--profile
+Profile this run of rebar
+.TP
+.B var=value
+rebar global variables (e.g. force=1)
+.TP
+.B command
+Command to run (e.g. compile)
+
+.SH AUTHOR
+This manual page was written by Nobuhiro Iwamatsu <iwamatsu@debian.org>
+for the Debian GNU/Linux system (but may be used by others).

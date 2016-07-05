@@ -1,0 +1,23 @@
+erlang-eimap (0.2.4) unstable; urgency=medium
+
+  * Package the 0.2.4 release
+
+ -- Aaron Seigo <seigo@kolabsystems.com>  Wed, 08 Jun 2016 10:30:50 +0100
+
+erlang-eimap (0.2.2) unstable; urgency=medium
+
+  * Package the 0.2.2 release
+
+ -- Aaron Seigo <seigo@kolabsystems.com>  Tue, 07 Jun 2016 10:30:50 +0100
+
+erlang-eimap (0.2-1+git20160111~kolab1) unstable; urgency=medium
+
+  * Bump to new git version.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Thu, 11 Feb 2016 21:09:49 +0100
+
+erlang-eimap (0.1.5-1~kolab1) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 07 Feb 2016 12:37:53 +0100

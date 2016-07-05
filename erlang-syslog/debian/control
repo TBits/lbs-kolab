@@ -1,0 +1,15 @@
+Source: erlang-syslog
+Priority: optional
+Maintainer: hede <kolab983@der-he.de>
+Uploaders: hede <kolab983@der-he.de>
+Build-Depends: debhelper (>= 9), dh-rebar
+Standards-Version: 3.9.5
+Section: libs
+Homepage: https://github.com/Vagabond/erlang-syslog
+
+
+Package: erlang-syslog
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, erlang-base | ${erlang-abi:Depends}
+Description: Distributed systems infrastructure used by Riak.
+

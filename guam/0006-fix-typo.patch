@@ -1,0 +1,25 @@
+From 06f22152fbb0daf5b1d5cc471cf5de5c587246f7 Mon Sep 17 00:00:00 2001
+From: Aaron Seigo <aseigo@kde.org>
+Date: Mon, 20 Jun 2016 16:57:58 +0200
+Subject: [PATCH 6/8] fix typo
+
+---
+ apps/kolab_guam/src/kolab_guam_session.erl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/apps/kolab_guam/src/kolab_guam_session.erl b/apps/kolab_guam/src/kolab_guam_session.erl
+index 69e239c..9439018 100644
+--- a/apps/kolab_guam/src/kolab_guam_session.erl
++++ b/apps/kolab_guam/src/kolab_guam_session.erl
+@@ -282,7 +282,7 @@ correct_hello(true, _TLSConfig, ServerHello) ->
+ correct_hello(_TLSActive, [], ServerHello) ->
+     % guam does not have a TLS config and so can not provide TLS to the client
+     ensure_hello_does_not_have_starttls(ServerHello);
+-correct_hello(_TLSAcive, _TLSConfig, ServerHello) ->
++correct_hello(_TLSActive, _TLSConfig, ServerHello) ->
+     % guam has a TLS config, and it is not currently active, so make sure to include
+     % STARTTLS in our response regardless of what the backend says
+     ensure_hello_has_starttls(ServerHello).
+-- 
+2.5.5
+

@@ -1,0 +1,20 @@
+Source: erlang-eimap
+Maintainer: Christoph Erhardt <kolab@sicherha.de>
+Section: devel
+Priority: extra
+Standards-Version: 3.9.6
+Homepage: https://git.kolab.org/diffusion/EI/eimap.git
+Build-Depends: debhelper (>= 9), erlang-goldrush (>= 0.1.7), erlang-lager (>= 2.2.0), rebar (>= 2.5.1)
+
+Package: erlang-eimap
+Architecture: any
+Section: devel
+Priority: extra
+Depends: ${misc:Depends},
+	erlang-base | ${erlang-abi:Depends},
+	erlang-goldrush,
+    erlang-lager,
+	${erlang:Depends}
+Enhances: erlang
+Description: Erlang IMAP client
+ IMAP client library for Erlang

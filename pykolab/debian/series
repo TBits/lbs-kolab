@@ -1,1 +1,3 @@
 cyrus-imapd.conf-cert-paths.patch -p1
+0001-Use-the-correct-constants-import-and-__version__-val.patch -p1
+0002-ID-directly-after-authentication-before-asking-for-a.patch -p1

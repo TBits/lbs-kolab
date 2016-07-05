@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+DESTDIR = $(CURDIR)/debian/guam
+
+%:
+	dh $@ --with=systemd
+
+override_dh_auto_build:
+	rebar compile
+	mkdir -p deps
+	cd rel && ENABLE_STATIC=no rebar generate
+
+override_dh_auto_test:
+	rebar skip_deps=true eunit -v
+
+override_dh_auto_install:
+	mkdir -p $(DESTDIR)/opt $(DESTDIR)/usr/sbin $(DESTDIR)/etc/guam \
+	      $(DESTDIR)/lib/systemd/system $(DESTDIR)/var/log
+	install -p -m 644 contrib/guam.service \
+	        $(DESTDIR)/lib/systemd/system/guam.service
+	cp -a rel/kolab_guam $(DESTDIR)/opt/
+	chmod +x $(DESTDIR)/opt/kolab_guam/bin/install_upgrade.escript
+	echo '#!/bin/bash' > $(DESTDIR)/usr/sbin/guam
+	echo 'exec /opt/kolab_guam/bin/kolab_guam $$*' \
+	     >> $(DESTDIR)/usr/sbin/guam
+	mv $(DESTDIR)/opt/kolab_guam/releases/$(DEB_VERSION_UPSTREAM)/sys.config \
+	   $(DESTDIR)/etc/guam/sys.config
+	ln -s ../../../../etc/guam/sys.config \
+	   $(DESTDIR)/opt/kolab_guam/releases/$(DEB_VERSION_UPSTREAM)/sys.config
+	mv $(DESTDIR)/opt/kolab_guam/log $(DESTDIR)/var/log/guam
+	ln -s ../../var/log/guam $(DESTDIR)/opt/kolab_guam/log

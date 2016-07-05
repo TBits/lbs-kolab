@@ -1,4 +1,4 @@
-From 4c221409234ce24cedce19c56efa5e2192b0970c Mon Sep 17 00:00:00 2001
+From fe3b26384e237d067c601fbc29377a2b83d79c33 Mon Sep 17 00:00:00 2001
 From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
 Date: Mon, 18 May 2015 11:45:03 +0200
 Subject: [PATCH 1/7] Don't load templates from the bundle
@@ -8,7 +8,7 @@ Subject: [PATCH 1/7] Don't load templates from the bundle
  1 file changed, 5 insertions(+), 26 deletions(-)
 
 diff --git a/src/rebar_templater.erl b/src/rebar_templater.erl
-index dd89f3a..4c237a2 100644
+index 085ac1c..efee394 100644
 --- a/src/rebar_templater.erl
 +++ b/src/rebar_templater.erl
 @@ -205,27 +205,11 @@ create1(Config, TemplateId) ->
@@ -54,7 +54,7 @@ index dd89f3a..4c237a2 100644
  
  find_disk_templates(Config) ->
      OtherTemplates = find_other_templates(Config),
-@@ -270,10 +252,7 @@ select_template([{Type, Avail} | Rest], Template) ->
+@@ -269,10 +251,7 @@ select_template([{Type, Avail} | Rest], Template) ->
  %%
  %% Read the contents of a file from the appropriate source
  %%
@@ -67,5 +67,5 @@ index dd89f3a..4c237a2 100644
      Bin.
  
 -- 
-2.1.0
+2.5.0
 

@@ -37,25 +37,33 @@ URL:                http://kolab.org/
 Source0:            pykolab-0.8.1.tar.gz
 Source1:            pykolab.logrotate
 
+Patch0001:          0001-Use-the-correct-constants-import-and-__version__-val.patch
+Patch0002:          0002-ID-directly-after-authentication-before-asking-for-a.patch
+
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
+
 %if 0%{?suse_version}
 BuildRequires:      autoconf
 BuildRequires:      automake
 BuildRequires:      fdupes
 %endif
+
 %if 0%{?fedora} > 21
 BuildRequires:      future
 %endif
+
 BuildRequires:      gcc
 BuildRequires:      gettext
 BuildRequires:      glib2-devel
 BuildRequires:      intltool
+
 %if 0%{?suse_version}
 BuildRequires:      python-mysql
 %else
 BuildRequires:      MySQL-python
 %endif
+
 BuildRequires:      python
 BuildRequires:      python-augeas
 BuildRequires:      python-gnupg
@@ -64,20 +72,25 @@ BuildRequires:      python-kolab
 BuildRequires:      python-kolabformat
 BuildRequires:      python-ldap
 BuildRequires:      python-nose
+BuildRequires:      python-pep8
 BuildRequires:      python-pyasn1
 BuildRequires:      python-pyasn1-modules
+
 %if 0%{?suse_version}
 BuildRequires:      python-pytz
 %else
 BuildRequires:      pytz
 %endif
+
 BuildRequires:      python-sievelib
 BuildRequires:      python-sqlalchemy
 BuildRequires:      python-twisted-core
+
 %if 0%{?fedora} >= 21
 # Fedora 21 has qca2 and qca, qca2 has been renamed to qca, required by kdelibs
-BuildRequires: qca
+BuildRequires:      qca
 %endif
+
 Requires:           kolab-cli = %{version}-%{release}
 Requires:           python-ldap >= 2.4
 Requires:           python-pyasn1
@@ -218,6 +231,9 @@ This is the Kolab Content Filter, with plugins
 
 %prep
 %setup -q
+
+%patch0001 -p1
+%patch0002 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v

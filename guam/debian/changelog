@@ -1,0 +1,29 @@
+guam (0.8-2mic1) unstable; urgency=medium
+
+  * add patches from rpm builds
+
+ -- hede <kolab983@der-he.de>  Tue, 28 Jun 2016 06:54:23 +0100
+
+guam (0.8-2) unstable; urgency=medium
+
+  * Package version 0.8
+
+ -- Aaron Seigo <seigo@kolabsystems.com>  Fri, 10 Jun 2016 10:54:23 +0100
+
+guam (0.8-1+git20160219~kolab1) unstable; urgency=medium
+
+  * Bump to new git version.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sat, 27 Feb 2016 23:30:08 +0100
+
+guam (0.8-1+git20160111~kolab1) unstable; urgency=medium
+
+  * Bump to new git version.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Thu, 11 Feb 2016 21:04:08 +0100
+
+guam (0.7.1-1~kolab1) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 07 Feb 2016 08:48:37 +0100

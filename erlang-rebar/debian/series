@@ -1,0 +1,6 @@
+0001-Don-t-load-templates-from-the-bundle.patch
+0004-Allow-discarding-building-ports.patch
+0005-Check-system-wide-libdir-in-case-of-source-based-dep.patch
+0006-Remove-any-traces-of-long-time-obsolete-escript-fold.patch
+0007-Remove-abnfc-compiler-support-n-a-in-Fedora-EPEL.patch
+Add-build-target-to-Makefile.patch

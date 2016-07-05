@@ -1,4 +1,4 @@
-From 5d8e7c1db9f64d3a5e98dffde5255a82d23b4720 Mon Sep 17 00:00:00 2001
+From 829518d309a1cad38cadbecf810c208879d7e085 Mon Sep 17 00:00:00 2001
 From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
 Date: Mon, 18 May 2015 11:48:49 +0200
 Subject: [PATCH 5/7] Check system wide libdir in case of source based dep
@@ -8,10 +8,10 @@ Subject: [PATCH 5/7] Check system wide libdir in case of source based dep
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/src/rebar_deps.erl b/src/rebar_deps.erl
-index bd94921..2fc57f5 100644
+index a6e5b27..ba2b4e8 100644
 --- a/src/rebar_deps.erl
 +++ b/src/rebar_deps.erl
-@@ -392,7 +392,12 @@ find_dep(Config, Dep, _Source) ->
+@@ -393,7 +393,12 @@ find_dep(Config, Dep, _Source) ->
      %% _Source is defined.  Regardless of what it is, we must find it
      %% locally satisfied or fetch it from the original source
      %% into the project's deps
@@ -26,5 +26,5 @@ index bd94921..2fc57f5 100644
  find_dep_in_dir(Config, _Dep, {false, Dir}) ->
      {Config, {missing, Dir}};
 -- 
-2.1.0
+2.5.0
 

@@ -1,0 +1,16 @@
+Source: erlang-lager-syslog
+Priority: optional
+Maintainer: hede <kolab983@der-he.de>
+Uploaders: hede <kolab983@der-he.de>
+Build-Depends: debhelper (>= 9), dh-rebar, erlang-goldrush, erlang-lager, erlang-syslog
+Standards-Version: 3.9.5
+Section: libs
+Homepage: https://github.com/basho/lager_syslog
+
+
+Package: erlang-lager-syslog
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, erlang-base | ${erlang-abi:Depends},
+         ${erlang:Depends}, erlang-goldrush
+Description: Distributed systems infrastructure used by Riak.
+
