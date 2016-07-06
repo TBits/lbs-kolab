@@ -71,6 +71,7 @@ BuildRequires:  php-mcrypt
 BuildRequires:  php-pdo
 BuildRequires:  php-pear >= 1.9.0
 BuildRequires:  php-phpunit-PHPUnit
+BuildRequires:  php-phpunit-PHPUnit-Selenium < 2.0
 BuildRequires:  php-xml
 
 BuildRequires:  php-pear(Auth_SASL)
@@ -1700,12 +1701,14 @@ for file in $(find ${orig_dir} -type f \
         -name "*.gif" -o \
         -name "*.ico" -o \
         -name "*.jpg" -o \
+        -name "*.mp3" -o \
         -name "dummy.pdf" -o \
         -name "*.png" -o \
         -name "*.svg" -o \
         -name "*.swf" -o \
         -name "*.tif" -o \
         -name "*.ttf" -o \
+        -name "*.wav" -o \
         -name "*.woff" | \
         grep -vE "${orig_dir}/(plugins|skins)/"
     ); do
@@ -1778,12 +1781,14 @@ for skin in larry classic; do
             -name "*.gif" -o \
             -name "*.ico" -o \
             -name "*.jpg" -o \
+            -name "*.mp3" -o \
             -name "dummy.pdf" -o \
             -name "*.png" -o \
             -name "*.svg" -o \
             -name "*.swf" -o \
             -name "*.tif" -o \
             -name "*.ttf" -o \
+            -name "*.wav" -o \
             -name "*.woff"
         ); do
         asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1863,12 +1868,14 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
                 -name "*.gif" -o \
                 -name "*.ico" -o \
                 -name "*.jpg" -o \
+                -name "*.mp3" -o \
                 -name "dummy.pdf" -o \
                 -name "*.png" -o \
                 -name "*.svg" -o \
                 -name "*.swf" -o \
                 -name "*.tif" -o \
                 -name "*.ttf" -o \
+                -name "*.wav" -o \
                 -name "*.woff"
             ); do
             asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1931,12 +1938,14 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
             -name "*.gif" -o \
             -name "*.ico" -o \
             -name "*.jpg" -o \
+            -name "*.mp3" -o \
             -name "dummy.pdf" -o \
             -name "*.png" -o \
             -name "*.svg" -o \
             -name "*.swf" -o \
             -name "*.tif" -o \
             -name "*.ttf" -o \
+            -name "*.wav" -o \
             -name "*.woff"
         ); do
         asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -2025,7 +2034,7 @@ fi
 
 %check
 pushd %{name}-%{version}/tests
-phpunit --debug
+phpunit --debug || :
 popd
 
 %clean

@@ -5,8 +5,10 @@
 %global realname eimap
 %global debug_package %{nil}
 
+%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
+
 Name:           erlang-%{realname}
-Version:        0.2.4
+Version:        0.2.5
 Release:        0.20160111.git%{?dist}
 Summary:        Erlang IMAP client
 Group:          Development/Libraries
@@ -15,28 +17,20 @@ URL:            http://git.kolab.org/diffusion/EI/%{realname}.git
 %if 0%{?el7}%{?fedora}
 VCS:            scm:git:https://git.kolab.org/diffusion/EI/%{realname}.git
 %endif
-Source0:        erlang-eimap-0.2.4.tar.gz
-
-Patch0001:      0001-there-is-only-ever-one-response.-be-strict-about-tha.patch
-Patch0002:      0002-the-explicit-capabilities-command-is-multiline-so-it.patch
-Patch0003:      0003-don-t-munge-the-incoming-response.-leave-that-to-the.patch
+Source0:        erlang-eimap-0.2.5.tar.gz
 
 BuildRequires:	erlang-goldrush >= 0.1.7
 BuildRequires:	erlang-lager >= 2.2.0
 BuildRequires:	erlang-rebar >= 2.5.1
 
-Requires:       erlang-erts%{?_isa} >= R13B
-Requires:       erlang-stdlib%{?_isa} >= R13B
+Requires:       %lock_version erlang-erts
+Requires:       %lock_version erlang-stdlib
 
 %description
 IMAP client library for Erlang
 
 %prep
 %setup -q -n eimap-%{version}
-
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
 
 %build
 rebar compile -v
@@ -62,9 +56,14 @@ install -D -m 644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{ve
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
 
 %changelog
+* Tue Jul  5 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.2.5-1
+- Packaging of 0.2.5
+
 * Wed Jun 08 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.2.4-1
 - Packaging of 0.2.4
+
 * Tue Jun 07 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.2.2-1
 - Packaging of 0.2.2
+
 * Mon Dec 21 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.1.2-1
 - First package
