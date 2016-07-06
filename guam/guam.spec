@@ -17,8 +17,10 @@
 
 %{!?_unitdir: %global _unitdir /usr/lib/systemd/system}
 
+%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
+
 Name:               guam
-Version:            0.8
+Version:            0.8.1
 Release:            0.20160219.git%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
@@ -26,24 +28,10 @@ Group:              System Environment/Daemons
 License:            GPLv3+
 URL:                https://kolab.org/about/guam
 
-# From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
-Source0:            guam-0.8.tar.gz
+Source0:            guam-%{version}.tar.gz
 
 Patch9991:          guam-0.8-T1312-set-HOME-environment-variable-in-sysvinit-script.patch
-
-Patch0001:          0001-introduce-net_iface-for-listeners.patch
-Patch0002:          0002-lets-start-keeping-a-changelog.patch
-Patch0003:          0003-enable-ipv6-by-default.patch
-Patch0004:          0004-update-this-function-for-the-data-structure-change-i.patch
-Patch0005:          0005-correct-version-of-eimap-though-this-is-like-to-bump.patch
-Patch0006:          0006-fix-typo.patch
-Patch0007:          0007-Correct-the-actual-version-back-to-0.8.patch
-Patch0008:          0008-Relax-dependency-on-lager.patch
-Patch0009:          0001-make-add_starttls_to_capabilities-work-also-on-the-f.patch
-Patch0010:          0006-correct-response-for-mplicit_tls-listeners.patch
-Patch0011:          0007-do-a-full-OK-CAPABILITY-banner-for-all-correct_hello.patch
-Patch0012:          0008-remove-AUTH-entries-put-LOGINDISABLED-if-we-put-up-a.patch
-Patch0013:          0011-switch-to-triggering-on-any-list-where-the-last-two-.patch
+Patch9992:          guam-0.8.1-relax-dependencies-set-correct-version-number.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-asn1
@@ -79,11 +67,11 @@ BuildRequires:      erlang-xmerl
 Requires(pre):      shadow-utils
 Requires(postun):   shadow-utils
 
-Requires:           erlang >= 17.4
-Requires:           erlang-eimap >= 0.1.2
-Requires:           erlang-goldrush
-Requires:           erlang-lager >= 2.1.0
-Requires:           erlang-lager_syslog >= 1.0.3
+Requires:           %lock_version erlang
+Requires:           %lock_version erlang-eimap
+Requires:           %lock_version erlang-goldrush
+Requires:           %lock_version erlang-lager
+Requires:           %lock_version erlang-lager_syslog
 
 %if 0%{?with_systemd}
 %if 0%{?suse_version}
@@ -112,20 +100,7 @@ the perimeter of your IMAP environment.
 %setup -q
 
 %patch9991 -p1
-
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
-%patch0004 -p1
-%patch0005 -p1
-%patch0006 -p1
-%patch0007 -p1
-%patch0008 -p1
-%patch0009 -p1
-%patch0010 -p1
-%patch0011 -p1
-%patch0012 -p1
-%patch0013 -p1
+%patch9992 -p1
 
 %build
 rebar compile
@@ -187,11 +162,12 @@ popd
 rebar skip_deps=true eunit -v
 
 %pretrans
-pushd /opt/kolab_guam/lib
+pushd /opt/kolab_guam/lib >/dev/null 2>&1 || :
 for dir in $(ls -d */ | grep -v kolab_guam); do
     dir=$(basename ${dir})
-    rm -rf -- ${dir}
+    rm -rf -- /opt/kolab_guam/lib/${dir}
 done
+popd >/dev/null 2>&1 || :
 
 %pre
 if [ $1 == 1 ]; then
@@ -243,6 +219,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Tue Jul  5 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.8.1-1
+- Release of version 0.8.1
+
 * Fri Jun 10 2016 Aaron Seigo <seigo@kolabsystems.com>
 - Package version 0.8
 
