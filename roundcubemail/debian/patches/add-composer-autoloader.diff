@@ -1,0 +1,16 @@
+Index: roundcubemail-1.2~dev20160328/composer.json
+===================================================================
+--- /dev/null
++++ roundcubemail-1.2~dev20160328/composer.json
+@@ -0,0 +1,11 @@
++{
++    "name": "kolab/roundcubemail",
++    "description": "Roundcube Webmail for Kolab",
++    "license": "GPL-3.0",
++    "require": { "php": ">=5.3.3" },
++    "autoload": {
++        "psr-0": { "": "/usr/share/pear/" },
++        "psr-4": { "": "/usr/share/php/" }
++    }
++}
++

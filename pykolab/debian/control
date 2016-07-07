@@ -102,6 +102,7 @@ Package: wallace
 Architecture: all
 Depends: pykolab (= ${binary:Version}),
          kolab-xml (= ${binary:Version}),
+         python-gnupg,
          python,
          ${misc:Depends},
          lsb-base (>= 3.0-6),

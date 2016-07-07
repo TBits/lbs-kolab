@@ -1,3 +1,16 @@
+roundcubemail (1.2.0-0~kolab1) unstable; urgency=low
+
+  * Check in stable 1.2.0 release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  6 Jul 2016 07:14:39 +0200
+
+roundcubemail (1:1.2~dev20160328-0~kolab1mic1) unstable; urgency=medium
+
+  * update to newer debian debhelper compat version
+  * add composer autoloader scripts
+
+ -- hede <kolab983@der-he.de>  Mon, 27 Jun 2016 11:18:01 +0200
+
 roundcubemail (1:1.2~dev20160328-0~kolab1) unstable; urgency=low
 
   * fix secure URL regex for debian

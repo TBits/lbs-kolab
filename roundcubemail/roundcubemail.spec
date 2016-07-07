@@ -41,9 +41,9 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version: 1.2
+Version:        1.2.0
 
-Release: 0.20160328.git%{?dist}
+Release:        1%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -51,15 +51,13 @@ Group:          Applications/System
 License:        GPLv2
 URL:            http://www.roundcube.net
 
-# From df10bd5f2c98831bc20fae9c579967109345fdab
-Source0:        roundcubemail-1.2.tar.gz
+Source0:        roundcubemail-1.2.0.tar.gz
 Source1:        comm.py
 
 Source20:       roundcubemail.conf
 Source21:       roundcubemail.logrotate
 
-Patch201:       ticket-466-changes.patch
-Patch202:       default-configuration.patch
+Patch201:       default-configuration.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1290,7 +1288,6 @@ Skin classic (Assets Package)
 pushd %{name}-%{version}
 
 %patch201 -p1
-%patch202 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -3125,6 +3122,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Jul  6 2016 Jeroen van Meeuwen <vanmeeuwen@Kolabsys.com> - 1.2.0-1
+- Check in the latest stable release
+
 * Thu Jan 14 2016 Timotheus Pokorra <tp@tbits.net>
 - /var/log/roundcubemail and /var/lib/roundcubemail should be owned by the webserver (#3678)
 - using now the globals for those directories

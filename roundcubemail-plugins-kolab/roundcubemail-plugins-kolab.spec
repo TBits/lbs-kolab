@@ -87,6 +87,18 @@ Provides:       roundcubemail(plugin-calendar) = %{?epoch:%{epoch}:}%{version}-%
 %description -n roundcubemail-plugin-calendar
 Plugin calendar
 
+%package -n roundcubemail-plugin-html_converter
+Summary:        Plugin html_converter
+Group:          Applications/Internet
+Requires:       roundcubemail(core) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-html_converter-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail(plugin-html_converter-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       lynx
+Provides:       roundcubemail(plugin-html_converter) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-html_converter
+Plugin html_converter
+
 %package -n roundcubemail-plugin-kolab_2fa
 Summary:        Plugin kolab_2fa
 Group:          Applications/Internet
@@ -326,6 +338,16 @@ Provides:       roundcubemail(plugin-tinymce_config) = %{?epoch:%{epoch}:}%{vers
 %description -n roundcubemail-plugin-tinymce_config
 Plugin tinymce_config
 
+%package -n roundcubemail-plugin-wap_client
+Summary:        Plugin wap_client
+Group:          Applications/Internet
+Requires:       roundcubemail(core) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-wap_client-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail(plugin-wap_client) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-wap_client
+Plugin wap_client
+
 %package -n roundcubemail-plugin-calendar-assets
 Summary:        Plugin calendar Assets
 Group:          Applications/Internet
@@ -501,6 +523,14 @@ Provides:       roundcubemail(plugin-tinymce_config-assets) = %{?epoch:%{epoch}:
 
 %description -n roundcubemail-plugin-tinymce_config-assets
 Plugin tinymce_config Assets
+
+%package -n roundcubemail-plugin-wap_client-assets
+Summary:        Plugin wap_client Assets
+Group:          Applications/Internet
+Provides:       roundcubemail(plugin-wap_client-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-wap_client-assets
+Plugin wap_client Assets
 
 %package -n roundcubemail-plugin-calendar-skin-larry
 Summary:        Plugin calendar / Skin larry
@@ -840,6 +870,8 @@ for plugin in $(find %{name}-%{version}/plugins -mindepth 1 -maxdepth 1 -type d 
             echo "Requires:       php-endroid-qrcode"
             echo "Requires:       php-enygma-yubikey"
             echo "Requires:       php-spomky-labs-otphp"
+        elif [ "$(basename ${plugin})" == "html_converter" ]; then
+            echo "Requires:       lynx"
         fi
 
         echo "Provides:       roundcubemail(plugin-$(basename ${plugin})) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
@@ -1203,6 +1235,11 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
+%pre -n roundcubemail-plugin-html_converter
+if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
+fi
+
 %pre -n roundcubemail-plugin-kolab_2fa
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
@@ -1299,6 +1336,11 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
 fi
 
 %pre -n roundcubemail-plugin-tinymce_config
+if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
+fi
+
+%pre -n roundcubemail-plugin-wap_client
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
@@ -1663,6 +1705,21 @@ if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; the
     touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
 fi
 
+%posttrans -n roundcubemail-plugin-wap_client
+if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+%if 0%{?with_systemd}
+            /bin/systemctl condrestart %{httpd_name}.service
+%else
+            /sbin/service %{httpd_name} condrestart
+%endif
+        fi
+    fi
+    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
+    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
+fi
+
 %clean
 rm -rf %{buildroot}
 
@@ -1674,6 +1731,9 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-calendar -f plugin-calendar.files
 %defattr(-,root,root,-)
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/calendar.inc.php
+
+%files -n roundcubemail-plugin-html_converter -f plugin-html_converter.files
+%defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_2fa -f plugin-kolab_2fa.files
 %defattr(-,root,root,-)
@@ -1748,6 +1808,10 @@ rm -rf %{buildroot}
 
 %files -n roundcubemail-plugin-tinymce_config -f plugin-tinymce_config.files
 %defattr(-,root,root,-)
+
+%files -n roundcubemail-plugin-wap_client -f plugin-wap_client.files
+%defattr(-,root,root,-)
+%attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/wap_client.inc.php
 
 %files -n roundcubemail-plugin-calendar-assets -f plugin-calendar-assets.files
 %defattr(-,root,root,-)

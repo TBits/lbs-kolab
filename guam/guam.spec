@@ -20,7 +20,7 @@
 %define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
 
 Name:               guam
-Version:            0.8.1
+Version:            0.8.2
 Release:            0.20160219.git%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
@@ -30,8 +30,7 @@ URL:                https://kolab.org/about/guam
 
 Source0:            guam-%{version}.tar.gz
 
-Patch9991:          guam-0.8-T1312-set-HOME-environment-variable-in-sysvinit-script.patch
-Patch9992:          guam-0.8.1-relax-dependencies-set-correct-version-number.patch
+Patch9991:          guam-0.8.2-relax-dependencies.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-asn1
@@ -100,7 +99,6 @@ the perimeter of your IMAP environment.
 %setup -q
 
 %patch9991 -p1
-%patch9992 -p1
 
 %build
 rebar compile
@@ -161,14 +159,6 @@ popd
 %check
 rebar skip_deps=true eunit -v
 
-%pretrans
-pushd /opt/kolab_guam/lib >/dev/null 2>&1 || :
-for dir in $(ls -d */ | grep -v kolab_guam); do
-    dir=$(basename ${dir})
-    rm -rf -- /opt/kolab_guam/lib/${dir}
-done
-popd >/dev/null 2>&1 || :
-
 %pre
 if [ $1 == 1 ]; then
     /usr/sbin/groupadd --system %{guam_group} 2> /dev/null || :
@@ -202,7 +192,7 @@ chkconfig --add guam >/dev/null 2>&1 || :
 
 %posttrans
 test -f /etc/sysconfig/guam-disable-posttrans || \
-    %{_bindir}/service restart guam 2>&1 || :
+    %{_sbindir}/service restart guam 2>&1 || :
 %endif
 
 %files
@@ -219,6 +209,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Wed Jul 6 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.8.2-1
+- Release of version 0.8.2
+
 * Tue Jul  5 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.8.1-1
 - Release of version 0.8.1
 
