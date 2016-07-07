@@ -1,2 +1,1 @@
-guam-0.8-T1312-set-HOME-environment-variable-in-sysvinit-script.patch -p1
-guam-0.8.1-relax-dependencies-set-correct-version-number.patch -p1
+guam-0.8.2-relax-dependencies.patch -p1
