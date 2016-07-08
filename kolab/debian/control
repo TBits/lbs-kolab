@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Build-Depends: debhelper (>= 8),
-    univention-config-dev | bash
+    univention-config-dev | bash (>= 1.0)
 Standards-Version: 3.9.6
 Vcs-Browser: http://git.kolabsys.com/apt/kolab/
 Vcs-Git: git://git.kolabsys.com/git/apt/kolab

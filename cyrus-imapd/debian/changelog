@@ -1,3 +1,9 @@
+cyrus-imapd (2.5.8-0~kolab22.1) unstable; urgency=low
+
+  * Check in a snapshot version 22 revisions ahead of the upstream 2.5.8 release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  7 Jul 2016 11:30:13 +0100
+
 cyrus-imapd (2.5.8-0~kolab12.1) unstable; urgency=low
 
   * Check in a snapshot version 12 revisions ahead of the upstream 2.5.8 release

@@ -23,7 +23,7 @@ Build-Depends:  autotools-dev,
                 python-icalendar,
                 python-minimal,
                 python-nose,
-                univention-config-dev | bash
+                univention-config-dev | bash (>= 1.0)
 Standards-Version: 3.9.3
 Homepage: http://www.kolab.org
 Vcs-Git: git://git.kolab.org/git/pykolab
@@ -44,7 +44,7 @@ Depends:    adduser (>= 3.11),
             ${misc:Depends},
             ${shlibs:Depends},
             ${ucs:Depends}
-Description: Kolab Groupware daemon and utilities                                                                                          
+Description: Kolab Groupware daemon and utilities
  Python implementation of the Kolab Groupware server
 
 Package: kolab-cli

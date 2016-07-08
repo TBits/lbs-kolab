@@ -21,7 +21,7 @@
 %global _cyrexecdir %{_exec_prefix}/lib/%{_name}
 
 %global real_version 2.5.8
-%global snapshot_version 12
+%global snapshot_version 22
 %global dot_snapshot_version %{?snapshot_version:.%{snapshot_version}}
 
 ##
@@ -753,6 +753,9 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Thu Jul  7 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.8.22-1
+- Check in 22 revisions ahead of upstream 2.5.8 release
+
 * Thu Jun 02 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.8.12-1
 - Check in 12 revisions ahead of upstream 2.5.8 release
 

@@ -10,13 +10,13 @@ Standards-Version: 3.9.6
 Vcs-Browser: http://git.kolabsys.com/apt/kolab/
 Vcs-Git: git://git.kolabsys.com/git/apt/kolab
 Build-Depends: debhelper (>= 8),
-    univention-config-dev | bash
-Package-List: 
+    univention-config-dev | bash (>= 1.0)
+Package-List:
  kolab deb mail extra
  kolab-imap deb mail extra
  kolab-ldap deb mail extra
  kolab-mta deb mail extra
  kolab-webclient deb mail extra
-Files: 
+Files:
  00000000000000000000000000000000 0 kolab-16.0.1.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

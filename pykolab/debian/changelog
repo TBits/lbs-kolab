@@ -1,3 +1,9 @@
+pykolab (0.8.2-0~kolab1) unstable; urgency=low
+
+  * Release of 0.8.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  7 Jul 2016 01:49:00 +0100
+
 pykolab (0.8.1-0~kolab1) unstable; urgency=low
 
   * Fix setup
@@ -32,7 +38,7 @@ pykolab (0.7.14-0~kolab4) unstable; urgency=low
 
   * Leave changes related to #4459 in, dpkg-source cannot deal with them
 
- -- Christoph Wickert <wickert@kolabsys.com>  Mon, Jun 08 2015 17:30:46 +0200
+ -- Christoph Wickert <wickert@kolabsys.com>  Mon, 08 Jun 2015 17:30:46 +0200
 
 pykolab (0.7.14-0~kolab3) unstable; urgency=low
 
@@ -41,7 +47,7 @@ pykolab (0.7.14-0~kolab3) unstable; urgency=low
   * Fix lock check after changed in rP929e67a6
   * Make 'kolab sync' properly create mailboxes (#3975)
 
- -- Christoph Wickert <wickert@kolabsys.com>  Mon, Jun 08 2015 16:42:47 +0200
+ -- Christoph Wickert <wickert@kolabsys.com>  Mon, 08 Jun 2015 16:42:47 +0200
 
 pykolab (0.7.14-0~kolab2) unstable; urgency=low
 

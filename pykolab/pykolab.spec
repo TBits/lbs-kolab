@@ -28,17 +28,16 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.1
-Release:            2%{?dist}
+Version:            0.8.2
+Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
 
-Source0:            pykolab-0.8.1.tar.gz
+Source0:            pykolab-0.8.2.tar.gz
 Source1:            pykolab.logrotate
 
-Patch0001:          0001-Use-the-correct-constants-import-and-__version__-val.patch
-Patch0002:          0002-ID-directly-after-authentication-before-asking-for-a.patch
+Patch0001:          pykolab-0.8-patch-out-manticore.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -232,8 +231,9 @@ This is the Kolab Content Filter, with plugins
 %prep
 %setup -q
 
+%if 0%{?kolab_enterprise}
 %patch0001 -p1
-%patch0002 -p1
+%endif
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -279,6 +279,10 @@ mkdir -p %{buildroot}/%{_sysconfdir}/sysconfig
 
 %if 0%{?suse_version}
 %fdupes %{buildroot}/%{python_sitelib}
+%endif
+
+%if 0%{?kolab_enterprise}
+rm -rf %{buildroot}%{python_sitelib}/pykolab/setup/setup_manticore.py*
 %endif
 
 %pre
