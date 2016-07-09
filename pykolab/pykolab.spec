@@ -38,6 +38,7 @@ Source0:            pykolab-0.8.2.tar.gz
 Source1:            pykolab.logrotate
 
 Patch0001:          pykolab-0.8-patch-out-manticore.patch
+Patch0002:          0001-Call-the-correct-functions.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -234,6 +235,8 @@ This is the Kolab Content Filter, with plugins
 %if 0%{?kolab_enterprise}
 %patch0001 -p1
 %endif
+
+%patch0002 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
