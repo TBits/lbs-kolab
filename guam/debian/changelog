@@ -1,3 +1,9 @@
+guam (0.8.2-2) unstable; urgency=medium
+
+  * Fix T1345
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Fri,  8 Jul 2016 06:06:06 +0600
+
 guam (0.8.2-1) unstable; urgency=medium
 
   * Release of 0.8.2

@@ -1,0 +1,135 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 5f04931..4c0e9c0 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -13,6 +13,24 @@ This project adheres to [Semantic Versioning](http://semver.org/).
+ ### Fixed
+ ### Security
+ 
++## [0.8.2] - 2016-07-08
++### Added
++- listener_pool_size configuration option for listeners
++### Changed
++- Default size of listener pool drops to 10 from 20
++- Rate limit (by introducing a short wait) connection accept()s
++### Fixed
++- Prevent starvation of the session pool due to clients dropping connections
++  pre-accept()
++
++## [0.8.1] - 2016-07-06
++### Added
++- ipv6 connections
++### Changed
++- update to eimap 0.2.5
++### Fixed
++- Ignore non-listing LIST commands (e.g. requests for the root/separator)
++- Tidy up the server greetings
+ 
+ ## [0.8.0] - 2016-06-08
+ ### Added
+diff --git a/apps/kolab_guam/src/kolab_guam_listener.erl b/apps/kolab_guam/src/kolab_guam_listener.erl
+index e6eed61..9287eb7 100644
+--- a/apps/kolab_guam/src/kolab_guam_listener.erl
++++ b/apps/kolab_guam/src/kolab_guam_listener.erl
+@@ -78,7 +78,7 @@ listen_options(Iface, Hostname, ImplicitTLS, TLSConfig) ->
+ 
+ default_listen_options(true, TLSConfig) -> default_listen_options() ++ TLSConfig;
+ default_listen_options(_ImplicitTLS, _Config) -> default_listen_options().
+-default_listen_options() -> [ { reuseaddr, true }, {active, once }, inet6 ].
++default_listen_options() -> [ { reuseaddr, true }, {active, false}, inet6 ].
+ 
+ create_initial_listeners(ListenerPoolSize, PID) when is_pid(PID) ->
+     lager:debug("Creating session pool of size ~p for listener ~p", [ListenerPoolSize, PID]),
+diff --git a/apps/kolab_guam/src/kolab_guam_session.erl b/apps/kolab_guam/src/kolab_guam_session.erl
+index 2c3bc1a..4db902d 100644
+--- a/apps/kolab_guam/src/kolab_guam_session.erl
++++ b/apps/kolab_guam/src/kolab_guam_session.erl
+@@ -26,7 +26,7 @@
+ -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+ 
+ %% state record definition
+--record(state, { socket, super_pid, tls_config = [], client_implicit_tls = false, client_tls_active = false, server_config = [],
++-record(state, { listen_socket, socket = undefined, super_pid, tls_config = [], client_implicit_tls = false, client_tls_active = false, server_config = [],
+                  rules_active = [], rules_deciding = [], imap_session, inflator, deflator }).
+ 
+ %% public API
+@@ -40,18 +40,18 @@ init([SupervisorPID, ListenSocket, ServerConfig, ImplicitTLS, TLSConfig, Rules])
+     ActiveRules = init_rules(Rules),
+     gen_server:cast(self(), accept),
+     %% lager:debug("Rules are ~p from ~p", [ActiveRules, Rules]),
+-    { ok, #state{ socket = ListenSocket, super_pid = SupervisorPID, client_implicit_tls = ImplicitTLS, tls_config = TLSConfig, server_config = ServerConfig, rules_deciding = ActiveRules } }.
++    { ok, #state{ listen_socket = ListenSocket, super_pid = SupervisorPID, client_implicit_tls = ImplicitTLS, tls_config = TLSConfig, server_config = ServerConfig, rules_deciding = ActiveRules } }.
+ 
+ handle_call(_Request, _From, State) ->
+     { reply, ok, State }.
+ 
+-handle_cast(accept, State = #state{ socket = ListenSocket, server_config = ServerConfig }) ->
++handle_cast(accept, State = #state{ server_config = ServerConfig } = State) ->
+     %% try to rate limit our responses a bit here so that hammering the socket with connections is survivable
+     timer:sleep(3),
+-    { ok, AcceptSocket, TLSActive } = accept_client(ListenSocket, State),
++    { ok, AcceptSocket, TLSActive } = accept_client(State),
+     { ok, ImapSession } = eimap:start_link(ServerConfig),
+     eimap:connect(ImapSession, self(), server_hello),
+-    { noreply, State#state{ socket = AcceptSocket, imap_session = ImapSession, client_tls_active = TLSActive } };
++    { noreply, State#state{ listen_socket = undefined, socket = AcceptSocket, imap_session = ImapSession, client_tls_active = TLSActive } };
+ handle_cast(_Msg, State) ->
+     { noreply, State }.
+ 
+@@ -108,18 +108,18 @@ handle_info(Info, State) ->
+     lager:debug("Received unexpected info... ~p", [Info]),
+     { noreply, State }.
+ 
+-terminate(_Reason, #state{ inflator = Inflator, deflator = Deflator, socket = Socket, client_tls_active = TLS }) ->
++terminate(_Reason, #state{ inflator = Inflator, deflator = Deflator, socket = Socket, client_implicit_tls = ImplicitTLS, client_tls_active = TLS }) ->
+     %lager:debug("Termination!~p", [self()]),
+     close_zlib_handle(Inflator),
+     close_zlib_handle(Deflator),
+-    close_socket(TLS, Socket),
++    close_socket(ImplicitTLS, TLS, Socket),
+     ok.
+ 
+ code_change(_OldVsn, State, _Extra) ->
+     { ok, State }.
+ 
+ %% private API
+-accept_client(ListenSocket, #state{ client_implicit_tls = true, super_pid = SupervisorPID }) ->
++accept_client(#state{ client_implicit_tls = true, listen_socket = ListenSocket, super_pid = SupervisorPID }) ->
+     AcceptResult = ssl:transport_accept(ListenSocket),
+     AcceptSocket = post_accept_bookkeeping(implicit_tls, ListenSocket, SupervisorPID, AcceptResult),
+     %% prep for the next listen
+@@ -127,7 +127,7 @@ accept_client(ListenSocket, #state{ client_implicit_tls = true, super_pid = Supe
+     ok = ssl:setopts(AcceptSocket, [{ active, once }, { mode, binary }]),
+     % lager:info("~p All done!", [self()]),
+     { ok, AcceptSocket, true };
+-accept_client(ListenSocket, #state{ super_pid = SupervisorPID }) ->
++accept_client(#state{ listen_socket = ListenSocket, super_pid = SupervisorPID }) ->
+     AcceptResult = gen_tcp:accept(ListenSocket),
+     AcceptSocket = post_accept_bookkeeping(no_implicit_tls, ListenSocket, SupervisorPID, AcceptResult),
+     ok = inet:setopts(AcceptSocket, [{ active, once }, { mode, binary }]),
+@@ -136,11 +136,6 @@ accept_client(ListenSocket, #state{ super_pid = SupervisorPID }) ->
+ post_accept_bookkeeping(ImplicitTls, ListenSocket, SupervisorPID, AcceptResult) ->
+     %% start a new accepting process to replace this one, which is now in use
+     supervisor:start_child(SupervisorPID, []),
+-    %% prep for the next listen
+-    case ImplicitTls of
+-        implicit_tls -> ok = ssl:setopts(ListenSocket, [{ active, once }, { mode, binary }]);
+-        _ -> ok = inet:setopts(ListenSocket, [{ active, once }])
+-    end,
+     %% assert that the accept worked
+     { ok, AcceptSocket } = AcceptResult,
+     AcceptSocket.
+@@ -148,9 +143,10 @@ post_accept_bookkeeping(ImplicitTls, ListenSocket, SupervisorPID, AcceptResult)
+ close_zlib_handle(undefined) -> ok;
+ close_zlib_handle(Z) -> zlib:close(Z).
+ 
+-close_socket(_TLS, undefined) -> ok;
+-close_socket(true, Socket) -> ssl:close(Socket);
+-close_socket(_TLS, Socket) -> gen_tcp:close(Socket).
++close_socket(_ImplicitTLS, _TLS, undefined) -> ok;
++close_socket(_ImplicitTLS, true, Socket) -> ssl:close(Socket);
++close_socket(true, _TLS, Socket) -> ssl:close(Socket);
++close_socket(_ImplicitTLS, _TLS, Socket) -> gen_tcp:close(Socket).
+ 
+ process_client_data(Socket, Data, #state{ rules_deciding = UndecidedRules, tls_config = TLSConfig, client_tls_active = TLS, rules_active = ActiveRules, socket = Socket, imap_session = ImapSession, inflator = Inflator, deflator = Deflator, server_config = ServerConfig } = State) ->
+     %%TODO: multipacket input from clients

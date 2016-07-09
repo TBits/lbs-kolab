@@ -1,1 +1,2 @@
 guam-0.8.2-relax-dependencies.patch -p1
+guam-0.8.2-T1345.patch -p1
