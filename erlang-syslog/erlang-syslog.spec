@@ -36,6 +36,7 @@ rebar doc -v
 %install
 install -p -m 0644 -D ebin/%{realname}.app %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
 install -p -m 0644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin
+install -p -m 0644 -D priv/syslog_drv.so %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/priv/syslog_drv.so
 
 
 %files
@@ -44,6 +45,7 @@ install -p -m 0644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{v
 %dir %{_libdir}/erlang/lib/%{realname}-%{version}/ebin
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
+%{_libdir}/erlang/lib/%{realname}-%{version}/priv/*.so
 
 
 %changelog
