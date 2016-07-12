@@ -93,6 +93,7 @@ Requires:       clamav-server-systemd
 %else
 Requires:       clamav-server-sysvinit
 %endif
+Requires:       clamav-update
 
 Requires:       postfix
 Requires:       postfix-kolab
