@@ -1,0 +1,28 @@
+From 6d3a416cdf6d5652e30622362b278178158267b3 Mon Sep 17 00:00:00 2001
+From: Hynek Vychodil <vychodil.hynek@gmail.com>
+Date: Fri, 19 Feb 2016 21:11:14 +0100
+Subject: [PATCH 3/3] Fix R18 erlang:now() deprecation warning
+
+---
+ src/js_benchmark.erl | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/src/js_benchmark.erl b/src/js_benchmark.erl
+index 5b92553..9df663d 100644
+--- a/src/js_benchmark.erl
++++ b/src/js_benchmark.erl
+@@ -38,9 +38,8 @@ run() ->
+ %% @private
+ time_calls(Ctx, Count) ->
+     io:format("Starting: ~p~n", [Count]),
+-    Start = erlang:now(),
+-    do_calls(Ctx, Count),
+-    timer:now_diff(erlang:now(), Start) / Count.
++    {Elapsed, _} = timer:tc(fun do_calls/2, [Ctx, Count]),
++    Elapsed / Count.
+ 
+ %% @private
+ do_calls(_Ctx, 0) ->
+-- 
+2.7.4
+

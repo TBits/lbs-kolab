@@ -3,23 +3,18 @@
 %endif
 
 %global realname clique
-%global upstream basho
 %global debug_package %{nil}
-%global git_tag ce3bdf7
-%global patchnumber 0
-
 
 Name:		erlang-%{realname}
-Version:	0.3.0
+Version:	0.3.6
 Release:	1%{?dist}
 Summary:	Distributed systems infrastructure used by Riak
 Group:		Development/Languages
 License:	ASL 2.0
 URL:		https://github.com/basho/clique
-# wget --content-disposition https://github.com/basho/clique/tarball/0.3.0
-Source0:	%{upstream}-%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+# wget --content-disposition https://github.com/basho/clique/archive/0.3.6.tar.gz
+Source0:	%{realname}-%{version}.tar.gz
 
-Patch1:     erlang-clique-0.3.0-set-version.patch
 # Required for unit-tests only (if you're not interested in a compile-time
 # testing then you may remove these lines):
 BuildRequires:	erlang-cuttlefish
@@ -39,8 +34,8 @@ Distributed systems infrastructure used by Riak.
 
 
 %prep
-%setup -q -n %{upstream}-%{realname}-ce3bdf7
-%patch1 -p1
+%setup -q -n %{realname}-%{version}
+sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
 
 
 %build

@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-riak
-Version:        2.1.0
+Version:        2.5.4
 Release:        1%{?dist}
 Summary:        Python client library for Riak
 

@@ -4,16 +4,16 @@
 
 
 Name:		erlang-%{realname}
-Version:	1.7.2
+Version:	1.7.3
 Release:	1%{?dist}
 Summary:	Erlang library and packrat parser-generator for parsing expression grammars
 Group:		Development/Languages
 License:	MIT
-URL:		http://github.com/%{upstream}/%{realname}
-%if 0%{?el7}%{?fedora}
-VCS:		scm:git:https://github.com/%{upstream}/%{realname}.git
-%endif
-Source0:	https://github.com/%{upstream}/%{realname}/archive/%{version}/%{realname}-%{version}.tar.gz
+URL:		http://github.com/seancribbs/neotoma
+
+# wget --content-disposition https://github.com/seancribbs/neotoma/archive/1.7.3.tar.gz
+Source0:	%{realname}-%{version}.tar.gz
+
 BuildRequires:	erlang-rebar
 # ets:insert/2 ( >= R12B-5 )
 # ets:insert_new/2 ( >= R12B-5 )

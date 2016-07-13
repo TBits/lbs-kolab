@@ -3,24 +3,20 @@
 %endif
 
 %global realname riak_pipe
-%global upstream basho
 %global debug_package %{nil}
-%global git_tag 3c0abc7
-%global patchnumber 0
-
 
 Name:		erlang-%{realname}
-Version:	2.1.0
+Version:	2.1.1
 Release:	1%{?dist}
 Summary:	Riak Pipelines
 Group:		Development/Languages
 License:	ASL 2.0
 URL:		https://github.com/basho/riak_pipe
-%if 0%{?rhel} > 6 || 0%{?fedora}
-VCS:		https://github.com/basho/riak_pipe.git
-%endif
-# wget --content-disposition https://github.com/basho/riak_pipe/tarball/2.1.0
-Source0:	%{upstream}-%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+# wget --content-disposition https://github.com/basho/riak_pipe/archive/2.1.1.tar.gz
+Source0:	%{realname}-%{version}.tar.gz
+
+Patch1:     erlang-riak_pipe-2.1.1-otp-18.3-compat.patch
+
 BuildRequires:	erlang-rebar
 BuildRequires:	erlang-os_mon
 BuildRequires:	erlang-riak_core >= 2.1.0
@@ -41,9 +37,9 @@ Riak Pipelines.
 
 
 %prep
-%setup -q -n %{upstream}-%{realname}-2b2a052
+%setup -q -n %{realname}-%{version}
 sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
-
+%patch1 -p1
 
 %build
 rebar compile -v

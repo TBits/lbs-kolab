@@ -3,21 +3,17 @@
 %endif
 
 %global realname protobuffs
-%global upstream basho
 %global debug_package %{nil}
-%global git_tag 839e441
-%global patchnumber 0
-
 
 Name:		erlang-%{realname}
-Version:	0.8.0
-Release:	5%{?dist}
+Version:	0.8.4
+Release:	1%{?dist}
 Summary:	A set of Protocol Buffers tools and modules for Erlang applications
 Group:		Development/Libraries
 License:	MIT
 URL:		http://github.com/basho/erlang_protobuffs
-# wget --content-disposition https://github.com/basho/erlang_protobuffs/tarball/0.7.0
-Source0:	%{upstream}-erlang_%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+# wget --content-disposition https://github.com/basho/erlang_protobuffs/archive/0.8.4.tar.gz
+Source0:	erlang_%{realname}-%{version}.tar.gz
 BuildRequires:	erlang-meck
 BuildRequires:	erlang-rebar
 # This is actually a rebar-related issue, see rhbz #960079
@@ -39,7 +35,8 @@ A set of Protocol Buffers tools and modules for Erlang applications.
 
 
 %prep
-%setup -q -n %{upstream}-erlang_%{realname}-147f036
+%setup -q -n erlang_%{realname}-%{version}
+sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
 
 
 %build
@@ -47,19 +44,18 @@ rebar compile -v
 
 
 %install
+find . -type f | sort
 install -d %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/.eunit/
 install -d %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -m 644 ebin/pokemon_pb.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -m 644 ebin/%{realname}.app %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -m 644 ebin/%{realname}.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
+install -m 644 ebin/%{realname}_cli.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -m 644 ebin/%{realname}_compile.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -m 644 ebin/%{realname}_file.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -m 644 ebin/%{realname}_parser.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -m 644 ebin/%{realname}_scanner.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -m 644 rebar.config %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/
-# Install Erlang protobuf compiler script
-install -D -p -m 755 bin/protoc-erl %{buildroot}%{_bindir}/protoc-erl
-
 
 %check
 # Escape tests for coverage enabled issues, but disable coverage anyway
@@ -69,14 +65,14 @@ rebar ct skip_deps=true -v || :
 
 
 %files
-%doc AUTHORS README.markdown
+%doc AUTHORS README.md
 %dir %{_libdir}/erlang/lib/%{realname}-%{version}/
 %dir %{_libdir}/erlang/lib/%{realname}-%{version}/.eunit
 %dir %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
-%{_bindir}/protoc-erl
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/pokemon_pb.beam
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.beam
+%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}_cli.beam
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}_compile.beam
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}_file.beam
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}_parser.beam

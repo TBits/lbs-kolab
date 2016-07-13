@@ -14,36 +14,17 @@
 
 
 Name:		erlang-%{realname}
-Version:	2.1.0
+Version:	2.1.2
 Release:	1%{?dist}
 Summary:	Riak Key/Value Store
 Group:		Development/Languages
 License:	ASL 2.0
 URL:		https://github.com/basho/riak_kv
-VCS:		https://github.com/basho/riak_kv.git
 Source0:	https://github.com/basho/riak_kv/archive/%{version}/%{realname}-%{version}.tar.gz
 # Fedora/EPEL specific patch
 Patch1:		erlang-riak_kv-0001-Use-system-wide-mochijson2.patch
-# Will be proposed for inclusion to upstream
-Patch2:		erlang-riak_kv-0002-Guard-eunit-include-to-prevent-automatic-dependency-.patch
-# https://github.com/basho/riak_kv/pull/469
-Patch3:		erlang-riak_kv-0003-use-tuple-modules-instead-of-parameterized-modules.patch
-# Fedora/EPEL specific patch
-Patch4:		erlang-riak_kv-0004-Don-t-fail-on-warnings.patch
-# Fedora/EPEL specific patch
-Patch5:		erlang-riak_kv-0005-Relax-dependency-checks.patch
-# Backported from upstream
-Patch6:		erlang-riak_kv-0006-Move-setting-bucket-properties-to-riak_api-see-basho.patch
-# Fedora/EPEL specific patch
-Patch7:		erlang-riak_kv-0007-Fix-module-loading-order-for-tests.patch
-# Backported from upstream
-Patch8:		erlang-riak_kv-0008-migrate-mapred_test-to-riak_test.patch
-# Fedora/EPEL specific patch
-Patch9:		erlang-riak_kv-0009-Allow-building-against-bitcask-1.6.3.patch
-# Fedora/EPEL specific patch
-Patch10:	erlang-riak_kv-0010-Fix-for-Erlang-R16B01.patch
-
-Patch11:    erlang-riak_kv-2.1.0-default-storage-backend-memory.patch
+Patch2:     erlang-riak_kv-2.1.0-default-storage-backend-memory.patch
+Patch3:     erlang-riak_kv-2.1.2-otp-18.3-compat.patch
 
 BuildRequires:	erlang-bitcask >= 1.6.2
 BuildRequires:	erlang-ebloom >= 1.1.2
@@ -99,22 +80,11 @@ Riak Key/Value Store.
 %setup -q -n %{realname}-%{version}
 sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
 %patch1 -p1 -b .systemwide_mochijson2
-#%patch2 -p1 -b .noeunit
-# reverse
-#%patch3 -p1 -b .r16
-#%patch4 -p1 -b .dont_fail_on_warn
-#%patch5 -p1 -b .relax_deps
-# reverse
-#%patch6 -p1 -b .fix_pb
-#%patch7 -p1 -b .fix_order
-# reverse
-#%patch8 -p1 -b .remove_problematic_fragile_test_suite
-#%patch9 -p1 -b .relax_bitcask_ver
-#%patch10 -p1 -b .r16b01
+%patch2 -p1 -b .memory_storage
+%patch3 -p1 -b .otp_183_compat
+
 # remove bundled rebar copy - just to be absolutely sure
 rm -f ./rebar
-
-%patch11 -p1 -b .storage-backend-memory
 
 %build
 rebar compile -v

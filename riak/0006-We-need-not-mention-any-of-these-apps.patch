@@ -1,0 +1,47 @@
+From b7442f56e398e0b2e529f91660d65e1a035d850e Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Tue, 12 Jul 2016 15:46:35 +0200
+Subject: [PATCH 6/7] We need not mention any of these apps
+
+---
+ rel/reltool.config | 24 +-----------------------
+ 1 file changed, 1 insertion(+), 23 deletions(-)
+
+diff --git a/rel/reltool.config b/rel/reltool.config
+index 5b61414..de3f53b 100644
+--- a/rel/reltool.config
++++ b/rel/reltool.config
+@@ -9,29 +9,7 @@
+                            "^erts.*/bin/(dialyzer|typer)",
+                            "^erts.*/doc",
+                            "^erts.*/man"]},
+-       {excl_archive_filters, [".*"]},
+-       {app, mnesia, [{incl_app_filters, ["ebin/*"]}]},
+-       {app, cuttlefish, [{incl_cond, include}]},
+-       {app, cluster_info, [{incl_cond, include}]},
+-       {app, erlang_js, [{incl_cond, include}]},
+-       {app, riaknostic, [{incl_cond, include}]},
+-       {app, bitcask, [{incl_cond, include}]},
+-       {app, clique, [{incl_cond, include}]},
+-       {app, riak_core, [{incl_cond, include}]},
+-       {app, riak_pipe, [{incl_cond, include}]},
+-       {app, riak_kv, [{incl_cond, include}]},
+-       {app, riak_search, [{incl_cond, include}]},
+-       {app, yokozuna, [{incl_cond, include}]},
+-       {app, eper, [{incl_cond, include}]},
+-       {app, sasl, [{incl_cond, include}]},
+-       {app, syslog, [{incl_cond, include}]},
+-       {app, lager_syslog, [{incl_cond, include}]},
+-       {app, lager, [{incl_cond, include}]},
+-       {app, riak_control, [{incl_cond, include}]},
+-       {app, exometer_core, [{incl_cond, include}]},
+-       {app, riak_api, [{incl_cond, include}]},
+-       {app, folsom, [{incl_cond, include}]},
+-       {app, riak_ensemble, [{incl_cond, include}]}
++       {excl_archive_filters, [".*"]}
+       ]}.
+ 
+ 
+-- 
+2.7.4
+

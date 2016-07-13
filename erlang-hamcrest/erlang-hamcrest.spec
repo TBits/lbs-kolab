@@ -1,27 +1,23 @@
-
 %if 0%{?opensuse_bs}
 #!BuildIgnore:  ghostscript-x11
 %endif
 
 %global realname hamcrest
-%global upstream hyperthunk
-# Techincally, we're noarch; but erlang whose directories we install into is not.
 %global debug_package %{nil}
-%global git_tag 01e21ec
-%global patchnumber 0
-
 
 Name:           erlang-%{realname}
-Version:        0.1.0
+Version:        0.3.0
 Release:        1%{?dist}
 Summary:        Hamcrest for Erlang
 Group:          Development/Libraries
 License:        ASL 2.0
-URL:            http://hyperthunk.github.com/hamcrest-erlang/
-# wget --content-disposition https://github.com/hyperthunk/hamcrest-erlang/tarball/0.1.0
-Source0:	    %{upstream}-%{realname}-erlang-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+# Original
+#URL:            https://github.com/hyperthunk/hamcrest-erlang/
+# Fork
+URL:            https://github.com/basho/hamcrest-erlang
 
-Patch1:         relax-proper-dep.patch
+# wget --content-disposition https://github.com/basho/hamcrest-erlang/archive/0.3.0-basho.tar.gz
+Source0:	    %{realname}-erlang-%{version}-basho.tar.gz
 
 BuildRequires:  erlang-rebar
 BuildRequires:  erlang-proper
@@ -41,9 +37,7 @@ used in testing, you can also perform some basic validations on the mocked
 modules, such as making sure no function is called in a way it should not.
 
 %prep
-%setup -q -n %{upstream}-%{realname}-erlang-4002aa0
-
-%patch1 -p1
+%setup -q -n %{realname}-erlang-%{version}-basho
 
 %build
 rebar compile -v

@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=riak
 Group=riak
-LimitNOFILE=16384
+LimitNOFILE=65536
 Type=forking
 StandardOutput=journal
 StandardError=journal

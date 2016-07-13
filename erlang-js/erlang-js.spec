@@ -19,14 +19,25 @@ URL:		http://github.com/%{upstream}/%{realname}
 VCS:		scm:git:https://github.com/%{upstream}/%{realname}.git
 %endif
 Source0:	https://github.com/%{upstream}/%{realname}/archive/%{version}/%{realname}-%{version}.tar.gz
+
 # Fedora-specific
 Patch1:		erlang-js-0001-Fix-building-of-linked-in-driver.patch
+
 # Fedora-specific
 Patch2:		erlang-js-0002-build-fix-for-js-1.8.5.patch
+
 # Fedora-specific
 Patch3:		erlang-js-0003-Use-mochiweb-instead-of-a-bundled-copies.patch
+
 # Fedora-specific
 Patch4:		erlang-js-0004-Replace-deprecated-driver_output_term-with-erl_drv_o.patch
+
+# Upstream format-patch develop/1.3.0
+Patch0006:  erlang-js-0006-Fix-R18-erlang-now-deprecation-warning.patch
+
+# From https://github.com/basho/erlang_js/pull/58
+Patch58:    erlang-js-1.3.0-otp-18.3-compat.patch
+
 BuildRequires:	erlang-rebar
 BuildRequires:	erlang-rpm-macros >= 0.1.4
 BuildRequires:	erlang-mochiweb
@@ -53,6 +64,9 @@ rm -f c_src/nsprpub-4.8.tar.gz
 %patch3 -p1 -b .use_globally_available_mochiweb
 %patch4 -p1 -b .fix_deprecated
 
+%patch0006 -p1
+
+%patch58 -p1
 
 %build
 rebar compile -vv

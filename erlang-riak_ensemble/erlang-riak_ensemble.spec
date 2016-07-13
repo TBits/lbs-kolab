@@ -4,23 +4,22 @@
 %endif
 
 %global realname riak_ensemble
-%global upstream basho
 %global debug_package %{nil}
-%global git_tag a69f484
-%global patchnumber 0
 
 
 Name:		erlang-%{realname}
-Version:	2.1.0
+Version:	2.1.2
 Release:	1%{?dist}
 Summary:	Distributed systems infrastructure used by Riak
 Group:		Development/Languages
 License:	ASL 2.0
-URL:		https://github.com/basho/riak_core
-# wget --content-disposition https://github.com/basho/riak_ensemble/tarball/2.1.0
-Source0:	%{upstream}-%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+URL:		https://github.com/basho/riak_ensemble
 
-Patch1:     erlang-riak_ensemble-relax-lager-dep.patch
+# wget --content-disposition https://github.com/basho/riak_ensemble/archive/2.1.2.tar.gz
+Source0:	%{realname}-%{version}.tar.gz
+
+Patch1:     erlang-riak_ensemble-2.1.2-relax-lager-dep.patch
+Patch2:     erlang-riak_ensemble-2.1.2-otp-18.3-compat.patch
 
 # Required for unit-tests only (if you're not interested in a compile-time
 # testing then you may remove these lines):
@@ -41,9 +40,10 @@ Distributed systems infrastructure used by Riak.
 
 
 %prep
-%setup -q -n %{upstream}-%{realname}-b346be0
+%setup -q -n %{realname}-%{version}
 sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
 %patch1 -p1
+%patch2 -p1
 
 %build
 rebar compile -v

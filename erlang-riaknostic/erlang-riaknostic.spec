@@ -3,18 +3,11 @@
 %endif
 
 %global realname riaknostic
-#
-# This package contains only arch-independent data but install it into
-# arch-dependent directory thus making this package arch-dependent. In order to
-# suppress empty *-debuginfo generation we have to explicitly order
-# debuginfo-generator to skip trying to build *-debuiginfo for that package.
-#
 %global debug_package %{nil}
-%global patchnumber 0
 
 
 Name:		erlang-%{realname}
-Version:	2.0.1
+Version:	2.1.3
 Release:	1%{?dist}
 Summary:	A diagnostic tool for Riak installations
 Group:		Development/Languages
@@ -23,9 +16,10 @@ URL:		https://github.com/basho/riaknostic
 %if 0%{?rhel} > 6 || 0%{?fedora}
 VCS:		https://github.com/basho/riaknostic.git
 %endif
+# wget --content-disposition https://github.com/basho/riaknostic/archive/2.1.3.tar.gz
 Source0:	https://github.com/basho/riaknostic/archive/%{version}/%{realname}-%{version}.tar.gz
 
-Patch1:     erlang-riaknostic-2.0.1-relax-deps.patch
+Patch1:     erlang-riaknostic-2.1.3-relax-lager-dep.patch
 
 BuildRequires:	erlang-getopt
 BuildRequires:  erlang-goldrush
@@ -53,6 +47,7 @@ be used via the riak-admin script.
 %prep
 %setup -q -n %{realname}-%{version}
 sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
+
 %patch1 -p1
 
 %build

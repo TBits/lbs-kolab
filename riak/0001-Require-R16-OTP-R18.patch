@@ -1,0 +1,39 @@
+From ef18c159074c845932a8ed1cd406628c0600c868 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Tue, 12 Jul 2016 14:03:16 +0200
+Subject: [PATCH 1/7] Require R16 <= OTP <= R18
+
+---
+ rebar.config      | 2 +-
+ rebar.config.lock | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/rebar.config b/rebar.config
+index fd05886..784c174 100644
+--- a/rebar.config
++++ b/rebar.config
+@@ -1,7 +1,7 @@
+ %% -*- mode: erlang;erlang-indent-level: 4;indent-tabs-mode: nil -*-
+ {sub_dirs, ["rel", "apps/riak"]}.
+ 
+-{require_otp_vsn, "R16|17"}.
++{require_otp_vsn, "R16|17|18"}.
+ {cover_enabled, true}.
+ 
+ {lib_dirs, ["apps/riak"]}.
+diff --git a/rebar.config.lock b/rebar.config.lock
+index 4e22368..cdb3738 100644
+--- a/rebar.config.lock
++++ b/rebar.config.lock
+@@ -1,7 +1,7 @@
+ %% THIS FILE IS GENERATED. DO NOT EDIT IT MANUALLY %%
+ 
+ {sub_dirs,["rel","apps/riak"]}.
+-{require_otp_vsn,"R16|17"}.
++{require_otp_vsn,"R16|17|18"}.
+ {cover_enabled,true}.
+ {lib_dirs,["apps/riak"]}.
+ {erl_opts,[debug_info,fail_on_warning]}.
+-- 
+2.7.4
+

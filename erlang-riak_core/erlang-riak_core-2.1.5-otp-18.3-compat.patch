@@ -1,0 +1,188 @@
+diff --git a/src/chashbin.erl b/src/chashbin.erl
+index 54a971b..e0114c5 100644
+--- a/src/chashbin.erl
++++ b/src/chashbin.erl
+@@ -37,7 +37,7 @@
+ 
+ -record(chashbin, {size   :: pos_integer(),
+                    owners :: owners_bin(),
+-                   nodes  :: tuple(node())}).
++                   nodes  :: {node()}}).
+ 
+ -type chashbin() :: #chashbin{}.
+ 
+diff --git a/src/hashtree.erl b/src/hashtree.erl
+index dc72cac..25600b6 100644
+--- a/src/hashtree.erl
++++ b/src/hashtree.erl
+@@ -645,7 +645,7 @@ new_segment_store(Opts, State) ->
+     DataDir = case proplists:get_value(segment_path, Opts) of
+                   undefined ->
+                       Root = "/tmp/anti/level",
+-                      <<P:128/integer>> = md5(term_to_binary({erlang:now(), make_ref()})),
++                      <<P:128/integer>> = md5(term_to_binary({erlang:unique_integer(), make_ref()})),
+                       filename:join(Root, integer_to_list(P));
+                   SegmentPath ->
+                       SegmentPath
+@@ -662,7 +662,7 @@ new_segment_store(Opts, State) ->
+     %% flushed to disk at once when under a heavy uniform load.
+     WriteBufferMin = proplists:get_value(write_buffer_size_min, Config, DefaultWriteBufferMin),
+     WriteBufferMax = proplists:get_value(write_buffer_size_max, Config, DefaultWriteBufferMax),
+-    {Offset, _} = random:uniform_s(1 + WriteBufferMax - WriteBufferMin, now()),
++    {Offset, _} = random:uniform_s(1 + WriteBufferMax - WriteBufferMin, riak_core_util:unique_seed()),
+     WriteBufferSize = WriteBufferMin + Offset,
+     Config2 = orddict:store(write_buffer_size, WriteBufferSize, Config),
+     Config3 = orddict:erase(write_buffer_size_min, Config2),
+diff --git a/src/hashtree_tree.erl b/src/hashtree_tree.erl
+index 2036404..2bdba54 100644
+--- a/src/hashtree_tree.erl
++++ b/src/hashtree_tree.erl
+@@ -565,7 +565,7 @@ data_root(Opts) ->
+     case proplists:get_value(data_dir, Opts) of
+         undefined ->
+             Base = "/tmp/hashtree_tree",
+-            <<P:128/integer>> = riak_core_util:md5(term_to_binary(erlang:now())),
++            <<P:128/integer>> = riak_core_util:md5(term_to_binary(erlang:unique_integer())),
+             filename:join(Base, riak_core_util:integer_to_list(P, 16));
+         Root -> Root
+     end.
+diff --git a/src/riak_core_claimant.erl b/src/riak_core_claimant.erl
+index ca09457..923af0e 100644
+--- a/src/riak_core_claimant.erl
++++ b/src/riak_core_claimant.erl
+@@ -223,7 +223,7 @@ bucket_type_iterator() ->
+ %%%===================================================================
+ 
+ reassign_indices(CState) ->
+-    reassign_indices(CState, [], erlang:now(), fun no_log/2).
++    reassign_indices(CState, [], riak_core_util:unique_seed(), fun no_log/2).
+ 
+ %%%===================================================================
+ %%% Internal API helpers
+@@ -250,7 +250,7 @@ maybe_filter_inactive_type(true, Default, Props) ->
+ 
+ init([]) ->
+     schedule_tick(),
+-    {ok, #state{changes=[], seed=erlang:now()}}.
++    {ok, #state{changes=[], seed=riak_core_util:unique_seed()}}.
+ 
+ handle_call(clear, _From, State) ->
+     State2 = clear_staged(State),
+@@ -388,7 +388,7 @@ commit_staged(State) ->
+         {ok, _} ->
+             State2 = State#state{next_ring=undefined,
+                                  changes=[],
+-                                 seed=erlang:now()},
++                                 seed=riak_core_util:unique_seed()},
+             {ok, State2};
+         not_changed ->
+             {error, State};
+@@ -438,7 +438,7 @@ maybe_commit_staged(Ring, NextRing, #state{next_ring=PlannedRing}) ->
+ %%      call {@link clear/0}.
+ clear_staged(State) ->
+     remove_joining_nodes(),
+-    State#state{changes=[], seed=erlang:now()}.
++    State#state{changes=[], seed=riak_core_util:unique_seed()}.
+ 
+ %% @private
+ remove_joining_nodes() ->
+@@ -662,7 +662,7 @@ maybe_force_ring_update(Ring) ->
+     end.
+ 
+ do_maybe_force_ring_update(Ring) ->
+-    case compute_next_ring([], erlang:now(), Ring) of
++    case compute_next_ring([], riak_core_util:unique_seed(), Ring) of
+         {ok, NextRing} ->
+             case same_plan(Ring, NextRing) of
+                 false ->
+@@ -1109,7 +1109,7 @@ internal_ring_changed(Node, CState) ->
+     %% Set cluster name if it is undefined
+     case {IsClaimant, riak_core_ring:cluster_name(CState5)} of
+         {true, undefined} ->
+-            ClusterName = {Node, erlang:now()},
++            ClusterName = {Node, riak_core_util:unique_seed()},
+             {_,_} = riak_core_util:rpc_every_member(riak_core_ring_manager,
+                                                     set_cluster_name,
+                                                     [ClusterName],
+@@ -1143,7 +1143,7 @@ do_claimant_quiet(Node, CState, Replacing, Seed) ->
+     do_claimant(Node, CState, Replacing, Seed, fun no_log/2).
+ 
+ do_claimant(Node, CState, Log) ->
+-    do_claimant(Node, CState, [], erlang:now(), Log).
++    do_claimant(Node, CState, [], riak_core_util:unique_seed(), Log).
+ 
+ do_claimant(Node, CState, Replacing, Seed, Log) ->
+     AreJoining = are_joining_nodes(CState),
+diff --git a/src/riak_core_gossip.erl b/src/riak_core_gossip.erl
+index d709a50..cfb8169 100644
+--- a/src/riak_core_gossip.erl
++++ b/src/riak_core_gossip.erl
+@@ -397,7 +397,7 @@ log_node_removed(Node, Old) ->
+     lager:info("'~s' removed from cluster (previously: '~s')~n", [Node, Old]).
+ 
+ remove_from_cluster(Ring, ExitingNode) ->
+-    remove_from_cluster(Ring, ExitingNode, erlang:now()).
++    remove_from_cluster(Ring, ExitingNode, riak_core_util:unique_seed()).
+ 
+ remove_from_cluster(Ring, ExitingNode, Seed) ->
+     % Get a list of indices owned by the ExitingNode...
+diff --git a/src/riak_core_ring.erl b/src/riak_core_ring.erl
+index a20e2c2..930b26f 100644
+--- a/src/riak_core_ring.erl
++++ b/src/riak_core_ring.erl
+@@ -357,7 +357,7 @@ fresh(RingSize, NodeName) ->
+     VClock=vclock:increment(NodeName, vclock:fresh()),
+     GossipVsn = riak_core_gossip:gossip_version(),
+     ?CHSTATE{nodename=NodeName,
+-             clustername={NodeName, erlang:now()},
++             clustername={NodeName, riak_core_util:unique_seed()},
+              members=[{NodeName, {valid, VClock, [{gossip_vsn, GossipVsn}]}}],
+              chring=chash:fresh(RingSize, NodeName),
+              next=[],
+diff --git a/src/riak_core_ring_manager.erl b/src/riak_core_ring_manager.erl
+index 2900727..896c4f6 100644
+--- a/src/riak_core_ring_manager.erl
++++ b/src/riak_core_ring_manager.erl
+@@ -222,7 +222,7 @@ force_update() ->
+     ring_trans(
+       fun(Ring, _) ->
+               NewRing = riak_core_ring:update_member_meta(node(), Ring, node(),
+-                                                          unused, now()),
++                                                          unused, riak_core_util:unique_seed()),
+               {new_ring, NewRing}
+       end, []),
+     ok.
+diff --git a/src/riak_core_util.erl b/src/riak_core_util.erl
+index d1b50bf..7089088 100644
+--- a/src/riak_core_util.erl
++++ b/src/riak_core_util.erl
+@@ -67,7 +67,8 @@
+          make_fold_req/4,
+          make_newest_fold_req/1,
+          proxy_spawn/1,
+-         proxy/2
++         proxy/2,
++         unique_seed/0
+         ]).
+ 
+ -include("riak_core_vnode.hrl").
+@@ -942,3 +943,6 @@ proxy_spawn_test() ->
+ 
+ -endif.
+ 
++unique_seed() ->
++    {erlang:unique_integer([positive]), erlang:unique_integer([positive]), 
++     erlang:unique_integer([positive])}.
+diff --git a/src/supervisor_pre_r14b04.erl b/src/supervisor_pre_r14b04.erl
+index d007c92..7b652f4 100644
+--- a/src/supervisor_pre_r14b04.erl
++++ b/src/supervisor_pre_r14b04.erl
+@@ -1188,7 +1188,7 @@ add_restart(State) ->
+     I = State#state.intensity,
+     P = State#state.period,
+     R = State#state.restarts,
+-    Now = erlang:now(),
++    Now = erlang:timestamp(),
+     R1 = add_restart([Now|R], Now, P),
+     State1 = State#state{restarts = R1},
+     case length(R1) of

@@ -1,0 +1,12 @@
+diff -ur riak_ensemble-2.1.2.orig/rebar.config riak_ensemble-2.1.2/rebar.config
+--- riak_ensemble-2.1.2.orig/rebar.config	2015-10-13 23:01:42.000000000 +0200
++++ riak_ensemble-2.1.2/rebar.config	2016-07-12 10:35:39.871969351 +0200
+@@ -8,7 +8,7 @@
+ {cover_enabled, true}.
+ {xref_checks, [undefined_function_calls]}.
+ {deps, [
+-  {lager, "(2.0|2.1|2.2).*", {git, "git://github.com/basho/lager.git", {tag, "2.2.0"}}},
++  {lager, "(2.0|2.1|2.2|3.1).*", {git, "git://github.com/basho/lager.git", {tag, "2.2.0"}}},
+   {eleveldb, ".*", {git, "git://github.com/basho/eleveldb.git", {branch, "2.1"}}}
+ ]}.
+ 

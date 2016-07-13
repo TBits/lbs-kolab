@@ -1,0 +1,365 @@
+diff -ur riak_kv-2.1.2.orig/priv/tracers/tracer_accumulating_time.erl riak_kv-2.1.2/priv/tracers/tracer_accumulating_time.erl
+--- riak_kv-2.1.2.orig/priv/tracers/tracer_accumulating_time.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/priv/tracers/tracer_accumulating_time.erl	2016-07-12 12:53:38.391848208 +0200
+@@ -46,7 +46,7 @@
+     DKey = {Pid, MFA},
+     Start = case dict:find(DKey, Dict) of
+                 {ok, StTime} -> StTime;
+-                error        -> now()
++                error        -> os:timestamp()
+             end,
+     Elapsed = timer:now_diff(TS, Start),
+     SumKey = {sum, MFA},
+diff -ur riak_kv-2.1.2.orig/priv/tracers/tracer_backend_latency.erl riak_kv-2.1.2/priv/tracers/tracer_backend_latency.erl
+--- riak_kv-2.1.2.orig/priv/tracers/tracer_backend_latency.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/priv/tracers/tracer_backend_latency.erl	2016-07-12 12:53:34.238799308 +0200
+@@ -136,7 +136,7 @@
+ trace({trace_ts, Pid, call, {riak_kv_put_fsm, finish, _}, TS}, {Dict, LatencyMS}) ->
+     Start = case dict:find({put, Pid}, Dict) of
+                 {ok, StTime} -> StTime;
+-                error        -> now()
++                error        -> os:timestamp()
+             end,
+     case timer:now_diff(TS, Start) div 1000 of
+         Elapsed when Elapsed > LatencyMS ->
+@@ -150,7 +150,7 @@
+ trace({trace_ts, Pid, call, {riak_kv_get_fsm, finalize, _}, TS}, {Dict, LatencyMS}) ->
+     Start = case dict:find({get, Pid}, Dict) of
+                 {ok, StTime} -> StTime;
+-                error        -> now()
++                error        -> os:timestamp()
+             end,
+     case timer:now_diff(TS, Start) div 1000 of
+         Elapsed when Elapsed > LatencyMS ->
+@@ -165,7 +165,7 @@
+     DKey = {Mod, Pid},
+     Start = case dict:find(DKey, Dict) of
+                 {ok, StTime} -> StTime;
+-                error        -> now()
++                error        -> os:timestamp()
+             end,
+     case timer:now_diff(TS, Start) div 1000 of
+         Elapsed when Elapsed > LatencyMS ->
+diff -ur riak_kv-2.1.2.orig/priv/tracers/tracer_latency_histogram.erl riak_kv-2.1.2/priv/tracers/tracer_latency_histogram.erl
+--- riak_kv-2.1.2.orig/priv/tracers/tracer_latency_histogram.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/priv/tracers/tracer_latency_histogram.erl	2016-07-12 12:51:29.187326920 +0200
+@@ -105,7 +105,7 @@
+     DKey = Pid,
+     Start = case dict:find(DKey, Dict) of
+                 {ok, StTime} -> StTime;
+-                error        -> now()
++                error        -> os:timestamp()
+             end,
+     Elapsed = timer:now_diff(TS, Start) div 1000,
+     folsom_metrics_histogram:update(foo, Elapsed),
+diff -ur riak_kv-2.1.2.orig/priv/tracers/tracer_timeit.erl riak_kv-2.1.2/priv/tracers/tracer_timeit.erl
+--- riak_kv-2.1.2.orig/priv/tracers/tracer_timeit.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/priv/tracers/tracer_timeit.erl	2016-07-12 12:53:06.739475525 +0200
+@@ -43,21 +43,21 @@
+ stop() -> dbg:stop_clear().
+ 
+ trace({trace, Pid, call, {Mod, Fun, _}}, {D, {all, {Count, Max}}}) ->
+-    D2 = orddict:store({Pid, Mod, Fun}, now(), D),
++    D2 = orddict:store({Pid, Mod, Fun}, os:timestamp(), D),
+     {D2, {all, {Count, Max}}};
+ trace({trace, Pid, call, {Mod, Fun, _}},
+       {D, {sample, {N, Max}, {M, K, Total}}}) ->
+     M2 = M+1,
+     Total2 = Total+1,
+     if N == M2 ->
+-            D2 = orddict:store({Pid, Mod, Fun}, now(), D),
++            D2 = orddict:store({Pid, Mod, Fun}, os:timestamp(), D),
+             {D2, {sample, {N, Max}, {0, K, Total2}}};
+        true ->
+             {D, {sample, {N, Max}, {M2, K, Total2}}}
+     end;
+ trace({trace, Pid, call, {Mod, Fun, _}},
+       {D, {threshold, {Millis, Max}, {Over, Total}}}) ->
+-    D2 = orddict:store({Pid, Mod, Fun}, now(), D),
++    D2 = orddict:store({Pid, Mod, Fun}, os:timestamp(), D),
+     {D2, {threshold, {Millis, Max}, {Over, Total+1}}};
+ 
+ trace({trace, Pid, return_from, {Mod, Fun, _}, _Result},
+@@ -66,7 +66,7 @@
+     case orddict:find(Key, D) of
+         {ok, StartTime} ->
+             Count2 = Count+1,
+-            ElapsedUs = timer:now_diff(now(), StartTime),
++            ElapsedUs = timer:now_diff(os:timestamp(), StartTime),
+             ElapsedMs = ElapsedUs/1000,
+             io:format(user, "~p:~p:~p: ~p ms\n", [Pid, Mod, Fun, ElapsedMs]),
+             if Count2 == Max -> stop();
+@@ -82,7 +82,7 @@
+     case orddict:find(Key, D) of
+         {ok, StartTime} ->
+             K2 = K+1,
+-            ElapsedUs = timer:now_diff(now(), StartTime),
++            ElapsedUs = timer:now_diff(os:timestamp(), StartTime),
+             ElapsedMs = ElapsedUs/1000,
+             io:format(user, "[sample ~p/~p] ~p:~p:~p: ~p ms\n",
+                       [K2, Total, Pid, Mod, Fun, ElapsedMs]),
+@@ -98,7 +98,7 @@
+     Key = {Pid, Mod, Fun},
+     case orddict:find(Key, D) of
+         {ok, StartTime} ->
+-            ElapsedUs = timer:now_diff(now(), StartTime),
++            ElapsedUs = timer:now_diff(os:timestamp(), StartTime),
+             ElapsedMs = ElapsedUs / 1000,
+             if ElapsedMs > Millis ->
+                     Over2 = Over+1,
+diff -ur riak_kv-2.1.2.orig/src/riak_index.erl riak_kv-2.1.2/src/riak_index.erl
+--- riak_kv-2.1.2.orig/src/riak_index.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_index.erl	2016-07-12 12:43:57.820008068 +0200
+@@ -235,7 +235,7 @@
+ 
+ %% @spec timestamp() -> integer()
+ %% @doc Get a timestamp, the number of milliseconds returned by
+-%%      erlang:now().
++%%      os:timestamp().
+ timestamp() ->
+     {MegaSeconds,Seconds,MilliSeconds}=os:timestamp(),
+     (MegaSeconds * 1000000000000) + (Seconds * 1000000) + MilliSeconds.
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_2i_aae.erl riak_kv-2.1.2/src/riak_kv_2i_aae.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_2i_aae.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_2i_aae.erl	2016-07-12 12:45:41.128227514 +0200
+@@ -363,7 +363,7 @@
+     lager:info("Grabbing all index data for partition ~p", [Partition]),
+     Ref = make_ref(),
+     Sender = {raw, Ref, Client},
+-    StartTime = now(),
++    StartTime = os:timestamp(),
+     riak_core_vnode_master:command({Partition, node()},
+                                    {fold_indexes, Fun, 0},
+                                    Sender,
+@@ -395,7 +395,7 @@
+ duty_cycle_pause(WaitFactor, StartTime) ->
+     case WaitFactor > 0 of
+         true ->
+-            Now = now(),
++            Now = os:timestamp(),
+             ElapsedMicros = timer:now_diff(Now, StartTime),
+             WaitMicros = ElapsedMicros * WaitFactor,
+             WaitMillis = trunc(WaitMicros / 1000 + 0.5),
+@@ -416,7 +416,7 @@
+             duty_cycle_pause(WaitFactor, StartTime),
+             Pid ! {BatchRef, continue},
+             send_event({index_scan_update, Count}),
+-            wait_for_index_scan(Ref, BatchRef, now(), WaitFactor);
++            wait_for_index_scan(Ref, BatchRef, os:timestamp(), WaitFactor);
+         {Ref, Result} ->
+             Result
+     after
+@@ -468,7 +468,7 @@
+                         0 ->
+                             send_event({hashtree_population_update, Count2}),
+                             duty_cycle_pause(WaitFactor, StartTime),
+-                            now();
++                            os:timestamp();
+                         _ ->
+                             StartTime
+                     end,
+@@ -476,7 +476,7 @@
+             end,
+             send_event({hashtree_population_update, 0}),
+             {Count, Tree2, _} = eleveldb:fold(DBRef, FoldFun,
+-                                              {0, Tree, erlang:now()}, []),
++                                              {0, Tree, os:timestamp()}, []),
+             lager:info("Done building temporary tree for 2i data "
+                        "with ~p entries",
+                        [Count]),
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_bitcask_backend.erl riak_kv-2.1.2/src/riak_kv_bitcask_backend.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_bitcask_backend.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_bitcask_backend.erl	2016-07-12 12:43:57.867008623 +0200
+@@ -136,7 +136,7 @@
+ %% @doc Start the bitcask backend
+ -spec start(integer(), config()) -> {ok, state()} | {error, term()}.
+ start(Partition, Config0) ->
+-    random:seed(erlang:now()),
++    random:seed(os:timestamp()),
+     {Config, KeyVsn} =
+         case app_helper:get_prop_or_env(small_keys, Config0, bitcask) of
+             false ->
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_delete.erl riak_kv-2.1.2/src/riak_kv_delete.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_delete.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_delete.erl	2016-07-12 12:43:57.868008635 +0200
+@@ -216,7 +216,7 @@
+ invalid_rw_delete() ->
+     RW = <<"abc">>,
+     %% Start the gen_fsm process
+-    RequestId = erlang:phash2(erlang:now()),
++    RequestId = erlang:phash2(os:timestamp()),
+     Bucket = <<"testbucket">>,
+     Key = <<"testkey">>,
+     Timeout = 60000,
+@@ -233,7 +233,7 @@
+ invalid_r_delete() ->
+     R = <<"abc">>,
+     %% Start the gen_fsm process
+-    RequestId = erlang:phash2(erlang:now()),
++    RequestId = erlang:phash2(os:timestamp()),
+     Bucket = <<"testbucket">>,
+     Key = <<"testkey">>,
+     Timeout = 60000,
+@@ -250,7 +250,7 @@
+ invalid_w_delete() ->
+     W = <<"abc">>,
+     %% Start the gen_fsm process
+-    RequestId = erlang:phash2(erlang:now()),
++    RequestId = erlang:phash2(os:timestamp()),
+     Bucket = <<"testbucket">>,
+     Key = <<"testkey">>,
+     Timeout = 60000,
+@@ -268,7 +268,7 @@
+ invalid_pr_delete() ->
+     PR = <<"abc">>,
+     %% Start the gen_fsm process
+-    RequestId = erlang:phash2(erlang:now()),
++    RequestId = erlang:phash2(os:timestamp()),
+     Bucket = <<"testbucket">>,
+     Key = <<"testkey">>,
+     Timeout = 60000,
+@@ -285,7 +285,7 @@
+ invalid_pw_delete() ->
+     PW = <<"abc">>,
+     %% Start the gen_fsm process
+-    RequestId = erlang:phash2(erlang:now()),
++    RequestId = erlang:phash2(os:timestamp()),
+     Bucket = <<"testbucket">>,
+     Key = <<"testkey">>,
+     Timeout = 60000,
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_eleveldb_backend.erl riak_kv-2.1.2/src/riak_kv_eleveldb_backend.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_eleveldb_backend.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_eleveldb_backend.erl	2016-07-12 12:41:27.636235306 +0200
+@@ -103,7 +103,7 @@
+ -spec start(integer(), config()) -> {ok, state()} | {error, term()}.
+ start(Partition, Config) ->
+     %% Initialize random seed
+-    random:seed(now()),
++    random:seed(os:timestamp()),
+ 
+     %% Get the data root directory
+     DataDir = filename:join(app_helper:get_prop_or_env(data_root, Config, eleveldb),
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_exchange_fsm.erl riak_kv-2.1.2/src/riak_kv_exchange_fsm.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_exchange_fsm.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_exchange_fsm.erl	2016-07-12 12:47:06.377232525 +0200
+@@ -180,7 +180,7 @@
+     lager:debug("Exchanging hashes for preflist ~p", [IndexN]),
+ 
+     TmpDir = tmp_dir(),
+-    {NA, NB, NC} = Now = WriteLog = now(),
++    {NA, NB, NC} = Now = WriteLog = os:timestamp(),
+     LogFile1 = lists:flatten(io_lib:format("~s/in.~p.~p.~p",
+                                            [TmpDir, NA, NB, NC])),
+     LogFile2 = lists:flatten(io_lib:format("~s/out.~p.~p.~p",
+@@ -239,10 +239,10 @@
+             %% by BKey is unlikely to be any worse.  For Riak CS's use
+             %% pattern, sorting may have some benefit since block N is
+             %% likely to be nearby on disk of block N+1.
+-            StartTime = now(),
++            StartTime = os:timestamp(),
+             ok = sort_disk_log(LogFile1, LogFile2),
+             lager:debug("~s:key_exchange: sorting time = ~p seconds\n",
+-                        [?MODULE, timer:now_diff(now(), StartTime) / 1000000]),
++                        [?MODULE, timer:now_diff(os:timestamp(), StartTime) / 1000000]),
+             {ok, ReadLog} = open_disk_log(Now, LogFile2, read_only),
+             FoldRes =
+                 fold_disk_log(fun(Diff, Acc) ->
+@@ -361,9 +361,9 @@
+     disk_log:open([{name, Name}, {file, Path}, {mode, RWorRO}|OtherOpts]).
+ 
+ sort_disk_log(InputFile, OutputFile) ->
+-    {ok, ReadLog} = open_disk_log(now(), InputFile, read_only),
++    {ok, ReadLog} = open_disk_log(os:timestamp(), InputFile, read_only),
+     _ = file:delete(OutputFile),
+-    {ok, WriteLog} = open_disk_log(now(), OutputFile, read_write),
++    {ok, WriteLog} = open_disk_log(os:timestamp(), OutputFile, read_write),
+     Input = sort_disk_log_input(ReadLog),
+     Output = sort_disk_log_output(WriteLog),
+     try
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_fsm_timing.erl riak_kv-2.1.2/src/riak_kv_fsm_timing.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_fsm_timing.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_fsm_timing.erl	2016-07-12 12:43:57.869008646 +0200
+@@ -33,7 +33,7 @@
+ -type duration() :: {StageName::atom(), StageDuration::non_neg_integer()}.
+ -type durations() :: {ResponseUSecs::non_neg_integer(), [duration()]}.
+ 
+-%% @doc add timing information of `{State, erlang:now()}' to the Timings
++%% @doc add timing information of `{State, os:timestamp()}' to the Timings
+ 
+ -spec add_timing(atom(), timings()) -> timings().
+ add_timing(State, Timings) when is_list(Timings) ->
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_get_fsm.erl riak_kv-2.1.2/src/riak_kv_get_fsm.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_get_fsm.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_get_fsm.erl	2016-07-12 12:43:57.870008658 +0200
+@@ -698,7 +698,7 @@
+ 
+     %% Start the FSM to issue a get and  check notfound
+ 
+-    ReqId1 = 112381838, % erlang:phash2(erlang:now()).
++    ReqId1 = 112381838, % erlang:phash2(os:timestamp()).
+     R = 2,
+     Timeout = 1000,
+     {ok, _FsmPid1} = test_link(ReqId1, Bucket, Key, R, Timeout, self(),
+@@ -737,7 +737,7 @@
+ 
+ 
+ n_val_violation_case() ->
+-    ReqId1 = 13210434, % erlang:phash2(erlang:now()).
++    ReqId1 = 13210434, % erlang:phash2(os:timestamp()).
+     Bucket = <<"mybucket">>,
+     Key = <<"badnvalkey">>,
+     Nval = 3,
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_mrc_pipe.erl riak_kv-2.1.2/src/riak_kv_mrc_pipe.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_mrc_pipe.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_mrc_pipe.erl	2016-07-12 12:49:57.760250434 +0200
+@@ -1127,7 +1127,7 @@
+ random_constant_hash()->
+     %% using now/0 as a randomizer, so that we don't overload just one
+     %% riak node with reduce work
+-    Random = chash:key_of(now()),
++    Random = chash:key_of(os:timestamp()),
+ 
+     %% the trick here: generate a random hash, then find the first
+     %% vnode alive in its preflist, then re-generate a hash that puts
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_vnode.erl riak_kv-2.1.2/src/riak_kv_vnode.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_vnode.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_vnode.erl	2016-07-12 12:43:57.877008741 +0200
+@@ -291,7 +291,7 @@
+ local_put(Index, Obj, Options) ->
+     BKey = {riak_object:bucket(Obj), riak_object:key(Obj)},
+     Ref = make_ref(),
+-    ReqId = erlang:phash2(erlang:now()),
++    ReqId = erlang:phash2(os:timestamp()),
+     StartTime = riak_core_util:moment(),
+     Sender = {raw, Ref, self()},
+     put({Index, node()}, BKey, Obj, ReqId, StartTime, Options, Sender),
+@@ -302,7 +302,7 @@
+ 
+ local_get(Index, BKey) ->
+     Ref = make_ref(),
+-    ReqId = erlang:phash2(erlang:now()),
++    ReqId = erlang:phash2(os:timestamp()),
+     Sender = {raw, Ref, self()},
+     get({Index,node()}, BKey, ReqId, Sender),
+     receive
+diff -ur riak_kv-2.1.2.orig/src/riak_kv_vnode_status_mgr.erl riak_kv-2.1.2/src/riak_kv_vnode_status_mgr.erl
+--- riak_kv-2.1.2.orig/src/riak_kv_vnode_status_mgr.erl	2015-11-11 23:02:14.000000000 +0100
++++ riak_kv-2.1.2/src/riak_kv_vnode_status_mgr.erl	2016-07-12 12:36:03.944414463 +0200
+@@ -237,7 +237,7 @@
+ get_counter_lease(_LeaseSize, Status, 1) ->
+     case get_status_item(vnodeid, Status, undefined) of
+         undefined ->
+-            {VnodeId, Status2} = assign_vnodeid(erlang:now(),
++            {VnodeId, Status2} = assign_vnodeid(os:timestamp(),
+                                                 riak_core_nodeid:get(),
+                                                 Status),
+             {0, 0, VnodeId, Status2};
+@@ -283,7 +283,7 @@
+ -spec new_id_and_counter(status(), non_neg_integer()) ->
+                                 {non_neg_integer(), non_neg_integer(), binary(), status()}.
+ new_id_and_counter(Status, LeaseSize) ->
+-    {VnodeId, Status2} = assign_vnodeid(erlang:now(),
++    {VnodeId, Status2} = assign_vnodeid(os:timestamp(),
+                                         riak_core_nodeid:get(),
+                                         Status),
+     {0, LeaseSize, VnodeId, orddict:store(counter, LeaseSize, Status2)}.

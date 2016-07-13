@@ -20,7 +20,7 @@
 %define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
 
 Name:               guam
-Version:            0.8.2
+Version:            0.8.3
 Release:            0.20160219.git%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
@@ -30,7 +30,6 @@ URL:                https://kolab.org/about/guam
 
 Source0:            guam-%{version}.tar.gz
 
-Patch0001:          guam-0.8.2-T1345.patch
 Patch9991:          guam-0.8.2-relax-dependencies.patch
 
 BuildRequires:      erlang >= 17.4
@@ -99,7 +98,6 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
-%patch0001 -p1
 %patch9991 -p1
 
 %build
@@ -211,6 +209,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Tue Jul  12 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.8.3-1
+- Release of version 0.8.3
+
 * Fri Jul  8 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.8.2-2
 - Fix T1345
 

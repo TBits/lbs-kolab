@@ -1,0 +1,57 @@
+From f9647c8529ef592fa90c1a36bd950bd04da486f8 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Tue, 12 Jul 2016 15:45:23 +0200
+Subject: [PATCH 4/7] Clean out the release
+
+---
+ rel/reltool.config | 34 +---------------------------------
+ 1 file changed, 1 insertion(+), 33 deletions(-)
+
+diff --git a/rel/reltool.config b/rel/reltool.config
+index 39f00fa..846ed43 100644
+--- a/rel/reltool.config
++++ b/rel/reltool.config
+@@ -2,39 +2,7 @@
+ %% ex: ft=erlang ts=4 sw=4 et
+ {sys, [
+        {lib_dirs, ["../deps", "../deps/lucene_parser"]},
+-       {rel, "riak", "2.1.4",
+-        [
+-         kernel,
+-         stdlib,
+-         lager,
+-         sasl,
+-         public_key,
+-         ssl,
+-         riak_sysmon,
+-         os_mon,
+-         crypto,
+-         runtime_tools,
+-         erlang_js,
+-         xmerl,
+-         mochiweb,
+-         webmachine,
+-         basho_stats,
+-         bitcask,
+-         clique,
+-         riak_core,
+-         riak_pipe,
+-         riak_kv,
+-         riak_search,
+-         riak_api,
+-         yokozuna,
+-         cluster_info,
+-         riak_control,
+-         exometer_core,
+-         erlydtl,
+-         riak_auth_mods,
+-         {folsom, load},
+-         {riak_ensemble, load}
+-        ]},
++       {rel, "riak", "2.1.4", []},
+        {rel, "start_clean", "",
+         [
+          kernel,
+-- 
+2.7.4
+

@@ -21,7 +21,7 @@
 %define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
 
 Name:               riak
-Version:            2.1.3
+Version:            2.1.4
 Release:            1%{?dist}
 Summary:            Dynamo-inspired key/value store
 Group:              Applications/Databases
@@ -35,15 +35,19 @@ Source3:            %{name}.service
 Source4:            %{name}.conf
 Source5:            solr-log4j.properties
 
-Patch1:             riak-2.1.3-no-locking-deps.patch
-Patch2:             riak-2.1.3-no-deps-directory.patch
-Patch3:             riak-2.1.3-lucene_parser.patch
-Patch4:             riak-2.1.1-unvendorize-erl.patch
+Patch0001:          0001-Require-R16-OTP-R18.patch
+Patch0002:          0002-Drop-rebar_lock_deps_plugin-from-requirements.patch
+Patch0003:          0003-Substitute-riak_search-with-lucene_parser.patch
+Patch0004:          0004-Clean-out-the-release.patch
+Patch0005:          0005-What-s-a-start_clean-anyways.patch
+Patch0006:          0006-We-need-not-mention-any-of-these-apps.patch
+Patch0007:          0007-It-s-cuttlefish-not-cuttlefish-cuttlefish.patch
 
 BuildRequires:      erlang-clique
 BuildRequires:	    erlang-cluster_info >= 2.0.2
 BuildRequires:	    erlang-ebloom
 BuildRequires:	    erlang-eper
+BuildRequires:      erlang-erts
 BuildRequires:      erlang-ibrowse
 BuildRequires:      erlang-lager_syslog >= 2.0.3
 BuildRequires:      erlang-meck >= 0.8.2
@@ -98,6 +102,7 @@ Requires:           %lock_version erlang-edown
 Requires:           %lock_version erlang-eleveldb
 Requires:           %lock_version erlang-eper
 Requires:           %lock_version erlang-erlydtl
+Requires:           %lock_version erlang-erts
 Requires:           %lock_version erlang-exometer_core
 Requires:           %lock_version erlang-folsom
 Requires:           %lock_version erlang-goldrush
@@ -169,13 +174,14 @@ decide exactly how fault-tolerant they want and need their applications to be.
 
 %prep
 %setup -q -n %{name}-%{name}-%{version}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
-sed -i -e 's|cuttlefish/cuttlefish|cuttlefish|g' rel/reltool.config
-#sed -i -r -e 's|rel, "riak", "[0-9]+\.[0-9]+\.[0-9]+",|rel, "riak", "%{version}",|g' rel/reltool.config
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
+%patch0006 -p1
+%patch0007 -p1
 
 gzip -d doc/man/man1/*.1.gz
 sed -i -e "s,\\\n,,g" doc/man/man1/riak-admin.1
@@ -221,27 +227,34 @@ EOF
 
 %build
 mkdir -p deps
-ln -s %{_libdir}/erlang/lib/bitcask-* deps/bitcask
-ln -s %{_libdir}/erlang/lib/cuttlefish-* deps/cuttlefish
-ln -s %{_libdir}/erlang/lib/eleveldb-* deps/eleveldb
-ln -s %{_libdir}/erlang/lib/lucene_parser-* deps/lucene_parser
-ln -s %{_libdir}/erlang/lib/node_package-* deps/node_package
-ln -s %{_libdir}/erlang/lib/riak_api-* deps/riak_api
-ln -s %{_libdir}/erlang/lib/riak_control-* deps/riak_control
-ln -s %{_libdir}/erlang/lib/riak_core-* deps/riak_core
-ln -s %{_libdir}/erlang/lib/riak_kv-* deps/riak_kv
-ln -s %{_libdir}/erlang/lib/riak_search-* deps/riak_search
-ln -s %{_libdir}/erlang/lib/riak_sysmon-* deps/riak_sysmon
-ln -s %{_libdir}/erlang/lib/yokozuna-* deps/yokozuna
-rebar compile -vv
+ln -sv %{_libdir}/erlang/lib/eleveldb-* deps/eleveldb
+ln -sv %{_libdir}/erlang/lib/lucene_parser-* deps/lucene_parser
+ln -sv %{_libdir}/erlang/lib/node_package-* deps/node_package
+ln -sv %{_libdir}/erlang/lib/riak_sysmon-* deps/riak_sysmon
 pushd rel
-rebar generate overlay_vars=../rpm.vars.config
+rebar create-node -vv nodeid=riak
+popd
+
+ENABLE_STATIC=no rebar compile -vv
+
+ln -sv %{_libdir}/erlang/lib/bitcask-* deps/bitcask
+ln -sv %{_libdir}/erlang/lib/cuttlefish-* deps/cuttlefish
+ln -sv %{_libdir}/erlang/lib/riak_core-* deps/riak_core
+ln -sv %{_libdir}/erlang/lib/riak_api-* deps/riak_api
+ln -sv %{_libdir}/erlang/lib/riak_control-* deps/riak_control
+ln -sv %{_libdir}/erlang/lib/riak_kv-* deps/riak_kv
+ln -sv %{_libdir}/erlang/lib/riak_search-* deps/riak_search
+ln -sv %{_libdir}/erlang/lib/yokozuna-* deps/yokozuna
+pushd rel
+rebar generate -vv overlay_vars=../rpm.vars.config
 popd
 
 %install
 # Install Erlang VM config files
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 cp -R rel/%{name}/etc/* %{buildroot}%{_sysconfdir}/%{name}/.
+cp rel/files/vm.args %{buildroot}%{_sysconfdir}/%{name}/.
+cp rel/files/sys.config %{buildroot}%{_sysconfdir}/%{name}/app.config
 
 # Install init-script or systemd-service
 %if 0%{?with_systemd}
@@ -262,11 +275,6 @@ install -p -m 0644 doc/man/man1/%{name}.1 %{buildroot}%{_mandir}/man1/
 install -p -m 0644 doc/man/man1/%{name}-admin.1 %{buildroot}%{_mandir}/man1/
 install -p -m 0644 doc/man/man1/search-cmd.1 %{buildroot}%{_mandir}/man1/
 
-# Install remaining Erlang files
-mkdir -p %{buildroot}%{_libdir}/erlang/lib/%{name}-%{version}/ebin
-install -p -m 0644 apps/riak/ebin/%{name}.app %{buildroot}%{_libdir}/erlang/lib/%{name}-%{version}/ebin/
-install -p -m 0644 apps/riak/ebin/etop_txt.beam %{buildroot}%{_libdir}/erlang/lib/%{name}-%{version}/ebin/
-
 # Make room for temporary files, logs, and data
 mkdir -p %{buildroot}/%{_localstatedir}/lib/%{name}/
 mkdir -p %{buildroot}/%{_localstatedir}/lib/%{name}/bitcask/
@@ -286,9 +294,15 @@ install -m 644 rel/%{name}/releases/start_erl.data %{buildroot}/%{_libdir}/%{nam
 install -m 644 rel/%{name}/releases/%{version}/%{name}.boot %{buildroot}/%{_libdir}/%{name}/releases/%{version}/
 install -m 644 rel/%{name}/releases/%{version}/%{name}.rel %{buildroot}/%{_libdir}/%{name}/releases/%{version}/
 install -m 644 rel/%{name}/releases/%{version}/%{name}.script %{buildroot}/%{_libdir}/%{name}/releases/%{version}/
-install -m 644 rel/%{name}/releases/%{version}/start_clean.boot %{buildroot}/%{_libdir}/%{name}/releases/%{version}/
-install -m 644 rel/%{name}/releases/%{version}/start_clean.rel %{buildroot}/%{_libdir}/%{name}/releases/%{version}/
-install -m 644 rel/%{name}/releases/%{version}/start_clean.script %{buildroot}/%{_libdir}/%{name}/releases/%{version}/
+cp -a rel/%{name}/erts-* %{buildroot}/%{_libdir}/%{name}/.
+rm -rf %{buildroot}/%{_libdir}/%{name}/erts-*/include
+rm -rf %{buildroot}/%{_libdir}/%{name}/erts-*/lib/internal
+rm -rf %{buildroot}/%{_libdir}/%{name}/erts-*/src
+
+# Install remaining Erlang files
+mkdir -p %{buildroot}%{_libdir}/erlang/lib/%{name}-%{version}/ebin
+install -p -m 0644 apps/riak/ebin/%{name}.app %{buildroot}%{_libdir}/erlang/lib/%{name}-%{version}/ebin/
+install -p -m 0644 apps/riak/ebin/etop_txt.beam %{buildroot}%{_libdir}/erlang/lib/%{name}-%{version}/ebin/
 
 # Install nodetool
 install -D -p -m 755 rel/%{name}/erts-*/bin/nodetool %{buildroot}/%{_bindir}/%{name}-nodetool
@@ -296,23 +310,19 @@ install -D -p -m 755 rel/%{name}/erts-*/bin/nodetool %{buildroot}/%{_bindir}/%{n
 cp -a rel/%{name}/lib %{buildroot}/%{_libdir}/erlang/lib/%{name}-%{version}/
 cd %{buildroot}/%{_libdir}/erlang/lib/%{name}-%{version}/lib/
 for mod in $(ls -1d */ | xargs -n 1 basename | grep -v basho-patches); do
-    rm -rf $mod
-    ln -s %{_libdir}/erlang/lib/$mod $mod
+    rm -rvf $mod
+    ln -sv %{_libdir}/erlang/lib/$mod $mod
 done
 
 # Make compat symlinks
 cd %{buildroot}%{_libdir}/%{name}
-ln -s %{_libdir}/erlang/lib/riak-%{version}/lib lib
+ln -sv ../erlang/lib/%{name}-%{version}/lib lib
 
-mkdir -p %{buildroot}%{_libdir}/%{name}/erts-6.3/bin
-cd %{buildroot}%{_libdir}/%{name}/erts-6.3/bin
-ln -s ../../../erlang/erts-6.3/bin/beam beam
-ln -s ../../../erlang/erts-6.3/bin/beam.smp beam.smp
-ln -s %{_bindir}/cuttlefish cuttlefish
-ln -s ../../../erlang/erts-6.3/bin/epmd epmd
-ln -s ../../../erlang/erts-6.3/bin/erlexec erlexec
-ln -s ../../../erlang/erts-6.3/bin/escript escript
-ln -s ../../../../..%{_bindir}/%{name}-nodetool nodetool
+sed -i -r \
+    -e 's|^ERTS_PATH=.*$|ERTS_PATH=%{_bindir}|g' \
+    -e 's|^NODETOOL=".*"$|NODETOOL="$ERTS_PATH/escript $ERTS_PATH/riak-nodetool $NET_TICKTIME_ARG $NAME_ARG $COOKIE_ARG"|g' \
+    -e 's|^NODETOOL_LITE=.*$|NODETOOL_LITE="$ERTS_PATH/escript $ERTS_PATH/riak-nodetool"|g' \
+    %{buildroot}%{_libdir}/erlang/lib/%{name}-%{version}/lib/env.sh
 
 %pre
 getent group %{name} >/dev/null || groupadd -r %{name}
@@ -349,8 +359,8 @@ fi
 %{_initrddir}/%{name}
 %endif
 %dir %{_sysconfdir}/%{name}
-#%config(noreplace) %{_sysconfdir}/%{name}/app.config
-#%config(noreplace) %{_sysconfdir}/%{name}/vm.args
+%config(noreplace) %{_sysconfdir}/%{name}/app.config
+%config(noreplace) %{_sysconfdir}/%{name}/vm.args
 %config(noreplace) %{_sysconfdir}/%{name}/riak.conf
 %config(noreplace) %{_sysconfdir}/%{name}/solr-log4j.properties
 %{_bindir}/%{name}

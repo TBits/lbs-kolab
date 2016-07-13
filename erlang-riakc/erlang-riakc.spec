@@ -4,30 +4,24 @@
 %endif
 
 %global realname riakc
-%global upstream basho
-# Technically, we're noarch; but erlang whose directories we install into is not.
 %global debug_package %{nil}
-%global git_tag c3fb38c
-%global patchnumber 0
-
 
 Name:           erlang-%{realname}
-Version:        2.0.1
+Version:        2.4.1
 Release:        1%{?dist}
 Summary:        Erlang clients for Riak
 Group:          Development/Libraries
 License:        GPLv3+
-URL:            http://basho.github.com/riak-erlang-client/
-# wget --content-disposition https://github.com/basho/riak-erlang-client/tarball/2.0.1
-Source0:        %{upstream}-riak-erlang-client-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+URL:            https://github.com/basho/riak-erlang-client/
+# wget --content-disposition https://github.com/basho/riak-erlang-client/archive/2.4.1.tar.gz
+Source0:        riak-erlang-client-%{version}.tar.gz
 
-Patch1:         basho-riak-erlang-client-d224a82-version.patch
 Patch2:         basho-riak-erlang-client-d224a82-tests.patch
 
 BuildRequires:  erlang-meck >= 0.1
 BuildRequires:  erlang-protobuffs >= 0.8
 BuildRequires:  erlang-rebar
-BuildRequires:  erlang-riak_pb >= 2.0.0.16
+BuildRequires:  erlang-riak_pb >= 2.1.4
 
 Requires:       erlang-compiler%{?_isa}
 Requires:       erlang-erts%{?_isa}
@@ -43,9 +37,9 @@ Requires:       erlang-tools%{?_isa}
 Erlang clients for Riak
 
 %prep
-%setup -q -n %{upstream}-riak-erlang-client-d224a82
+%setup -q -n riak-erlang-client-%{version}
+sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
 
-%patch1 -p1
 %patch2 -p1
 
 %build

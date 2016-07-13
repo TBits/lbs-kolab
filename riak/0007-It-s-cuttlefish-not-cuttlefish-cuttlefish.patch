@@ -1,0 +1,25 @@
+From 0d64961b4023e6331d4e12d2699e4e4b1f39b372 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Tue, 12 Jul 2016 15:47:09 +0200
+Subject: [PATCH 7/7] It's 'cuttlefish', not 'cuttlefish/cuttlefish'
+
+---
+ rel/reltool.config | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rel/reltool.config b/rel/reltool.config
+index de3f53b..8c1b3cf 100644
+--- a/rel/reltool.config
++++ b/rel/reltool.config
+@@ -26,7 +26,7 @@
+                   "{{erts_vsn}}/bin/erl"},
+            {copy, "../deps/node_package/priv/base/nodetool",
+                   "{{erts_vsn}}/bin/nodetool"},
+-           {copy, "../deps/cuttlefish/cuttlefish",
++           {copy, "../deps/cuttlefish",
+                   "{{erts_vsn}}/bin/cuttlefish"},
+            {template, "../deps/node_package/priv/base/runner",
+                   "bin/riak"},
+-- 
+2.7.4
+

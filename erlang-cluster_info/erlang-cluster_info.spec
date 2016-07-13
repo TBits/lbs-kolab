@@ -3,21 +3,20 @@
 %endif
 
 %global realname cluster_info
-%global upstream basho
 %global debug_package %{nil}
-%global git_tag e231144
-%global patchnumber 0
 
 
 Name:		erlang-%{realname}
-Version:	2.0.2
+Version:	2.0.5
 Release:	1%{?dist}
 Summary:	Cluster info/postmortem inspector for Erlang applications
 Group:		Development/Languages
 License:	ASL 2.0
 URL:		https://github.com/basho/cluster_info
-# wget --content-disposition https://github.com/basho/cluster_info/tarball/2.0.2
-Source0:	%{upstream}-%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+
+# wget --content-disposition https://github.com/basho/cluster_info/archive/2.0.5.tar.gz
+Source0:	%{realname}-%{version}.tar.gz
+
 BuildRequires:	erlang-rebar
 # erlang:get_stacktrace/0
 Requires:	erlang-erts%{?_isa} >= R12B
@@ -26,13 +25,11 @@ Requires:	erlang-riak_err%{?_isa}
 Requires:	erlang-sasl%{?_isa}
 Requires:	erlang-stdlib%{?_isa}
 
-
 %description
 Cluster info/postmortem inspector for Erlang applications.
 
-
 %prep
-%setup -q -n %{upstream}-%{realname}-1d8bc2a
+%setup -q -n %{realname}-%{version}
 sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
 
 

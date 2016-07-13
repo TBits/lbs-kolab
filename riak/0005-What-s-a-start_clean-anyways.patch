@@ -1,0 +1,28 @@
+From 9a4ebace769961a8ab4cc134230bd1343d82e977 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Tue, 12 Jul 2016 15:45:37 +0200
+Subject: [PATCH 5/7] What's a start_clean anyways?
+
+---
+ rel/reltool.config | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/rel/reltool.config b/rel/reltool.config
+index 846ed43..5b61414 100644
+--- a/rel/reltool.config
++++ b/rel/reltool.config
+@@ -3,11 +3,6 @@
+ {sys, [
+        {lib_dirs, ["../deps", "../deps/lucene_parser"]},
+        {rel, "riak", "2.1.4", []},
+-       {rel, "start_clean", "",
+-        [
+-         kernel,
+-         stdlib
+-        ]},
+        {boot_rel, "riak"},
+        {profile, embedded},
+        {excl_sys_filters, ["^bin/.*",
+-- 
+2.7.4
+

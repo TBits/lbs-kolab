@@ -1,0 +1,26 @@
+diff --git a/c_src/driver_comm.c b/c_src/driver_comm.c
+index 3876b61..a35d12a 100644
+--- a/c_src/driver_comm.c
++++ b/c_src/driver_comm.c
+@@ -55,7 +55,7 @@ char *read_string(char **data) {
+ void *ejs_alloc(ErlDrvSizeT size) {
+     void *p = driver_alloc(size);
+     if (p == NULL) {
+-        erl_exit(1, "erlang_js: Can't allocate %lu bytes of memory\n", size);
++        erts_exit(1, "erlang_js: Can't allocate %lu bytes of memory\n", size);
+     }
+     return p;
+ }
+diff --git a/c_src/driver_comm.h b/c_src/driver_comm.h
+index 9f04d16..f5456a5 100644
+--- a/c_src/driver_comm.h
++++ b/c_src/driver_comm.h
+@@ -30,7 +30,7 @@ char *read_string(char **data);
+ 
+ /* Wrapper around driver_alloc() that checks  */
+ /* for OOM.                                   */
+-void erl_exit(int n, char*, ...);
++void erts_exit(int n, char*, ...);
+ void *ejs_alloc(ErlDrvSizeT size);
+ 
+ #endif

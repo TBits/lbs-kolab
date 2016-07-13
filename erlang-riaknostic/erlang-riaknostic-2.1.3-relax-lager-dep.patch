@@ -1,0 +1,12 @@
+diff -ur riaknostic-2.1.3.orig/rebar.config riaknostic-2.1.3/rebar.config
+--- riaknostic-2.1.3.orig/rebar.config	2015-11-25 18:09:37.000000000 +0100
++++ riaknostic-2.1.3/rebar.config	2016-07-12 11:20:54.284131654 +0200
+@@ -28,7 +28,7 @@
+ {escript_incl_apps, [lager, getopt, goldrush]}.
+ 
+ {deps, [
+-        {lager, "(2.0|2.1|2.2).*", {git, "git://github.com/basho/lager.git", {tag, "2.2.0"}}},
++        {lager, "(2.0|2.1|2.2|3.1).*", {git, "git://github.com/basho/lager.git", {tag, "2.2.0"}}},
+         {getopt, ".*", {git, "git://github.com/jcomellas/getopt.git", {tag, "v0.8.2"}}},
+         {meck, "0.8.2", {git, "git://github.com/basho/meck.git", {tag, "0.8.2"}}}
+         ]}.

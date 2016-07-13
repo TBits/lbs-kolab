@@ -1,0 +1,47 @@
+From cadbd495dda97ccf3adbbf302b74df6472be71d4 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Tue, 12 Jul 2016 14:57:43 +0200
+Subject: [PATCH 2/7] Drop rebar_lock_deps_plugin from requirements
+
+---
+ rebar.config      | 6 ++----
+ rebar.config.lock | 9 ++++-----
+ 2 files changed, 6 insertions(+), 9 deletions(-)
+
+diff --git a/rebar.config b/rebar.config
+index 784c174..545e51c 100644
+--- a/rebar.config
++++ b/rebar.config
+@@ -21,9 +21,7 @@
+         {riak_control, ".*", {git, "git://github.com/basho/riak_control.git", {branch, "2.1"}}},
+         {riaknostic, ".*", {git, "git://github.com/basho/riaknostic.git", {branch, "2.1"}}},
+         {yokozuna, ".*", {git, "git://github.com/basho/yokozuna.git", {branch, "2.1"}}},
+-        {riak_auth_mods, ".*", {git, "git://github.com/basho/riak_auth_mods.git", {branch, "2.1"}}},
+-        {rebar_lock_deps_plugin, ".*", {git, "git://github.com/seth/rebar_lock_deps_plugin.git",
+-            "7a5835029c42b8138325405237ea7e8516a84800"}}
++        {riak_auth_mods, ".*", {git, "git://github.com/basho/riak_auth_mods.git", {branch, "2.1"}}}
+        ]}.
+ 
+-{plugins, [rebar_lock_deps_plugin]}.
++{plugins, []}.
+diff --git a/rebar.config.lock b/rebar.config.lock
+index cdb3738..9efcc3a 100644
+--- a/rebar.config.lock
++++ b/rebar.config.lock
+@@ -150,9 +150,8 @@
+                     "9bdfee88fce20b3a01b7003696b53eb21913d6fb"}},
+        {riak_auth_mods,".*",
+                        {git,"git://github.com/basho/riak_auth_mods.git",
+-                            "31b8b30e6c215418522eaa615264ae9769a87410"}},
+-       {rebar_lock_deps_plugin,".*",
+-                               {git,"git://github.com/seth/rebar_lock_deps_plugin.git",
+-                                    "7a5835029c42b8138325405237ea7e8516a84800"}}]}.
+-{plugins,[rebar_lock_deps_plugin]}.
++                            "31b8b30e6c215418522eaa615264ae9769a87410"}}
++]}.
++
++{plugins,[]}.
+ 
+-- 
+2.7.4
+

@@ -3,21 +3,18 @@
 %endif
 
 %global realname eper
-%global upstream massemanet
 %global debug_package %{nil}
-%global patch_level 0
-%global git_tag 69364c7
-
 
 Name:		erlang-%{realname}
-Version:	0.78
+Version:	0.97.3
 Release:	1%{?dist}
 Summary:	Erlang performance and debugging tools
 Group:		Development/Languages
 License:	MIT
 URL:		https://github.com/massemanet/eper
-# wget --content-disposition https://github.com/massemanet/eper/tarball/0.78
-Source0:	%{upstream}-%{realname}-%{version}-%{patch_level}-g%{git_tag}.tar.gz
+
+# wget --content-disposition https://github.com/massemanet/eper/archive/0.97.3.tar.gz
+Source0:	%{realname}-%{version}.tar.gz
 BuildRequires:	erlang-rebar
 Requires:	erlang-crypto
 Requires:	erlang-erlsom
@@ -29,7 +26,6 @@ Requires:	erlang-kernel
 Requires:	erlang-runtime_tools
 Requires:	erlang-stdlib
 
-
 %description
 This is a loose collection of Erlang Performance related tools:
 
@@ -38,40 +34,31 @@ This is a loose collection of Erlang Performance related tools:
  * dtop  - similar to unix top
  * redbug- similar to the OTP dbg application, but safer, better etc.
 
-
 %prep
-%setup -q -n %{upstream}-%{realname}-cbf1da6
+%setup -q -n %{realname}-%{version}
 rm -f src/getopt.erl
-
 
 %build
 rebar compile -v
-
 
 %install
 install -p -m 0644 -D ebin/%{realname}.app %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
 install -p -m 0644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin
 install -d %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/priv/bin
-install -p -m 0755 priv/bin/{dtop,gperf,ntop,redbug,sherk} %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/priv/bin
-install -d %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/priv/glade
-install -p -m 0644 src/*.glade %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/priv/glade
-
+install -p -m 0755 priv/bin/{dtop,ntop,redbug} %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/priv/bin
 
 %clean
 rm -rf %{buildroot}
 
-
 %files
-%doc AUTHORS COPYING README doc/redbug.txt
+%doc AUTHORS COPYING doc/redbug.txt
 %dir %{_libdir}/erlang/lib/%{realname}-%{version}
 %dir %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 %dir %{_libdir}/erlang/lib/%{realname}-%{version}/priv/
 %dir %{_libdir}/erlang/lib/%{realname}-%{version}/priv/bin/
-%dir %{_libdir}/erlang/lib/%{realname}-%{version}/priv/glade/
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
 %{_libdir}/erlang/lib/%{realname}-%{version}/priv/bin/*
-%{_libdir}/erlang/lib/%{realname}-%{version}/priv/glade/*.glade
 
 
 %changelog
