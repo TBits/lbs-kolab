@@ -28,17 +28,16 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.2
+Version:            0.8.3
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
 
-Source0:            pykolab-0.8.2.tar.gz
+Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
 
 Patch0001:          pykolab-0.8-patch-out-manticore.patch
-Patch0002:          0001-Call-the-correct-functions.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -235,8 +234,6 @@ This is the Kolab Content Filter, with plugins
 %if 0%{?kolab_enterprise}
 %patch0001 -p1
 %endif
-
-%patch0002 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -567,6 +564,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Fri Jul 22 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.3-1
+- Release of version 0.8.3
+
 * Wed Mar 09 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.1-2
 - wallace requires python-gnupg to be installed. avoid ImportError: No module named gnupg
 
