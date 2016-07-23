@@ -28,17 +28,16 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.1
-Release:            2%{?dist}
+Version:            0.8.3
+Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
 
-Source0:            pykolab-0.8.1.tar.gz
+Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
 
-Patch0001:          0001-Use-the-correct-constants-import-and-__version__-val.patch
-Patch0002:          0002-ID-directly-after-authentication-before-asking-for-a.patch
+Patch0001:          pykolab-0.8-patch-out-manticore.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -232,8 +231,9 @@ This is the Kolab Content Filter, with plugins
 %prep
 %setup -q
 
+%if 0%{?kolab_enterprise}
 %patch0001 -p1
-%patch0002 -p1
+%endif
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -279,6 +279,10 @@ mkdir -p %{buildroot}/%{_sysconfdir}/sysconfig
 
 %if 0%{?suse_version}
 %fdupes %{buildroot}/%{python_sitelib}
+%endif
+
+%if 0%{?kolab_enterprise}
+rm -rf %{buildroot}%{python_sitelib}/pykolab/setup/setup_manticore.py*
 %endif
 
 %pre
@@ -560,6 +564,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Fri Jul 22 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.3-1
+- Release of version 0.8.3
+
 * Wed Mar 09 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.1-2
 - wallace requires python-gnupg to be installed. avoid ImportError: No module named gnupg
 
