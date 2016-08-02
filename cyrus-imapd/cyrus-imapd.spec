@@ -20,8 +20,8 @@
 %global _cyrusgroup mail
 %global _cyrexecdir %{_exec_prefix}/lib/%{_name}
 
-%global real_version 2.5.8
-%global snapshot_version 22
+%global real_version 2.5.9
+%global snapshot_version 11
 %global dot_snapshot_version %{?snapshot_version:.%{snapshot_version}}
 
 ##
@@ -753,6 +753,9 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Mon Aug 01 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.9.11-1
+- Check in 11 revisions ahead of upstream 2.5.9 release
+
 * Thu Jul  7 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.8.22-1
 - Check in 22 revisions ahead of upstream 2.5.8 release
 
