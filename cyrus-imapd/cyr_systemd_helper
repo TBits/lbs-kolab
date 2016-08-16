@@ -25,6 +25,22 @@ if [ -z "${runuser}" ]; then
     runuser=/usr/sbin/runuser
 fi
 
+reload() {
+    if [ ! -f /var/run/cyrus-master.pid ]; then
+        exit 255
+    fi
+
+    if [ -z "$(pidof cyrus-master)" ]; then
+        exit 1
+    fi
+
+    if [ "$(cat /var/run/cyrus-master.pid)" != "$(pidof cyrus-master)" ]; then
+        exit 1
+    fi
+
+    kill -HUP $(cat /var/run/cyrus-master.pid)
+}
+
 start() {
     cd $CONFIGDIRECTORY
     $runuser - cyrus -s /bin/bash -c '/usr/lib/cyrus-imapd/mkimap' >/dev/null 2>&1 < /dev/null
@@ -46,6 +62,10 @@ stop() {
 }
 
 case "$1" in
+    reload)
+            reload
+        ;;
+
     start)
             start
         ;;
