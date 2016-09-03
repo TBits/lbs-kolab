@@ -10,7 +10,7 @@
 %endif
 
 Name:           kolab-utils
-Version:        3.1.2
+Version:        3.1.3
 Release:        1%{?dist}
 Summary:        Kolab Utilities
 
@@ -88,6 +88,10 @@ mkdir -p %{buildroot}/%{_sharedstatedir}/kolab-freebusy/
 %attr(0750,root,%{httpd_group}) %dir %{_sharedstatedir}/kolab-freebusy
 
 %changelog
+* Fri Sep 2 2016 Christian Mollekopf <mollekopf@kolabsys.com> - 3.1.3-1
+- Release version 3.1.3
+- Format checking capabilities in kolab-formatupgrade
+
 * Fri Apr 15 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.1.2-1
 - Release version 3.1.2
 
