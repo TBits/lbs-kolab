@@ -1,13 +1,13 @@
 Name:           libcalendaring
 Version: 4.9.2
-Release: 0.20150623.git7895d30%{?dist}
+Release: 0.20160905.git%{?dist}
 Summary:        Library for Calendaring
 
 Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            http://www.kolab.org/about/libcalendaring
 
-Source0:        http://git.kolab.org/%{name}/snapshot/%{name}-%{version}.tar.gz
+Source0:        libcalendaring-4.9.2.tar.gz
 
 BuildRequires:  boost-devel
 BuildRequires:  cmake

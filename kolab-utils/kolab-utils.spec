@@ -10,7 +10,7 @@
 %endif
 
 Name:           kolab-utils
-Version:        3.1.3
+Version:        3.1.4
 Release:        1%{?dist}
 Summary:        Kolab Utilities
 
@@ -29,6 +29,7 @@ BuildRequires:  libcurl-devel
 BuildRequires:  libkolab-devel
 %if 0%{?rhel} > 7 || 0%{?fedora} > 21
 BuildRequires:  kdepimlibs-devel >= 4.9
+BuildRequires:  kdelibs-devel
 %else
 # Note: available within kolabsys.com infrastructure only, as being (essentially) a
 # fork of various kde 4.9 libraries that depend on kde*, and that have no place in el6.
@@ -88,6 +89,10 @@ mkdir -p %{buildroot}/%{_sharedstatedir}/kolab-freebusy/
 %attr(0750,root,%{httpd_group}) %dir %{_sharedstatedir}/kolab-freebusy
 
 %changelog
+* Mon Sep 5 2016 Christian Mollekopf <mollekopf@kolabsys.com> - 3.1.4-1
+- Release version 3.1.3
+- Added --shared option to format checker
+
 * Fri Sep 2 2016 Christian Mollekopf <mollekopf@kolabsys.com> - 3.1.3-1
 - Release version 3.1.3
 - Format checking capabilities in kolab-formatupgrade
