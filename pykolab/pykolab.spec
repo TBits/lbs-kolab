@@ -7,6 +7,7 @@
 %if 0%{?suse_version} || 0%{?fedora} > 17 || 0%{?rhel} > 6
 %global with_systemd 1
 %{!?_unitdir:   %global _unitdir /usr/lib/systemd/system/}
+%{!?_rundir:    %global _rundir  %{_localstatedir}/run}
 %else
 %global with_systemd 0
 %endif
@@ -498,8 +499,8 @@ rm -rf %{buildroot}
 %{_sbindir}/kolab-saslauthd
 %{python_sitelib}/saslauthd/
 %if 0%{?suse_version} > 0 || 0%{?fedora} > 17 || 0%{?rhel} > 6
-%ghost %dir %{_localstatedir}/run/kolab-saslauthd
-%ghost %dir %{_localstatedir}/run/saslauthd
+%ghost %dir %{_rundir}/kolab-saslauthd
+%ghost %dir %{_rundir}/saslauthd
 %else
 %dir %{_localstatedir}/run/kolab-saslauthd
 %dir %{_localstatedir}/run/saslauthd
@@ -528,7 +529,7 @@ rm -rf %{buildroot}
 %{_sbindir}/kolabd
 %{python_sitelib}/kolabd/
 %if 0%{?suse_version} > 0 || 0%{?fedora} > 17 || 0%{?rhel} > 6
-%ghost %dir %{_localstatedir}/run/kolabd
+%ghost %dir %{_rundir}/kolabd
 %else
 %attr(0770,kolab,kolab) %dir %{_localstatedir}/run/kolabd
 %endif
@@ -549,7 +550,11 @@ rm -rf %{buildroot}
 %dir %{_prefix}/lib/tmpfiles.d/
 %endif
 %{_prefix}/lib/tmpfiles.d/wallace.conf
+%if 0%{?suse_version} > 0 || 0%{?fedora} > 17 || 0%{?rhel} > 6
+%ghost %dir %{_rundir}/wallaced
+%else
 %attr(0700,%{kolab_user},%{kolab_group}) %dir /run/wallaced
+%endif
 %else
 %{_initrddir}/wallace
 %endif
@@ -564,6 +569,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Wed Jul 27 2016 Dominique Leuenberger (openSUSE) <dimstar@opensuse.org> - 0.8.3-2
+- Fix build on openSUSE systems: use %_rundir instead of /var/run
+
 * Fri Jul 22 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.3-1
 - Release of version 0.8.3
 

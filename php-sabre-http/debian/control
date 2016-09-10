@@ -1,0 +1,38 @@
+Source: php-sabre-http
+Section: php
+Priority: optional
+Maintainer: Kolab for Debian testing <devel@lists.kolab.org>
+Uploaders: hede <kolab983@der-he.de>
+Build-Depends: debhelper (>= 9), phpunit, php-symfony-class-loader, pkg-php-tools (>= 1.7~), php5-curl, php-sabre-event
+Standards-Version: 3.9.6
+Homepage: http://sabre.io/http/
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-sabre-http.git
+Vcs-Git: git://anonscm.debian.org/pkg-php/php-sabre-http.git -b 3.0
+
+Package: php-sabre-http
+Architecture: all
+Depends: php-sabre-event (<< 3.0.0~as3),
+         ${misc:Depends},
+         ${phpcomposer:Debian-require}
+Suggests: ${phpcomposer:Debian-suggest}
+Replaces: php-sabre-http (<< 4), ${phpcomposer:Debian-replace}
+Breaks: ${phpcomposer:Debian-conflict}, ${phpcomposer:Debian-replace}
+Conflicts: php-sabre-http (<< 4)
+Provides: php-sabre-http (= ${binary:Version}), ${phpcomposer:Debian-provide}
+Description: library to ease the work with HTTP protocol
+ sabre/http provides a toolkit to ease the work with HTTP protocol.
+ .
+ This library is a wrapper around the following PHP constructs:
+ .
+ For Input:
+  * $_GET
+  * $_POST
+  * $_SERVER
+  * php://input or $HTTP_RAW_POST_DATA.
+ For output:
+  * php://output or echo.
+  * header()
+ .
+ It provides a Request object, and a Response object. The objects are
+ extensible and easily mockable.
+

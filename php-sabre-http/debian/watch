@@ -1,0 +1,3 @@
+version=3
+options="uversionmangle=s/-?beta/~beta/;s/-?alpha/~alpha/" \
+http://githubredir.debian.net/github/fruux/sabre-vobject /(3\.4\..+).tar.gz

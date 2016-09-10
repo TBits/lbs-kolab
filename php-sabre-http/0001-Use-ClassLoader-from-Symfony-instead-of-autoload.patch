@@ -1,0 +1,19 @@
+diff -rupN a/tests/bootstrap.php b/tests/bootstrap.php
+--- a/tests/bootstrap.php	2016-09-04 20:40:31.340543602 +0200
++++ b/tests/bootstrap.php	2016-09-04 20:41:11.811662297 +0200
+@@ -4,6 +4,13 @@ date_default_timezone_set('UTC');
+ 
+ ini_set('error_reporting', E_ALL | E_STRICT | E_DEPRECATED);
+ 
+-// Composer autoloader
+-include __DIR__ . '/../vendor/autoload.php';
++require_once 'Symfony/Component/ClassLoader/ClassLoader.php';
++use Symfony\Component\ClassLoader\ClassLoader;
++$loader = new ClassLoader();
++$loader->setUseIncludePath(true);
++$loader->register();
++$loader->addPrefixes(array(
++	'Sabre' => __DIR__.'/../lib',
++	'SabreTest' => __DIR__,
++));
+ 

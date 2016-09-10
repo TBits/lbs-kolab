@@ -1,0 +1,150 @@
+php-sabre-dav (2.1.6-1) unstable; urgency=low
+
+  * Upstream Version Bump
+  * Initlal Release for Kolab Winterfell
+
+ -- hede <kolab983@der-he.de>  Sat, 03 Sep 2016 10:00:00 +0200
+
+php-sabredav (1.8.10-2) unstable; urgency=medium
+
+  * Add hint about security maintenance in Jessie
+  * Drop now useless XS-Testsuite
+  * Bump standards version to 3.9.6
+  * Revert "Prepare transition from php-horde-dav"
+  * Only accept HTTP and HTTPS as protocol
+
+ -- David Prévot <taffit@debian.org>  Mon, 29 Sep 2014 14:53:23 -0400
+
+php-sabredav (1.8.10-1) unstable; urgency=medium
+
+  * No tests if DEB_BUILD_OPTIONS contains nocheck
+  * Document branch in Vcs-Git
+  * Revert "Conflict with php-sabre-http"
+  * Revert "Mangle version higher than 2.0.0", and updload to unstable
+
+ -- David Prévot <taffit@debian.org>  Sun, 20 Jul 2014 15:07:58 -0400
+
+php-sabredav (2.0.0+really1.8.10-2) experimental; urgency=medium
+
+  * Conflict with php-sabre-http
+
+ -- David Prévot <taffit@debian.org>  Wed, 28 May 2014 15:01:42 -0400
+
+php-sabredav (2.0.0+really1.8.10-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Fixed a potential security issue.
+  * XXE security issue.
+  * Updated changelog.
+
+  [ David Prévot ]
+  * debian/watch:
+    - Handle alpha and beta releases
+    - Update upstream source
+    - Focus on 1.8.… releases
+    - Repack is now useless (docs have been removed)
+    - Mangle version higher than 2.0.0
+  * debian/control:
+    - Bump standards version to 3.9.5
+    - Update Homepage
+  * Update copyright
+  * Run the test suite on packaging
+  * Remove TODO about tests since they run
+  * Add DEP-8 compliant tests
+  * Skip failing tests starting with PHP 5.5.10, workarounds FTBFS #743111
+  * Remove transitional package
+  * Prepare transition from php-horde-dav
+
+ -- David Prévot <taffit@debian.org>  Tue, 27 May 2014 16:18:48 -0400
+
+php-sabredav (1.8.7+dfsg-1) experimental; urgency=low
+
+  * Imported Upstream version 1.8.7+dfsg
+  * Drop php5-json build-dependency
+  * Refer to Apache-2.0 from /usr/share/common-licenses
+  * Add self to uploaders
+
+ -- David Prévot <taffit@debian.org>  Sat, 12 Oct 2013 17:55:32 -0400
+
+php-sabredav (1.8.6+dfsg-1) experimental; urgency=low
+
+  * Team upload
+  * New upstream release (closes: #712752)
+  * Update copyright
+  * Use phpcomposer build helper
+
+ -- David Prévot <taffit@debian.org>  Thu, 20 Jun 2013 17:03:20 -0400
+
+php-sabredav (1.7.6+dfsg-2) unstable; urgency=low
+
+  * Team upload
+  * php-sabre-dav also breaks owncloud (<< 5)
+
+ -- David Prévot <taffit@debian.org>  Wed, 10 Apr 2013 15:14:43 -0400
+
+php-sabredav (1.7.6+dfsg-1) unstable; urgency=low
+
+  * Team upload
+  * New upstream release
+  * debian/copyright: Update
+  * debian/rules: Use canonical Vcs- fields
+
+ -- David Prévot <taffit@debian.org>  Wed, 10 Apr 2013 09:24:35 -0400
+
+php-sabredav (1.7.5+dfsg-3) unstable; urgency=low
+
+  * Team upload
+  * Provide back the transitional dummy package, with Breaks: owncloud (<< 5)
+    to avoid premature/asynchronous upgrades, better fix to #704889, thanks to
+    Gregor Herrmann <gregoa@debian.org>
+
+ -- David Prévot <taffit@debian.org>  Sun, 07 Apr 2013 10:56:00 -0400
+
+php-sabredav (1.7.5+dfsg-2) unstable; urgency=low
+
+  * Team upload
+  * Drop the transitional dummy package (closes: #704889)
+
+ -- David Prévot <taffit@debian.org>  Sun, 07 Apr 2013 10:14:57 -0400
+
+php-sabredav (1.7.5+dfsg-1) unstable; urgency=low
+
+  * Team upload
+  * New upstream release
+  * debian/doc: Remove empty file
+  * debian/{repack.sh,rules,watch}: Repack downloaded ZIP file and strip
+    non-DFSG compliant material
+  * debian/copyright: Document the new and updated licenses 
+  * debian/control:
+    - Drop now useless DMUA
+    - Bump Standards-Version to 3.9.4, no change needed
+    - Depends on php-sabre-vobject 
+    - Rename the binary package as php-sabre-dav following upstream advice
+    - Provide a transitional dummy package 
+
+ -- David Prévot <taffit@debian.org>  Thu, 28 Mar 2013 16:12:58 -0400
+
+php-sabredav (1.6.3-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Thomas Mueller <thomas.mueller@tmit.eu>  Fri, 06 Jul 2012 08:29:33 +0200
+
+php-sabredav (1.6.2-3) unstable; urgency=low
+
+  * Fixed the hompage field in debian/control.
+
+ -- Paul van Tilburg <paulvt@debian.org>  Sun, 03 Jun 2012 00:14:06 +0200
+
+php-sabredav (1.6.2-2) unstable; urgency=low
+
+  * Set the team as maintainer.
+
+ -- Paul van Tilburg <paulvt@debian.org>  Sun, 03 Jun 2012 00:01:09 +0200
+
+php-sabredav (1.6.2-1) unstable; urgency=low
+
+  [ Thomas Mueller ]
+  * Initial release (Closes: #670876)
+
+ -- Paul van Tilburg <paulvt@debian.org>  Sun, 20 May 2012 10:45:50 +0200
