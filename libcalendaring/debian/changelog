@@ -1,3 +1,9 @@
+libcalendaring (4.9.2-0~kolab1) unstable; urgency=low
+
+  * Release of version 4.9.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  9 Sep 2016 16:59:15 +0200
+
 libcalendaring (4.9.2~dev20150623-0~kolab1) unstable; urgency=low
 
   * Release of version 4.9.1

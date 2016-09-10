@@ -1,6 +1,6 @@
 Name:           libcalendaring
-Version: 4.9.2
-Release: 0.20150623.git7895d30%{?dist}
+Version:        4.9.2
+Release:        1%{?dist}
 Summary:        Library for Calendaring
 
 Group:          System Environment/Libraries
@@ -20,8 +20,6 @@ BuildRequires:  qt-devel
 %else
 BuildRequires:  qt4-devel
 %endif
-
-#Requires:	
 
 %description
 Advanced calendaring library for Kolab, based on parts of KDE >= 4.9
@@ -71,6 +69,9 @@ popd
 %{_libdir}/libcalendaring*.a
 
 %changelog
+* Fri Sep  9 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 4.9.2-1
+- New upstream version 4.9.2
+
 * Mon Feb 23 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 4.9.1-1
 - New upstream version 4.9.1
 
