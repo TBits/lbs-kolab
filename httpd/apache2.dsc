@@ -2,7 +2,7 @@ Format: 1.0
 Source: apache2
 Binary: apache2.2-common, apache2.2-bin, apache2-mpm-worker, apache2-mpm-prefork, apache2-mpm-event, apache2-mpm-itk, apache2-utils, apache2-suexec, apache2-suexec-custom, apache2, apache2-doc, apache2-prefork-dev, apache2-threaded-dev, apache2-dbg
 Architecture: any all
-Version: 2.2.22-13.2+deb7u6
+Version: 2.2.22-13.2+deb7u7
 Maintainer: Debian Apache Maintainers <debian-apache@lists.debian.org>
 Uploaders: Stefan Fritsch <sf@debian.org>, Steinar H. Gunderson <sesse@debian.org>, Arno Töll <arno@debian.org>
 Homepage: http://httpd.apache.org/
