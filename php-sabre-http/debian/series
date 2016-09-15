@@ -1,1 +1,2 @@
 0001-Use-ClassLoader-from-Symfony-instead-of-autoload.patch -p1
+0002-composer.json-no-multiple-versions.patch -p1

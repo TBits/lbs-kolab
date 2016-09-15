@@ -3,7 +3,7 @@ Section: php
 Priority: optional
 Maintainer: Kolab for Debian testing <devel@lists.kolab.org>
 Uploaders: hede <kolab983@der-he.de>
-Build-Depends: debhelper (>= 9), phpunit, php-symfony-class-loader, pkg-php-tools (>= 1.7~), php5-curl, php-sabre-event
+Build-Depends: debhelper (>= 9), phpunit, php-symfony-classloader, pkg-php-tools (>= 1.7~), php5-curl, php-sabre-event (>= 1.0.0), php-sabre-event (<< 3)
 Standards-Version: 3.9.6
 Homepage: http://sabre.io/http/
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-sabre-http.git

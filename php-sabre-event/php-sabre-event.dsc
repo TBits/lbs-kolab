@@ -5,7 +5,7 @@ Architecture: all
 Version: 1.0.1-1
 Maintainer: Kolab for Debian testing <devel@lists.kolab.org>
 Uploaders: hede <kolab983@der-he.de>
-Build-Depends: debhelper (>= 9), phpunit, php-symfony-class-loader, pkg-php-tools (>= 1.7~)
+Build-Depends: debhelper (>= 9), phpunit, php-symfony-classloader, pkg-php-tools (>= 1.7~)
 Standards-Version: 3.9.6
 Homepage: http://sabre.io/event/
 Vcs-Git: git://anonscm.debian.org/pkg-php/php-sabre-event.git -b 1.0

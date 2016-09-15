@@ -9,7 +9,7 @@ Homepage: http://sabre.io/http/
 Standards-Version: 3.9.3
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-sabre-http.git
 Vcs-Git: git://anonscm.debian.org/pkg-php/php-sabre-http.git -b 3.0
-Build-Depends: debhelper (>= 9), phpunit, php-symfony-class-loader, pkg-php-tools (>= 1.7~), php5-curl, php-sabre-event
+Build-Depends: debhelper (>= 9), phpunit, php-symfony-classloader, pkg-php-tools (>= 1.7~), php5-curl, php-sabre-event (>= 1.0.0), php-sabre-event (<< 3)
 Package-List:
  php-sabre-http deb php optional arch=all
 Files:

@@ -7,9 +7,9 @@ Uploaders: Thomas Mueller <thomas.mueller@tmit.eu>,
            David Prévot <taffit@debian.org>,
            hede <kolab983@der-he.de>
 Build-Depends: debhelper (>= 8.0.0),
-               php-sabre-vobject,
-               php-sabre-http,
-               php-sabre-event,
+               php-sabre-vobject (>= 3.3.4),
+               php-sabre-vobject (< 4),
+               php-sabre-http (>= 2.0.4),
                php-symfony-classloader,
                php5-curl,
                php5-sqlite,
@@ -23,6 +23,9 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-owncloud/php-sabredav.git
 Package: php-sabre-dav
 Architecture: all
 Depends: php-sabre-event (<< 3.0.0~as2.1),
+         php-sabre-http (>= 2.0.4),
+         php-sabre-vobject (>= 3.3.4),
+         php-sabre-vobject (< 4),
          ${misc:Depends}, 
          ${phpcomposer:Debian-require}
 Suggests: ${phpcomposer:Debian-suggest}
