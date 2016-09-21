@@ -84,7 +84,13 @@ BuildRequires:      pytz
 
 BuildRequires:      python-sievelib
 BuildRequires:      python-sqlalchemy
+
+%if 0%{?fedora} >= 23
+# Fedora 23 has python2-twisted and python-twisted
+BuildRequires:      python-twisted
+%else
 BuildRequires:      python-twisted-core
+%endif
 
 %if 0%{?fedora} >= 21
 # Fedora 21 has qca2 and qca, qca2 has been renamed to qca, required by kdelibs
@@ -356,6 +362,7 @@ fi
 if [ "$1" == "1" ] ; then
 %if 0%{?with_systemd}
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    systemd-tmpfiles --create
 %else
     /sbin/chkconfig --add kolabd
 %endif
@@ -380,6 +387,7 @@ fi
 if [ "$1" == "1" ] ; then
 %if 0%{?with_systemd}
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    systemd-tmpfiles --create
 %else
     chkconfig --add wallace
 %endif
@@ -569,6 +577,10 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Tue Sep 20 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.3-3
+- Fix for Fedora 23 and higher, python-twisted buildrequires
+- Create /run directories for kolabd and wallaced services 
+
 * Wed Jul 27 2016 Dominique Leuenberger (openSUSE) <dimstar@opensuse.org> - 0.8.3-2
 - Fix build on openSUSE systems: use %_rundir instead of /var/run
 
