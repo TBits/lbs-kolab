@@ -2,7 +2,7 @@ Format: 1.0
 Source: cyrus-imapd
 Binary: cyrus-imapd
 Architecture: any
-Version: 2.5.9-0~kolab11.1
+Version: 2.5.9-0~kolab27.1
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.cyrusimap.org/
@@ -43,5 +43,5 @@ Build-Depends:
 Package-List:
  cyrus-imapd deb mail extra
 Files:
- 00000000000000000000000000000000 0 cyrus-imapd-2.5.9.11.tar.gz
+ 00000000000000000000000000000000 0 cyrus-imapd-2.5.9-27-gda4438e.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz
