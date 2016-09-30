@@ -41,7 +41,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.2.0
+Version:        1.2.2
 
 Release:        1%{?dist}
 
@@ -51,7 +51,7 @@ Group:          Applications/System
 License:        GPLv2
 URL:            http://www.roundcube.net
 
-Source0:        roundcubemail-1.2.0.tar.gz
+Source0:        roundcubemail-1.2.2.tar.gz
 Source1:        comm.py
 
 Source20:       roundcubemail.conf
@@ -69,7 +69,7 @@ BuildRequires:  php-mcrypt
 BuildRequires:  php-pdo
 BuildRequires:  php-pear >= 1.9.0
 BuildRequires:  php-phpunit-PHPUnit
-BuildRequires:  php-phpunit-PHPUnit-Selenium < 2.0
+BuildRequires:  php-phpunit-PHPUnit-Selenium
 BuildRequires:  php-xml
 
 BuildRequires:  php-pear(Auth_SASL)
@@ -3122,6 +3122,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Sep 29 2016 Timotheus Pokorra <tp@tbits.net> - 1.2.2-1
+- Check in maintenance upstream 1.2.2 release
+
 * Wed Jul  6 2016 Jeroen van Meeuwen <vanmeeuwen@Kolabsys.com> - 1.2.0-1
 - Check in the latest stable release
 
