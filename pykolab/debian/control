@@ -23,6 +23,7 @@ Build-Depends:  autotools-dev,
                 python-icalendar,
                 python-minimal,
                 python-nose,
+                python-tzlocal,
                 univention-config-dev | bash (>= 1.0)
 Standards-Version: 3.9.3
 Homepage: http://www.kolab.org
@@ -94,7 +95,8 @@ Depends: pykolab (= ${binary:Version}),
          python,
          python-kolabformat,
          ${misc:Depends},
-         python-icalendar
+         python-icalendar,
+         python-tzlocal
 Description: Kolab XML format wrapper for pykolab
  Kolab Format XML bindings wrapper for pykolab
 
@@ -107,7 +109,8 @@ Depends: pykolab (= ${binary:Version}),
          ${misc:Depends},
          lsb-base (>= 3.0-6),
          python-dateutil,
-         python-icalendar
+         python-icalendar,
+         python-tzlocal
 Replaces: kolab-content-filter
 Provides: kolab-content-filter
 Description: Kolab Content-Filter

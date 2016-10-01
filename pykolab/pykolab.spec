@@ -7,6 +7,7 @@
 %if 0%{?suse_version} || 0%{?fedora} > 17 || 0%{?rhel} > 6
 %global with_systemd 1
 %{!?_unitdir:   %global _unitdir /usr/lib/systemd/system/}
+%{!?_rundir:    %global _rundir  %{_localstatedir}/run}
 %else
 %global with_systemd 0
 %endif
@@ -28,7 +29,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.3
+Version:            0.8.4
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -83,7 +84,14 @@ BuildRequires:      pytz
 
 BuildRequires:      python-sievelib
 BuildRequires:      python-sqlalchemy
+
+%if 0%{?fedora} >= 23
+# Fedora 23 has python2-twisted and python-twisted
+BuildRequires:      python-twisted
+%else
 BuildRequires:      python-twisted-core
+%endif
+BuildRequires:      python-tzlocal
 
 %if 0%{?fedora} >= 21
 # Fedora 21 has qca2 and qca, qca2 has been renamed to qca, required by kdelibs
@@ -144,6 +152,7 @@ Requires:           %{name} = %{version}-%{release}
 Requires:           python-icalendar
 Requires:           python-kolab
 Requires:           python-kolabformat >= 0.5
+Requires:           python-tzlocal
 
 %description xml
 Kolab Format XML bindings wrapper for %{name}
@@ -223,6 +232,7 @@ Requires:           MySQL-python
 %endif
 Requires:           python-gnupg
 Requires:           python-icalendar >= 3.0
+Requires:           python-tzlocal
 Requires:           %{name}-xml = %{version}-%{release}
 
 %description -n wallace
@@ -355,6 +365,7 @@ fi
 if [ "$1" == "1" ] ; then
 %if 0%{?with_systemd}
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    systemd-tmpfiles --create
 %else
     /sbin/chkconfig --add kolabd
 %endif
@@ -379,6 +390,7 @@ fi
 if [ "$1" == "1" ] ; then
 %if 0%{?with_systemd}
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    systemd-tmpfiles --create
 %else
     chkconfig --add wallace
 %endif
@@ -498,8 +510,8 @@ rm -rf %{buildroot}
 %{_sbindir}/kolab-saslauthd
 %{python_sitelib}/saslauthd/
 %if 0%{?suse_version} > 0 || 0%{?fedora} > 17 || 0%{?rhel} > 6
-%ghost %dir %{_localstatedir}/run/kolab-saslauthd
-%ghost %dir %{_localstatedir}/run/saslauthd
+%ghost %dir %{_rundir}/kolab-saslauthd
+%ghost %dir %{_rundir}/saslauthd
 %else
 %dir %{_localstatedir}/run/kolab-saslauthd
 %dir %{_localstatedir}/run/saslauthd
@@ -528,7 +540,7 @@ rm -rf %{buildroot}
 %{_sbindir}/kolabd
 %{python_sitelib}/kolabd/
 %if 0%{?suse_version} > 0 || 0%{?fedora} > 17 || 0%{?rhel} > 6
-%ghost %dir %{_localstatedir}/run/kolabd
+%ghost %dir %{_rundir}/kolabd
 %else
 %attr(0770,kolab,kolab) %dir %{_localstatedir}/run/kolabd
 %endif
@@ -549,7 +561,11 @@ rm -rf %{buildroot}
 %dir %{_prefix}/lib/tmpfiles.d/
 %endif
 %{_prefix}/lib/tmpfiles.d/wallace.conf
+%if 0%{?suse_version} > 0 || 0%{?fedora} > 17 || 0%{?rhel} > 6
+%ghost %dir %{_rundir}/wallaced
+%else
 %attr(0700,%{kolab_user},%{kolab_group}) %dir /run/wallaced
+%endif
 %else
 %{_initrddir}/wallace
 %endif
@@ -564,6 +580,16 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Fri Sep 30 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.4-1
+- Release of version 0.8.4
+
+* Tue Sep 20 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.3-3
+- Fix for Fedora 23 and higher, python-twisted buildrequires
+- Create /run directories for kolabd and wallaced services 
+
+* Wed Jul 27 2016 Dominique Leuenberger (openSUSE) <dimstar@opensuse.org> - 0.8.3-2
+- Fix build on openSUSE systems: use %_rundir instead of /var/run
+
 * Fri Jul 22 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.3-1
 - Release of version 0.8.3
 

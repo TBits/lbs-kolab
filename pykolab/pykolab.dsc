@@ -2,7 +2,7 @@ Format: 1.0
 Source: pykolab
 Binary: pykolab, kolab-cli, kolab-conf, kolab-saslauthd, kolab-server, kolab-telemetry, kolab-xml, wallace
 Architecture: all
-Version: 0.8.3-0~kolab1
+Version: 0.8.4-0~kolab1
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.kolab.org
@@ -28,6 +28,7 @@ Build-Depends:  autotools-dev,
                 python-icalendar,
                 python-minimal,
                 python-nose,
+                python-tzlocal,
                 univention-config-dev | bash (>= 1.0)
 Package-List:
  kolab-cli deb python optional
@@ -39,5 +40,5 @@ Package-List:
  pykolab deb python optional
  wallace deb python optional
 Files:
- 00000000000000000000000000000000 0 pykolab-0.8.3.tar.gz
+ 00000000000000000000000000000000 0 pykolab-0.8.4.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

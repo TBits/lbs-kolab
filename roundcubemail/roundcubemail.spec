@@ -41,9 +41,9 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version: 1.2
+Version:        1.2.2
 
-Release: 0.20160119.git1%{?dist}
+Release:        1%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -51,8 +51,7 @@ Group:          Applications/System
 License:        GPLv2
 URL:            http://www.roundcube.net
 
-# From df10bd5f2c98831bc20fae9c579967109345fdab
-Source0:        roundcubemail-1.2.tar.gz
+Source0:        roundcubemail-1.2.2.tar.gz
 Source1:        comm.py
 
 Source20:       roundcubemail.conf
@@ -60,8 +59,6 @@ Source21:       roundcubemail.logrotate
 
 Patch201:       ticket-466-changes.patch
 Patch202:       default-configuration.patch
-
-Patch203:       CVE-2016-5103.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1292,7 +1289,6 @@ pushd %{name}-%{version}
 
 %patch201 -p1
 %patch202 -p1
-%patch203 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -3119,6 +3115,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Sep 29 2016 Timotheus Pokorra <tp@tbits.net> - 1.2.2-1
+- upgrade to upstream Roundcube 1.2.2 release
+
 * Fri May 27 2016 Timotheus Pokorra <tp@tbits.net>
 - apply security patch for XSS vulnerability CVE-2016-5103
 

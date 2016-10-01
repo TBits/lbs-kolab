@@ -1,13 +1,12 @@
 diff -ur roundcubemail-1.1.orig/config/defaults.inc.php roundcubemail-1.1/config/defaults.inc.php
 --- roundcubemail-1.1.orig/config/defaults.inc.php	2014-12-29 14:26:18.000000000 +0100
 +++ roundcubemail-1.1/config/defaults.inc.php	2015-01-01 15:45:30.872187455 +0100
-@@ -432,7 +432,7 @@
- // Password charset.
- // Use it if your authentication backend doesn't support UTF-8.
- // Defaults to ISO-8859-1 for backward compatibility
+@@ -501,6 +501,6 @@
+ // Otherwise, use the appropriate character set.
+ // Defaults to ISO-8859-1 for backward compatibility.
 -$config['password_charset'] = 'ISO-8859-1';
 +$config['password_charset'] = 'UTF-8';
- 
+
  // How many seconds must pass between emails sent by a user
  $config['sendmail_delay'] = 0;
 @@ -540,7 +540,7 @@

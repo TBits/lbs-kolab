@@ -9,20 +9,14 @@
 %{!?_unitdir: %global _unitdir /usr/lib/systemd/system}
 %endif
 
-%global _name cyrus-imapd
-
-%global ssl_pem_file %{_sysconfdir}/pki/%{_name}/%{_name}.pem
+%global ssl_pem_file %{_sysconfdir}/pki/%{name}/%{name}.pem
 
 %global uid 76
 %global gid 76
 
 %global _cyrususer cyrus
 %global _cyrusgroup mail
-%global _cyrexecdir %{_exec_prefix}/lib/%{_name}
-
-%global real_version 2.5.8
-%global snapshot_version 12
-%global dot_snapshot_version %{?snapshot_version:.%{snapshot_version}}
+%global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
 ##
 ## Options
@@ -38,19 +32,16 @@
 
 Name:               cyrus-imapd
 Summary:            A high-performance mail server with IMAP, POP3, NNTP and SIEVE support
-Version:            %{real_version}
-%if 0%{?snapshot_version}
-Release:            %{snapshot_version}.1%{?dist}
-%else
+##Version:            2.5.9
+##Release:            31-g959d458%{?dist}
+Version:            2.5.9.31
 Release:            1%{?dist}
-%endif
 License:            BSD
 Group:              System Environment/Daemons
 URL:                http://www.cyrusimap.org
 
-# Upstream sources
-# From a2f3b110343c11d18b2974bb8e05f543c8c931a5
-Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{_name}-%{real_version}%{?dot_snapshot_version}.tar.gz
+#Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-%{version}-%{release}.tar.gz
+Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-2.5.9-31-g959d458.tar.gz
 Source1:            cyrus-imapd.imap-2.3.x-conf
 Source2:            cyrus-imapd.cvt_cyrusdb_all
 Source3:            cyrus-imapd.magic
@@ -264,7 +255,8 @@ The %{name}-devel package contains header files and libraries
 necessary for developing applications which use the imclient library.
 
 %prep
-%setup -q -n %{_name}-%{real_version}%{?dot_snapshot_version}
+#%setup -q -n %{name}-%{real_version}
+%setup -q -n %{name}-2.5.9-31-g959d458
 
 %if 0%{?with_bdb} < 1
 sed -i -e 's/,berkeley//g' cunit/db.testc
@@ -374,7 +366,7 @@ rm -rf %{buildroot}%{_cyrexecdir}/htmlstrip.c
   %{buildroot}%{_var}/spool/imap \
   %{buildroot}%{_var}/lib/imap/{user,quota,proc,log,msg,socket,db,sieve,sync,md5,rpm,backup,meta} \
   %{buildroot}%{_var}/lib/imap/ptclient \
-  %{buildroot}%{_sysconfdir}/pki/%{_name} \
+  %{buildroot}%{_sysconfdir}/pki/%{name} \
   doc/contrib
 
 # Install additional files
@@ -382,7 +374,7 @@ rm -rf %{buildroot}%{_cyrexecdir}/htmlstrip.c
 %{__install} -p -m 644 %{SOURCE1}    %{buildroot}%{_sysconfdir}/imapd.conf
 %{__install} -p -m 755 %{SOURCE2}   %{buildroot}%{_cyrexecdir}/cvt_cyrusdb_all
 %{__install} -p -m 644 %{SOURCE3}   %{buildroot}%{_var}/lib/imap/rpm/magic
-%{__install} -p -m 644 %{SOURCE11}    %{buildroot}%{_sysconfdir}/logrotate.d/%{_name}
+%{__install} -p -m 644 %{SOURCE11}    %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %{__install} -p -m 644 %{SOURCE12}    %{buildroot}%{_sysconfdir}/pam.d/pop
 %{__install} -p -m 644 %{SOURCE12}    %{buildroot}%{_sysconfdir}/pam.d/imap
 %{__install} -p -m 644 %{SOURCE12}    %{buildroot}%{_sysconfdir}/pam.d/sieve
@@ -390,13 +382,13 @@ rm -rf %{buildroot}%{_cyrexecdir}/htmlstrip.c
 %{__install} -p -m 644 %{SOURCE12}    %{buildroot}%{_sysconfdir}/pam.d/lmtp
 %{__install} -p -m 644 %{SOURCE12}    %{buildroot}%{_sysconfdir}/pam.d/nntp
 %{__install} -p -m 644 %{SOURCE12}    %{buildroot}%{_sysconfdir}/pam.d/csync
-%{__install} -p -m 755 %{SOURCE13}   %{buildroot}%{_sysconfdir}/cron.daily/%{_name}
+%{__install} -p -m 755 %{SOURCE13}   %{buildroot}%{_sysconfdir}/cron.daily/%{name}
 %if 0%{?suse_version}
 %{__install} -d %{buildroot}%{_localstatedir}/adm/fillup-templates/
-%{__install} -p -m 644 %{SOURCE22}   %{buildroot}%{_localstatedir}/adm/fillup-templates/sysconfig.%{_name}
+%{__install} -p -m 644 %{SOURCE22}   %{buildroot}%{_localstatedir}/adm/fillup-templates/sysconfig.%{name}
 %else
 %{__install} -d %{buildroot}%{_sysconfdir}/sysconfig/
-%{__install} -p -m 644 %{SOURCE22}   %{buildroot}%{_sysconfdir}/sysconfig/%{_name}
+%{__install} -p -m 644 %{SOURCE22}   %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 %endif
 
 %if 0%{?with_systemd}
@@ -404,7 +396,7 @@ rm -rf %{buildroot}%{_cyrexecdir}/htmlstrip.c
 %{__install} -p -D -m 755 %{SOURCE32}   %{buildroot}%{_cyrexecdir}/cyr_systemd_helper
 %else
 %{__install} -d %{buildroot}%{_sysconfdir}/rc.d/init.d
-%{__install} -p -m 755 %{SOURCE21}   %{buildroot}%{_sysconfdir}/rc.d/init.d/%{_name}
+%{__install} -p -m 755 %{SOURCE21}   %{buildroot}%{_sysconfdir}/rc.d/init.d/%{name}
 %endif
 
 # Cleanup of doc dir
@@ -493,9 +485,9 @@ CHATTRSYNC=0
 
 %if 0%{?suse_version}
 %if 0%{?with_systemd}
-    %fillup_only %{_name}
+    %fillup_only %{name}
 %else
-    %fillup_and_insserv %{_name}
+    %fillup_and_insserv %{name}
 %endif
 if [[ ! -e "%{_sysconfdir}/pam.d/runuser" ]]; then
     ln -s %{_sysconfdir}/pam.d/su %{_sysconfdir}/pam.d/runuser
@@ -527,7 +519,7 @@ fi
 if [ ! -f %{ssl_pem_file} -a -d "%{_sysconfdir}/pki/tls/certs" ]; then
     pushd %{_sysconfdir}/pki/tls/certs
     umask 077
-    %{__cat} << EOF | make %{_name}.pem
+    %{__cat} << EOF | make %{name}.pem
 --
 SomeState
 SomeCity
@@ -537,9 +529,9 @@ localhost.localdomain
 root@localhost.localdomain
 EOF
 
-    %{__chown} root.%{_cyrusgroup} %{_name}.pem
-    %{__chmod} 640 %{_name}.pem
-    mv %{_name}.pem %{ssl_pem_file}
+    %{__chown} root.%{_cyrusgroup} %{name}.pem
+    %{__chmod} 640 %{name}.pem
+    mv %{name}.pem %{ssl_pem_file}
     popd
 fi
 
@@ -552,7 +544,7 @@ fi
     %systemd_post cyrus-imapd.service || :
 %endif
 %else
-    /sbin/chkconfig --add %{_name}
+    /sbin/chkconfig --add %{name}
 %endif
 
 %preun
@@ -564,8 +556,8 @@ fi
 %endif
 %else
     if [ $1 = 0 ]; then
-        /sbin/service %{_name} stop >/dev/null 2>&1 || :
-        /sbin/chkconfig --del %{_name}
+        /sbin/service %{name} stop >/dev/null 2>&1 || :
+        /sbin/chkconfig --del %{name}
     fi
 %endif
 
@@ -582,7 +574,7 @@ fi
 %endif
 %else
     if [ $1 != 0 ]; then
-        /sbin/service %{_name} condrestart >/dev/null 2>&1 || :
+        /sbin/service %{name} condrestart >/dev/null 2>&1 || :
     fi
 %endif
 
@@ -596,14 +588,14 @@ fi
 %{_unitdir}/cyrus-imapd.service
 %{_cyrexecdir}/cyr_systemd_helper
 %else
-%{_sysconfdir}/rc.d/init.d/%{_name}
+%{_sysconfdir}/rc.d/init.d/%{name}
 %endif
 %dir %{_sysconfdir}/pki
-%config(noreplace) %{_sysconfdir}/logrotate.d/%{_name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %if 0%{?suse_version}
-%config(noreplace) %{_localstatedir}/adm/fillup-templates/sysconfig.%{_name}
+%config(noreplace) %{_localstatedir}/adm/fillup-templates/sysconfig.%{name}
 %else
-%attr(0640,root,%{_cyrusgroup}) %config(noreplace) %{_sysconfdir}/sysconfig/%{_name}
+%attr(0640,root,%{_cyrusgroup}) %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %endif
 %config(noreplace) %{_sysconfdir}/pam.d/pop
 %config(noreplace) %{_sysconfdir}/pam.d/imap
@@ -623,7 +615,7 @@ fi
 %{_bindir}/sivtest
 %{_bindir}/smtptest
 %{_bindir}/synctest
-%{_sysconfdir}/cron.daily/%{_name}
+%{_sysconfdir}/cron.daily/%{name}
 %dir %{_cyrexecdir}
 %{_cyrexecdir}/arbitron
 %{_cyrexecdir}/arbitronsort.pl
@@ -652,6 +644,7 @@ fi
 %{_cyrexecdir}/dohash
 %{_cyrexecdir}/fixsearchpath.pl
 %{_cyrexecdir}/fud
+%exclude %{_cyrexecdir}/git-version.sh
 #%{_cyrexecdir}/hammer_cyrusdb
 %{_cyrexecdir}/imapd
 %{_cyrexecdir}/ipurge
@@ -740,7 +733,7 @@ fi
 %{_mandir}/man3/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
-%dir %{_sysconfdir}/pki/%{_name}
+%dir %{_sysconfdir}/pki/%{name}
 %attr(0640,root,%{_cyrusgroup}) %ghost %config(missingok,noreplace) %verify(not md5 size mtime) %{ssl_pem_file}
 
 %files devel
@@ -753,6 +746,18 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Fri Sep 30 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.9.31-1
+- Check in 31 revisions ahead of upstream 2.5.9 release
+
+* Thu Sep 22 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.9.27-1
+- Check in 27 revisions ahead of upstream 2.5.9 release
+
+* Mon Aug 01 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.9.11-1
+- Check in 11 revisions ahead of upstream 2.5.9 release
+
+* Thu Jul  7 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.8.22-1
+- Check in 22 revisions ahead of upstream 2.5.8 release
+
 * Thu Jun 02 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.8.12-1
 - Check in 12 revisions ahead of upstream 2.5.8 release
 
