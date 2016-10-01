@@ -33,15 +33,15 @@
 Name:               cyrus-imapd
 Summary:            A high-performance mail server with IMAP, POP3, NNTP and SIEVE support
 ##Version:            2.5.9
-##Release:            27-gda4438e%{?dist}
-Version:            2.5.9.27
+##Release:            31-g959d458%{?dist}
+Version:            2.5.9.31
 Release:            1%{?dist}
 License:            BSD
 Group:              System Environment/Daemons
 URL:                http://www.cyrusimap.org
 
 #Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-%{version}-%{release}.tar.gz
-Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-2.5.9-27-gda4438e.tar.gz
+Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-2.5.9-31-g959d458.tar.gz
 Source1:            cyrus-imapd.imap-2.3.x-conf
 Source2:            cyrus-imapd.cvt_cyrusdb_all
 Source3:            cyrus-imapd.magic
@@ -256,7 +256,7 @@ necessary for developing applications which use the imclient library.
 
 %prep
 #%setup -q -n %{name}-%{real_version}
-%setup -q -n %{name}-2.5.9-27-gda4438e
+%setup -q -n %{name}-2.5.9-31-g959d458
 
 %if 0%{?with_bdb} < 1
 sed -i -e 's/,berkeley//g' cunit/db.testc
@@ -746,6 +746,9 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Fri Sep 30 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.9.31-1
+- Check in 31 revisions ahead of upstream 2.5.9 release
+
 * Thu Sep 22 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.9.27-1
 - Check in 27 revisions ahead of upstream 2.5.9 release
 

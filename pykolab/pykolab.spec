@@ -29,7 +29,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.3
+Version:            0.8.4
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -91,6 +91,7 @@ BuildRequires:      python-twisted
 %else
 BuildRequires:      python-twisted-core
 %endif
+BuildRequires:      python-tzlocal
 
 %if 0%{?fedora} >= 21
 # Fedora 21 has qca2 and qca, qca2 has been renamed to qca, required by kdelibs
@@ -151,6 +152,7 @@ Requires:           %{name} = %{version}-%{release}
 Requires:           python-icalendar
 Requires:           python-kolab
 Requires:           python-kolabformat >= 0.5
+Requires:           python-tzlocal
 
 %description xml
 Kolab Format XML bindings wrapper for %{name}
@@ -230,6 +232,7 @@ Requires:           MySQL-python
 %endif
 Requires:           python-gnupg
 Requires:           python-icalendar >= 3.0
+Requires:           python-tzlocal
 Requires:           %{name}-xml = %{version}-%{release}
 
 %description -n wallace
@@ -577,6 +580,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Fri Sep 30 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.4-1
+- Release of version 0.8.4
+
 * Tue Sep 20 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.3-3
 - Fix for Fedora 23 and higher, python-twisted buildrequires
 - Create /run directories for kolabd and wallaced services 
