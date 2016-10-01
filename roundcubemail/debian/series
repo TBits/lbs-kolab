@@ -1,3 +1,1 @@
 default-configuration.patch -p1
-ticket-466-changes.patch -p1
-CVE-2016-5103.patch -p1

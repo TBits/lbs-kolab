@@ -1,3 +1,9 @@
+roundcubemail (1:1.1.6.0-0~kolab1) unstable; urgency=low
+
+  * Check in maintenance upstream 1.1.6 release
+
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 29 Sep 2016 08:42:00 +0200
+
 roundcubemail (1:1.1.5.0-0~kolab2) unstable; urgency=low
 
   * apply security patch for XSS vulnerability CVE-2016-5103
