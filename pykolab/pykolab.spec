@@ -39,6 +39,7 @@ Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
 
 Patch0001:          pykolab-0.8-patch-out-manticore.patch
+Patch0002:          pykolab-0.8.4-patch-freshclam-subprocess.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -244,6 +245,8 @@ This is the Kolab Content Filter, with plugins
 %if 0%{?kolab_enterprise}
 %patch0001 -p1
 %endif
+
+%patch0002 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -580,6 +583,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Tue Oct 04 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.4-2
+- Add a patch that fixes setup-kolab again, error in call of subprocess for freshclam
+
 * Fri Sep 30 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.4-1
 - Release of version 0.8.4
 
