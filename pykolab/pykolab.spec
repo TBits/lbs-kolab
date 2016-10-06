@@ -40,6 +40,7 @@ Source1:            pykolab.logrotate
 
 Patch0001:          pykolab-0.8-patch-out-manticore.patch
 Patch0002:          pykolab-0.8.4-patch-freshclam-subprocess.patch
+Patch0003:          pykolab-0.8.4-patch-LDAP-Timeout-T1414.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -247,6 +248,7 @@ This is the Kolab Content Filter, with plugins
 %endif
 
 %patch0002 -p1
+%patch0003 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -583,6 +585,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Wed Oct 05 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.4-3
+- Add a patch for T1414: Set LDAP TIMEOUT option only on "immediate" connection
+
 * Tue Oct 04 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.4-2
 - Add a patch that fixes setup-kolab again, error in call of subprocess for freshclam
 

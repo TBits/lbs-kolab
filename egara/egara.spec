@@ -25,6 +25,7 @@ Source0:            http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.t
 
 Patch1:             egara-0.1-tests.patch
 Patch2:             egara-0.1-release.patch
+Patch3:             egara-0.2-relax-riakc-dep.patch
 
 BuildRequires:      erlang
 BuildRequires:      erlang-eldap
@@ -69,6 +70,7 @@ written (primarily) in Erlang.
 %setup -q
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 pushd rel
