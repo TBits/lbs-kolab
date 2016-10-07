@@ -1,3 +1,1 @@
 cyrus-imapd.conf-cert-paths.patch -p1
-pykolab-0.8.4-patch-freshclam-subprocess.patch -p1
-pykolab-0.8.4-patch-LDAP-Timeout-T1414.patch -p1

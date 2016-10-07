@@ -29,7 +29,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.4
+Version:            0.8.5
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -39,8 +39,6 @@ Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
 
 Patch0001:          pykolab-0.8-patch-out-manticore.patch
-Patch0002:          pykolab-0.8.4-patch-freshclam-subprocess.patch
-Patch0003:          pykolab-0.8.4-patch-LDAP-Timeout-T1414.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -246,9 +244,6 @@ This is the Kolab Content Filter, with plugins
 %if 0%{?kolab_enterprise}
 %patch0001 -p1
 %endif
-
-%patch0002 -p1
-%patch0003 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -585,6 +580,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Thu Oct 06 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.5-1
+- Release of version 0.8.5
+
 * Wed Oct 05 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.4-3
 - Add a patch for T1414: Set LDAP TIMEOUT option only on "immediate" connection
 
