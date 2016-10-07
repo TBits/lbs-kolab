@@ -29,7 +29,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.4
+Version:            0.8.5
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -580,6 +580,15 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Thu Oct 06 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.5-1
+- Release of version 0.8.5
+
+* Wed Oct 05 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.4-3
+- Add a patch for T1414: Set LDAP TIMEOUT option only on "immediate" connection
+
+* Tue Oct 04 2016 Timotheus Pokorra <tp@tbits.net> - 0.8.4-2
+- Add a patch that fixes setup-kolab again, error in call of subprocess for freshclam
+
 * Fri Sep 30 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.4-1
 - Release of version 0.8.4
 

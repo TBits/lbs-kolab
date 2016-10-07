@@ -1,3 +1,8 @@
+pykolab (0.8.5-0~kolab1) unstable; urgency=low
+
+  * Upstream release of version 0.8.5
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  6 Oct 2016 01:49:00 +0100
 
 pykolab (0.8.4-0~kolab1) unstable; urgency=low
 
