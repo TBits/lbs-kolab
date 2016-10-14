@@ -12,7 +12,7 @@
 
 Name:           kolab
 Version:        16.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
@@ -87,6 +87,10 @@ component
 Summary:        The Kolab Groupware Mail Transfer Agent (MTA) meta-package
 Group:          Applications/System
 Requires:       amavisd-new
+
+%if 0%{?rhel} > 6 || 0%{?fedora} > 0
+Requires:       clamav-update
+%endif
 
 %if 0%{?with_systemd}
 Requires:       clamav-server-systemd

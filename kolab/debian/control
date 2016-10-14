@@ -64,6 +64,7 @@ Pre-Depends:kolab-saslauthd,
             postfix
 Depends:    amavisd-new,
             clamav-daemon,
+            clamav-freshclam,
             postfix-ldap,
             spamassassin,
             wallace,
