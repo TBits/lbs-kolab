@@ -12,7 +12,7 @@
 
 Name:           kolab
 Version:        16.0.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
@@ -88,14 +88,22 @@ Summary:        The Kolab Groupware Mail Transfer Agent (MTA) meta-package
 Group:          Applications/System
 Requires:       amavisd-new
 
+%if 0%{?rhel} > 6 || 0%{?fedora} > 0
+Requires:       clamav-update
+%endif
+
 %if 0%{?with_systemd}
 Requires:       clamav-server-systemd
 %else
 Requires:       clamav-server-sysvinit
 %endif
+Requires:       clamav-update
 
 Requires:       postfix
 Requires:       postfix-kolab
+%if 0%{?fedora} >= 23
+Requires:       postfix-ldap
+%endif
 Requires:       spamassassin
 Requires:       wallace
 Obsoletes:      sendmail
@@ -112,9 +120,11 @@ Requires:       iRony
 Requires:       kolab-autoconf
 Requires:       kolab-freebusy
 Requires:       kolab-syncroton
+%if 0%{?kolab_enterprise} < 0
 %ifnarch %{arm}
 Requires:       manticore
 Requires:       mongodb-server
+%endif
 %endif
 # Install or /usr/bin/mysql isn't available
 Requires:       mysql
@@ -172,6 +182,9 @@ This is the Kolab Groupware web client meta-package
 %doc README
 
 %changelog
+* Thu Mar 10 2016 Timotheus Pokorra <tp@tbits.net> - 16.0.1-2
+- Fedora 23 requires postfix-ldap to be installed
+
 * Sun Jan 31 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-1
 - Set the build architecture back to not noarch
 
