@@ -1,3 +1,13 @@
+cyrus-imapd (2.5.10.43-0~kolab1) unstable; urgency=low
+
+  * Preserve the folder uniqueid on rename.
+  * Transfer a folder between backends preserving the mailboxes.db uniqueid.
+  * Allow replicated backends to transfer mailboxes between pairs.
+  * Preserve the original partition as the target partition if not the default
+    partition, when replicating or transferring a mailbox.
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat, 05 Nov 2016 11:30:13 +0100
+
 cyrus-imapd (2.5.9-0~kolab31.1) unstable; urgency=low
 
   * Check in a snapshot version 31 revisions ahead of the upstream 2.5.9 release

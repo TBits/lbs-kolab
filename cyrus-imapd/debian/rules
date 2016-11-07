@@ -99,6 +99,8 @@ configure-stamp: $(QUILT_STAMPFN)
 		--with-perl=/usr/bin/perl \
 		--with-openssl=/usr \
 		--with-sasl=/usr \
+		--without-clamav \
+		--without-wrap \
 		--without-zlib \
 		--with-pidfile=/var/run/cyrus-master.pid \
 		--with-service-path=/usr/lib/cyrus-imapd \
