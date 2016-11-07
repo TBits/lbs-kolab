@@ -1,9 +1,8 @@
 Source: erlang-lager-syslog
 Priority: optional
 Maintainer: hede <kolab983@der-he.de>
-Uploaders: hede <kolab983@der-he.de>
-Build-Depends: debhelper (>= 9), dh-rebar, erlang-goldrush, erlang-lager, erlang-syslog
-Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 9), dh-rebar, erlang-crypto, erlang-goldrush, erlang-lager, erlang-syslog
+Standards-Version: 3.9.6
 Section: libs
 Homepage: https://github.com/basho/lager_syslog
 

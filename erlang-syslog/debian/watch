@@ -1,2 +1,2 @@
-version=1
-http://githubredir.debian.net/github/Vagabond/erlang-syslog/ (.*).tar.gz
+version=3
+https://github.com/Vagabond/erlang-syslog/tags .*/(.*)\.tar\.gz

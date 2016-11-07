@@ -18,6 +18,7 @@ Source0:        riak-erlang-client-%{version}.tar.gz
 
 Patch2:         basho-riak-erlang-client-d224a82-tests.patch
 
+BuildRequires:  erlang-hamcrest >= 0.3
 BuildRequires:  erlang-meck >= 0.1
 BuildRequires:  erlang-protobuffs >= 0.8
 BuildRequires:  erlang-rebar

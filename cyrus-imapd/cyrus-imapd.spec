@@ -18,6 +18,10 @@
 %global _cyrusgroup mail
 %global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
+%global tag_version 2.5.10
+%global revision    43
+%global git_hash    g1148d47
+
 ##
 ## Options
 ##
@@ -32,16 +36,13 @@
 
 Name:               cyrus-imapd
 Summary:            A high-performance mail server with IMAP, POP3, NNTP and SIEVE support
-##Version:            2.5.9
-##Release:            31-g959d458%{?dist}
-Version:            2.5.9.31
-Release:            1%{?dist}
+Version:            %{tag_version}
+Release:            0.%{revision}.%{git_hash}%{?dist}
 License:            BSD
 Group:              System Environment/Daemons
 URL:                http://www.cyrusimap.org
 
-#Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-%{version}-%{release}.tar.gz
-Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-2.5.9-31-g959d458.tar.gz
+Source0:            ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-%{tag_version}-%{revision}-%{git_hash}.tar.gz
 Source1:            cyrus-imapd.imap-2.3.x-conf
 Source2:            cyrus-imapd.cvt_cyrusdb_all
 Source3:            cyrus-imapd.magic
@@ -255,8 +256,7 @@ The %{name}-devel package contains header files and libraries
 necessary for developing applications which use the imclient library.
 
 %prep
-#%setup -q -n %{name}-%{real_version}
-%setup -q -n %{name}-2.5.9-31-g959d458
+%setup -q -n %{name}-%{tag_version}-%{revision}-%{git_hash}
 
 %if 0%{?with_bdb} < 1
 sed -i -e 's/,berkeley//g' cunit/db.testc
@@ -319,6 +319,7 @@ LDFLAGS="$LDFLAGS -pie"; export LDFLAGS
 %endif
     --with-cyrus-prefix=%{_cyrexecdir} \
     --with-extraident="Kolab-%{version}-%{release}" \
+    --without-clamav \
 %if 0%{?with_tcpwrap} < 1
     --without-wrap \
 %endif
@@ -358,6 +359,8 @@ for tool in tools/* ; do
   test -f ${tool} && %{__install} -m 755 ${tool} %{buildroot}%{_cyrexecdir}/
 done
 rm -rf %{buildroot}%{_cyrexecdir}/htmlstrip.c
+rm -rf %{buildroot}%{_cyrexecdir}/config2rst
+rm -rf %{buildroot}%{_cyrexecdir}/perl2rst
 
 # Create directories
 %{__install} -d \
@@ -746,6 +749,13 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Sat Nov  5 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.10-43-g1148d47
+- Preserve the folder uniqueid on rename.
+- Transfer a folder between backends preserving the mailboxes.db uniqueid.
+- Allow replicated backends to transfer mailboxes between pairs.
+- Preserve the original partition as the target partition if not the default
+  partition, when replicating or transferring a mailbox.
+
 * Fri Sep 30 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.9.31-1
 - Check in 31 revisions ahead of upstream 2.5.9 release
 

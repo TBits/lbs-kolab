@@ -27,7 +27,9 @@ Summary:            Dynamo-inspired key/value store
 Group:              Applications/Databases
 License:            ASL 2.0
 URL:                http://wiki.basho.com/Riak.html
+%if 0%{?rhel} > 6 || 0%{?fedora}
 VCS:                https://github.com/basho/riak.git
+%endif
 Source0:            https://github.com/basho/riak/archive/riak-%{version}.tar.gz
 Source1:            %{name}.tmpfiles.conf
 Source2:            %{name}.init

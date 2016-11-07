@@ -20,7 +20,9 @@ Summary:	Full-text search engine based on Riak
 Group:		Development/Languages
 License:	ASL 2.0
 URL:		https://github.com/basho/riak_search
+%if 0%{?rhel} > 6 || 0%{?fedora}
 VCS:		https://github.com/basho/riak_search.git
+%endif
 Source0:	https://github.com/basho/riak_search/archive/%{version}/%{realname}-%{version}.tar.gz
 # Fedora/EPEL-specific
 Patch1:		erlang-riak_search-0001-Relax-dependencies.patch

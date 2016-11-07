@@ -29,6 +29,7 @@ VCS:		https://github.com/basho/riak_pb.git
 Source0:	%{upstream}-%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
 Patch1:     erlang-riak_api-2.1.1-relax-deps.patch
 
+BuildRequires:  erlang-hamcrest >= 0.3
 BuildRequires:	erlang-lager >= 1.2.2
 BuildRequires:	erlang-meck
 BuildRequires:	erlang-os_mon
