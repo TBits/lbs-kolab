@@ -2,7 +2,7 @@ roundcubemail (1:1.2.2-0~kolab1) unstable; urgency=low
 
   * upgrade to upstream Roundcube 1.2.2 release
 
- -- Timotheus Pokorra <tp@tbits.net>  Thu, 29  2016 08:42:00 +0200
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 29 Sep 2016 08:42:00 +0200
 
 roundcubemail (1:1.2~dev20160119-0~kolab2) unstable; urgency=low
 
