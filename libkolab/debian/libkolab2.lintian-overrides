@@ -4,6 +4,6 @@
 #        unprotected: memcpy
 # Neither memmove nor memcpy occur in the source code,
 # so overriding this warning
-libkolab0 binary: hardening-no-fortify-functions
+libkolab2 binary: hardening-no-fortify-functions
 # Using shlibs for now
-libkolab0 binary: no-symbols-control-file
+libkolab2 binary: no-symbols-control-file
