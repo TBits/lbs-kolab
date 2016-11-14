@@ -95,19 +95,21 @@ do
     fi
 
     # needed for python-tzlocal
-    for f in $pkgname_*.dsc; do
-      if [ -f $f ]; then
-        mv $f $pkgname.dsc
-      fi
-    done
+    if [ ! -f $debpkgname.dsc ]; then
+      for f in $debpkgname_*.dsc; do
+        if [ -f $f ]; then
+          mv $f $debpkgname.dsc
+        fi
+      done
+    fi
 
-    for f in $pkgname_*.debian.tar.gz; do
+    for f in $debpkgname_*.debian.tar.gz; do
       if [ -f $f ]; then
         mv $f debian.tar.gz
       fi
     done
 
-    for f in $pkgname_*.debian.tar.xz; do
+    for f in $debpkgname_*.debian.tar.xz; do
       if [ -f $f ]; then
         mv $f debian.tar.xz
       fi
