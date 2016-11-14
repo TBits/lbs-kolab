@@ -135,12 +135,14 @@ do
     if [ -f debian.series ]
     then
       mv debian.series debian/series
-      if [ ! -f debian/patches ]; then
-        mkdir -p debian/patches
-        cp *.patch debian/patches
-        mv debian/series debian/patches
-        mkdir -p debian/source
-        echo "3.0 (quilt)" > debian/source/format
+      if [ ! -d debian/patches ]; then
+        if [ ! -f debian/source/format ]; then
+          mkdir -p debian/patches
+          cp *.patch debian/patches
+          mv debian/series debian/patches
+          mkdir -p debian/source
+          echo "3.0 (quilt)" > debian/source/format
+        fi
       fi
     fi
 
