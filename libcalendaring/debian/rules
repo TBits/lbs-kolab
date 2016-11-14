@@ -11,3 +11,9 @@
 
 %:
 	dh $@ 
+
+# we need the kimaptest.a in /usr/lib, but it will be removed by dh_strip
+override_dh_strip:
+	pwd
+
+.PHONY: override_dh_strip
