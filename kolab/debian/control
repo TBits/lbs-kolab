@@ -39,7 +39,6 @@ Description: Metapackage for Kolab Groupware Server
 Package: kolab-imap
 Architecture: all
 Pre-Depends:cyrus-imapd (>= 2.4) | imap-server,
-            guam,
             kolab-saslauthd
 Depends:    ${misc:Depends},
             ${ucs:Depends}
