@@ -94,10 +94,34 @@ do
       debpkgname="php-net-ldap3"
     fi
 
+    # needed for python-tzlocal
+    for f in $pkgname_*.dsc; do
+      if [ -f $f ]; then
+        mv $f $pkgname.dsc
+      fi
+    done
+
+    for f in $pkgname_*.debian.tar.gz; do
+      if [ -f $f ]; then
+        mv $f debian.tar.gz
+      fi
+    done
+
+    for f in $pkgname_*.debian.tar.xz; do
+      if [ -f $f ]; then
+        mv $f debian.tar.xz
+      fi
+    done
+
     if [ -f debian.tar.gz ]
     then
       tar xzf debian.tar.gz
       rm -Rf debian.tar.gz
+    fi
+    if [ -f debian.tar.xz ]
+    then
+      tar xf debian.tar.xz
+      rm -Rf debian.tar.xz
     fi
     if [ -f debian.changelog ]
     then
