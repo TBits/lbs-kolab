@@ -1,0 +1,24 @@
+From aba0583d471bf8cf380600f2acf1ac42c1597818 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Mon, 18 May 2015 11:45:34 +0200
+Subject: [PATCH 2/7] Unbundle mustache
+
+---
+ ebin/rebar.app | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/ebin/rebar.app b/ebin/rebar.app
+index b4de616..27707c3 100644
+--- a/ebin/rebar.app
++++ b/ebin/rebar.app
+@@ -45,7 +45,6 @@
+               rebar_xref,
+               rebar_metacmds,
+               rebar_getopt,
+-              rebar_mustache,
+               rmemo ]},
+   {registered, []},
+   {applications,
+-- 
+2.5.0
+

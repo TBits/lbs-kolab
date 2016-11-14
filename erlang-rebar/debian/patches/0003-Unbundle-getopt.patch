@@ -1,0 +1,24 @@
+From 349f993c792e890dcab8867d30753b1efd864e6d Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Mon, 18 May 2015 11:46:47 +0200
+Subject: [PATCH 3/7] Unbundle getopt
+
+---
+ ebin/rebar.app | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/ebin/rebar.app b/ebin/rebar.app
+index 27707c3..f9b0c22 100644
+--- a/ebin/rebar.app
++++ b/ebin/rebar.app
+@@ -44,7 +44,6 @@
+               rebar_utils,
+               rebar_xref,
+               rebar_metacmds,
+-              rebar_getopt,
+               rmemo ]},
+   {registered, []},
+   {applications,
+-- 
+2.5.0
+
