@@ -1,0 +1,34 @@
+From e951e4657a7fa527166d6fc814ffb3484576217e Mon Sep 17 00:00:00 2001
+From: Daniel Hoffend <dh@dotlan.net>
+Date: Wed, 25 Feb 2015 23:35:25 +0100
+Subject: [PATCH] Hotfix to validate sharedfolders #4731
+
+---
+ lib/api/kolab_api_service_form_value.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/api/kolab_api_service_form_value.php b/lib/api/kolab_api_service_form_value.php
+index 320acf9..10dd39c 100644
+--- a/lib/api/kolab_api_service_form_value.php
++++ b/lib/api/kolab_api_service_form_value.php
+@@ -1611,7 +1611,7 @@ class kolab_api_service_form_value extends kolab_api_service
+         Log::trace("__get_valid_domains( " . $my_primary_domain . ")");
+         Log::trace("\$all_domains includes: " . var_export($all_domains, TRUE) . " (must include domain for \$my_primary_domain)");
+ 
+-        $valid_domains = array();
++        $valid_domains = $my_primary_domain ? array($my_primary_domain) : array();
+         foreach ($all_domains as $domain_id => $domain_attrs) {
+             if (!is_array($domain_attrs[$dna])) {
+                 $domain_attrs[$dna] = (array)($domain_attrs[$dna]);
+@@ -1622,7 +1622,7 @@ class kolab_api_service_form_value extends kolab_api_service
+             }
+         }
+ 
+-        return $valid_domains;
++        return array_unique($valid_domains);
+     }
+ 
+     private function _validate_email_address_in_any_of_my_domains($mail_address)
+-- 
+1.9.1
+

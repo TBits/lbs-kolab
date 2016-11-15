@@ -1,0 +1,41 @@
+From 39cde352048254e3abaef60ef4abc1fba7845940 Mon Sep 17 00:00:00 2001
+From: Daniel Hoffend <dh@dotlan.net>
+Date: Wed, 3 Jun 2015 00:52:30 +0200
+Subject: [PATCH] Don't overwrite config if template is not found - Fixes #5066
+
+---
+ pykolab/setup/setup_roundcube.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/pykolab/setup/setup_roundcube.py b/pykolab/setup/setup_roundcube.py
+index accd5e0..1af0f9e 100644
+--- a/pykolab/setup/setup_roundcube.py
++++ b/pykolab/setup/setup_roundcube.py
+@@ -134,15 +134,15 @@ def execute(*args, **kw):
+                     level=8
+                 )
+ 
+-        fp = None
+-        if os.path.isdir('/etc/roundcubemail'):
+-            fp = open('/etc/roundcubemail/%s' % (want_file), 'w')
+-        elif os.path.isdir('/etc/roundcube'):
+-            fp = open('/etc/roundcube/%s' % (want_file), 'w')
+-
+-        if not fp == None:
+-            fp.write(t.__str__())
+-            fp.close()
++            fp = None
++            if os.path.isdir('/etc/roundcubemail'):
++                fp = open('/etc/roundcubemail/%s' % (want_file), 'w')
++            elif os.path.isdir('/etc/roundcube'):
++                fp = open('/etc/roundcube/%s' % (want_file), 'w')
++
++            if not fp == None:
++                fp.write(t.__str__())
++                fp.close()
+ 
+     schema_files = []
+     for root, directories, filenames in os.walk('/usr/share/doc/'):
+-- 
+1.9.1
+

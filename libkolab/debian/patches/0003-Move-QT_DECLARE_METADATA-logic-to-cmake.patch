@@ -1,0 +1,50 @@
+From e397921e73de2926a8572dfed73d2730a3ae456e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sandro=20Knau=C3=9F?= <mail@sandroknauss.de>
+Date: Thu, 19 Feb 2015 12:32:58 +0100
+Subject: [PATCH 3/3] Move QT_DECLARE_METADATA logic to cmake
+
+Because libcalendaring now also have versions that
+Q_DECLARE_METATYPE(KCalCore::Duration) already we make it explicit once
+within cmake and once inside libcalendaring.
+---
+ CMakeLists.txt      | 4 ++++
+ tests/testhelpers.h | 8 ++------
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a323b32..02783e2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -82,6 +82,10 @@ if("${KdepimLibs_VERSION}" VERSION_GREATER "4.8.40" OR USE_LIBCALENDARING)
+     add_definitions(-DKDEPIMLIBS_VERSION_DEVEL)
+ endif()
+ 
++if ("${KdepimLibs_VERSION}" VERSION_GREATER  "4.11.52")
++    add_definitions( -DLIBCALENDARING_DURATION_DECLARED)
++endif()
++
+ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnon-virtual-dtor -Wno-long-long -ansi -Wundef -Wcast-align -Wchar-subscripts -Wall -W -Wpointer-arith -Wformat-security -fno-exceptions -DQT_NO_EXCEPTIONS -fno-common -Woverloaded-virtual -fno-threadsafe-statics -fvisibility=hidden -Werror=return-type -fvisibility-inlines-hidden -fexceptions -UQT_NO_EXCEPTIONS -fPIC -g" )
+ # message("${CMAKE_CXX_FLAGS}")
+ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DQT_NO_DEBUG")
+diff --git a/tests/testhelpers.h b/tests/testhelpers.h
+index f0e3889..822f9bc 100644
+--- a/tests/testhelpers.h
++++ b/tests/testhelpers.h
+@@ -45,12 +45,8 @@ Q_DECLARE_METATYPE(KCalCore::Event);
+ Q_DECLARE_METATYPE(KCalCore::Todo);
+ Q_DECLARE_METATYPE(KCalCore::Journal);
+ 
+-#if KDEPIMLIBS_VERSION_MAJOR <= 4
+-#if KDEPIMLIBS_VERSION_MINOR <= 11
+-#if KDEPIMLIBS_VERSION_PATCH < 52
+-Q_DECLARE_METATYPE(KCalCore::Duration);
+-#endif
+-#endif
++#ifndef LIBCALENDARING_DURATION_DECLARED
++    Q_DECLARE_METATYPE(KCalCore::Duration);
+ #endif
+ 
+ namespace QTest {
+-- 
+2.1.0
+

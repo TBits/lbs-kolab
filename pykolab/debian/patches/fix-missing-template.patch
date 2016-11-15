@@ -1,0 +1,54 @@
+From 791f1e48a09d18621d43ba3a5eb59255283c439d Mon Sep 17 00:00:00 2001
+From: Daniel Hoffend <dh@dotlan.net>
+Date: Tue, 2 Jun 2015 16:56:15 +0200
+Subject: [PATCH] Add missing roundcube template + adjust irony path - Fixes
+ #5066
+
+---
+ share/templates/roundcubemail/calendar.inc.php.tpl   |  2 +-
+ .../roundcubemail/kolab_addressbook.inc.php.tpl      | 20 ++++++++++++++++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+ create mode 100644 share/templates/roundcubemail/kolab_addressbook.inc.php.tpl
+
+diff --git a/share/templates/roundcubemail/calendar.inc.php.tpl b/share/templates/roundcubemail/calendar.inc.php.tpl
+index 6ee1506..bcdc720 100644
+--- a/share/templates/roundcubemail/calendar.inc.php.tpl
++++ b/share/templates/roundcubemail/calendar.inc.php.tpl
+@@ -7,7 +7,7 @@
+     \$config['calendar_work_start'] = 6;
+     \$config['calendar_work_end'] = 18;
+     \$config['calendar_event_coloring'] = 0;
+-    \$config['calendar_caldav_url'] = 'http://' . \$_SERVER['HTTP_HOST'] . '/iRony/calendars/%u/%i';
++    \$config['calendar_caldav_url'] = 'http://%h/iRony/calendars/%u/%i';
+ 
+     \$config['calendar_itip_smtp_server'] = '';
+     \$config['calendar_itip_smtp_user'] = '';
+diff --git a/share/templates/roundcubemail/kolab_addressbook.inc.php.tpl b/share/templates/roundcubemail/kolab_addressbook.inc.php.tpl
+new file mode 100644
+index 0000000..f19c86a
+--- /dev/null
++++ b/share/templates/roundcubemail/kolab_addressbook.inc.php.tpl
+@@ -0,0 +1,20 @@
++<?php
++
++
++// This option allows to set addressbooks priority or to disable some
++// of them. Disabled addressbooks will be not shown in the UI. Default: 0.
++// 0 - "Global address book(s) first". Use all address books, starting with the global (LDAP)
++// 1 - "Personal address book(s) first". Use all address books, starting with the personal (Kolab)
++// 2 - "Global address book(s) only". Use the global (LDAP) addressbook. Disable the personal.
++// 3 - "Personal address book(s) only". Use the personal (Kolab) addressbook(s). Disable the global.
++\$config['kolab_addressbook_prio'] = 0;
++
++// Base URL to build fully qualified URIs to access address books via CardDAV
++// The following replacement variables are supported:
++// %h - Current HTTP host
++// %u - Current webmail user name
++// %n - Folder name
++// %i - Folder UUID
++\$config['kolab_addressbook_carddav_url'] = 'http://%h/iRony/addressbooks/%u/%i';
++
++?>
+-- 
+1.9.1
+

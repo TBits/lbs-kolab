@@ -1,0 +1,49 @@
+From 4d06bf5dd18f1d21213b9e7b958cbc967fb03dd1 Mon Sep 17 00:00:00 2001
+From: Daniel Hoffend <dh@dotlan.net>
+Date: Thu, 26 Feb 2015 23:17:21 +0100
+Subject: [PATCH] adding default acl for domainrelated object. finally fixes
+ #4731
+
+---
+ lib/Auth/LDAP.php | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/lib/Auth/LDAP.php b/lib/Auth/LDAP.php
+index b0027be..a2d0ba3 100644
+--- a/lib/Auth/LDAP.php
++++ b/lib/Auth/LDAP.php
+@@ -176,12 +176,6 @@ class LDAP extends Net_LDAP3 {
+ 
+         $domain_dn = $domain_name_attribute . '=' . $domain . ',' . $domain_base_dn;
+ 
+-        $result = $this->add_entry($domain_dn, $attributes);
+-
+-        if (!$result) {
+-            return false;
+-        }
+-
+         if (!empty($attributes['inetdomainbasedn'])) {
+             $inetdomainbasedn = $attributes['inetdomainbasedn'];
+         }
+@@ -189,6 +183,18 @@ class LDAP extends Net_LDAP3 {
+             $inetdomainbasedn = $this->_standard_root_dn($domain);
+         }
+ 
++        if (empty($attributes['aci'])) {
++            $attributes['aci'] = array(
++                "(targetattr = \"*\") (version 3.0;acl \"Read Access for {$domain} Users\";allow (read,compare,search)(userdn = \"ldap:///{$inetdomainbasedn}??sub?(objectclass=*)\");)"
++            );
++        }
++
++        $result = $this->add_entry($domain_dn, $attributes);
++
++        if (!$result) {
++            return false;
++        }
++
+         // Query the ACI for the primary domain
+         if ($domain_entry = $this->_find_domain($primary_domain)) {
+             $domain_entry = array_shift($domain_entry);
+-- 
+1.9.1
+

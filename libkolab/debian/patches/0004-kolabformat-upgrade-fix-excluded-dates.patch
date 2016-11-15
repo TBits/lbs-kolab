@@ -1,0 +1,48 @@
+From e50a71feb985a3e8c4ec4df595acfcd1287227bd Mon Sep 17 00:00:00 2001
+From: Timotheus Pokorra <tp@tbits.net>
+Date: Wed, 18 Mar 2015 15:21:29 +0100
+Subject: [PATCH] need to format excluded dates of recurring events in ISO date format
+ fixing #4869
+
+---
+ kolabformatV2/incidence.cpp |   17 ++++++++++++++++-
+ 1 files changed, 16 insertions(+), 1 deletions(-)
+
+diff --git a/kolabformatV2/incidence.cpp b/kolabformatV2/incidence.cpp
+index 9f0e381..804563a 100644
+--- a/kolabformatV2/incidence.cpp
++++ b/kolabformatV2/incidence.cpp
+@@ -41,6 +41,8 @@
+ #include <kurl.h>
+ 
+ #include <QBitArray>
++#include <string>
++#include <boost/algorithm/string.hpp>
+ 
+ using namespace KolabV2;
+ 
+@@ -357,7 +359,20 @@ void Incidence::loadRecurrence( const QDomElement& element )
+         mRecurrence.rangeType = e.attribute( "type" );
+         mRecurrence.range = e.text();
+       } else if ( tagName == "exclusion" ) {
+-        mRecurrence.exclusions.append( stringToDate( e.text() ) );
++        std::string exclusionDate = e.text().toStdString();
++        // need to fix the date, eg. 2013-1-1 to ISO format 2013-01-01
++        if (exclusionDate.length() != 10) {
++          std::vector<std::string> strs;
++          boost::split(strs, exclusionDate, boost::is_any_of("-"));
++          char buff[100];
++          sprintf(buff, "%04d-%02d-%02d",
++              QString::fromStdString(strs[0]).toInt(),
++              QString::fromStdString(strs[1]).toInt(),
++              QString::fromStdString(strs[2]).toInt()
++            );
++          exclusionDate = buff;
++        }
++        mRecurrence.exclusions.append( stringToDate( QString::fromStdString(exclusionDate) ) );
+       } else
+         // TODO: Unhandled tag - save for later storage
+         kDebug() <<"Warning: Unhandled tag" << e.tagName();
+-- 
+1.7.1
+
