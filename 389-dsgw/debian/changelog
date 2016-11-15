@@ -1,0 +1,5 @@
+389-dsgw (1.1.9-1) unstable; urgency=low
+
+  * Initial release. Closes: #660138.
+
+ -- Timo Aaltonen <tjaalton@ubuntu.com>  Fri, 29 Jun 2012 17:29:18 +0200

@@ -1,0 +1,132 @@
+Description: fix build errors with --format-security
+Author: Timo Aaltonen <tjaalton@ubuntu.com>
+
+diff --git a/csearch.c b/csearch.c
+index d7ce6f9..eb51584 100644
+--- a/csearch.c
++++ b/csearch.c
+@@ -176,7 +176,7 @@ emit_file (char* filename, struct ldap_searchobj* sop)
+  * *after* the onSumbit handler executes, which is unfortunate.
+  */
+ 			    "    if (sform.searchstring.value == '') {\n");
+-		dsgw_emit_alert ("searchStringFrame", NULL,
++		dsgw_emit_alert ("searchStringFrame", NULL, "%s",
+ 				 XP_GetClientStr (DBT_youDidNotSupplyASearchString_));
+ 		dsgw_emits ("         return false;\n"
+ 			    "    }\n"
+diff --git a/dnedit.c b/dnedit.c
+index 599c67a..f12a0dc 100644
+--- a/dnedit.c
++++ b/dnedit.c
+@@ -139,7 +139,7 @@ int main(int argc, char *argv[] )
+ 	"    var selvalue = sel.options[sel.selectedIndex].value;\n"
+ 	"    var lt = f.listtemplate;\n"
+ 	"    if ( f.searchstring.value.length == 0 ) {\n");
+-    dsgw_emit_alert( "controlFrame", NULL, XP_GetClientStr( DBT_noSearchStringWasProvidedPleaseT_ ));
++    dsgw_emit_alert( "controlFrame", NULL, "%s", XP_GetClientStr( DBT_noSearchStringWasProvidedPleaseT_ ));
+     dsgw_emits(
+ 	"	return false;\n"
+ 	"    }\n"
+@@ -322,7 +322,7 @@ int main(int argc, char *argv[] )
+     dsgw_emit_confirm ("controlFrame",
+ 		       "CONFIRMVALUE1",
+ 		       NULL /* no */,
+-		       XP_GetClientStr(DBT_discardChangesWindow_), 1,
++		       XP_GetClientStr(DBT_discardChangesWindow_), 1, "%s",
+ 		       XP_GetClientStr(DBT_discardChanges_));
+     dsgw_emits (
+ 	"    }\n"
+diff --git a/domodify.c b/domodify.c
+index 5a37192..6a015a6 100644
+--- a/domodify.c
++++ b/domodify.c
+@@ -114,7 +114,7 @@ post_request()
+     }
+ 
+     if ( dsgw_init_ldap( &ld, NULL, 0, 0) != DSGW_BOUND_ASUSER ) {
+-	dsgw_emitf( XP_GetClientStr(DBT_warningNoAuthenticationContinuin_) );
++	dsgw_emitf("%s", XP_GetClientStr(DBT_warningNoAuthenticationContinuin_) );
+     }
+ 
+     if ( !quiet ) {
+@@ -589,7 +589,7 @@ entry_modify_or_add( LDAP *ld, char *dn, int add, int *pwdchangedp )
+ 	} else {	/* no changes -- just report success */
+ 	    lderr = LDAP_SUCCESS;
+ 	    if ( !quiet ) {
+-		dsgw_emitf( XP_GetClientStr(DBT_PSuccessfullyEditedEntryYourChan_) );
++		dsgw_emitf("%s", XP_GetClientStr(DBT_PSuccessfullyEditedEntryYourChan_) );
+ 	    }
+ 	}
+     } else { 
+@@ -614,9 +614,9 @@ entry_modify_or_add( LDAP *ld, char *dn, int add, int *pwdchangedp )
+ 			if ( lderr == LDAP_SUCCESS ) {
+ 				if ( !quiet ) {
+ 				if ( add ) {
+-					dsgw_emitf( XP_GetClientStr(DBT_PSuccessfullyAddedEntryN_) );
++					dsgw_emitf("%s", XP_GetClientStr(DBT_PSuccessfullyAddedEntryN_) );
+ 				} else {
+-					dsgw_emitf( XP_GetClientStr(DBT_PSuccessfullyEditedEntryYourChan_) );
++					dsgw_emitf("%s", XP_GetClientStr(DBT_PSuccessfullyEditedEntryYourChan_) );
+ 				}
+ 				}
+ 			} else {
+@@ -654,7 +654,7 @@ entry_delete( LDAP *ld, char *dn )
+     dsgw_emitf( "<FONT SIZE=+1>\n" );
+     if (( lderr = ldap_delete_ext_s( ld, dn, NULL, NULL )) == LDAP_SUCCESS ) {
+ 	if ( !quiet ) {
+-	    dsgw_emitf( XP_GetClientStr(DBT_PSuccessfullyDeletedEntryN_) );
++	    dsgw_emitf("%s", XP_GetClientStr(DBT_PSuccessfullyDeletedEntryN_) );
+ 	}
+     } else {
+ 	(void)dsgw_ldap_get_lderrno( ld, NULL, &errmsg );
+@@ -681,7 +681,7 @@ entry_modrdn( LDAP *ld, char *dn, char *newrdn, int deleteoldrdn )
+     if (( lderr = ldap_rename_s( ld, dn, newrdn, NULL, deleteoldrdn, NULL, NULL ))
+ 	    == LDAP_SUCCESS ) {
+ 	if ( !quiet ) {
+-	    dsgw_emitf( XP_GetClientStr(DBT_PSuccessfullyRenamedEntryN_) );
++	    dsgw_emitf("%s", XP_GetClientStr(DBT_PSuccessfullyRenamedEntryN_) );
+ 	}
+     } else {
+ 	(void)dsgw_ldap_get_lderrno( ld, NULL, &errmsg );
+diff --git a/entrydisplay.c b/entrydisplay.c
+index 35828d1..3742a31 100644
+--- a/entrydisplay.c
++++ b/entrydisplay.c
+@@ -819,7 +819,7 @@ output_prelude_script( dsgwtmplinfo *tip )
+ 	    dsgw_emits( "    if( !changesMade() ) window.location.href = DNEditURL;\n"
+ 		        "    else {\n");
+ 	    dsgw_emit_confirm( NULL, "CONFIRMVALUE3", NULL/*no*/,
+-			       XP_GetClientStr(DBT_continueWithoutSavingWindow_), 1,
++			       XP_GetClientStr(DBT_continueWithoutSavingWindow_), 1, "%s",
+ 			       XP_GetClientStr(DBT_continueWithoutSaving_));
+ 	    dsgw_emits( "    }\n");
+ 	    dsgw_emits( "}\n" );
+@@ -838,7 +838,7 @@ output_prelude_script( dsgwtmplinfo *tip )
+ 		    "    if ( !changesMade() ) top.close();\n"
+ 		    "    else {\n" );
+ 	dsgw_emit_confirm( NULL, "CONFIRMVALUE4", NULL/*no*/,
+-			   XP_GetClientStr(DBT_discardChangesWindow_), 1,
++			   XP_GetClientStr(DBT_discardChangesWindow_), 1, "%s",
+ 			   XP_GetClientStr(DBT_discardChanges_));
+ 	dsgw_emits( "    }\n}\n" );
+ 
+diff --git a/newentry.c b/newentry.c
+index acb488b..e1a9b01 100644
+--- a/newentry.c
++++ b/newentry.c
+@@ -108,13 +108,13 @@ emit_file (char* filename, dsgwnewtype* entType)
+ 			    "    if ( nameForm.entryname.value == '' ) {\n");
+ 		deleteme =  XP_GetClientStr (DBT_enterNameForNewEntry_);
+ 
+-		dsgw_emit_alert ("newentryNameFrame", "width=400,height=130,resizable",
++		dsgw_emit_alert ("newentryNameFrame", "width=400,height=130,resizable", "%s",
+ 				 XP_GetClientStr (DBT_enterNameForNewEntry_));
+ 		dsgw_emits ("	return false;\n"
+ 			    "    } else if ( nameForm.selectLocation.options[nameForm.selectLocation.selectedIndex].value == '' &&\n"
+ 			    "               ( nameForm.dnsuffix == null ||\n"
+ 			    "                 nameForm.dnsuffix.value == '' )) {\n");
+-		dsgw_emit_alert ("newentryNameFrame", "width=400,height=130,resizable",
++		dsgw_emit_alert ("newentryNameFrame", "width=400,height=130,resizable", "%s",
+ 				 XP_GetClientStr (DBT_enterLocationForNewEntry_));
+ 		dsgw_emits ("	return false;\n"
+ 			    "    } else {\n"

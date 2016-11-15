@@ -1,0 +1,12 @@
+diff -ur xapian-core-1.2.16.orig/configure.ac xapian-core-1.2.16/configure.ac
+--- xapian-core-1.2.16.orig/configure.ac	2013-12-04 01:14:06.000000000 +0100
++++ xapian-core-1.2.16/configure.ac	2014-01-18 04:30:14.632653770 +0100
+@@ -4,7 +4,7 @@
+ dnl below too.
+ AC_INIT([xapian-core], [1.2.16], [http://xapian.org/bugs])
+ dnl See HACKING document for details of the reasons for required versions.
+-AC_PREREQ([2.64])
++AC_PREREQ([2.63])
+ dnl Extract from the libtool info manual:
+ dnl
+ dnl Here are a set of rules to help you update your library version information:

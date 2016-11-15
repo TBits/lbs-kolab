@@ -1,0 +1,177 @@
+From 64f2b531c46cd1aeeb894acfdfae375d1f4cb190 Mon Sep 17 00:00:00 2001
+From: Thomas Bruederli <bruederli@kolabsys.com>
+Date: Fri, 20 Feb 2015 16:28:50 +0100
+Subject: [PATCH] Consider recurrence exceptions when computing busy times
+ (#4665)
+
+---
+ composer-dist.json                | 14 ++++++
+ composer.json                     |  2 +-
+ lib/Kolab/FreeBusy/SourceIMAP.php | 91 ++++++++++++++++++++++++++++-----------
+ 3 files changed, 81 insertions(+), 26 deletions(-)
+ create mode 100644 composer-dist.json
+
+diff --git a/composer-dist.json b/composer-dist.json
+new file mode 100644
+index 0000000..e0423c9
+--- /dev/null
++++ b/composer-dist.json
+@@ -0,0 +1,14 @@
++{
++	"name": "kolab/free-busy",
++	"description": "Kolab Free/Busy Service",
++	"license": "AGPL-3.0",
++	"version": "1.0.5",
++	"autoload": {
++		"psr-0": {
++			"": "/usr/share/pear/"
++		},
++		"psr-4": {
++			"": "/usr/share/php/"
++		}
++	}
++}
+diff --git a/composer.json b/composer.json
+index 461c052..1efbef6 100644
+--- a/composer.json
++++ b/composer.json
+@@ -2,7 +2,7 @@
+ 	"name": "kolab/free-busy",
+ 	"description": "Kolab Free/Busy Service",
+ 	"license": "AGPL-3.0",
+-	"version": "1.0.6",
++	"version": "1.0.7",
+ 	"repositories": [
+ 		{
+ 			"type": "pear",
+diff --git a/lib/Kolab/FreeBusy/SourceIMAP.php b/lib/Kolab/FreeBusy/SourceIMAP.php
+index 6f116b7..e0de62b 100644
+--- a/lib/Kolab/FreeBusy/SourceIMAP.php
++++ b/lib/Kolab/FreeBusy/SourceIMAP.php
+@@ -5,7 +5,7 @@
+  *
+  * @author Thomas Bruederli <bruederli@kolabsys.com>
+  *
+- * Copyright (C) 2013, Kolab Systems AG <contact@kolabsys.com>
++ * Copyright (C) 2013-2015, Kolab Systems AG <contact@kolabsys.com>
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+@@ -171,15 +171,9 @@ class SourceIMAP extends Source
+ 						}
+ 					}
+ 					// skip declined events
+-					else if (is_array($event['attendees'])) {
+-						foreach ($event['attendees'] as $attendee) {
+-							if (in_array($attendee['email'], $user_email)) {
+-								if ($attendee['status'] == 'DECLINED') {
+-									$log->debug('Skip declined event', array($event['uid'], $event['title']));
+-									continue 2;
+-								}
+-							}
+-						}
++					else if (is_array($event['attendees']) && !$this->check_participation($event, $user_email)) {
++						$log->debug('Skip declined event', array($event['uid'], $event['title']));
++						continue;
+ 					}
+ 
+ 					// translate all-day dates into absolute UTC times
+@@ -204,21 +198,7 @@ class SourceIMAP extends Source
+ 					}
+ 
+ 					// copied from libvcalendar::_to_ical()
+-					$ve = VObject\Component::create('VEVENT');
+-					$ve->UID = $event['uid'];
+-
+-					if (!empty($event['start']))
+-						$ve->add(\libvcalendar::datetime_prop('DTSTART', $event['start'], false, false));
+-					if (!empty($event['end']))
+-						$ve->add(\libvcalendar::datetime_prop('DTEND',   $event['end'], false, false));
+-
+-					if (!empty($event['free_busy']))
+-						$ve->add('TRANSP', $event['free_busy'] == 'free' ? 'TRANSPARENT' : 'OPAQUE');
+-
+-					if ($event['free_busy'] == 'tentative')
+-						$ve->add('STATUS', 'TENTATIVE');
+-					else if (!empty($event['status']))
+-						$ve->add('STATUS', $event['status']);
++					$ve = $this->to_vevent($event);
+ 
+ 					if ($event['recurrence']) {
+ 						if ($exdates = $event['recurrence']['EXDATE'])
+@@ -229,6 +209,23 @@ class SourceIMAP extends Source
+ 						if ($event['recurrence']['FREQ'])
+ 							$ve->add('RRULE', \libcalendaring::to_rrule($event['recurrence']));
+ 
++						// consider recurrence exceptions
++						if (is_array($event['recurrence']['EXCEPTIONS'])) {
++							foreach ($event['recurrence']['EXCEPTIONS'] as $i => $exception) {
++								// register exdate for this occurrence
++								if ($exception['recurrence_date'] instanceof \DateTime) {
++									$exdates[] = $exception['recurrence_date'];
++								}
++								// add exception to vcalendar container
++								if (!$exception['cancelled'] && $this->check_participation($exception, $user_email)) {
++									$vex = $this->to_vevent($exception);
++									$vex->UID = $event['uid'] . '-' . $i;
++									$calendar->add($vex);
++									$log->debug("Adding event exception for processing:\n" . $vex->serialize());
++								}
++							}
++						}
++
+ 						// add EXDATEs each one per line (for Thunderbird Lightning)
+ 						if ($exdates) {
+ 							foreach ($exdates as $ex) {
+@@ -333,4 +330,48 @@ class SourceIMAP extends Source
+ 
+ 		$imap->close();
+ 	}
++
++	/**
++	 * Helper method to build a Sabre/VObject from the gieven event data
++	 */
++	private function to_vevent($event)
++	{
++		// copied from libvcalendar::_to_ical()
++		$ve = VObject\Component::create('VEVENT');
++		$ve->UID = $event['uid'];
++
++		if (!empty($event['start']))
++			$ve->add(\libvcalendar::datetime_prop('DTSTART', $event['start'], false, false));
++		if (!empty($event['end']))
++			$ve->add(\libvcalendar::datetime_prop('DTEND',   $event['end'], false, false));
++
++		if (!empty($event['free_busy']))
++			$ve->add('TRANSP', $event['free_busy'] == 'free' ? 'TRANSPARENT' : 'OPAQUE');
++
++		if ($event['free_busy'] == 'tentative')
++			$ve->add('STATUS', 'TENTATIVE');
++		else if (!empty($event['status']))
++			$ve->add('STATUS', $event['status']);
++
++		return $ve;
++	}
++
++	/**
++	 * Helper method to check the participation status of the requested user
++	 */
++	private function check_participation($event, $user_email)
++	{
++		$result = true;
++
++		if (is_array($event['attendees'])) {
++			foreach ($event['attendees'] as $attendee) {
++				if (in_array($attendee['email'], $user_email) && $attendee['status'] == 'DECLINED') {
++					$result = false;
++					break;
++				}
++			}
++		}
++
++		return $result;
++	}
+ }
+-- 
+2.1.0
+

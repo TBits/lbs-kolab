@@ -1,0 +1,45 @@
+diff -ur package.orig/bin/lessc package/bin/lessc
+--- package.orig/bin/lessc	2014-02-27 21:17:14.000000000 +0100
++++ package/bin/lessc	2015-01-07 13:42:08.314053692 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env node
++#!/usr/bin/nodejs
+ 
+ var path = require('path'),
+     fs = require('fs'),
+@@ -6,7 +6,7 @@
+     os = require('os'),
+     mkdirp;
+ 
+-var less = require('../lib/less');
++var less = require('less');
+ var args = process.argv.slice(1);
+ var options = {
+     depends: false,
+@@ -96,7 +96,7 @@ args = args.filter(function (arg) {
+             break;
+         case 'h':
+         case 'help':
+-            require('../lib/less/lessc_helper').printUsage();
++            require('less/lessc_helper').printUsage();
+             continueProcessing = false;
+         case 'x':
+         case 'compress':
+@@ -243,7 +243,7 @@ args = args.filter(function (arg) {
+             }
+             break;
+         default:
+-            require('../lib/less/lessc_helper').printUsage();
++            require('less/lessc_helper').printUsage();
+             continueProcessing = false;
+             currentErrorcode = 1;
+             break;
+@@ -288,7 +288,7 @@ if (options.cleancss && options.sourceMap) {
+ if (! input) {
+     console.log("lessc: no input files");
+     console.log("");
+-    require('../lib/less/lessc_helper').printUsage();
++    require('less/lessc_helper').printUsage();
+     currentErrorcode = 1;
+     return;
+ }

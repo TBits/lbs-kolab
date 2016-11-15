@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+LDFLAGS += -L/usr/lib/$(DEB_HOST_MULTIARCH)/nss
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--disable-rpath \
+		--with-openldap
+
+%:
+	dh $@ --with quilt,autoreconf --builddir build/

@@ -1,0 +1,36 @@
+Spelling fixes in man pages
+Index: libmozilla-ldap-perl-1.5.2/Conn.pm
+===================================================================
+--- libmozilla-ldap-perl-1.5.2.orig/Conn.pm	2010-04-21 14:56:58.000000000 +0200
++++ libmozilla-ldap-perl-1.5.2/Conn.pm	2010-04-21 14:58:37.000000000 +0200
+@@ -1272,7 +1272,7 @@
+ 
+ =head1 DESCRIPTION
+ 
+-First, this is not ment to be a crash course in how LDAP works, if you
++First, this is not meant to be a crash course in how LDAP works, if you
+ have no experience with LDAP, I suggest you read some of the literature
+ that's available out there. The LDAP Deployment Book from Netscape, or the
+ LDAP C SDK documentation are good starting points.
+@@ -1695,7 +1695,7 @@
+ =item B<nextEntry>
+ 
+ This method will return the next entry from the search result, and can
+-therefore only be called after a succesful search has been initiated. If
++therefore only be called after a successful search has been initiated. If
+ there are no more entries to retrieve, it returns nothing (empty string).
+ 
+ =item B<search>
+Index: libmozilla-ldap-perl-1.5.2/Entry.pm
+===================================================================
+--- libmozilla-ldap-perl-1.5.2.orig/Entry.pm	2010-04-21 14:56:58.000000000 +0200
++++ libmozilla-ldap-perl-1.5.2/Entry.pm	2010-04-21 14:59:00.000000000 +0200
+@@ -1226,7 +1226,7 @@
+ 
+ The (optional) third argument indicates if the string comparison should be
+ case insensitive or not, and the (optional) fourth argument indicats
+-wheter we should normalize the string as if it was a DN. The first two
++whether we should normalize the string as if it was a DN. The first two
+ arguments are the name and value of the attribute, respectively.
+ 
+ =item B<hasDNValue>
