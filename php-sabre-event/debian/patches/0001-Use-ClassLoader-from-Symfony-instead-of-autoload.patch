@@ -1,0 +1,17 @@
+diff -rupN a/tests/bootstrap.php b/tests/bootstrap.php
+--- a/tests/bootstrap.php	2016-09-04 20:21:14.288516382 +0200
++++ b/tests/bootstrap.php	2016-09-04 20:21:55.129648463 +0200
+@@ -1,3 +1,12 @@
+ <?php
+ 
+-include __DIR__ . '/../vendor/autoload.php';
++require_once 'Symfony/Component/ClassLoader/ClassLoader.php';
++use Symfony\Component\ClassLoader\ClassLoader;
++$loader = new ClassLoader();
++$loader->setUseIncludePath(true);
++$loader->register();
++$loader->addPrefixes(array(
++       'Sabre' => __DIR__.'/../lib',
++       'SabreTest' => __DIR__,
++));
++

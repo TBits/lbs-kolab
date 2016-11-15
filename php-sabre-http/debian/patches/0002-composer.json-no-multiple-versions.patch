@@ -1,0 +1,12 @@
+--- a/composer.json	2016-09-14 09:44:41.525711187 +0200
++++ b/composer.json	2016-09-14 09:44:57.446137756 +0200
+@@ -7,7 +7,8 @@
+     "require" : {
+         "php"          : ">=5.4",
+         "ext-mbstring" : "*",
+-        "sabre/event"  : ">=1.0.0,<3.0.0"
++        "sabre/event"  : ">=1.0.0",
++        "sabre/event"  : "<3.0.0"
+     },
+     "require-dev" : {
+         "phpunit/phpunit" : "~4.3",

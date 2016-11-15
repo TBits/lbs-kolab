@@ -1,0 +1,57 @@
+From 63768b5d3f073c39b45c4541fae8d0b36d9eb4bd Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Wed, 19 Dec 2012 09:06:24 -0500
+Subject: [PATCH 1/2] Require include files from the default location
+
+---
+ bin/lessc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/bin/lessc b/bin/lessc
+index 684200287be4ad982f76924a2bcd43a4fca5b389..859bf89372599f584dcc85e0720916b6bf607297 100755
+--- a/bin/lessc
++++ b/bin/lessc
+@@ -1,11 +1,11 @@
+ #!/usr/bin/env node
+ 
+ var path = require('path'),
+-    fs = require('../lib/less/fs'),
++    fs = require('less/fs'),
+     os = require('os'),
+     mkdirp;
+ 
+-var less = require('../lib/less');
++var less = require('less');
+ var args = process.argv.slice(1);
+ var options = {
+     depends: false,
+@@ -96,7 +96,7 @@ args = args.filter(function (arg) {
+             break;
+         case 'h':
+         case 'help':
+-            require('../lib/less/lessc_helper').printUsage();
++            require('less/lessc_helper').printUsage();
+             continueProcessing = false;
+         case 'x':
+         case 'compress':
+@@ -251,7 +251,7 @@ args = args.filter(function (arg) {
+             }
+             break;
+         default:
+-            require('../lib/less/lessc_helper').printUsage();
++            require('less/lessc_helper').printUsage();
+             continueProcessing = false;
+             currentErrorcode = 1;
+             break;
+@@ -296,7 +296,7 @@ if (options.cleancss && options.sourceMap) {
+ if (! input) {
+     console.log("lessc: no input files");
+     console.log("");
+-    require('../lib/less/lessc_helper').printUsage();
++    require('less/lessc_helper').printUsage();
+     currentErrorcode = 1;
+     return;
+ }
+-- 
+2.1.0
+
