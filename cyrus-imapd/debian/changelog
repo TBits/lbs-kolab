@@ -1,3 +1,9 @@
+cyrus-imapd (2.5.10.49-0~kolab1) unstable; urgency=low
+
+  * Decode subject line before re-encoding it in automatic responses.
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 14 Nov 2016 11:30:13 +0100
+
 cyrus-imapd (2.5.10.43-0~kolab1) unstable; urgency=low
 
   * Preserve the folder uniqueid on rename.

@@ -19,8 +19,8 @@
 %global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
 %global tag_version 2.5.10
-%global revision    43
-%global git_hash    g1148d47
+%global revision    49
+%global git_hash    g2e214b4
 
 ##
 ## Options
@@ -749,6 +749,9 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Mon Nov 14 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.10-49-g2e214b4
+- Decode the subject line before re-encoding it in automated responses.
+
 * Sat Nov  5 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.10-43-g1148d47
 - Preserve the folder uniqueid on rename.
 - Transfer a folder between backends preserving the mailboxes.db uniqueid.
