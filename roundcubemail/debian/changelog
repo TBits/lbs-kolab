@@ -1,16 +1,23 @@
-roundcubemail (1:1.2.2-0~kolab1) unstable; urgency=low
+roundcubemail (1.2.2.0-0~kolab1) unstable; urgency=low
 
-  * upgrade to upstream Roundcube 1.2.2 release
+  * Check in maintenance upstream 1.2.2 release
 
- -- Timotheus Pokorra <tp@tbits.net>  Thu, 29  2016 08:42:00 +0200
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 29 Sep 2016 08:42:00 +0200
 
-roundcubemail (1:1.2~dev20160119-0~kolab2) unstable; urgency=low
+roundcubemail (1.2.0-0~kolab1) unstable; urgency=low
 
-  * apply security patch for XSS vulnerability CVE-2016-5103
+  * Check in stable 1.2.0 release
 
- -- Timotheus Pokorra <tp@tbits.net>  Fri, 27 May 2016 08:42:00 +0200
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  6 Jul 2016 07:14:39 +0200
 
-roundcubemail (1:1.2~dev20160119-0~kolab1) unstable; urgency=low
+roundcubemail (1:1.2~dev20160328-0~kolab1mic1) unstable; urgency=medium
+
+  * update to newer debian debhelper compat version
+  * add composer autoloader scripts
+
+ -- hede <kolab983@der-he.de>  Mon, 27 Jun 2016 11:18:01 +0200
+
+roundcubemail (1:1.2~dev20160328-0~kolab1) unstable; urgency=low
 
   * fix secure URL regex for debian
 

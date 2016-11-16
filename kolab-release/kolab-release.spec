@@ -181,7 +181,7 @@ Requires:   yum-plugin-priorities
 %description -n %{repository_full_name}-extras-puppet
 Puppet 3 repository for Kolab Enterprise %{repository_version}
 
-%if 0%{?rhel} == 6
+%if 0%{?rhel} >= 6
 %package -n %{repository_full_name}-extras-fasttrack
 Summary:    Fasttrack packages for Kolab Enterprise %{repository_version}
 Group:      System Environment/Base
@@ -238,7 +238,7 @@ done
 %if %{repository_stage} == "private"
 %if %{repository_version} >= 14
 repos="extras-audit extras-puppet"
-%if 0%{?rhel} == 6
+%if 0%{?rhel} >= 6
 repos="${repos} extras-fasttrack"
 %endif
 for repo in ${repos}; do
@@ -333,7 +333,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %config(noreplace) /etc/yum.repos.d/*extras-puppet.repo
 
-%if 0%{?rhel} == 6
+%if 0%{?rhel} >= 6
 %files -n %{repository_full_name}-extras-fasttrack
 %defattr(-,root,root,-)
 %config(noreplace) /etc/yum.repos.d/*extras-fasttrack.repo
@@ -343,16 +343,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Sat Jan 16 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - %{repository_version}.%{dist_version}-1
+* Tue Nov 15 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.7-1
+- Add extras-fasttrack for RHEL 7 too
+
+* Sat Jan 16 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0-1
 - Update for Kolab 16
-
-* Fri Jul 31 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - %{repository_version}.%{dist_version}-5
 - Also require pyliblzma
-
-* Wed Apr 22 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - %{repository_version}.%{dist_version}-4
 - Add fasttrack repository configuration for kolab-14/el6
-
-* Tue Jan 27 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - %{repository_version}.%{dist_version}-2
 - Add repository configuration for extras-audit and extras-puppet
 
 * Thu Oct  2 2014 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 14-1

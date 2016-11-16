@@ -1,0 +1,76 @@
+php-sabre-vobject (3.4.5-1) unstable; urgency=low
+
+  * Upstream Version Bump
+  * Initlal Release for Kolab Winterfell
+
+ -- hede <kolab983@der-he.de>  Sat, 25 Jun 2013 12:00:00 +0200
+
+php-sabre-vobject (2.1.5-3) unstable; urgency=medium
+
+  * Fix testsuite for php >= 5.6.1
+  * Document current Git branch
+
+ -- David Prévot <taffit@debian.org>  Sun, 26 Oct 2014 15:42:24 -0400
+
+php-sabre-vobject (2.1.5-2) unstable; urgency=medium
+
+  * No tests if DEB_BUILD_OPTIONS contains nocheck
+  * Add hint about security maintenance in Jessie
+  * Drop now useless XS-Testsuite
+  * Bump standards version to 3.9.6
+  * Drop reference to long gone php-sabredav
+
+ -- David Prévot <taffit@debian.org>  Mon, 29 Sep 2014 15:53:28 -0400
+
+php-sabre-vobject (2.1.5-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * Updated copyright years.
+  * Bumped version
+
+  [ David Prévot ]
+  * Update upstream URL
+
+ -- David Prévot <taffit@debian.org>  Tue, 10 Jun 2014 11:38:04 -0400
+
+php-sabre-vobject (2.1.4-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * Fix for #87 (Several compatibility fixes related to timezone handling
+    changes in PHP 5.5.10)
+
+ -- David Prévot <taffit@debian.org>  Sun, 30 Mar 2014 20:13:10 -0400
+
+php-sabre-vobject (2.1.3-2) unstable; urgency=medium
+
+  * Track 2.1 releases for unstable
+  * Bump standards version to 3.9.5
+  * Run the test suite on packaging
+  * Add DEP-8 compliant tests
+  * Upload 2.1 to unstable, as a dependency of recent php-sabre-dav 1.7
+
+ -- David Prévot <taffit@debian.org>  Wed, 19 Mar 2014 11:41:23 -0400
+
+php-sabre-vobject (2.1.3-1) experimental; urgency=low
+
+  * Imported Upstream version 2.1.3
+  * Drop php5-json build-dependency
+  * Do not claim copyright on trivial packaging
+
+ -- David Prévot <taffit@debian.org>  Sat, 12 Oct 2013 18:13:58 -0400
+
+php-sabre-vobject (2.1.0-1) experimental; urgency=low
+
+  * New upstream release
+  * Adapt to upstream repository move and versions
+  * Update copyright
+  * Use phpcomposer build helper
+  * Use canonical Vcs- fields
+
+ -- David Prévot <taffit@debian.org>  Thu, 20 Jun 2013 17:17:18 -0400
+
+php-sabre-vobject (2.0.7-1) unstable; urgency=low
+
+  * Initial release. (Closes: #704008)
+
+ -- David Prévot <taffit@debian.org>  Thu, 28 Mar 2013 14:42:14 -0400

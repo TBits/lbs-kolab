@@ -9,9 +9,9 @@ Homepage: http://www.roundcube.net/
 Standards-Version: 3.9.3
 Vcs-Browser: http://git.kolabsys.com/apt/roundcubemail/
 Vcs-Git: git://git.kolabsys.com/git/apt/roundcubemail/
-Build-Depends: debhelper (>= 8)
+Build-Depends: composer, python-support (>= 0.5.3), debhelper (>= 8)
 Package-List: 
  roundcubemail deb web extra
 Files: 
- 00000000000000000000000000000000 0 roundcubemail-1.2.tar.gz
+ 00000000000000000000000000000000 0 roundcubemail-1.2.2.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

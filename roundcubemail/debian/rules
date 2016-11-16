@@ -1,7 +1,14 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@
+	dh $@ --with python_support
+
+override_dh_auto_build:
+	mkdir -p $HOME/.composer
+	echo '{}' > $HOME/.composer/composer.json
+	patch -p1 < debian/patches/add-composer-autoloader.diff
+	composer.sh -vvv dumpautoload --optimize
+	dh_auto_build
 
 override_dh_install:
 	mkdir -p $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/
@@ -12,6 +19,7 @@ override_dh_install:
 		program \
 		public_html \
 		skins \
+		vendor \
 		$(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/
 
 	rm -rf $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/public_html/.htaccess

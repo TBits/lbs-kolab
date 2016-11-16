@@ -1,0 +1,26 @@
+Source: php-sabre-vobject
+Section: php
+Priority: optional
+Maintainer: ownCloud for Debian maintainers <pkg-owncloud-maintainers@lists.alioth.debian.org>
+Uploaders: David Prévot <taffit@debian.org>
+Build-Depends: debhelper (>= 9),
+               php-symfony-classloader,
+               phpunit,
+               pkg-php-tools (>= 1.7~)
+Standards-Version: 3.9.6
+Homepage: http://sabre.io/vobject/
+Vcs-Git: git://anonscm.debian.org/pkg-owncloud/php-sabre-vobject.git -b 2.1
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-owncloud/php-sabre-vobject.git
+
+Package: php-sabre-vobject
+Architecture: all
+Depends: ${misc:Depends}, ${phpcomposer:Debian-require}
+Suggests: ${phpcomposer:Debian-suggest}
+Description: library to parse and manipulate iCalendar and vCard objects
+ The SabreTooth VObject library allows one to easily parse and
+ manipulate iCalendar and vCard objects using PHP. The goal of the
+ VObject library is to create a very complete library, with an easy to
+ use API.
+ .
+ This project is a spin-off from SabreDAV, where it has been used for
+ several years.

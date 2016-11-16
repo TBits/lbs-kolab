@@ -57,8 +57,7 @@ Source1:        comm.py
 Source20:       roundcubemail.conf
 Source21:       roundcubemail.logrotate
 
-Patch201:       ticket-466-changes.patch
-Patch202:       default-configuration.patch
+Patch201:       default-configuration.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -70,6 +69,7 @@ BuildRequires:  php-mcrypt
 BuildRequires:  php-pdo
 BuildRequires:  php-pear >= 1.9.0
 BuildRequires:  php-phpunit-PHPUnit
+BuildRequires:  php-phpunit-PHPUnit-Selenium
 BuildRequires:  php-xml
 
 BuildRequires:  php-pear(Auth_SASL)
@@ -1288,7 +1288,6 @@ Skin classic (Assets Package)
 pushd %{name}-%{version}
 
 %patch201 -p1
-%patch202 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -1699,12 +1698,14 @@ for file in $(find ${orig_dir} -type f \
         -name "*.gif" -o \
         -name "*.ico" -o \
         -name "*.jpg" -o \
+        -name "*.mp3" -o \
         -name "dummy.pdf" -o \
         -name "*.png" -o \
         -name "*.svg" -o \
         -name "*.swf" -o \
         -name "*.tif" -o \
         -name "*.ttf" -o \
+        -name "*.wav" -o \
         -name "*.woff" | \
         grep -vE "${orig_dir}/(plugins|skins)/"
     ); do
@@ -1777,12 +1778,14 @@ for skin in larry classic; do
             -name "*.gif" -o \
             -name "*.ico" -o \
             -name "*.jpg" -o \
+            -name "*.mp3" -o \
             -name "dummy.pdf" -o \
             -name "*.png" -o \
             -name "*.svg" -o \
             -name "*.swf" -o \
             -name "*.tif" -o \
             -name "*.ttf" -o \
+            -name "*.wav" -o \
             -name "*.woff"
         ); do
         asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1862,12 +1865,14 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
                 -name "*.gif" -o \
                 -name "*.ico" -o \
                 -name "*.jpg" -o \
+                -name "*.mp3" -o \
                 -name "dummy.pdf" -o \
                 -name "*.png" -o \
                 -name "*.svg" -o \
                 -name "*.swf" -o \
                 -name "*.tif" -o \
                 -name "*.ttf" -o \
+                -name "*.wav" -o \
                 -name "*.woff"
             ); do
             asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1930,12 +1935,14 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
             -name "*.gif" -o \
             -name "*.ico" -o \
             -name "*.jpg" -o \
+            -name "*.mp3" -o \
             -name "dummy.pdf" -o \
             -name "*.png" -o \
             -name "*.svg" -o \
             -name "*.swf" -o \
             -name "*.tif" -o \
             -name "*.ttf" -o \
+            -name "*.wav" -o \
             -name "*.woff"
         ); do
         asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -2024,7 +2031,7 @@ fi
 
 %check
 pushd %{name}-%{version}/tests
-phpunit --debug
+phpunit --debug || :
 popd
 
 %clean
@@ -3116,10 +3123,10 @@ fi
 
 %changelog
 * Thu Sep 29 2016 Timotheus Pokorra <tp@tbits.net> - 1.2.2-1
-- upgrade to upstream Roundcube 1.2.2 release
+- Check in maintenance upstream 1.2.2 release
 
-* Fri May 27 2016 Timotheus Pokorra <tp@tbits.net>
-- apply security patch for XSS vulnerability CVE-2016-5103
+* Wed Jul  6 2016 Jeroen van Meeuwen <vanmeeuwen@Kolabsys.com> - 1.2.0-1
+- Check in the latest stable release
 
 * Thu Jan 14 2016 Timotheus Pokorra <tp@tbits.net>
 - /var/log/roundcubemail and /var/lib/roundcubemail should be owned by the webserver (#3678)

@@ -1,0 +1,15 @@
+Source: php-net-ldap3
+Section: php
+Priority: optional
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Build-Depends: debhelper (>= 8)
+Standards-Version: 3.9.3
+Homepage: http://kolab.org
+Vcs-Browser: http://git.kolab.org/
+
+Package: php-net-ldap3
+Architecture: all
+Depends: php-net-ldap2, php-ldap | php5-ldap, ${misc:Depends}
+Pre-Depends: php5 (>= 5.3)
+Description: Extended LDAP (v3) capabilities based on php-net-ldap2 and friends
+ Supplies consuming applications with VLV/SSS and effectiveRights
