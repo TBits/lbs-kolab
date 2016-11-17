@@ -24,7 +24,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.3
-Release:        0.20160313.git%{?dist}
+Release:        0.20161115.git%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -1964,7 +1964,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
-* Fri Dec 18 2015 Timotheus Pokorra <tp@tbits.net>
+* Tue Nov 11 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3-0.20161115.git
+- Check in 3.3 snapshot
+
+* Fri Dec 18 2015 Timotheus Pokorra <tp@tbits.net> - 3.3-0.20151218.git
 - dropping roundcubemail-plugin-libcalendaring-skin-larry because it is empty (#5303)
 - rpm 4.13 rejects empty sub packages
 

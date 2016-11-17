@@ -31,14 +31,14 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           chwala
-Version: 0.4
-Release: 0.20160427.git%{?dist}
+Version:        0.5
+Release:        0.20161115.git%{?dist}
 Summary:        Glorified WebDAV, done right
 
 Group:          Applications/Internet
 License:        AGPLv3+
 URL:            http://chwala.org
-Source0:        chwala-0.4.tar.gz
+Source0:        chwala-0.5.tar.gz
 Source2:        chwala.logrotate
 
 Patch1:         chwala-0.2-suhosin.session.encrypt-php_flag.patch
@@ -141,6 +141,9 @@ fi
 %attr(0750,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Tue Nov 15 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5-0.1.git
+- Check in 0.5 snapshot
+
 * Mon Dec  7 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-0.1.git
 - Check in 0.4 snapshot
 

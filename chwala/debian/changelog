@@ -1,3 +1,9 @@
+chwala (0.5~dev20161115-0~kolab1) unstable; urgency=low
+
+  * Check in 0.5 snapshot
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 15 Nov 2016 12:12:12 +0100
+
 chwala (0.4~dev20160427-0~kolab1) unstable; urgency=low
 
   * Require roundcubemail-plugin-kolab_folders and create necessary symbolic link

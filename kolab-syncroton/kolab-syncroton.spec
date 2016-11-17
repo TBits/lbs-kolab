@@ -31,7 +31,7 @@
 
 Name:           kolab-syncroton
 Version:        2.3.3
-Release:        0.20160921.git%{?dist}
+Release:        1%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
@@ -209,6 +209,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Tue Nov 15 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.3-1
+- Release of version 2.3.3
+
 * Fri Mar 27 2015 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.2-1
 - Release of version 2.3.2, see;
 
