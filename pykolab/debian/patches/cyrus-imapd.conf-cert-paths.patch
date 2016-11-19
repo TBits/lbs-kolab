@@ -1,6 +1,27 @@
-diff -ur pykolab-0.7.12.orig/share/templates/imapd.conf.tpl pykolab-0.7.12/share/templates/imapd.conf.tpl
---- pykolab-0.7.12.orig/share/templates/imapd.conf.tpl	2015-05-13 14:52:54.000000000 +0200
-+++ pykolab-0.7.12/share/templates/imapd.conf.tpl	2015-05-13 15:35:12.623343019 +0200
+diff -ur pykolab-0.8.6.orig/share/templates/guam.sys.config.tpl pykolab-0.8.6/share/templates/guam.sys.config.tpl
+--- pykolab-0.8.6.orig/share/templates/guam.sys.config.tpl	2016-11-18 12:24:34.000000000 +0100
++++ pykolab-0.8.6/share/templates/guam.sys.config.tpl	2016-11-18 13:35:14.350503922 +0100
+@@ -26,7 +26,7 @@
+                             },
+                             {
+                                 tls_config, [
+-                                    { certfile, "/etc/pki/cyrus-imapd/cyrus-imapd.pem" }
++                                    { certfile, "/etc/ssl/private/cyrus-imapd.pem" }
+                                 ]
+                             }
+                         ]
+@@ -43,7 +43,7 @@
+                             },
+                             {
+                                 tls_config, [
+-                                    { certfile, "/etc/pki/cyrus-imapd/cyrus-imapd.pem" }
++                                    { certfile, "/etc/ssl/private/cyrus-imapd.pem" }
+                                 ]
+                             }
+                         ]
+diff -ur pykolab-0.8.6.orig/share/templates/imapd.conf.tpl pykolab-0.8.6/share/templates/imapd.conf.tpl
+--- pykolab-0.8.6.orig/share/templates/imapd.conf.tpl	2016-11-18 12:24:34.000000000 +0100
++++ pykolab-0.8.6/share/templates/imapd.conf.tpl	2016-11-18 13:34:48.872221218 +0100
 @@ -6,8 +6,8 @@
  sasl_pwcheck_method: saslauthd
  sasl_mech_list: PLAIN LOGIN
@@ -12,4 +33,3 @@ diff -ur pykolab-0.7.12.orig/share/templates/imapd.conf.tpl pykolab-0.7.12/share
  # uncomment this if you're operating in a DSCP environment (RFC-4594)
  # qosmarking: af13
  auth_mech: pts
-Only in pykolab-0.7.12/share/templates: imapd.conf.tpl.orig
