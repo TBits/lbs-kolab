@@ -24,7 +24,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version: 3.3
-Release: 0.20160111.git%{?dist}
+Release: 1.20160111.git%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -34,6 +34,8 @@ URL:            http://www.kolab.org
 # From 562ed98bd2e265c0d8a12bd2092b72d85d3e3543
 Source0:        roundcubemail-plugins-kolab-3.3.tar.gz
 Source1:        comm.py
+
+Patch0:         T1521_ldap_close.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:      noarch
@@ -912,6 +914,8 @@ Plugin tasklist / Skin larry (Assets Package)
 %setup -q  -c "%{name}-%{version}"
 
 pushd %{name}-%{version}
+
+%patch0 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -2091,6 +2095,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Nov 28 2016 Daniel Hoffend <dh@dotlan.net> - 3.3.1
+- syncroton needs kolab_auth::ldap_close() to work T1521
+
 * Fri Dec 18 2015 Timotheus Pokorra <tp@tbits.net>
 - dropping roundcubemail-plugin-libcalendaring-skin-larry because it is empty (#5303)
 - rpm 4.13 rejects empty sub packages

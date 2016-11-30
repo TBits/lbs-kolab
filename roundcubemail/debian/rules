@@ -8,6 +8,7 @@ override_dh_auto_build:
 	echo '{}' > $HOME/.composer/composer.json
 	patch -p1 < debian/patches/add-composer-autoloader.diff
 	composer.sh -vvv dumpautoload --optimize
+	patch -p1 < debian/patches/fix-composer-autoload-psr4.diff
 	dh_auto_build
 
 override_dh_install:
@@ -57,11 +58,14 @@ override_dh_install:
 			-name "*.gif" -o \
 			-name "*.ico" -o \
 			-name "*.jpg" -o \
+			-name "*.mp3" -o \
+			-name "dummy.pdf" -o \
 			-name "*.png" -o \
 			-name "*.svg" -o \
 			-name "*.swf" -o \
 			-name "*.tif" -o \
 			-name "*.ttf" -o \
+			-name "*.wav" -o \
 			-name "*.woff" \
 		); do \
 		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/assets/|g")) ; \

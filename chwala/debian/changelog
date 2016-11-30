@@ -1,3 +1,9 @@
+chwala (0.4~dev20160111-0~kolab2) unstable; urgency=low
+
+  * added missing sql files
+
+ -- Daniel Hoffend <dh@dotlan.net>  Mon, 28 Nov 2016 00:36:24 +0100
+
 chwala (0.4~dev20160111-0~kolab1) unstable; urgency=low
 
   * Require roundcubemail-plugin-kolab_folders and create necessary symbolic link
