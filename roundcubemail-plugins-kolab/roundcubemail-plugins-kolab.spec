@@ -823,6 +823,8 @@ Plugin tasklist / Skin larry (Assets Package)
 
 pushd %{name}-%{version}
 
+find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
+
 rm -rf plugins/kolab_zpush
 rm -rf plugins/owncloud
 
@@ -1964,7 +1966,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
-* Tue Nov 11 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3-0.20161115.git
+* Fri Nov 11 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3-0.20161115.git
 - Check in 3.3 snapshot
 
 * Fri Dec 18 2015 Timotheus Pokorra <tp@tbits.net> - 3.3-0.20151218.git
