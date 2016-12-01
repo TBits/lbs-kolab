@@ -1,3 +1,9 @@
+roundcubemail (1.2.3.0-0~kolab1) unstable; urgency=low
+
+  * Check in upstream 1.2.3 release
+
+ -- Timotheus Pokorra <tp@tbits.net>  Wed, 30 Nov 2016 08:42:00 +0200
+
 roundcubemail (1.2.2.0-0~kolab2) unstable; urgency=low
 
   * fixed invalid generates psr4 autoloader

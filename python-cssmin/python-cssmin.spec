@@ -47,9 +47,7 @@ This is the version for Python 3.x.
 %patch0 -p1
 
 # remove shebang from non-executable
-sed '1{\@^#!/usr/bin/env python@d}' src/cssmin.py > src/cssmin.py.new &&
-touch -r  src/cssmin.py src/cssmin.py.new &&
-mv src/cssmin.py.new src/cssmin.py
+sed -i -e 's|#!/usr/bin/env python|#!%{_bindir}/python|g' src/cssmin.py
 
 sed -i 's/^from distribute_setup/#/' setup.py
 
@@ -65,6 +63,7 @@ sed -i 's/^from distribute_setup/#/' setup.py
 %{__python} setup.py install --skip-build -O1 --root %{buildroot}
 
 mv %{buildroot}%{_bindir}/cssmin.py %{buildroot}%{_bindir}/python-cssmin
+chmod a+x %{buildroot}%{_bindir}/python-cssmin
 
 %check
 cd src && \
