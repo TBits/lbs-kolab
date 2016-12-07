@@ -2,7 +2,7 @@ Format: 1.0
 Source: chwala
 Binary: chwala
 Architecture: all
-Version: 0.5~dev20161115-0~kolab2
+Version: 0.5~dev20161115-0~kolab3
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
 Homepage: http://kolab.org/about/chwala/

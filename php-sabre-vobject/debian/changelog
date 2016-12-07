@@ -1,55 +1,302 @@
-php-sabre-vobject (3.4.5-1) unstable; urgency=low
+php-sabre-vobject-3 (3.5.3-1) unstable; urgency=low
+
+  * Updated to upstream 3.5.3
+  * Moved Sabre Libs to sabre21/Sabre directory to be in line
+    with the upcoming Debian 9 package (for Kolab Package)
+  * renamed package to php-sabre-vobject-3
+  * removed symfony autoloader for phpunit tests
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sun, 04 Dec 2016 21:04:00 +0200
+
+php-sabre-vobject-3 (3.5.2-1) unstable; urgency=medium
+
+  [ Visily Komrakov ]
+  * incorrect work with timezone without event master
+
+  [ Evert Pot ]
+  * Releasing 3.5.2
+
+ -- David Prévot <taffit@debian.org>  Wed, 27 Apr 2016 13:09:49 -0400
+
+php-sabre-vobject-3 (3.5.1-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * Add `RECURRENCE-ID` to the first event in the series.
+  * Releasing 3.5.1
+
+  [ David Prévot ]
+  * Update Standards-Version to 3.9.8
+
+ -- David Prévot <taffit@debian.org>  Wed, 06 Apr 2016 21:19:08 -0400
+
+php-sabre-vobject-3 (3.5.0-2) unstable; urgency=medium
+
+  * Move maintenance within Debian PHP PEAR Maintainers
+  * Update Standards-Version to 3.9.7
+  * Build-depend on now split php-mbstring
+  * Rebuild with latest pkg-php-tools for the PHP 7.0 transition
+
+ -- David Prévot <taffit@debian.org>  Sat, 05 Mar 2016 12:44:22 -0400
+
+php-sabre-vobject-3 (3.5.0-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * PHP 7 support
+  * Releasing sabre/vobject 3.5.0
+
+ -- David Prévot <taffit@debian.org>  Mon, 11 Jan 2016 21:15:37 -0400
+
+php-sabre-vobject-3 (3.4.8-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * 3.4.8 release
+
+  [ Philipp Kewisch ]
+  * Include DTEND in invitations
+
+  [ David Prévot ]
+  * Update copyright (years)
+
+ -- David Prévot <taffit@debian.org>  Mon, 04 Jan 2016 22:55:20 -0400
+
+
+php-sabre-vobject-3 (3.4.7-1) unstable; urgency=medium
+
+  [ Dominik Tobschall ]
+  * Handle NoInstancesException in isInTimeRange()
+
+  [ Evert Pot ]
+  * Releasing sabre/vobject 3.4.7
+
+ -- David Prévot <taffit@debian.org>  Sat, 05 Sep 2015 11:01:56 -0400
+
+php-sabre-vobject-3 (3.4.6-1) unstable; urgency=medium
+
+  [ Armin Hackmann ]
+  * modify DTEND for all-day events to make sure DTEND is considered non inclusive
+  * consider timezone of the timerange
+
+ -- David Prévot <taffit@debian.org>  Tue, 11 Aug 2015 15:45:53 +0200
+
+php-sabre-vobject (3.4.5-2) unstable; urgency=low
 
   * Upstream Version Bump
   * Initlal Release for Kolab Winterfell
 
- -- hede <kolab983@der-he.de>  Sat, 25 Jun 2013 12:00:00 +0200
+ -- hede <kolab983@der-he.de>  Sat, 25 Jun 2016 12:00:00 +0200
 
-php-sabre-vobject (2.1.5-3) unstable; urgency=medium
-
-  * Fix testsuite for php >= 5.6.1
-  * Document current Git branch
-
- -- David Prévot <taffit@debian.org>  Sun, 26 Oct 2014 15:42:24 -0400
-
-php-sabre-vobject (2.1.5-2) unstable; urgency=medium
-
-  * No tests if DEB_BUILD_OPTIONS contains nocheck
-  * Add hint about security maintenance in Jessie
-  * Drop now useless XS-Testsuite
-  * Bump standards version to 3.9.6
-  * Drop reference to long gone php-sabredav
-
- -- David Prévot <taffit@debian.org>  Mon, 29 Sep 2014 15:53:28 -0400
-
-php-sabre-vobject (2.1.5-1) unstable; urgency=medium
+php-sabre-vobject-3 (3.4.5-1) unstable; urgency=medium
 
   [ Evert Pot ]
-  * Updated copyright years.
-  * Bumped version
+  * Converting vcards with a LANG property from 3.0 to 4.0 errors.
+  * Releasing sabre/vobject 3.4.5
+
+ -- David Prévot <taffit@debian.org>  Sat, 20 Jun 2015 13:40:49 -0400
+
+php-sabre-vobject-3 (3.4.4-1) unstable; urgency=medium
+
+  * Rename as php-sabre-vobject-3.
+    Install everything in its own path to be co-installable with other
+    versions of php-sabre-vobject.
+
+ -- David Prévot <taffit@debian.org>  Sun, 31 May 2015 19:14:48 -0400
+
+php-sabre-vobject (3.4.4-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Fixed undefined index 'foo@bar.com' notices.
+
+ -- David Prévot <taffit@debian.org>  Wed, 27 May 2015 17:29:28 -0400
+
+php-sabre-vobject (3.4.3-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Detect wrong ENCODING parameters.
+  * Corrected validation of EXDATE.
+  * BYSETPOS with values below -1 breaks and hangs.
+
+  [ Tomas Lindquist Olsen ]
+  * Fix BYDAY=-5TH
+
+  [ David Prévot ]
+  * Fix CLI install path
+  * Fix vobject CLI name in previous changelog entry
+
+  [ Thomas Bruederli ]
+  * Fix Property\VCard\Date to serialize DateTime objects as date-only strings
+
+ -- David Prévot <taffit@debian.org>  Tue, 19 May 2015 15:21:37 -0400
+
+php-sabre-vobject (3.4.2-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Replying to an event without master event was broken.
+
+ -- David Prévot <taffit@debian.org>  Wed, 25 Feb 2015 22:01:45 -0400
+
+php-sabre-vobject (3.4.1-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Making the recurrence iterator faster on large calendars.
+  * Updated changelog, releasing this as 3.4.1.
+
+  [ Ivan Enderlin ]
+  * Create and declare the VAVAILABILITY component.
+  * Create and declare the AVAILABLE component.
+  * Declare the AVAILABLE component.
+
+  [ David Prévot ]
+  * Provide homemade autoload.php
+  * Install vobject and generate_vcards CLIs
+
+ -- David Prévot <taffit@debian.org>  Tue, 24 Feb 2015 17:16:24 -0400
+
+php-sabre-vobject (3.3.5-1) experimental; urgency=medium
+
+  [ David Prévot ]
+  * Update watch file
+  * Update copyright
+
+  [ Evert Pot ]
+  * Releasing 3.3.5
+
+ -- David Prévot <taffit@debian.org>  Sat, 10 Jan 2015 09:44:50 -0400
+
+php-sabre-vobject (3.3.4-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Support for converting ANNIVERSARY
+  * Allowing 'reference timezones' for freebusy reports and other places.
+  * Reference timezone to expander and recurrence iterator.
+  * Added getTimeZone to VTIMEZONE components.
+
+  [ Armin Hackmann ]
+  * Support for multiple anniversaries in a vCard
+
+  [ Ivan Enderlin ]
+  * Simpler way to check UTF-8.
+
+  [ David Prévot ]
+  * Use php-symfony-class-loader instead of php-symfony-classloader
+
+ -- David Prévot <taffit@debian.org>  Fri, 28 Nov 2014 16:42:28 -0400
+
+php-sabre-vobject (3.3.3-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Adding DTSTART to CANCEL and REPLY messages.
+  * Respect SCHEDULE-AGENT on ORGANIZER.
+  * There's a new windows timezone.
+
+ -- David Prévot <taffit@debian.org>  Fri, 10 Oct 2014 10:00:42 -0400
+
+php-sabre-vobject (3.3.2-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Updating RSVP status when a reply comes in.
+  * Support for detecting significant changes in iTip objects.
+  * Support for SCHEDULE-FORCE-SEND
+  * When a parameter value contains +, quote the value.
+  * Don't generate REPLY messages for events that have been CANCELLED.
+  * We're validating RELATED but it should have been RELATED-TO.
+  * ATTACH is a URI value, unless it's specified as BINARY.
+  * Throw exception when there are no recurrence instances.
+  * No longer generate another DECLINE when an attendee deletes
+    an already declined event.
+  * Send CANCEL messages when ORGANIZER property gets deleted.
+
+  [ Dominik Tobschall ]
+  * added getScheduleStatus() method
+  * SUMMARY in scheduling messages. #123
+  * reject vcards in icalendar splitter
+  * reject non-vcard data in vcard splitter
+
+  [ Thorsten Glaser ]
+  * check all control chars from RFC5545 §3.3.11. (below \x80, anyway)
+
+  [ David Prévot ]
+  * Simplify DEP-8 handling
+  * Bump standards version to 3.9.6
+
+ -- David Prévot <taffit@debian.org>  Mon, 22 Sep 2014 22:47:58 -0400
+
+php-sabre-vobject (3.3.1-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * First strides into iTip related functionality.
+  * The first event can now be overwritten.
+  * Moving recurrence-related code to Recur/ directory.
+  * Switched to psr-4
+  * Added the RDate iterator
+  * Backwards compatibility class for RecurrenceIterator.
+  * Allow more values to be used with magic setters.
+  * Retaining VTIMEZONE objects. Support for MAILTO: in uppercase.
+  * Support for REQUEST-STATUS.
+  * Releasing vobject 3.3.1
+
+  [ Armin Hackmann ]
+  * keep time & timezone information for recurring events, fix for #101
+
+  [ David Prévot ]
+  * Update packaging
+
+ -- David Prévot <taffit@debian.org>  Fri, 22 Aug 2014 10:27:35 -0400
+
+php-sabre-vobject (3.2.4-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Bumped version.
+  * Added phpcs.
+
+  [ David Prévot ]
+  * Run phpcs with other tests
+
+ -- David Prévot <taffit@debian.org>  Mon, 21 Jul 2014 14:39:09 -0400
+
+php-sabre-vobject (3.2.3-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * More tests for VTODO.
+  * Moved documentation to sabre.io website.
+  * Bumped version.
+  * More validator output.
+  * repair was unable to do its job for iCalendar objects.
+
+  [ David Prévot ]
+  * No tests if DEB_BUILD_OPTIONS contains nocheck
+  * Remove documentation, moved to http://sabre.io/vobject/
+
+ -- David Prévot <taffit@debian.org>  Sat, 14 Jun 2014 21:50:24 -0400
+
+php-sabre-vobject (3.2.2-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Releasing vobject 3.2.2
 
   [ David Prévot ]
   * Update upstream URL
 
- -- David Prévot <taffit@debian.org>  Tue, 10 Jun 2014 11:38:04 -0400
+ -- David Prévot <taffit@debian.org>  Tue, 20 May 2014 17:47:17 -0400
 
-php-sabre-vobject (2.1.4-1) unstable; urgency=medium
+php-sabre-vobject (3.1.4-1) experimental; urgency=medium
 
   [ Evert Pot ]
   * Fix for #87 (Several compatibility fixes related to timezone handling
     changes in PHP 5.5.10)
 
- -- David Prévot <taffit@debian.org>  Sun, 30 Mar 2014 20:13:10 -0400
-
-php-sabre-vobject (2.1.3-2) unstable; urgency=medium
-
-  * Track 2.1 releases for unstable
-  * Bump standards version to 3.9.5
+  [ David Prévot ]
   * Run the test suite on packaging
   * Add DEP-8 compliant tests
-  * Upload 2.1 to unstable, as a dependency of recent php-sabre-dav 1.7
 
- -- David Prévot <taffit@debian.org>  Wed, 19 Mar 2014 11:41:23 -0400
+ -- David Prévot <taffit@debian.org>  Sun, 30 Mar 2014 21:07:13 -0400
+
+php-sabre-vobject (3.1.3-1) experimental; urgency=low
+
+  * Imported Upstream version 3.1.3
+  * Ship new documentation
+  * Bump standards version to 3.9.5
+
+ -- David Prévot <taffit@debian.org>  Tue, 12 Nov 2013 18:27:03 -0400
 
 php-sabre-vobject (2.1.3-1) experimental; urgency=low
 

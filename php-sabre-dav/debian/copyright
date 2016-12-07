@@ -1,12 +1,11 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: sabre/dav
+Upstream-Name: sabredav
 Source: https://github.com/fruux/sabre-dav
 Upstream-Contact: SabreDAV mailinglist <sabredav-discuss@googlegroups.com>
 
 Files: *
-Copyright: 2007-2014 fruux GmbH (https://fruux.com/)
-           2007-2014 Rooftop Solutions
-License: BSD-3-clause-SabreDAV
+Copyright: 2007-2015, fruux GmbH (https://fruux.com/)
+License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  .
@@ -34,27 +33,28 @@ License: BSD-3-clause-SabreDAV
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Files: bin/googlecode_upload.py
-Copyright: 2006, 2007 Google Inc.
+Copyright: 2006, 2007, Google Inc.
 License: Apache-2.0
  On Debian GNU/Linux system you can find the complete text of the
  Apache-2.0 license in '/usr/share/common-licenses/Apache-2.0'
 
-Files: debian/*
-Copyright: 2012 Thomas Mueller <thomas.mueller@tmit.eu>
-License: GPL-2+
- This program is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License as published by the Free
- Software Foundation; either version 2 of the License, or (at your option)
- any later version.
+Files: lib/DAV/Browser/assets/openiconic/*
+Copyright: 2014, Waybury
+License: Expat
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
  .
- This program is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- for more details.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
  .
- You should have received a copy of the GNU General Public License along
- with this package; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
- .
- On Debian systems, the full text of the GNU General Public License
- version 2 can be found in the file `/usr/share/common-licenses/GPL-2'.
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ DEALINGS IN THE SOFTWARE.

@@ -14,12 +14,12 @@ Architecture: all
 Depends:
         apache2,
         chwala,
-        libapache2-mod-php5,
-        php5,
-        php-sabre-dav (>= 2.1.3),
-        php-sabre-http (>= 3.0.5),
+        libapache2-mod-php5 | libapache2-mod-php,
+        php5 | php,
+        php-sabre-dav-2.1 (>= 2.1.3),
+        php-sabre-http-3 (>= 3.0.5),
         php-sabre-event (>= 1.0.1),
-        php-sabre-vobject (>= 3.2.4),
+        php-sabre-vobject-3 (>= 3.2.4),
         roundcubemail,
         roundcubemail-plugins-kolab (>= 3.1.12),
         ${misc:Depends}

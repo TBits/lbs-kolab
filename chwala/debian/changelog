@@ -1,6 +1,12 @@
-chwala (0.5~dev20161115-0~kolab1) unstable; urgency=low
+chwala (0.5~dev20161115-0~kolab3) unstable; urgency=low
 
-  * Check in 0.5 snapshot
+  * Added dependency to php-sabre-dav-2.1 needed by webdav driver
+
+ -- Daniel Hoffend <dh@dotlan.net>  Fri, 02 Dec 2016 12:47:12 +0100
+
+chwala (0.5~dev20161115-0~kolab2) unstable; urgency=low
+
+  * Added missing sql files
 
  -- Daniel Hoffend <dh@dotlan.net>  Mon, 28 Nov 2016 00:47:12 +0100
 

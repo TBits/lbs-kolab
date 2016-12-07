@@ -3,25 +3,17 @@
 	dh $@ --with phpcomposer
 
 override_dh_auto_build:
-	# resort folder structure
-	mv lib HTTP
-	mkdir -p lib/Sabre
-	mv HTTP lib/Sabre/
-	#mkdir -p tests/Sabre
-	#mv tests/HTTP tests/Sabre/
-	#forward to original dh_auto_build
-	dh_auto_build
-
-override_dh_auto_clean:
-	rm -rf tests/temp
-	dh_auto_clean
+	phpab	--output lib/autoload.php \
+		--template debian/autoload.php.tpl \
+		lib
 
 override_dh_auto_test:
-ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
-	cd tests && phpunit 
-else
+#ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
+#	phpunit --configuration tests/phpunit.xml --bootstrap lib/autoload.php
+#	phpcs -p --standard=tests/phpcs/ruleset.xml lib
+#else
 	@echo "** tests disabled"
-endif
+#endif
 
 get-orig-source:
 	uscan --verbose --rename --force

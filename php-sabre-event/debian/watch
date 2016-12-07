@@ -1,3 +1,4 @@
 version=3
-options="uversionmangle=s/-?beta/~beta/;s/-?alpha/~alpha/" \
-http://githubredir.debian.net/github/fruux/sabre-event /(1\.0\..+).tar.gz
+options=uversionmangle=s/-?([^\d.]+)/~$1/i \
+https://github.com/fruux/sabre-event/releases \
+.*/archive/(1.+).tar.gz

@@ -1,13 +1,11 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: sabre-http
+Upstream-Name: sabre/http
 Source: https://github.com/fruux/sabre-http
 Upstream-Contact: Evert Pot <evert@rooftopsolutions.nl>
 
 Files: *
-Copyright: 2007-2014, fruux GmbH (https://fruux.com/)
-License: BSD-3-clause-Sabre
-
-License: BSD-3-clause-Sabre
+Copyright: 2009-2015, fruux GmbH (https://fruux.com/)
+License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  .

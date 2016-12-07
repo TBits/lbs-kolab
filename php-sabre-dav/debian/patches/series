@@ -1,2 +1,9 @@
-0001-Use-ClassLoader-from-Symfony-instead-of-autoload.patch -p1
-0002-composer-required-versions.patch -p1
+0001-Use-homemade-autoload.php.patch
+0002-Drop-Composer-autoLoader-calls.patch
+0003-Increase-timeout.patch
+0004-Install-sabredav.php-in-usr-share-php-sabre21-Sabre.patch
+0005-tfix-threshold.patch
+0006-tfix-selection.patch
+0007-Rename-naturalselection-as-naturalselection21.patch
+0008-Fix-upper-limit-after-spurious-upload-of-php-sabre-e.patch
+0009-naturalselection.1-wfix.patch

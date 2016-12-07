@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@ --with python_support
+	dh $@
 
 override_dh_auto_build:
 	mkdir -p $HOME/.composer

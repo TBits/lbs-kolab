@@ -1,15 +1,21 @@
-Source: php-sabre-http
+Source: php-sabre-http-3
 Section: php
 Priority: optional
-Maintainer: Kolab for Debian testing <devel@lists.kolab.org>
-Uploaders: hede <kolab983@der-he.de>
-Build-Depends: debhelper (>= 9), phpunit, php-symfony-classloader, pkg-php-tools (>= 1.7~), php5-curl, php-sabre-event (>= 1.0.0), php-sabre-event (<< 3)
-Standards-Version: 3.9.6
-Homepage: http://sabre.io/http/
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-sabre-http.git
+Maintainer: Kolab for Debian <devel@lists.kolab.org>
+Uploaders: Daniel Hoffend <dh@dotlan.net>
+Build-Depends: debhelper (>= 9),
+               php-codesniffer,
+               php5-curl,
+               php-sabre-event,
+               php5-xdebug,
+               phpunit,
+               pkg-php-tools (>= 1.7~)
+Standards-Version: 3.9.7
+Homepage: https://github.com/fruux/sabre-http
 Vcs-Git: git://anonscm.debian.org/pkg-php/php-sabre-http.git -b 3.0
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-sabre-http.git
 
-Package: php-sabre-http
+Package: php-sabre-http-3
 Architecture: all
 Depends: php-sabre-event (<< 3.0.0~as3),
          ${misc:Depends},
@@ -35,4 +41,3 @@ Description: library to ease the work with HTTP protocol
  .
  It provides a Request object, and a Response object. The objects are
  extensible and easily mockable.
-

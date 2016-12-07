@@ -1,34 +1,36 @@
-Source: php-sabre-dav
+Source: php-sabre-dav-2.1
 Section: php
 Priority: optional
-Maintainer: ownCloud for Debian maintainers <pkg-owncloud-maintainers@lists.alioth.debian.org>
-Uploaders: Thomas Mueller <thomas.mueller@tmit.eu>,
-           Paul van Tilburg <paulvt@debian.org>,
-           David Prévot <taffit@debian.org>,
-           hede <kolab983@der-he.de>
+Maintainer: Debian PHP PEAR Maintainers <pkg-php-pear@lists.alioth.debian.org>
+Uploaders: David Prévot <taffit@debian.org>
 Build-Depends: debhelper (>= 8.0.0),
-               php-sabre-vobject (>= 3.3.4),
-               php-sabre-vobject (< 4),
-               php-sabre-http (>= 2.0.4),
-               php-symfony-classloader,
-               php5-curl,
-               php5-sqlite,
+               help2man,
+               php-codesniffer,
+               php-curl | php5-curl,
+               php-mbstring | php5,
+               php-sabre-event,
+               php-sabre-http-3,
+               php-sabre-vobject-3,
+               php-sqlite3 | php5-sqlite,
+               phpab,
                phpunit,
-               pkg-php-tools (>= 1.7~)
-Standards-Version: 3.9.6
+               pkg-php-tools (>= 1.7~),
+               python
+Standards-Version: 3.9.7
 Homepage: http://sabre.io/dav/
-Vcs-Git: git://anonscm.debian.org/pkg-owncloud/php-sabredav.git -b 1.8
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-owncloud/php-sabredav.git
+Vcs-Git: git://anonscm.debian.org/pkg-php/php-sabredav.git -b 2.1
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-sabredav.git
 
-Package: php-sabre-dav
+Package: php-sabre-dav-2.1
 Architecture: all
 Depends: php-sabre-event (<< 3.0.0~as2.1),
-         php-sabre-http (>= 2.0.4),
-         php-sabre-vobject (>= 3.3.4),
-         php-sabre-vobject (< 4),
-         ${misc:Depends}, 
+         ${misc:Depends},
          ${phpcomposer:Debian-require}
+Recommends: python
 Suggests: ${phpcomposer:Debian-suggest}
+Replaces: ${phpcomposer:Debian-replace}
+Breaks: ${phpcomposer:Debian-conflict}, ${phpcomposer:Debian-replace}
+Provides: ${phpcomposer:Debian-provide}
 Description: ${phpcomposer:description}
  SabreDAV is meant to cover the entire standard, and attempts to allow
  integration using an easy to understand API.

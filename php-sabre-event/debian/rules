@@ -2,13 +2,12 @@
 %:
 	dh $@ --with phpcomposer
 
-override_dh_auto_clean:
-	rm -rf tests/temp
-	dh_auto_clean
+override_dh_auto_build:
+	phpab --output lib/autoload.php lib
 
 override_dh_auto_test:
 ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
-	cd tests && phpunit 
+	phpunit --bootstrap lib/autoload.php
 else
 	@echo "** tests disabled"
 endif

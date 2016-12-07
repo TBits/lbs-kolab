@@ -1,3 +1,10 @@
+irony (0.4~dev20160321-0~kolab2) unstable; urgency=low
+
+  * Changed Requirements from sabre-vobject to sabre-vobject-3, sabre-av
+    to sabre-dav-2.1 and sabre-http to sabre-http-3
+
+ -- Daniel Hoffend <dh@dotlan.net>  Fri, 02 Dec 2016 00:23:00 +0100
+
 irony (0.4~dev20160321-0~kolab1) unstable; urgency=low
 
   * Release of version 0.4.0

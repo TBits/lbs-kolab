@@ -2,7 +2,7 @@ Format: 1.0
 Source: composer
 Binary: composer
 Architecture: all
-Version: 1.0.0-0.4
+Version: 1.0.0-0.5
 Maintainer: Ross Duggan <ross.duggan@acm.org>
 Standards-Version: 3.9.4
 Build-Depends: debhelper (>= 7), po-debconf, php5-dev, sharutils

@@ -3,7 +3,7 @@ Section: web
 Priority: extra
 Maintainer: Debian Roundcube Maintainers <pkg-roundcube-maintainers@lists.alioth.debian.org>
 Uploaders: Vincent Bernat <bernat@debian.org>, Romain Beauxis <toots@rastageeks.org>, Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
-Build-Depends: composer, python-support (>= 0.5.3), debhelper (>= 8)
+Build-Depends: composer, debhelper (>= 8)
 Homepage: http://www.roundcube.net/
 Standards-Version: 3.9.3
 Vcs-Git: git://git.kolabsys.com/git/apt/roundcubemail/
@@ -20,14 +20,14 @@ Depends:    apache2 | httpd,
             php-net-smtp,
             php-net-socket,
             php-net-sieve,
-            php-sabre-vobject (>= 3.4.5),
-            php5,
-            php5-cli,
-            php5-gd,
-            php5-intl,
-            php5-ldap,
-            php5-mcrypt,
-            php5-pspell,
+            php-sabre-vobject-3 (>= 3.4.5),
+            php5 | php,
+            php5-cli | php-cli,
+            php5-gd | php-gd,
+            php5-intl | php-intl,
+            php5-ldap | php-ldap,
+            php5-mcrypt | php-mcrypt,
+            php5-pspell | php-pspell,
             ucf,
             ${misc:Depends}
 Replaces: roundcube, roundcube-core, roundcube-mysql, roundcube-pgsql, roundcube-plugins

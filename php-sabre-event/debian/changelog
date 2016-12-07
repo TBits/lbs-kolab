@@ -1,6 +1,84 @@
-php-sabre-event (1.0.1-1) unstable; urgency=low
+php-sabre-event (2.0.2-3) unstable; urgency=low
+
+  * Updated Packaging for Kolab Winterfell
+  * merged with latest 2.0 Sabre/Event Debian Package
+
+ -- Daniel Hoffend <dh@ðotlan.net>  Sat, 03 Dec 2016 21:02:01 +0100
+
+php-sabre-event (2.0.2-2) unstable; urgency=medium
+
+  * Upload to unstable us needed by php-sabre-dav-2.1
+
+ -- David Prévot <taffit@debian.org>  Sun, 21 Jun 2015 09:38:00 -0400
+
+php-sabre-event (2.0.2-1) experimental; urgency=medium
+
+  * Use --bootstrap feature of PHPUnit instead of patches
+  * Update copyright (year)
+
+ -- David Prévot <taffit@debian.org>  Wed, 20 May 2015 14:30:37 -0400
+
+php-sabre-event (2.0.1-2) experimental; urgency=medium
+
+  * Update watch file
+  * Provide homemade autoload.php
+
+ -- David Prévot <taffit@debian.org>  Wed, 25 Feb 2015 22:37:35 -0400
+
+php-sabre-event (2.0.1-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Fix bugs related to ::once
+
+  [ David Prévot ]
+  * Bump standards version to 3.9.6
+
+ -- David Prévot <taffit@debian.org>  Fri, 10 Oct 2014 10:54:23 -0400
+
+php-sabre-event (2.0.0-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * psr-4 directory layout.
+  * Made this an alpha version
+
+  [ David Prévot ]
+  * Update packaging, and upload to experimental
+
+ -- David Prévot <taffit@debian.org>  Mon, 23 Jun 2014 16:31:07 -0400
+
+php-sabre-event (1.0.1-3) unstable; urgency=low
 
   * Initlal Release for Kolab Winterfell
 
  -- hede <kolab983@der-he.de>  Sun, 04 Sep 2016 20:00:00 +0200
 
+php-sabre-event (1.0.1-2) unstable; urgency=medium
+
+  * Bump standards version to 3.9.6
+  * Update watch file
+  * Track 1.0
+  * Provide homemade autoload.php
+
+ -- David Prévot <taffit@debian.org>  Wed, 25 Feb 2015 22:59:32 -0400
+
+php-sabre-event (1.0.1-1) unstable; urgency=medium
+
+  [ David Prévot ]
+  * Set maintainer to Debian PHP PEAR
+  * Run the test suite on packaging
+  * Add DEP-8 compliant tests
+  * Update Homepage
+  * Update copyright
+
+  [ Evert Pot ]
+  * Issue #4. Compatibility for PHP < 5.4.14.
+  * Updated copyrights and link to license
+  * Updated a few links
+
+ -- David Prévot <taffit@debian.org>  Sat, 14 Jun 2014 21:20:41 -0400
+
+php-sabre-event (1.0.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #729432)
+
+ -- David Prévot <taffit@debian.org>  Tue, 12 Nov 2013 15:54:32 -0400
