@@ -1,11 +1,10 @@
-roundcubemail-plugins-kolab (1:3.3~dev20160111-0~kolab1.2) unstable; urgency=low
+roundcubemail-plugins-kolab (1:3.3~dev20161115-0~kolab1) unstable; urgency=low
 
-  * added kolab_auth::ldap_close() function which is needed for newer
-    syncroton version.
+  * Check in 3.3 snapshot
 
- -- Daniel Hoffend <dh@dotlan.net>  Mon, 28 Nov 2016 01:15:13 +0100
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 15 Nov 2016 10:10:10 +0100
 
-roundcubemail-plugins-kolab (1:3.3~dev20160111-0~kolab1.1) unstable; urgency=low
+roundcubemail-plugins-kolab (1:3.3~dev20160313-0~kolab1) unstable; urgency=low
 
   * fix package version: we need epoch 1
 

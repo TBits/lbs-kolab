@@ -1,0 +1,5 @@
+phpab (1.21.0-1) unstable; urgency=low
+
+  * initial import as phar archive only for Ubuntu 14.04
+
+ -- Daniel Hoffend <dh@dotlan.net>  Thu, 01 Dec 2016 23:26:00 +0100

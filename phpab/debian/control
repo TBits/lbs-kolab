@@ -1,0 +1,22 @@
+Source: phpab
+Section: php
+Priority: optional
+Maintainer: Debian PHP PEAR Maintainers <pkg-php-pear@lists.alioth.debian.org>
+Uploaders: Daniel Hoffend <dh@dotlan.net>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.7
+Homepage: https://github.com/theseer/Autoload
+
+Package: phpab
+Architecture: all
+Depends: ${misc:Depends},
+         ${phpcomposer:Debian-require}
+Recommends: ${phpcomposer:Debian-recommend}
+Suggests: ${phpcomposer:Debian-suggest}
+Replaces: ${phpcomposer:Debian-replace}
+Breaks: ${phpcomposer:Debian-conflict}, ${phpcomposer:Debian-replace}
+Provides: php-autoload, ${phpcomposer:Debian-provide}
+Description: lightweight PHP namespace aware autoload generator
+ The PHP AutoloadBuilder CLI tool phpab is a command line application
+ to automate the process of generating an autoload require file with
+ the option of creating static require lists as well as phar archives.
