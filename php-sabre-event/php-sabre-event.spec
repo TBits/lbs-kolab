@@ -6,7 +6,7 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    5ee3adf5441c2fe53b8ceacff6db81e621ee884c
+%global gh_commit    337b6f5e10ea6e0b21e22c7e5788dd3883ae73ff
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     fruux
 %global gh_project   sabre-event
@@ -14,7 +14,7 @@
 
 Name:           php-%{gh_project}
 Summary:        Lightweight library for event-based programming
-Version:        1.0.1
+Version:        2.0.2
 Release:        1%{?dist}
 
 URL:            http://sabre.io/event
@@ -49,7 +49,7 @@ It's design is inspired by Node.js's EventEmitter. sabre/event requires PHP 5.4.
 
 
 %prep
-%setup -q -n %{gh_project}-%{gh_commit}
+%setup -q -n %{gh_project}-%{version}
 
 : Create trivial PSR0 autoloader
 cat <<EOF | tee psr0.php
@@ -67,16 +67,15 @@ EOF
 
 %install
 # Install as a PSR-0 library
-mkdir -p %{buildroot}%{_datadir}/php
-cp -pr lib/Sabre %{buildroot}%{_datadir}/php/Sabre
+mkdir -p %{buildroot}%{_datadir}/php/Sabre
+cp -pr lib %{buildroot}%{_datadir}/php/Sabre/Event
 
 
 %check
 %if %{with_tests}
 : Run upstream test suite against installed library
-cd tests
 phpunit \
-  --bootstrap=../psr0.php \
+  --bootstrap=psr0.php \
   --include-path=%{buildroot}%{_datadir}/php \
   -d date.timezone=UTC
 %else
@@ -85,11 +84,14 @@ phpunit \
 
 
 %files
-%doc ChangeLog composer.json LICENSE README.md
+%doc CHANGELOG.md composer.json LICENSE README.md
 %{_datadir}/php/Sabre
 
 
 %changelog
+* Sat Dec 03 2016 Daniel Hoffend <dh@dotlan.net> - 2.0.2-1
+- update to 2.0.2
+
 * Fri Jun 13 2014 Remi Collet <remi@fedoraproject.org> - 1.0.1-1
 - update to 1.0.1
 - add provides php-composer(sabre/event)

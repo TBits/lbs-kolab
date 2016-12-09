@@ -1,0 +1,4 @@
+version=3
+options=uversionmangle=s/([^\d.]+)/~$1/i \
+https://github.com/fruux/sabre-dav/releases \
+/fruux/sabre-dav/archive/(2\.1\.\d.*).tar.gz

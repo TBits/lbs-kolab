@@ -14,7 +14,7 @@
 
 Name:           php-%{gh_project}
 Summary:        Library to parse and manipulate iCalendar and vCard objects
-Version:        3.4.5
+Version:        3.5.3
 Release:        1%{?dist}
 
 URL:            http://sabre.io/vobject/
@@ -106,6 +106,9 @@ phpunit \
 
 
 %changelog
+* Sun Dec  4 2016 Daniel Hoffend <dh@dotlan.net> - 3.5.3-1
+- update to 3.5.3
+
 * Wed Aug  5 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.4.5-1
 - update to 3.4.5
 

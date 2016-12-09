@@ -1,14 +1,16 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@ --with python_support
+	dh $@
 
 override_dh_auto_build:
 	mkdir -p $HOME/.composer
 	echo '{}' > $HOME/.composer/composer.json
 	patch -p1 < debian/patches/add-composer-autoloader.diff
 	composer.sh -vvv dumpautoload --optimize
-	patch -p1 < debian/patches/fix-composer-autoload-psr4.diff
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_psr4.php
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_namespaces.php
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_classmap.php
 	dh_auto_build
 
 override_dh_install:

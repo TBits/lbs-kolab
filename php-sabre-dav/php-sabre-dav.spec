@@ -14,7 +14,7 @@
 
 Name:           php-%{gh_project}
 Summary:        WebDAV Framework for PHP
-Version:        2.1.6
+Version:        2.1.11
 Release:        1%{?dist}
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -147,6 +147,9 @@ echo $?
 
 
 %changelog
+* Sat Dec 03 2016 Daniel Hoffend <dh@dotlan.net> - 2.1.11-1
+- Forward to upstream version 2.1.11
+
 * Wed Apr 29 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.1.3-1
 - Forward to upstream version 2.1.3
 

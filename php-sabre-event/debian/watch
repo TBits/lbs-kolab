@@ -1,0 +1,4 @@
+version=3
+options=uversionmangle=s/-?([^\d.]+)/~$1/i \
+https://github.com/fruux/sabre-event/releases \
+.*/archive/(1.+).tar.gz

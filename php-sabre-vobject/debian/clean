@@ -1,0 +1,3 @@
+bin/generate_vcards3
+bin/vobject3
+lib/autoload.php

@@ -1,0 +1,387 @@
+php-sabre-dav-2.1 (2.1.11-1) unstable; urgency=medium
+
+  * Update to version 2.1.11
+  * Updated Package to be in line with Debian Packing
+  * SabreDAV files moved to /usr/share/php/sabre21/Sabre
+  * Fixed parsing error for composer version numbers
+  * removed php_codesniffer run (problems with Ubuntu_14.04)
+  * lowered pkg-php-tools to get it work with Ubuntu_14.04
+
+ -- Daniel Hoffend <dh@dotlan.net>  Thu, 03 Dec 2016 23:26:00 +0100
+
+php-sabre-dav-2.1 (2.1.10-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * Clean up synclog correctly after deleting addressbook.
+  * Prepping for a release
+
+  [ David Prévot ]
+  * Revert workarounds for the PHP 7.0 transition, and build with recent
+    pkg-php-tools.
+  * Move maintenance within Debian PHP PEAR Maintainers
+
+ -- David Prévot <taffit@debian.org>  Fri, 11 Mar 2016 13:45:39 -0400
+
+php-sabre-dav-2.1 (2.1.9-2) unstable; urgency=medium
+
+  * Use php-sabre-http-3 instead of php-sabre-http: that makes
+    php-sabre-dav-2.1 co-installable with more recent version of php-sabre-dav
+  * Update Standards-Version to 3.9.7
+  * Prepare php(5) build-dependencies for the PHP 7.0 transition
+  * Workaround the ongoing yet not ready PHP 7.0 transition:
+    - pkgtools called with -v triggers a segfault (#814858);
+    - add override for php(7.0)-* modules (#815988).
+
+ -- David Prévot <taffit@debian.org>  Wed, 02 Mar 2016 10:07:28 -0400
+
+php-sabre-dav-2.1 (2.1.9-1) unstable; urgency=medium
+
+  [ Thomas Müller ]
+  * Allow PHP7 in composer.json
+
+ -- David Prévot <taffit@debian.org>  Tue, 26 Jan 2016 01:25:58 -0400
+
+php-sabre-dav-2.1 (2.1.8-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * Prepping for 2.1.8 release
+
+  [ David Prévot ]
+  * Update copyright (years)
+
+ -- David Prévot <taffit@debian.org>  Mon, 04 Jan 2016 22:48:49 -0400
+
+php-sabre-dav-2.1 (2.1.7-2) unstable; urgency=medium
+
+  * Fix upper limit after spurious upload of php-sabre-event 3.0.0~alpha1
+
+ -- David Prévot <taffit@debian.org>  Tue, 27 Oct 2015 14:58:31 -0400
+
+php-sabre-dav-2.1 (2.1.7-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * Making the test slightly saner. Not sure exactly how a 0 length event
+  * Releasing 2.1.7
+
+  [ David Prévot ]
+  * Drop last patch, fixed upstream differently
+
+ -- David Prévot <taffit@debian.org>  Sat, 05 Sep 2015 10:20:57 -0400
+
+php-sabre-dav-2.1 (2.1.6-3) unstable; urgency=medium
+
+  * Upstream Version Bump
+  * Initial Release for Kolab Winterfell
+
+ -- hede <kolab983@der-he.de>  Sat, 03 Sep 2016 10:00:00 +0200
+
+php-sabre-dav-2.1 (2.1.6-2) unstable; urgency=medium
+
+  * Fix unittest for updated vobject behavior (Closes: #796423)
+
+ -- David Prévot <taffit@debian.org>  Fri, 28 Aug 2015 15:32:00 -0400
+
+php-sabre-dav-2.1 (2.1.6-1) unstable; urgency=medium
+
+  [ Evert Pot ]
+  * Backport ca91f5a to 2.1 Workaround for broken Windows Phone client.
+
+ -- David Prévot <taffit@debian.org>  Mon, 10 Aug 2015 16:29:33 +0200
+
+php-sabre-dav-2.1 (2.1.5-1) unstable; urgency=medium
+
+  [ Vincent Petry ]
+  * Properly concatenate $path, even if it's "0"
+
+ -- David Prévot <taffit@debian.org>  Sat, 11 Jul 2015 17:38:50 -0400
+
+php-sabre-dav-2.1 (2.1.4-2) unstable; urgency=medium
+
+  [ Vincent Petry ]
+  * Properly concatenate $path, even if it's "0"
+
+ -- David Prévot <taffit@debian.org>  Fri, 03 Jul 2015 15:28:00 -0400
+
+php-sabre-dav-2.1 (2.1.4-1) unstable; urgency=medium
+
+  * Rename as php-sabre-dav-2.1.
+    Install everything in its own path to be co-installable with other
+    versions of php-sabre-dav.
+
+ -- David Prévot <taffit@debian.org>  Sun, 31 May 2015 19:15:29 -0400
+
+php-sabredav (2.2.0~really2.1.4-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Releasing 2.1.4
+
+  [ David Prévot ]
+  * Bump pkg-php-tools version
+
+ -- David Prévot <taffit@debian.org>  Tue, 26 May 2015 22:49:54 -0400
+
+php-sabredav (2.2.0~really2.1.3-1) experimental; urgency=medium
+
+  [ Lukas Reschke ]
+  * Escape some more values
+  * Prevent enumeration of absolute path using Browser Plugin
+
+  [ David Prévot ]
+  * Track 2.1 branch
+  * Mangle version higher than 2.2.0 since alpha have already been uploaded
+  * Update copyright
+  * Provide homemade autoload.php
+  * Install naturalselection and sabredav CLIs
+  * Update uploaders list
+  * Drop copyright mention for debian/*
+
+ -- David Prévot <taffit@debian.org>  Thu, 16 Apr 2015 00:52:50 -0400
+
+php-sabredav (2.1.2-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Releasing 2.1.2
+
+  [ David Prévot ]
+  * Update watch file
+  * Drop now useless patch (Closes: #743111)
+
+ -- David Prévot <taffit@debian.org>  Thu, 11 Dec 2014 10:39:24 -0400
+
+php-sabredav (2.1.1-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * calendar-timezone support for calendar-query and calendar-multiget.
+  * calendar-timezone support in free-busy-query REPORT
+  * Support for calendar-timezone in scheduling freebusy request.
+  * IScheduleObject is now also a ICalendar object.
+  * Added CalendarRoot for forward compatibility.
+  * Using class_alias instead.
+  * Only marking iCalendar objects as modified when they generate scheduling
+    messages.
+  * Support REDIRECT_REMOTE_USER.
+  * Ensuring that the sync-token field gets initialized with a value.
+  * IMipHandler did not strip mailto: frome email addresses.
+  * Adding sync-token back to the ics generator.
+  * Several issues fixed in the migration process.
+
+  [ Armin Hackmann ]
+  * #550 Don't select a shared calendar as schedule-default-calendar-URL
+
+  [ David Prévot ]
+  * Use php-symfony-class-loader instead of php-symfony-classloader
+
+ -- David Prévot <taffit@debian.org>  Fri, 28 Nov 2014 16:56:41 -0400
+
+php-sabredav (2.1.0~alpha2-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Adding calendar-user-address-set to default principal property search.
+  * Migrated notifications-related functionality to its own plugin.
+  * Added getCalendarObjectByUID to PDO backend.
+  * Version is alpha2
+
+ -- David Prévot <taffit@debian.org>  Wed, 29 Oct 2014 15:15:40 -0400
+
+php-sabredav (2.1.0~alpha1-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Providing a way to find a calendar object by its UID.
+  * Propertystorage must transfer properties after MOVE requests.
+  * Added phpcs + lots of cs fixes.
+  * Always showing the lock-token in lockdiscovery properties.
+  * Browser plugin now supports supported-privilege-set.
+  * CalendarRootNode -> CalendarRoot. UserCalendars -> CalendarHome.
+  * getCalendarByObjectUID is now part of the standard interface.
+  * Moved getCalendarObjectsByUID to base interface.
+  * Delegating some scheduling functionality to vobject's new itip stuff.
+  * Overhauled iMip plugin.
+  * Support for email-address-set.
+  * Now emitting 400 Bad Request upon PUT requests with Content-Range.
+  * Support for carddav:supported-collation-set and max-resource-size.
+  * Automatically converting vcards.
+  * Converting incoming jCard data from PUT.
+  * supported-address-data
+  * Emitting 415 now when a report is not supported.
+  * Supporting HEAD wherever we support GET.
+  * Removed ObjectTree and Tree\FileSystem
+  * Upgraded to sabre/http 3.0
+
+  [ Alfred Klomp ]
+  * Issue 482: PropFind::set() hard adds properties during ALLPROPS
+  * Browser plugin: sort by type first, then display path.
+
+  [ Lukas Reschke ]
+  * Only accept HTTP and HTTPS as protocol
+
+  [ David Prévot ]
+  * Ship migration scripts among examples
+  * Run phpcs with other tests
+  * Bump php-sabre-http build-dependency to 3.0.0
+  * Bump standards version to 3.9.6
+
+ -- David Prévot <taffit@debian.org>  Thu, 25 Sep 2014 09:58:52 -0400
+
+php-sabredav (2.0.4-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * SabreDAV 2.0 is getting the vobject 3.3.0 upgrade.
+  * Unlocking nodes after they have been deleted.
+  * Using a different property to internally pass the sync-token around.
+  * Automatically populate getctag with the sync-token, if available.
+  * Preparing for release.
+
+  [ Jean SIMARD ]
+  * Fix a typo in calendars creation for PostgreSQL
+
+ -- David Prévot <taffit@debian.org>  Wed, 27 Aug 2014 17:31:55 -0400
+
+php-sabredav (2.0.3-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Going to release sabre/dav 2.0.3
+
+  [ David Prévot ]
+  * No tests if DEB_BUILD_OPTIONS contains nocheck
+  * Use quilt to remove the last patch
+
+ -- David Prévot <taffit@debian.org>  Sun, 20 Jul 2014 15:42:36 -0400
+
+php-sabredav (2.0.0-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Updated changelog + bumped version
+
+ -- David Prévot <taffit@debian.org>  Thu, 22 May 2014 12:48:05 -0400
+
+php-sabredav (2.0.0~beta1-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Changelog is now in markdown format.
+  * Bumped versions
+  * XXE security issue.
+
+  [ David Prévot ]
+  * Update upstream source
+  * Update Homepage
+  * Run the test suite on packaging
+  * Add DEP-8 compliant tests
+  * Remove transitional package
+  * Repack is now useless (docs have been removed)
+  * Update copyright
+
+ -- David Prévot <taffit@debian.org>  Tue, 20 May 2014 17:29:30 -0400
+
+php-sabredav (1.9.0~alpha2+dfsg-1) experimental; urgency=medium
+
+  [ Evert Pot ]
+  * Requiring sabre/http 2.0.0 stable
+  * Releasing second alpha
+
+  [ Thomas Müller ]
+  * Introduce depth infinity for PROPFIND
+
+  [ David Prévot ]
+  * Use Files-Excluded feature of uscan
+  * Update copyright
+
+ -- David Prévot <taffit@debian.org>  Sat, 18 Jan 2014 15:51:25 -0400
+
+php-sabredav (1.9.0~alpha1+dfsg-1) experimental; urgency=low
+
+  * Imported Upstream version 1.9.0~alpha1+dfsg
+  * Bump standards version to 3.9.5
+
+ -- David Prévot <taffit@debian.org>  Tue, 12 Nov 2013 22:26:05 -0400
+
+php-sabredav (1.8.7+dfsg-1) experimental; urgency=low
+
+  * Imported Upstream version 1.8.7+dfsg
+  * Drop php5-json build-dependency
+  * Refer to Apache-2.0 from /usr/share/common-licenses
+  * Add self to uploaders
+
+ -- David Prévot <taffit@debian.org>  Sat, 12 Oct 2013 17:55:32 -0400
+
+php-sabredav (1.8.6+dfsg-1) experimental; urgency=low
+
+  * Team upload
+  * New upstream release (closes: #712752)
+  * Update copyright
+  * Use phpcomposer build helper
+
+ -- David Prévot <taffit@debian.org>  Thu, 20 Jun 2013 17:03:20 -0400
+
+php-sabredav (1.7.6+dfsg-2) unstable; urgency=low
+
+  * Team upload
+  * php-sabre-dav also breaks owncloud (<< 5)
+
+ -- David Prévot <taffit@debian.org>  Wed, 10 Apr 2013 15:14:43 -0400
+
+php-sabredav (1.7.6+dfsg-1) unstable; urgency=low
+
+  * Team upload
+  * New upstream release
+  * debian/copyright: Update
+  * debian/rules: Use canonical Vcs- fields
+
+ -- David Prévot <taffit@debian.org>  Wed, 10 Apr 2013 09:24:35 -0400
+
+php-sabredav (1.7.5+dfsg-3) unstable; urgency=low
+
+  * Team upload
+  * Provide back the transitional dummy package, with Breaks: owncloud (<< 5)
+    to avoid premature/asynchronous upgrades, better fix to #704889, thanks to
+    Gregor Herrmann <gregoa@debian.org>
+
+ -- David Prévot <taffit@debian.org>  Sun, 07 Apr 2013 10:56:00 -0400
+
+php-sabredav (1.7.5+dfsg-2) unstable; urgency=low
+
+  * Team upload
+  * Drop the transitional dummy package (closes: #704889)
+
+ -- David Prévot <taffit@debian.org>  Sun, 07 Apr 2013 10:14:57 -0400
+
+php-sabredav (1.7.5+dfsg-1) unstable; urgency=low
+
+  * Team upload
+  * New upstream release
+  * debian/doc: Remove empty file
+  * debian/{repack.sh,rules,watch}: Repack downloaded ZIP file and strip
+    non-DFSG compliant material
+  * debian/copyright: Document the new and updated licenses
+  * debian/control:
+    - Drop now useless DMUA
+    - Bump Standards-Version to 3.9.4, no change needed
+    - Depends on php-sabre-vobject
+    - Rename the binary package as php-sabre-dav following upstream advice
+    - Provide a transitional dummy package
+
+ -- David Prévot <taffit@debian.org>  Thu, 28 Mar 2013 16:12:58 -0400
+
+php-sabredav (1.6.3-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Thomas Mueller <thomas.mueller@tmit.eu>  Fri, 06 Jul 2012 08:29:33 +0200
+
+php-sabredav (1.6.2-3) unstable; urgency=low
+
+  * Fixed the hompage field in debian/control.
+
+ -- Paul van Tilburg <paulvt@debian.org>  Sun, 03 Jun 2012 00:14:06 +0200
+
+php-sabredav (1.6.2-2) unstable; urgency=low
+
+  * Set the team as maintainer.
+
+ -- Paul van Tilburg <paulvt@debian.org>  Sun, 03 Jun 2012 00:01:09 +0200
+
+php-sabredav (1.6.2-1) unstable; urgency=low
+
+  [ Thomas Mueller ]
+  * Initial release (Closes: #670876)
+
+ -- Paul van Tilburg <paulvt@debian.org>  Sun, 20 May 2012 10:45:50 +0200

@@ -1,9 +1,0 @@
---- roundcubemail-1.2.2.orig/vendor/composer/autoload_psr4.php	2016-11-28 01:19:22.926011543 +0100
-+++ roundcubemail-1.2.2/vendor/composer/autoload_psr4.php	2016-11-28 00:42:00.516341512 +0100
-@@ -6,5 +6,5 @@
- $baseDir = dirname($vendorDir);
- 
- return array(
--    '' => array($baseDir . '/../../../share/php'),
-+    '' => array('/usr/share/php'),
- );

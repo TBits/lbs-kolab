@@ -1,2 +1,2 @@
-0001-Use-ClassLoader-from-Symfony-instead-of-autoload.patch -p1
-sabre-vobject-bin.patch -p0
+0001-Use-homemade-autoloader.php.patch
+0002-replace-with-homemade-tests-autoloader.patch

@@ -1,0 +1,4 @@
+bin/naturalselection21	usr/bin
+bin/sabredav21		usr/bin
+bin/sabredav.php	usr/share/php/sabre21/Sabre
+lib/*			usr/share/php/sabre21/Sabre
