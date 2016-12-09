@@ -11,6 +11,10 @@ override_dh_install:
 	mkdir -p $HOME/.composer/
 	echo '{}' > $HOME/.composer/composer.json
 	composer.sh -vvv dumpautoload --optimize
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_psr4.php
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_namespaces.php
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_classmap.php
+	#sed -i -e "s|__DIR__ . '/../..' . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_static.php
 	mkdir -p $(CURDIR)/debian/irony/etc/iRony/
 	cp -a $(CURDIR)/debian/iRony.conf $(CURDIR)/debian/irony/etc/iRony/apache.conf
 	cp -a config/dav.inc.php.sample $(CURDIR)/debian/irony/etc/iRony/dav.inc.php

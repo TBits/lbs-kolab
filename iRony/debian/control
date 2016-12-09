@@ -3,7 +3,7 @@ Section: admin
 Priority: extra
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
-Build-Depends: debhelper (>= 8), composer
+Build-Depends: debhelper (>= 8), composer, php-sabre-dav-2.1 (>= 2.1.3)
 Standards-Version: 3.9.3
 Homepage: http://www.kolab.org/
 Vcs-Browser: http://git.kolabsys.com/apt/iRony/

@@ -1,3 +1,9 @@
+irony (0.4~dev20160321-0~kolab3) unstable; urgency=low
+
+  * Updated Autoloader Composer Path
+
+ -- Daniel Hoffend <dh@dotlan.net>  Wed, 06 Dec 2016 23:23:00 +0100
+
 irony (0.4~dev20160321-0~kolab2) unstable; urgency=low
 
   * Changed Requirements from sabre-vobject to sabre-vobject-3, sabre-av
