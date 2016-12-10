@@ -5,12 +5,7 @@ diff -u iRony-0.4.orig/composer.json-dist iRony-0.4/composer.json-dist
  			"": "/usr/share/pear/"
  		},
  		"psr-4": {
-+			"Sabre\\": "/usr/share/php/sabre21/",
++			"Sabre\\": "/usr/share/php/sabre21/Sabre/",
  			"": "/usr/share/php/"
  		}
  	}
-Common subdirectories: iRony-0.4.orig/config and iRony-0.4/config
-Common subdirectories: iRony-0.4.orig/doc and iRony-0.4/doc
-Common subdirectories: iRony-0.4.orig/lib and iRony-0.4/lib
-Common subdirectories: iRony-0.4.orig/public_html and iRony-0.4/public_html
-Common subdirectories: iRony-0.4.orig/test and iRony-0.4/test

@@ -1,3 +1,9 @@
+irony (0.4~dev20160321-0~kolab4) unstable; urgency=low
+
+  * Updated Autoloader again
+
+ -- Daniel Hoffend <dh@dotlan.net>  Wed, 09 Dec 2016 00:15:00 +0100
+
 irony (0.4~dev20160321-0~kolab3) unstable; urgency=low
 
   * Updated Autoloader Composer Path

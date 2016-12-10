@@ -1,3 +1,9 @@
+roundcubemail (1.2.3.0-0~kolab3) unstable; urgency=low
+
+  * Fixed Autoloader again
+
+ -- Daniel Hoffend <dh@dotlan.net>  Fri, 09 Dec 2016 00:07:00 +0100
+
 roundcubemail (1.2.3.0-0~kolab2) unstable; urgency=low
 
   * Added Autoloader Path for sabre21/Sabre folder
