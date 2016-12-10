@@ -11,7 +11,7 @@ Index: roundcubemail-1.2~dev20160328/composer.json
 +    "autoload": {
 +        "psr-0": { "": "/usr/share/pear/" },
 +        "psr-4": {
-+            "Sabre\\": "/usr/share/php/sabre21/",
++            "Sabre\\": "/usr/share/php/sabre21/Sabre/",
 +            "": "/usr/share/php/"
 +        }
 +    }
