@@ -11,7 +11,7 @@
 
 Name:           kolab-utils
 Version:        3.1.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Kolab Utilities
 
 Group:          System Environment/Base
@@ -89,11 +89,14 @@ mkdir -p %{buildroot}/%{_sharedstatedir}/kolab-freebusy/
 %attr(0750,root,%{httpd_group}) %dir %{_sharedstatedir}/kolab-freebusy
 
 %changelog
-* Mon Sep 5 2016 Christian Mollekopf <mollekopf@kolabsys.com> - 3.1.4-1
+* Mon Dec 12 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.1.4-2
+- Rebuild for Kolab 16
+
+* Mon Sep  5 2016 Christian Mollekopf <mollekopf@kolabsys.com> - 3.1.4-1
 - Release version 3.1.3
 - Added --shared option to format checker
 
-* Fri Sep 2 2016 Christian Mollekopf <mollekopf@kolabsys.com> - 3.1.3-1
+* Fri Sep  2 2016 Christian Mollekopf <mollekopf@kolabsys.com> - 3.1.3-1
 - Release version 3.1.3
 - Format checking capabilities in kolab-formatupgrade
 
