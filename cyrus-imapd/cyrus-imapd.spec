@@ -19,8 +19,8 @@
 %global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
 %global tag_version 2.5.10
-%global revision    49
-%global git_hash    g2e214b4
+%global revision    55
+%global git_hash    gb6dbffa
 
 ##
 ## Options
@@ -749,6 +749,9 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Tue Dec 13 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.10-55-gb6dbffa
+- Fix proxying extended list usage to backends with answers.
+
 * Mon Nov 14 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.10-49-g2e214b4
 - Decode the subject line before re-encoding it in automated responses.
 
