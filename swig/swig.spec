@@ -1,5 +1,7 @@
 # We can skip tests
-%bcond_without testsuite
+%bcond_with testsuite
+
+%global gittag 07b7edcd87ff3d01e5791556a72906f1225594d9
 
 %{!?tcl:%global tcl 1}
 %{!?guile:%global guile 1}
@@ -30,11 +32,12 @@
 
 Summary: Connects C/C++/Objective C to some high-level programming languages
 Name:    swig
-Version: 3.0.10
+Version: 3.0.99
 Release: 2%{?dist}
 License: GPLv3+ and BSD
 URL:     http://swig.sourceforge.net/
-Source0: http://downloads.sourceforge.net/project/swig/swig/swig-%{version}/swig-%{version}.tar.gz
+#Source0: http://downloads.sourceforge.net/project/swig/swig/swig-%{version}/swig-%{version}.tar.gz
+Source0: %{gittag}.tar.gz
 # Define the part of man page sections
 Source1: description.h2m
 Source2: description-ccache.h2m
@@ -59,6 +62,7 @@ BuildRequires: perl(Test::More)
 BuildRequires: perl(vars)
 BuildRequires: perl(warnings)
 BuildRequires: boost-devel
+BuildRequires: bison
 %if %{tcl}
 BuildRequires: tcl-devel
 %endif
@@ -126,7 +130,7 @@ This package contains file with commands for easier debugging of SWIG
 in gdb.
 
 %prep
-%setup -q -n swig-%{version}
+%setup -q -n swig-%{gittag}
 
 %patch0 -p1 -b .isystem
 
