@@ -127,6 +127,8 @@ Python bindings for libkolab
 %prep
 %setup -q -n libkolab-%{version}
 
+sed -i "s/-php/-php7/g" cmake/modules/SWIGUtils.cmake
+
 %build
 rm -rf build
 mkdir -p build

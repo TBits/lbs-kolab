@@ -235,6 +235,9 @@ bindings provided through libkolabxml.
 %prep
 %setup -q -n libkolabxml-%{version}
 
+sed -i "s/-php/-php7/g" src/php/CMakeLists.txt
+sed -i "s/QVERIFY(ptr)/QVERIFY(ptr != NULL)/g" tests/kolabconversationtest.cpp
+
 %build
 rm -rf build
 mkdir -p build
