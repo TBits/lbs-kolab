@@ -75,8 +75,6 @@ rm -rf composer.json
 mv composer.json-dist composer.json
 mkdir -p $HOME/.composer/
 echo '{}' > $HOME/.composer/composer.json
-# workaround for misbehaving Kolab modules for PHP
-export USE_ZEND_ALLOC=0
 composer -vvv dumpautoload --optimize
 
 %install
