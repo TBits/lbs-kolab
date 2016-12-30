@@ -15,6 +15,8 @@ BuildRequires:  cyrus-sasl-devel
 BuildRequires:  gcc-c++
 BuildRequires:  libical-devel
 BuildRequires:  make
+# we need perl for kabc/scripts/makeaddressee
+BuildRequires:  perl
 %if 0%{?suse_version}
 BuildRequires:  qt-devel
 %else
