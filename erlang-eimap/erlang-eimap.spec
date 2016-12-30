@@ -21,7 +21,7 @@ Source0:        erlang-eimap-0.2.5.tar.gz
 
 BuildRequires:	erlang-goldrush >= 0.1.7
 BuildRequires:	erlang-lager >= 2.2.0
-BuildRequires:	erlang-rebar >= 2.5.1
+BuildRequires:	erlang-rebar = 2.6.1
 
 Requires:       %lock_version erlang-erts
 Requires:       %lock_version erlang-stdlib
