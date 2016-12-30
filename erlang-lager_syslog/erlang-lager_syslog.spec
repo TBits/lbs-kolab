@@ -22,7 +22,7 @@ Source0:	%{upstream}-%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
 Patch1:     erlang-lager_syslog-2.0.3-relax-deps.patch
 
 BuildRequires:  erlang-lager >= 2.0.3
-BuildRequires:	erlang-rebar
+BuildRequires:	erlang-rebar = 2.6.1
 BuildRequires:  erlang-syslog >= 1.0.2
 
 # Error:erlang(dtrace:put_utag/1)
