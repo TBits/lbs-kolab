@@ -279,7 +279,7 @@ done
 - Fixed exports file generation for Solaris and Windows - no effect on linux
 - bumped version to 6.0.2
 
-* Mon Jan  9 2007 Rich Megginson <richm@stanfordalumni.org> - 6.0.1-2
+* Tue Jan  9 2007 Rich Megginson <richm@stanfordalumni.org> - 6.0.1-2
 - Remove buildroot = "/" checking
 - Remove buildroot removal from %%build section
 
