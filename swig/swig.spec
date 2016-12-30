@@ -1,7 +1,7 @@
 # We can skip tests
 %bcond_with testsuite
 
-%global gittag 07b7edcd87ff3d01e5791556a72906f1225594d9
+%global gittag 26a01e1b83d217799cf483ebbf27ec425f85f542
 
 %{!?tcl:%global tcl 1}
 %{!?guile:%global guile 1}
@@ -33,7 +33,7 @@
 Summary: Connects C/C++/Objective C to some high-level programming languages
 Name:    swig
 Version: 3.0.99
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv3+ and BSD
 URL:     http://swig.sourceforge.net/
 #Source0: http://downloads.sourceforge.net/project/swig/swig/swig-%{version}/swig-%{version}.tar.gz
