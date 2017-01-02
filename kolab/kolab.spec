@@ -60,16 +60,7 @@ This is the Kolab Groupware Configuration component meta-package
 Summary:        Kolab Groupware IMAP Component
 Group:          Applications/System
 Requires:       cyrus-imapd
-%if 0%{?fedora} >= 25
-# do not require guam, since I have not built that on Fedora yet. Missing the following packages in Fedora:
-# erlang-eimap >= 0.2.4
-# erlang-lager_syslog >= 2.0.3
-# erlang-syslog >= 1.0.3
-# erlang-test_server
-# erlang-webtool
-%else
 Requires:       guam
-%endif
 Requires:       kolab-saslauthd
 Requires:       pykolab
 
