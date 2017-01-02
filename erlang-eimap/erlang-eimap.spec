@@ -21,7 +21,7 @@ Source0:        erlang-eimap-0.2.5.tar.gz
 
 BuildRequires:	erlang-goldrush >= 0.1.7
 BuildRequires:	erlang-lager >= 2.2.0
-BuildRequires:	erlang-rebar = 2.6.1
+BuildRequires:	erlang-rebar >= 2.5.1
 
 Requires:       %lock_version erlang-erts
 Requires:       %lock_version erlang-stdlib
@@ -33,6 +33,15 @@ IMAP client library for Erlang
 %setup -q -n eimap-%{version}
 
 %build
+
+%if 0%{?fedora}
+#see https://bugzilla.redhat.com/show_bug.cgi?id=999054 and https://bugzilla.redhat.com/show_bug.cgi?id=1379898
+REBAR_DEPS_PREFER_LIBS=TRUE
+export REBAR_DEPS_PREFER_LIBS
+IGNORE_MISSING_DEPS=TRUE
+export IGNORE_MISSING_DEPS
+%endif
+
 rebar compile -v
 
 %check
