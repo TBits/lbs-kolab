@@ -15,6 +15,10 @@ BuildRequires:  cyrus-sasl-devel
 BuildRequires:  gcc-c++
 BuildRequires:  libical-devel
 BuildRequires:  make
+%if 0%{?fedora} >= 25
+# we need perl for kabc/scripts/makeaddressee
+BuildRequires:  perl
+%endif
 %if 0%{?suse_version}
 BuildRequires:  qt-devel
 %else

@@ -86,6 +86,10 @@ rm -rf composer.json
 mv composer.json-dist composer.json
 mkdir -p $HOME/.composer/
 echo '{}' > $HOME/.composer/composer.json
+%if 0%{?fedora} >= 25
+# workaround for misbehaving Kolab modules for PHP7, probably a swig issue
+export USE_ZEND_ALLOC=0
+%endif
 composer -vvv dumpautoload --optimize
 
 %install

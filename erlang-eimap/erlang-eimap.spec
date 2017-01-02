@@ -33,6 +33,12 @@ IMAP client library for Erlang
 %setup -q -n eimap-%{version}
 
 %build
+%if 0%{?fedora} >= 25
+#see https://bugzilla.redhat.com/show_bug.cgi?id=999054 and https://bugzilla.redhat.com/show_bug.cgi?id=1379898
+export REBAR_DEPS_PREFER_LIBS=TRUE
+export IGNORE_MISSING_DEPS=TRUE
+%endif
+
 rebar compile -v
 
 %check

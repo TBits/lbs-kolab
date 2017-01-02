@@ -57,9 +57,17 @@ BuildRequires:      erlang-ssl
 BuildRequires:      erlang-stdlib
 BuildRequires:      erlang-syntax_tools
 BuildRequires:      erlang-syslog >= 1.0.3
+%if 0%{?fedora} >= 25
+BuildRequires:      erlang-common_test
+%else
 BuildRequires:      erlang-test_server
+%endif
 BuildRequires:      erlang-tools
+%if 0%{?fedora} >= 25
+BuildRequires:      erlang-erts
+%else
 BuildRequires:      erlang-webtool
+%endif
 BuildRequires:      erlang-wx
 BuildRequires:      erlang-xmerl
 
@@ -101,6 +109,12 @@ the perimeter of your IMAP environment.
 %patch9991 -p1
 
 %build
+%if 0%{?fedora} >= 25
+#see https://bugzilla.redhat.com/show_bug.cgi?id=999054 and https://bugzilla.redhat.com/show_bug.cgi?id=1379898
+export REBAR_DEPS_PREFER_LIBS=TRUE
+export IGNORE_MISSING_DEPS=TRUE
+%endif
+
 rebar compile
 mkdir -p deps
 
