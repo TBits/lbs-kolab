@@ -57,9 +57,17 @@ BuildRequires:      erlang-ssl
 BuildRequires:      erlang-stdlib
 BuildRequires:      erlang-syntax_tools
 BuildRequires:      erlang-syslog >= 1.0.3
+%if 0%{?fedora}
+BuildRequires:      erlang-common_test
+%else
 BuildRequires:      erlang-test_server
+%endif
 BuildRequires:      erlang-tools
+%if 0%{?fedora}
+BuildRequires:      erlang-erts
+%else
 BuildRequires:      erlang-webtool
+%endif
 BuildRequires:      erlang-wx
 BuildRequires:      erlang-xmerl
 
