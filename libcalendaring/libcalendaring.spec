@@ -30,7 +30,7 @@ BuildRequires:  python2-requests-kerberos
 %endif
 %if 0%{?fedora} >= 25
 # have choice for libcrypt.so.1(GLIBC_2.2.5)(64bit): libcrypt-nss libcrypt
-BuildRequires:  libcrypt
+BuildRequires:  libcrypt-nss
 %endif
 
 #Requires:	
