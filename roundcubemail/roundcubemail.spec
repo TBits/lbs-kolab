@@ -335,7 +335,12 @@ Summary:        Plugin jqueryui
 Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-jqueryui-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?fedora} >= 25
+# avoid that skin-classic is installed, which is not what we want. that would not look right
+Requires:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
+%else
 Requires:       %{name}(plugin-jqueryui-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
+%endif
 Provides:       %{name}(plugin-jqueryui) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description plugin-jqueryui
