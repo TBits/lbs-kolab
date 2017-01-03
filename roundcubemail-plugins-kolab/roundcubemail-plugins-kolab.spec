@@ -79,7 +79,8 @@ Summary:        Plugin calendar
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-calendar-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(plugin-calendar-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
+# avoid that plugin-calendar-skin-classic is installed, which is not what we want. that would return an error when loading the calendar
+Requires:       roundcubemail(plugin-calendar-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(plugin-libcalendaring) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-calendar) = %{?epoch:%{epoch}:}%{version}-%{release}
