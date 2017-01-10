@@ -1,0 +1,1 @@
+RUN dnf -y install python-setuptools make graphviz-python graphviz-gd python-pillow python-sphinx python-sphinx-latex git which
