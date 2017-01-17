@@ -15,8 +15,10 @@ Depends:	roundcubemail (>> 0.9),
 	php-net-url2,
 	php5-cli,
 	php5-curl,
+	php-endroid-qrcode,
 	php-kolab (>= 0.5),
 	php-kolabformat (>= 1.1),
+	php-spomky-labs-otphp,
 	${misc:Depends}
 Replaces: roundcube-plugins-kolab
 Conflicts: roundcube-plugins-kolab

@@ -11,6 +11,7 @@ Vcs-Browser: http://git.kolabsys.com/apt/kolab-freebusy
 Package: kolab-freebusy
 Architecture: all
 Depends: ${misc:Depends},
+        php-monolog,
         php-net-ldap3,
         roundcubemail,
         roundcubemail-plugins-kolab

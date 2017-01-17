@@ -1,3 +1,9 @@
+kolab-freebusy (1.1~dev20150706-0~kolab2) unstable; urgency=low
+
+  * Add dependency on php-monolog
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Mon, 16 Jan 2017 17:40:43 +0100
+
 kolab-freebusy (1.1~dev20150706-0~kolab1) unstable; urgency=low
 
   * Release of version 1.1.0
