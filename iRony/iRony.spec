@@ -46,6 +46,7 @@ Source2:        iRony.logrotate
 
 BuildArch:      noarch
 
+Requires:       chwala
 Requires:       roundcubemail(core) >= 1.1
 Requires:       roundcubemail-plugin-kolab_auth >= 3.3
 Requires:       roundcubemail-plugin-kolab_folders >= 3.3
