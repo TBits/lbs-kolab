@@ -22,15 +22,21 @@
 %global httpd_name apache2
 %global httpd_user wwwrun
 %else
+%if 0%{?plesk}
+%global httpd_group roundcube_sysgroup
+%global httpd_name httpd
+%global httpd_user roundcube_sysuser
+%else
 %global httpd_group apache
 %global httpd_name httpd
 %global httpd_user apache
+%endif
 %endif
 
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           kolab-syncroton
-Version:        2.3.3
+Version:        2.3.4
 Release:        1%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
@@ -38,14 +44,16 @@ Group:          Applications/Internet
 License:        LGPLv2
 URL:            http://www.syncroton.org
 
-Source0:        kolab-syncroton-2.3.3.tar.gz
+Source0:        kolab-syncroton-2.3.4.tar.gz
 Source1:        kolab-syncroton.logrotate
 
 BuildArch:      noarch
 
 # Use this build requirement to make sure we are using
 # up to date vendorized copies of the plugins.
+%if 0%{?plesk} < 1
 BuildRequires:  roundcubemail-plugin-kolab_auth >= 3.2
+%endif
 BuildRequires:  roundcubemail-plugin-kolab_folders >= 3.2
 BuildRequires:  roundcubemail-plugin-libkolab >= 3.2
 
@@ -68,7 +76,9 @@ Requires:       php-pear-Net-Socket
 
 Requires:       logrotate
 Requires:       roundcubemail(core)
+%if 0%{?plesk} < 1
 Requires:       roundcubemail-plugin-kolab_auth >= 3.2
+%endif
 Requires:       roundcubemail-plugin-kolab_folders >= 3.2
 Requires:       roundcubemail-plugin-libkolab >= 3.2
 Requires:       php-kolabformat
@@ -116,6 +126,9 @@ pushd lib/ext
 ln -s ../../../roundcubemail/program/lib/Roundcube
 popd
 for plugin in kolab_auth kolab_folders libkolab; do
+    if [ ! -d "/usr/share/roundcubemail/plugins/$plugin" ]; then
+        continue
+    fi
     mkdir -p lib/plugins/$plugin
     pushd lib/plugins/$plugin
     if [ -d "/usr/share/roundcubemail/plugins/" ]; then
@@ -130,10 +143,12 @@ done
 popd
 
 # Kolab Authentication plugin
+%if 0%{?plesk} < 1
 pushd %{buildroot}/%{_datadir}/%{name}/lib/plugins/kolab_auth
 rm -rf config.inc.php.dist
 ln -s ../../../../../..%{_sysconfdir}/roundcubemail/kolab_auth.inc.php config.inc.php
 popd
+%endif
 
 # Kolab Folders plugin
 pushd %{buildroot}/%{_datadir}/%{name}/lib/plugins/kolab_folders
@@ -209,6 +224,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Wed Jan 25 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.4-1
+- Release of version 2.3.4
+
 * Tue Nov 15 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.3-1
 - Release of version 2.3.3
 

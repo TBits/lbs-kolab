@@ -11,9 +11,15 @@
 %global httpd_name apache2
 %global httpd_user wwwrun
 %else
+%if 0%{?plesk}
+%global httpd_group roundcube_sysgroup
+%global httpd_name httpd
+%global httpd_user roundcube_sysuser
+%else
 %global httpd_group apache
 %global httpd_name httpd
 %global httpd_user apache
+%endif
 %endif
 
 %global roundcube_version 1.2
@@ -24,7 +30,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.3
-Release:        0.20161115.git%{?dist}
+Release:        0.20170125.git%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -34,6 +40,8 @@ URL:            http://www.kolab.org
 # From 562ed98bd2e265c0d8a12bd2092b72d85d3e3543
 Source0:        roundcubemail-plugins-kolab-3.3.tar.gz
 Source1:        comm.py
+
+Patch0001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:      noarch
@@ -827,6 +835,8 @@ Plugin tasklist / Skin larry (Assets Package)
 %setup -q  -c "%{name}-%{version}"
 
 pushd %{name}-%{version}
+
+%patch0001 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
 
