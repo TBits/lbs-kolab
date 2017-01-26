@@ -19,6 +19,7 @@ Depends:	roundcubemail (>> 0.9),
 	php-kolab (>= 0.5),
 	php-kolabformat (>= 1.1),
 	php-spomky-labs-otphp,
+	php-enygma-yubikey,
 	${misc:Depends}
 Replaces: roundcube-plugins-kolab
 Conflicts: roundcube-plugins-kolab
