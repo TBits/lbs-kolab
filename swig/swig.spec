@@ -1,8 +1,6 @@
 # We can skip tests
 %bcond_with testsuite
 
-%global gittag 26a01e1b83d217799cf483ebbf27ec425f85f542
-
 %{!?tcl:%global tcl 1}
 %{!?guile:%global guile 1}
 %{!?lualang:%global lualang 1}
@@ -32,12 +30,11 @@
 
 Summary: Connects C/C++/Objective C to some high-level programming languages
 Name:    swig
-Version: 3.0.11
-Release: 0.20161230.git%{?dist}
+Version: 3.0.12
+Release: 1%{?dist}
 License: GPLv3+ and BSD
 URL:     http://swig.sourceforge.net/
-#Source0: http://downloads.sourceforge.net/project/swig/swig/swig-%{version}/swig-%{version}.tar.gz
-Source0: %{gittag}.tar.gz
+Source0: https://github.com/swig/swig/archive/rel-%{version}.tar.gz
 # Define the part of man page sections
 Source1: description.h2m
 Source2: description-ccache.h2m
@@ -130,7 +127,7 @@ This package contains file with commands for easier debugging of SWIG
 in gdb.
 
 %prep
-%setup -q -n swig-%{gittag}
+%setup -q -n swig-rel-%{version}
 
 %patch0 -p1 -b .isystem
 
@@ -276,6 +273,9 @@ install -pm 644 Tools/swig.gdb %{buildroot}%{_datadir}/%{name}/gdb
 %{_datadir}/%{name}/gdb
 
 %changelog
+* Tue Jan 31 2017 Timotheus Pokorra <tp@tbits.net> - 3.0.12-1
+- Update to 3.0.12
+
 * Mon Jan 02 2017 Timotheus Pokorra <tp@tbits.net> - 3.0.11-1
 - Update to 3.0.11, plus some more commits from git master with fixes for php7 support
 
