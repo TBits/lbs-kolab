@@ -1,3 +1,10 @@
+roundcubemail-plugins-kolab (1:3.3~dev20170125-0~kolab1) unstable; urgency=low
+
+  * Rolled out new git snapshot
+  * added fix for missing manticore api
+
+ -- Daniel Hoffend <dh@dotlan.net>  Fri, 17 Feb 2017 11:34:12 +0100
+
 roundcubemail-plugins-kolab (1:3.3~dev20161115-0~kolab3) unstable; urgency=low
 
   * Add dependency on php-enygma-yubikey
