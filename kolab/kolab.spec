@@ -12,7 +12,7 @@
 
 Name:           kolab
 Version:        16.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
@@ -82,6 +82,46 @@ Requires:       python-sqlalchemy
 %description ldap
 This is the meta-package for the default Kolab Groupware LDAP
 component
+
+%if 0%{?plesk}
+%package plesk
+Summary:        Kolab Groupware for Plesk %{plesk}
+Group:          Applications/System
+Requires:       chwala
+Requires:       guam
+Requires:       iRony
+Requires:       kolab-syncroton
+Requires:       php-kolabformat >= 1.0
+Requires:       php-kolab >= 0.5
+Requires:       php-pear(Auth_SASL)
+Requires:       php-pear(HTTP_Request2)
+Requires:       php-pear(Mail_Mime) >= 1.8.5
+Requires:       roundcubemail-core
+Requires:       roundcubemail-plugin-acl
+Requires:       roundcubemail-plugin-archive
+Requires:       roundcubemail-plugin-calendar
+Requires:       roundcubemail-plugin-contextmenu
+Requires:       roundcubemail-plugin-jqueryui
+Requires:       roundcubemail-plugin-kolab_activesync
+Requires:       roundcubemail-plugin-kolab_addressbook
+Requires:       roundcubemail-plugin-kolab_config
+Requires:       roundcubemail-plugin-kolab_files
+Requires:       roundcubemail-plugin-kolab_folders
+Requires:       roundcubemail-plugin-kolab_notes
+Requires:       roundcubemail-plugin-kolab_tags
+Requires:       roundcubemail-plugin-managesieve
+Requires:       roundcubemail-plugin-markasjunk
+Requires:       roundcubemail-plugin-newmail_notifier
+Requires:       roundcubemail-plugin-odfviewer
+Requires:       roundcubemail-plugin-password
+Requires:       roundcubemail-plugin-pdfviewer
+Requires:       roundcubemail-plugin-tasklist
+Requires:       roundcubemail-plugin-zipdownload
+Requires:       roundcubemail-skin-plesk
+
+%description plesk
+This is the meta-package to install Kolab Groupware on Plesk %{plesk}
+%endif
 
 %package mta
 Summary:        The Kolab Groupware Mail Transfer Agent (MTA) meta-package
@@ -177,11 +217,20 @@ This is the Kolab Groupware web client meta-package
 %defattr(-,root,root,-)
 %doc README
 
+%if 0%{?plesk}
+%files plesk
+%defattr(-,root,root,-)
+%doc README
+%endif
+
 %files webclient
 %defattr(-,root,root,-)
 %doc README
 
 %changelog
+* Wed Jan 11 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-4
+- Initial changes for Plesk 17 installation
+
 * Thu Mar 10 2016 Timotheus Pokorra <tp@tbits.net> - 16.0.1-2
 - Fedora 23 requires postfix-ldap to be installed
 

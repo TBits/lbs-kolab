@@ -23,9 +23,15 @@
 %global httpd_name apache2
 %global httpd_user wwwrun
 %else
+%if 0%{?plesk}
+%global httpd_group roundcube_sysgroup
+%global httpd_name httpd
+%global httpd_user roundcube_sysuser
+%else
 %global httpd_group apache
 %global httpd_name httpd
 %global httpd_user apache
+%endif
 %endif
 
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
@@ -47,8 +53,12 @@ Source2:        iRony.logrotate
 BuildArch:      noarch
 
 Requires:       chwala
+Requires:       php-sabre-dav >= 2.1.3
+Requires:       php-sabre-vobject >= 3.2.4
 Requires:       roundcubemail(core) >= 1.1
+%if 0%{?plesk} < 1
 Requires:       roundcubemail-plugin-kolab_auth >= 3.3
+%endif
 Requires:       roundcubemail-plugin-kolab_folders >= 3.3
 Requires:       roundcubemail-plugin-libkolab >= 3.3
 %if 0%{?suse_version}
@@ -66,9 +76,6 @@ BuildRequires:  roundcubemail
 BuildRequires:  roundcubemail-plugins-kolab
 BuildRequires:  php-sabre-dav >= 2.1.3
 BuildRequires:  php-sabre-vobject >= 3.2.4
-
-Requires:       php-sabre-dav >= 2.1.3
-Requires:       php-sabre-vobject >= 3.2.4
 
 %if 0%{?fedora} >= 21
 # Fedora 21 has qca2 and qca, qca2 has been renamed to qca, required by kdelibs
@@ -95,14 +102,18 @@ composer -vvv dumpautoload --optimize
 
 %install
 mkdir -p \
+%if 0%{?plesk} < 1
     %{buildroot}/%{_ap_sysconfdir}/conf.d \
+%endif
     %{buildroot}/%{_sysconfdir}/%{name} \
     %{buildroot}/%{_datadir}/%{name} \
     %{buildroot}/%{_localstatedir}/cache/%{name} \
     %{buildroot}/%{_localstatedir}/lib/%{name} \
     %{buildroot}/%{_localstatedir}/log/%{name}
 
+%if 0%{?plesk} < 1
 install -pm 644 %{SOURCE1} %{buildroot}/%{_ap_sysconfdir}/conf.d/%{name}.conf
+%endif
 
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 cp -pr %SOURCE2 %{buildroot}%{_sysconfdir}/logrotate.d/iRony
@@ -144,7 +155,9 @@ fi
 
 %files
 %doc README.md
+%if 0%{?plesk} < 1
 %{_ap_sysconfdir}/conf.d/%{name}.conf
+%endif
 %attr(0750,root,%{httpd_group}) %dir %{_sysconfdir}/%{name}
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{_sysconfdir}/%{name}/dav.inc.php
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}

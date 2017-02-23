@@ -6,7 +6,7 @@ Version: 2.0.3-0~kolab1
 Maintainer: hede <kolab983@der-he.de>
 Homepage: https://github.com/basho/lager_syslog
 Standards-Version: 3.9.6
-Build-Depends: debhelper (>= 9), dh-rebar, erlang-crypto, erlang-goldrush, erlang-lager, erlang-syslog
+Build-Depends: debhelper (>= 9), dh-rebar, erlang-crypto, erlang-goldrush, erlang-lager, erlang-syslog (>= 1.0.2)
 Package-List: 
  erlang-lager-syslog deb libs optional
 Files: 

@@ -1,9 +1,0 @@
-etc/roundcubemail/
-usr/share/roundcubemail
-usr/share/roundcubemail/plugins
-usr/share/roundcubemail/skins
-var/lib/roundcubemail
-var/lib/roundcubemail/plugins
-var/lib/roundcubemail/plugins/enigma
-var/lib/roundcubemail/plugins/odfviewer
-var/log/roundcubemail

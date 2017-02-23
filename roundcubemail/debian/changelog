@@ -1,3 +1,9 @@
+roundcubemail (1.2.3-0~kolab4.16) unstable; urgency=low
+
+  * Enhance packaging
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  8 Feb 2017 07:14:39 +0200
+
 roundcubemail (1.2.3.0-0~kolab3) unstable; urgency=low
 
   * Fixed Autoloader again

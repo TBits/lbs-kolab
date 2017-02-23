@@ -1,9 +1,9 @@
 Source: roundcubemail
 Section: web
 Priority: extra
-Maintainer: Debian Roundcube Maintainers <pkg-roundcube-maintainers@lists.alioth.debian.org>
-Uploaders: Vincent Bernat <bernat@debian.org>, Romain Beauxis <toots@rastageeks.org>, Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
-Build-Depends: composer, debhelper (>= 8)
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Uploaders: Paul Klos <kolab@klos2day.nl>
+Build-Depends: composer, cssmin, node-uglify, debhelper (>= 8), psa | bash
 Homepage: http://www.roundcube.net/
 Standards-Version: 3.9.3
 Vcs-Git: git://git.kolabsys.com/git/apt/roundcubemail/
@@ -11,24 +11,8 @@ Vcs-Browser: http://git.kolabsys.com/apt/roundcubemail/
 
 Package: roundcubemail
 Architecture: all
-Depends:    apache2 | httpd,
-            libmagic1,
-            php-auth-sasl,
-            php-mail-mime (>= 1.8.0),
-            php-mdb2 (>= 2.5.0),
-            php-net-ldap3,
-            php-net-smtp,
-            php-net-socket,
-            php-net-sieve,
-            php-sabre-vobject-3 (>= 3.4.5),
-            php5 | php,
-            php5-cli | php-cli,
-            php5-gd | php-gd,
-            php5-intl | php-intl,
-            php5-ldap | php-ldap,
-            php5-mcrypt | php-mcrypt,
-            php5-pspell | php-pspell,
-            ucf,
+Depends:    php-net-ldap3,
+            roundcubemail-core,
             ${misc:Depends}
 Replaces: roundcube, roundcube-core, roundcube-mysql, roundcube-pgsql, roundcube-plugins
 Conflicts: roundcube, roundcube-core, roundcube-mysql, roundcube-pgsql, roundcube-plugins
@@ -40,6 +24,38 @@ Description: skinnable AJAX based webmail solution for IMAP servers
  folder manipulation and message filters.
  .
  The user interface is fully skinnable using XHTML and CSS 2.
+
+Package: roundcubemail-core
+Architecture: all
+Depends:    apache2 | httpd,
+            libmagic1,
+            php-auth-sasl,
+            php-mail-mime (>= 1.8.0),
+            php-mdb2 (>= 2.5.0),
+            php-net-smtp,
+            php-net-socket,
+            php-net-sieve,
+            php-sabre-vobject-3 (>= 3.4.5),
+            php5 | php,
+            php5-cli | php-cli,
+            php5-gd | php-gd,
+            php5-intl | php-intl,
+            php5-ldap | php-ldap,
+            php5-mcrypt | php-mcrypt,
+            php5-pspell | php-pspell,
+            roundcubemail-plugin-filesystem-attachments,
+            roundcubemail-plugin-jqueryui,
+            roundcubemail-plugin-zipdownload,
+            ucf,
+            ${misc:Depends}
+Description: Core framework package for Roundcube
+ RoundCube Webmail is a browser-based multilingual IMAP client with an
+ application-like user interface. It provides full functionality
+ expected from an e-mail client, including MIME support, address book,
+ folder manipulation and message filters.
+ .
+ The user interface is fully skinnable using XHTML and CSS 2.
  .
  This package provides the core code for roundcube. You should install
  it along with one of the roundcube database metapackages.
+

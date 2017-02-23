@@ -7,7 +7,7 @@ Maintainer: Philipp Huebner <debalance@debian.org>
 Uploaders: Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://github.com/DeadZen/goldrush
 Standards-Version: 3.9.6
-Build-Depends: debhelper (>= 9), dh-rebar
+Build-Depends: debhelper (>= 9), dh-rebar, erlang-crypto
 Package-List: 
  erlang-goldrush deb libs optional arch=any
 Files: 

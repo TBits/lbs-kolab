@@ -16,6 +16,7 @@ Package-List:
  kolab-imap deb mail extra
  kolab-ldap deb mail extra
  kolab-mta deb mail extra
+ kolab-plesk deb mail extra
  kolab-webclient deb mail extra
 Files:
  00000000000000000000000000000000 0 kolab-16.0.1.tar.gz

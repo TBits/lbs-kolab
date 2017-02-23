@@ -23,9 +23,15 @@
 %global httpd_name apache2
 %global httpd_user wwwrun
 %else
+%if 0%{?plesk}
+%global httpd_group roundcube_sysgroup
+%global httpd_name httpd
+%global httpd_user roundcube_sysuser
+%else
 %global httpd_group apache
 %global httpd_name httpd
 %global httpd_user apache
+%endif
 %endif
 
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
@@ -47,8 +53,14 @@ BuildArch:      noarch
 
 Requires:       php-pear(HTTP_Request2)
 Requires:       php-Smarty >= 3.1.7
+
+Requires(post): roundcubemail(core)
+
+%if 0%{?plesk} < 1
 Requires:       roundcubemail
 Requires:       roundcubemail-plugins-kolab
+%endif
+
 %if 0%{?suse_version}
 Requires:       http_daemon
 %else
@@ -75,13 +87,17 @@ party applications.
 
 %install
 mkdir -p \
+%if 0%{?plesk} < 1
     %{buildroot}/%{_ap_sysconfdir}/conf.d \
+%endif
     %{buildroot}/%{_datadir}/%{name} \
     %{buildroot}/%{_localstatedir}/cache/%{name} \
     %{buildroot}/%{_localstatedir}/lib/%{name} \
     %{buildroot}/%{_localstatedir}/log/%{name}
 
+%if 0%{?plesk} < 1
 install -pm 644 doc/chwala.conf %{buildroot}/%{_ap_sysconfdir}/conf.d/chwala.conf
+%endif
 
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 cp -pr %SOURCE2 %{buildroot}%{_sysconfdir}/logrotate.d/chwala
@@ -103,7 +119,9 @@ popd
 
 pushd lib/drivers/kolab/plugins
 rm -rf kolab_auth kolab_folders libkolab
+%if 0%{?plesk} < 1
 ln -s ../../../../../roundcubemail/plugins/kolab_auth kolab_auth
+%endif
 ln -s ../../../../../roundcubemail/plugins/kolab_folders kolab_folders
 ln -s ../../../../../roundcubemail/plugins/libkolab libkolab
 popd
@@ -133,7 +151,9 @@ fi
 
 %files
 %doc README.md LICENSE doc/SQL/
+%if 0%{?plesk} < 1
 %{_ap_sysconfdir}/conf.d/%{name}.conf
+%endif
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_datadir}/%{name}
 %attr(0750,%{httpd_user},%{httpd_group}) %{_localstatedir}/cache/%{name}
@@ -155,9 +175,6 @@ fi
 
 * Sun Jan 11 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.0-1
 - Release of version 0.3.0
-
-* Thu Feb 25 2014 Daniel Hoffend <dh@dotlan.net> - 0.2-4
-- applied fix for recent libkolab changes
 
 * Thu Jan 23 2014 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.2-3
 - Correct any suhosin.session.encrypt setting using .htaccess

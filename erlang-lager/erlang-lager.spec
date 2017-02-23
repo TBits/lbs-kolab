@@ -7,7 +7,7 @@
 %global debug_package %{nil}
 
 Name:           erlang-%{realname}
-Version:        3.1.0
+Version:        3.2.4
 Release:        1%{?dist}
 Summary:        A logging framework for Erlang/OTP
 Group:          Development/Languages
@@ -52,7 +52,6 @@ mkdir -p %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/include
 install -p -m 0644 ebin/%{realname}.app %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/
 install -p -m 0644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin
 install -p -m 0644 include/*.hrl %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/include/
-install -p -m 0644 rebar.config %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/
 
 %check
 rebar skip_deps=true eunit -v || :
@@ -67,9 +66,11 @@ rebar skip_deps=true eunit -v || :
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
 %{_libdir}/erlang/lib/%{realname}-%{version}/include/*.hrl
-%{_libdir}/erlang/lib/%{realname}-%{version}/rebar.config
 
 %changelog
+* Tue Nov 22 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.2.4-1
+- Update to 3.2.4
+
 * Fri May 15 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.1.0-1
 - Check in 2.1.0
 

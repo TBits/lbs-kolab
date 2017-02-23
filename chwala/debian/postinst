@@ -3,7 +3,9 @@
 set -e
 
 fixperms() {
-    chown -R www-data:adm \
+    group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "adm")
+    user=$(getent passwd roundcube_sysuser >/dev/null 2>&1 && echo "roundcube_sysuser" || echo "www-data")
+    chown -R ${user}:${group} \
         /var/cache/chwala \
         /var/lib/chwala \
         /var/log/chwala
@@ -22,11 +24,24 @@ reload_apache()
     fi
 }
 
+update_database() {
+    /usr/share/roundcubemail/bin/updatedb.sh \
+        --dir /usr/share/doc/chwala/SQL/ \
+        --package chwala \
+        >/dev/null 2>&1 || :
+}
+
 
 case "$1" in
     configure)
         fixperms
+        update_database
         a2enmod rewrite >/dev/null 2>&1 || true
+
+        if [ -f "/etc/plesk-release" ]; then
+            exit 0
+        fi
+
         if [ -e "/etc/apache2/sites-available/chwala.conf" -a ! -e "/etc/apache2/sites-enabled/chwala.conf" ]; then
             a2ensite chwala.conf
         fi

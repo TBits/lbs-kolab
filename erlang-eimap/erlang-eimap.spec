@@ -8,8 +8,8 @@
 %define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
 
 Name:           erlang-%{realname}
-Version:        0.2.5
-Release:        0.20160111.git%{?dist}
+Version:        0.4.0
+Release:        1%{?dist}
 Summary:        Erlang IMAP client
 Group:          Development/Libraries
 License:        GPLv3+
@@ -17,11 +17,13 @@ URL:            http://git.kolab.org/diffusion/EI/%{realname}.git
 %if 0%{?el7}%{?fedora}
 VCS:            scm:git:https://git.kolab.org/diffusion/EI/%{realname}.git
 %endif
-Source0:        erlang-eimap-0.2.5.tar.gz
+Source0:        erlang-eimap-%{version}.tar.gz
 
-BuildRequires:	erlang-goldrush >= 0.1.7
-BuildRequires:	erlang-lager >= 2.2.0
-BuildRequires:	erlang-rebar >= 2.5.1
+Patch1:         make-things-easy-for-rebar3.patch
+
+BuildRequires:	erlang-goldrush
+BuildRequires:	erlang-lager
+BuildRequires:	erlang-rebar3 >= 3.3.2
 
 Requires:       %lock_version erlang-erts
 Requires:       %lock_version erlang-stdlib
@@ -32,26 +34,36 @@ IMAP client library for Erlang
 %prep
 %setup -q -n eimap-%{version}
 
-%build
-%if 0%{?fedora} >= 25
-#see https://bugzilla.redhat.com/show_bug.cgi?id=999054 and https://bugzilla.redhat.com/show_bug.cgi?id=1379898
-export REBAR_DEPS_PREFER_LIBS=TRUE
-export IGNORE_MISSING_DEPS=TRUE
-%endif
+%patch1 -p1
 
-rebar compile -v
+%build
+DEBUG=1
+export DEBUG
+
+HEX_OFFLINE=true
+export HEX_OFFLINE
+
+rebar3 release \
+    --dev-mode false \
+    --relname %{realname} \
+    --relvsn %{version} \
+    --verbose
 
 %check
 # BEWARE rebar needs bootstrapped getopt in case of an API change
-rebar eunit -v
+rebar3 eunit -v
 
 %install
+find -type f | sort
+
 mkdir -p \
     %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/ \
     %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/src/
 
+pushd _build/default/lib/eimap/
 install -D -m 644 ebin/%{realname}.app %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
 install -D -m 644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/.
+popd
 
 %files
 %doc README.md
@@ -62,6 +74,9 @@ install -D -m 644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{ve
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
 
 %changelog
+* Mon Nov 21 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4.0-1
+- Upstream release 0.4.0
+
 * Tue Jul  5 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.2.5-1
 - Packaging of 0.2.5
 

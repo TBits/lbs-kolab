@@ -16,7 +16,9 @@ Depends:    php-auth-sasl,
             php-net-socket,
             php5-cli,
             php5-mysql,
-            roundcubemail-plugins-kolab (>= 3.1.12),
+            roundcubemail-core,
+            roundcubemail-plugin-libcalendaring (>= 3.1.12),
+            roundcubemail-plugin-libkolab (>= 3.1.12),
             zendframework | zend-framework,
             ${misc:Depends}
 Description: ActiveSync for Kolab Groupware

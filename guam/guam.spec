@@ -20,17 +20,18 @@
 %define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
 
 Name:               guam
-Version:            0.8.3
-Release:            0.20160219.git%{?dist}
+Version:            0.9.0
+Release:            1%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
 License:            GPLv3+
 URL:                https://kolab.org/about/guam
 
-Source0:            guam-%{version}.tar.gz
+Source0:            %{name}-%{version}.tar.gz
+Source1:            sys.config
 
-Patch9991:          guam-0.8.2-relax-dependencies.patch
+Patch1:             make-it-very-easy-on-rebar3.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-asn1
@@ -38,7 +39,7 @@ BuildRequires:      erlang-common_test
 BuildRequires:      erlang-compiler
 BuildRequires:      erlang-crypto
 BuildRequires:      erlang-debugger
-BuildRequires:      erlang-eimap >= 0.2.4
+BuildRequires:      erlang-eimap >= 0.3.0
 BuildRequires:      erlang-erts
 BuildRequires:      erlang-et
 BuildRequires:      erlang-goldrush >= 0.1.8
@@ -48,7 +49,8 @@ BuildRequires:      erlang-lager_syslog >= 2.0.3
 BuildRequires:      erlang-mnesia
 BuildRequires:      erlang-observer
 BuildRequires:      erlang-public_key
-BuildRequires:      erlang-rebar >= 2.5.1
+BuildRequires:      erlang-rebar3 >= 3.3.2
+BuildRequires:      erlang-rpm-macros
 BuildRequires:      erlang-runtime_tools
 BuildRequires:      erlang-sasl
 BuildRequires:      erlang-snmp
@@ -57,17 +59,7 @@ BuildRequires:      erlang-ssl
 BuildRequires:      erlang-stdlib
 BuildRequires:      erlang-syntax_tools
 BuildRequires:      erlang-syslog >= 1.0.3
-%if 0%{?fedora} >= 25
-BuildRequires:      erlang-common_test
-%else
-BuildRequires:      erlang-test_server
-%endif
 BuildRequires:      erlang-tools
-%if 0%{?fedora} >= 25
-BuildRequires:      erlang-erts
-%else
-BuildRequires:      erlang-webtool
-%endif
 BuildRequires:      erlang-wx
 BuildRequires:      erlang-xmerl
 
@@ -106,112 +98,107 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
-%patch9991 -p1
+%patch1 -p1
 
 %build
-%if 0%{?fedora} >= 25
-#see https://bugzilla.redhat.com/show_bug.cgi?id=999054 and https://bugzilla.redhat.com/show_bug.cgi?id=1379898
-export REBAR_DEPS_PREFER_LIBS=TRUE
-export IGNORE_MISSING_DEPS=TRUE
-%endif
 
-rebar compile
-mkdir -p deps
+DEBUG=1
+export DEBUG
 
-pushd rel
-ENABLE_STATIC=no rebar generate
-popd
+HEX_OFFLINE=true
+export HEX_OFFLINE
+
+rebar3 release \
+    --dev-mode false \
+    --relname %{name} \
+    --relvsn %{version} \
+    --verbose
 
 %install
+
+find -type f | sort
+
 mkdir -p \
-    %{buildroot}/opt \
+    %{buildroot}%{_sysconfdir}/%{name}/ \
     %{buildroot}%{_sbindir} \
-    %{buildroot}%{_sysconfdir}/guam/ \
+    %{buildroot}%{_erldir}/bin/ \
+    %{buildroot}%{_erllibdir}/%{name}-%{version}/ \
 %if 0%{?with_systemd}
     %{buildroot}%{_unitdir}/ \
 %else
     %{buildroot}%{_initddir}/ \
 %endif
-    %{buildroot}%{_var}/log/
+    %{buildroot}%{_var}/log/%{name}/
 
+# Configuration
+install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}/sys.config
+
+# Service scripts
 %if 0%{?with_systemd}
-install -p -m 644 contrib/guam.service \
-    %{buildroot}%{_unitdir}/guam.service
+install -p -m 644 contrib/%{name}.service \
+    %{buildroot}%{_unitdir}/%{name}.service
 %else
-install -p -m 755 contrib/guam.sysvinit \
-    %{buildroot}%{_initddir}/guam
+install -p -m 755 contrib/%{name}.sysvinit \
+    %{buildroot}%{_initddir}/%{name}
 %endif
 
-cp -a rel/%{realname} %{buildroot}/opt/.
+pushd %{buildroot}%{_erldir}/bin/
+ln -s ../lib/%{realname}-%{version}/bin/%{realname} %{realname}
+popd
 
-cat > %{buildroot}%{_sbindir}/guam << EOF
-#!/bin/bash
-exec /opt/kolab_guam/bin/kolab_guam \$*
-EOF
+cp -a _build/default/rel/%{name}/bin %{buildroot}%{_erllibdir}/%{name}-%{version}/
+cp -a _build/default/rel/%{name}/lib/%{realname}-%{version}/ebin/ %{buildroot}%{_erllibdir}/%{name}-%{version}/
+cp -a _build/default/rel/%{name}/releases/ %{buildroot}%{_erllibdir}/%{name}-%{version}/
 
-mv %{buildroot}/opt/%{realname}/releases/*/sys.config \
-    %{buildroot}%{_sysconfdir}/guam/sys.config
+pushd %{buildroot}%{_erllibdir}/%{name}-%{version}/releases/%{version}/
+ln -sfv ../../../../../../..%{_sysconfdir}/%{name}/sys.config sys.config
+mv vm.args ../../../../../../..%{_sysconfdir}/%{name}/vm.args
+ln -sv ../../../../../../..%{_sysconfdir}/%{name}/vm.args vm.args
+popd
 
-ln -s ../../../..%{_sysconfdir}/%{name}/sys.config \
-    $(ls -1d %{buildroot}/opt/%{realname}/releases/*/)/sys.config
+pushd %{buildroot}%{_erllibdir}/%{name}-%{version}/
+ln -s ../../lib lib
+popd
 
-mv %{buildroot}/opt/%{realname}/log %{buildroot}%{_var}/log/guam
-ln -s ../..%{_var}/log/guam %{buildroot}/opt/%{realname}/log
-
-pushd %{buildroot}/opt/%{realname}/lib
-for dir in $(ls -d */ | grep -v kolab_guam); do
-    dir=$(basename ${dir})
-    if [ ! -d %{_libdir}/erlang/lib/${dir} ]; then
-        echo "Skipping deletion of ${dir}, no equivalent in %{_libdir}/erlang/lib/"
-    else
-        rm -rvf ${dir}
-        ln -sv ../../..%{_libdir}/erlang/lib/${dir} ${dir}
-    fi
-done
+pushd %{buildroot}%{_sbindir}
+ln -sfv ../..%{_erllibdir}/%{name}-%{version}/bin/%{realname} %{name}
 popd
 
 %check
-rebar skip_deps=true eunit -v
-
-%pre
-if [ $1 == 1 ]; then
-    /usr/sbin/groupadd --system %{guam_group} 2> /dev/null || :
-    /usr/sbin/useradd -c "Guam Service" -d /opt/kolab_guam -g %{guam_group} \
-        -s /sbin/nologin --system %{guam_user} 2> /dev/null || :
-fi
+# Hopeless on -0.9
+rebar3 eunit -v || :
 
 %postun
 %if 0%{?with_systemd}
 %systemd_postun
 %endif
-if [ $1 == 0 ]; then
-    /usr/sbin/userdel %{guam_user} 2>/dev/null || :
-    /usr/sbin/groupdel %{guam_group} 2>/dev/null || :
-fi
 
 %if 0%{?with_systemd}
 %post
-%systemd_post guam.service
+%systemd_post %{name}.service
 
 %preun
-%systemd_preun guam.service
+%systemd_preun %{name}.service
 
 %posttrans
 test -f /etc/sysconfig/guam-disable-posttrans || \
-    systemctl try-restart guam.service 2>&1 || :
+    systemctl try-restart %{name}.service 2>&1 || :
 
 %else
 %post
-chkconfig --add guam >/dev/null 2>&1 || :
+chkconfig --add %{name} >/dev/null 2>&1 || :
 
 %posttrans
 test -f /etc/sysconfig/guam-disable-posttrans || \
-    %{_sbindir}/service restart guam 2>&1 || :
+    %{_sbindir}/service restart %{name} 2>&1 || :
 %endif
 
 %files
-%attr(0750,root,root) %{_sbindir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/sys.config
+%config(noreplace) %{_sysconfdir}/%{name}/vm.args
+%{_sbindir}/%{name}
+%{_libdir}/erlang/bin/%{realname}
+%{_libdir}/erlang/lib/%{name}-%{version}
 %attr(0640,%{guam_user},%{guam_group}) %{_var}/log/%{name}/
 
 %if 0%{?with_systemd}
@@ -219,8 +206,6 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %else
 %{_initddir}/%{name}
 %endif
-
-/opt/%{realname}/
 
 %changelog
 * Tue Jul  12 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.8.3-1

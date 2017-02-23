@@ -12,8 +12,8 @@
 %global mail_group_id 76
 
 Name:               egara
-Version: 0.2
-Release: 0.20150708.git%{?dist}
+Version:            0.2
+Release:            0.20161121.git%{?dist}
 Summary:            Event driven groupware archival system
 
 Group:              System Environment/Daemons
@@ -23,41 +23,46 @@ URL:                https://kolab.org/about/egara
 # From 3e4a3da61124e9c79b7f7f49516e6e86aa072051
 Source0:            http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
 
-Patch1:             egara-0.1-tests.patch
-Patch2:             egara-0.1-release.patch
-Patch3:             egara-0.2-relax-riakc-dep.patch
+Patch1:             make-it-very-easy-for-rebar3.patch
 
 BuildRequires:      erlang
+BuildRequires:      erlang-eimap >= 0.4.0
 BuildRequires:      erlang-eldap
 BuildRequires:      erlang-goldrush >= 0.1.6
 BuildRequires:      erlang-inert
 BuildRequires:      erlang-iso8601
 BuildRequires:      erlang-jsx >= 2.4.0
 BuildRequires:      erlang-lager >= 2.1.0
+BuildRequires:      erlang-lager_syslog
 BuildRequires:      erlang-meck >= 0.8.2
 BuildRequires:      erlang-poolboy >= 1.4.2
 BuildRequires:      erlang-procket
 BuildRequires:      erlang-protobuffs
-BuildRequires:      erlang-rebar
+BuildRequires:      erlang-rebar3 >= 3.3.2
 BuildRequires:      erlang-riak_pb
 BuildRequires:      erlang-riakc >= 2.0.1
+BuildRequires:      erlang-rpm-macros
+BuildRequires:      erlang-syn >= 1.5.0
 
 Requires(pre):      shadow-utils
 Requires(postun):   shadow-utils
 
 Requires:           erlang
+Requires:           erlang-eimap >= 0.4.0
 Requires:           erlang-eldap
 Requires:           erlang-goldrush >= 0.1.6
 Requires:           erlang-inert
 Requires:           erlang-iso8601
 Requires:           erlang-jsx => 2.4.0
 Requires:           erlang-lager >= 2.1.0
+Requires:           erlang-lager_syslog
 Requires:           erlang-meck >= 0.8.2
 Requires:           erlang-poolboy >= 1.4.2
 Requires:           erlang-procket
 Requires:           erlang-protobuffs
 Requires:           erlang-riak_pb
 Requires:           erlang-riakc >= 2.0.1
+Requires:           erlang-syn >= 1.5.0
 
 %description
 Egara is an event driven groupware archival system for e-Discovery
@@ -68,45 +73,74 @@ written (primarily) in Erlang.
 
 %prep
 %setup -q
+
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
-pushd rel
-rebar create-node nodeid=egara
-popd
-ENABLE_STATIC=no rebar compile -v
-rebar generate -v
+DEBUG=1
+export DEBUG
+
+HEX_OFFLINE=true
+export HEX_OFFLINE
+
+rebar3 release \
+    --dev-mode false \
+    --relname %{name} \
+    --relvsn %{version} \
+    --verbose
 
 %install
-mkdir -p %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin
-install -m 644 apps/egara/ebin/%{realname}.app %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin
-install -m 644 apps/egara/ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/ebin
+
+find . -type f | sort
+
+mkdir -p \
+    %{buildroot}%{_sysconfdir}/%{name}/ \
+    %{buildroot}%{_sbindir} \
+    %{buildroot}%{_erldir}/bin/ \
+    %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+
+install app.config %{buildroot}%{_sysconfdir}/%{name}/sys.config
+
+pushd %{buildroot}%{_erldir}/bin/
+ln -s ../lib/%{name}-%{version}/bin/egara egara
+popd
+
+cp -a _build/default/rel/egara/bin/ %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+cp -a _build/default/rel/egara/lib/egara-%{version}/ebin/ %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+cp -a _build/default/rel/egara/releases %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+
+pushd %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/releases/%{version}/
+ln -sfv ../../../../../../..%{_sysconfdir}/%{name}/sys.config sys.config
+mv vm.args ../../../../../../..%{_sysconfdir}/%{name}/vm.args
+ln -sv ../../../../../../..%{_sysconfdir}/%{name}/vm.args vm.args
+popd
+
+pushd %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/
+ln -s ../../lib lib
+popd
+
+pushd %{buildroot}%{_sbindir}
+ln -sfv ../..%{_erllibdir}/%{name}-%{version}/bin/egara egara
+popd
 
 %check
-rebar skip_deps=true eunit -v
+DEBUG=1
+export DEBUG
 
-%pre
-if [ $1 == 1 ]; then
-    /usr/sbin/groupadd -g %{mail_group_id} --system %{mail_group} 2> /dev/null || :
-    /usr/sbin/groupadd --system %{egara_group} 2> /dev/null || :
-    /usr/sbin/useradd -c "Egara Service" -d %{_var}/lib/egara -g %{egara_group} \
-        -G %{mail_group} -s /sbin/nologin --system %{egara_user} 2> /dev/null || :
-fi
+HEX_OFFLINE=true
+export HEX_OFFLINE
 
-%postun
-if [ $1 == 0 ]; then
-    /usr/sbin/userdel %{egara_user} 2>/dev/null || :
-    /usr/sbin/groupdel %{egara_group} 2>/dev/null || :
-fi
+# Hopeless for -0.2
+rebar3 eunit -v || :
 
 %files
 %doc README.md
-%dir %{_libdir}/erlang/lib/%{realname}-%{version}
-%dir %{_libdir}/erlang/lib/%{realname}-%{version}/ebin
-%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/%{realname}.app
-%{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
+%{_sbindir}/egara
+%dir %{_sysconfdir}/egara
+%config(noreplace) %{_sysconfdir}/egara/sys.config
+%config(noreplace) %{_sysconfdir}/egara/vm.args
+%{_erldir}/bin/*
+%{_erllibdir}/%{realname}-%{version}
 
 %changelog
 * Fri May 15 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.1-0.1.git

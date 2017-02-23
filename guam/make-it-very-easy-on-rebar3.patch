@@ -1,0 +1,29 @@
+diff -ur guam-0.9.0.orig/apps/kolab_guam/src/kolab_guam.app.src guam-0.9.0/apps/kolab_guam/src/kolab_guam.app.src
+--- guam-0.9.0.orig/apps/kolab_guam/src/kolab_guam.app.src	2016-07-29 12:30:44.000000000 +0200
++++ guam-0.9.0/apps/kolab_guam/src/kolab_guam.app.src	2016-11-21 13:53:11.857715091 +0100
+@@ -9,8 +9,6 @@
+                   stdlib,
+                   compiler,
+                   syntax_tools,
+-                  goldrush,
+-                  lager,
+                   crypto,
+                   ssl
+                  ]},
+diff -ur guam-0.9.0.orig/rebar.config guam-0.9.0/rebar.config
+--- guam-0.9.0.orig/rebar.config	2016-07-29 12:30:44.000000000 +0200
++++ guam-0.9.0/rebar.config	2016-11-21 13:52:49.191460388 +0100
+@@ -8,13 +8,6 @@
+             fail_on_warning
+             ]
+ }.
+-{ deps, [
+-    lager,
+-    { lager_syslog, "3.*", { git, "git://github.com/basho/lager_syslog.git", { tag, "3.0.1" } } },
+-    { eimap, ".*", { git, "https://git.kolab.org/diffusion/EI/eimap.git", { tag, "0.3.0" } } }
+-    %% pull in the proper version of meck before jobs 0.3 gets around to pulling in the wrong version
+-   ]
+-}.
+ 
+ { sub_dirs, [
+     "apps/kolab_guam"

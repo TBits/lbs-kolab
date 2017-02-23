@@ -6,56 +6,55 @@
 override_dh_auto_build:
 	mkdir -p $HOME/.composer
 	echo '{}' > $HOME/.composer/composer.json
-	patch -p1 < debian/patches/add-composer-autoloader.diff
+	patch -p1 < debian/patches/add-composer-autoloader.diff || :
 	composer.sh -vvv dumpautoload --optimize
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_psr4.php
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_namespaces.php
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_classmap.php
-	dh_auto_build
 
-override_dh_install:
-	mkdir -p $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/
-	cp -a \
-		bin \
-		composer.json-dist \
-		plugins \
-		program \
-		public_html \
-		skins \
-		vendor \
-		$(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/
+	rm -rvf tests/
 
-	rm -rf $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/public_html/.htaccess
-
-	install -pm 644 index.php $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/
-	install -pm 644 README.md $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/
-	install -pm 644 robots.txt $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/
+	cp -av program/resources/blank.tif program/resources/blank.tiff
 
 	# Compress the CSS
-	for file in `find $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/ -type f -name "*.css"`; do \
-		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/assets/|g")) ; \
-		install -pm 755 -d $$asset_loc ; \
-		cat $$file > $$asset_loc/$$(basename $$file) && rm -rf $$file || \
-		mv -v $$file $$asset_loc/$$(basename $$file); \
+	for file in `find $(CURDIR) -type f -name "*.css"`; do \
+		asset_loc=$$(dirname $$(echo $${file} | sed \
+				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
+				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
+				-e "s|$(CURDIR)/skins/|$(CURDIR)/public_html/assets/skins/|g") ; \
+			) ; \
+		mkdir -p $${asset_loc} ; \
+		echo "$${file} -> $${asset_loc}/$$(basename $${file})" ; \
+		cat $${file} | cssmin > $${asset_loc}/$$(basename $${file}) || \
+			cp -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
 	done
 
 	# Compress the JS, but not the already minified
-	for file in `find $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/ -type f -name "*.js" ! -name "*.min.js"`; do \
-		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/assets/|g")) ; \
-		install -pm 755 -d $$asset_loc ; \
-		cat $$file > $$asset_loc/$$(basename $$file) && rm -rf $$file || \
-		mv -v $$file $$asset_loc/$$(basename $$file); \
+	for file in `find $(CURDIR)/ -type f -name "*.js" ! -name "*.min.js"`; do \
+		asset_loc=$$(dirname $$(echo $${file} | sed \
+				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
+				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
+				-e "s|$(CURDIR)/skins/|$(CURDIR)/public_html/assets/skins/|g") ; \
+			) ; \
+		mkdir -p $${asset_loc} ; \
+		echo "$${file} -> $${asset_loc}/$$(basename $${file})" ; \
+		uglifyjs $${file} > $${asset_loc}/$$(basename $${file}) || \
+			cp -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
 	done
 
-	# The already minified JS can just be copied over to the assets location
-	for file in `find $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/ -type f -name "*.min.js"`; do \
-		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/assets/|g")) ; \
-		install -pm 755 -d $$asset_loc ; \
-		mv -v $$file $$asset_loc/$$(basename $$file); \
+	# The already minied JS can just be copied over to the assets location
+	for file in `find $(CURDIR)/ -type f -name "*.min.js"`; do \
+		asset_loc=$$(dirname $$(echo $${file} | sed \
+				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
+				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
+				-e "s|$(CURDIR)/skins/|$(CURDIR)/public_html/assets/skins/|g") ; \
+			) ; \
+		mkdir -p $${asset_loc} ; \
+		cp -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
 	done
 
 	# Other assets
-	for file in $$(find $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/ -type f \
+	for file in $$(find $(CURDIR)/plugins/ $(CURDIR)/program/ $(CURDIR)/skins/ -type f \
 			-name "*.eot" -o \
 			-name "*.gif" -o \
 			-name "*.ico" -o \
@@ -66,50 +65,50 @@ override_dh_install:
 			-name "*.svg" -o \
 			-name "*.swf" -o \
 			-name "*.tif" -o \
+			-name "*.tiff" -o \
 			-name "*.ttf" -o \
 			-name "*.wav" -o \
 			-name "*.woff" \
 		); do \
-		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/assets/|g")) ; \
-		install -pm 755 -d $$asset_loc ; \
-		mv -f $$file $$asset_loc/$$(basename $$file); \
+		asset_loc=$$(dirname $$(echo $${file} | sed \
+				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
+				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
+				-e "s|$(CURDIR)/skins/|$(CURDIR)/public_html/assets/skins/|g") ; \
+			) ; \
+		mkdir -p $${asset_loc} ; \
+		mv -vf $${file} $${asset_loc}/$$(basename $${file}); \
 	done
 
-	# The watermark.html is an asset, too
-	for file in $$(find $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/ -type f -name "watermark.html" ); do \
-		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/assets/|g")) ; \
-		install -pm 755 -d $$asset_loc ; \
-		mv -f $$file $$asset_loc/$$(basename $$file); \
+	for plugin in `find $(CURDIR)/plugins/ -type d -mindepth 1 -maxdepth 1 -exec basename {} \;)`; do \
+		pkgname=$$(echo $${plugin} | sed -e 's/_/-/g') ; \
+		if [ -f "$(CURDIR)/plugins/$${plugin}/config.inc.php.dist" ]; then \
+			mv $(CURDIR)/plugins/$${plugin}/config.inc.php.dist $(CURDIR)/config/$${plugin}.inc.php ; \
+			echo "etc/roundcubemail/$${plugin}.inc.php usr/share/roundcubemail/plugins/$${plugin}/config.inc.php" >> debian/roundcubemail-plugin-$${pkgname}.links ; \
+			echo "config/$${plugin}.inc.php etc/roundcubemail/" >> debian/roundcubemail-plugin-$${pkgname}.install ; \
+		fi ; \
+		if [ -d "$(CURDIR)/public_html/assets/plugins/$${plugin}" ]; then \
+			echo "public_html/assets/plugins/$${plugin} usr/share/roundcubemail/public_html/assets/plugins" >> debian/roundcubemail-plugin-$${pkgname}.install ; \
+		fi ; \
+		echo "usr/share/roundcubemail/plugins/$${plugin}" >> debian/roundcubemail-plugin-$${pkgname}.dirs ; \
+		echo "plugins/$${plugin} usr/share/roundcubemail/plugins/" >> debian/roundcubemail-plugin-$${pkgname}.install ; \
+		echo "" >> debian/control ; \
+		echo "Package: roundcubemail-plugin-$${pkgname}" >> debian/control ; \
+		echo "Architecture: all" >> debian/control ; \
+		echo "Depends: roundcubemail-core" >> debian/control ; \
+		echo "Description: $${plugin}} plugin for Roundcube" >> debian/control ; \
+		echo "" >> debian/control ; \
+		sed -i -e "/Files:/ i\
+ roundcubemail-plugin-$${plugin} deb web extra" debian/control ; \
 	done
 
-	mv $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/assets/ \
-		$(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/public_html/assets/ 
+	if [ -f "/etc/plesk-release" ]; then \
+		cp -v ../SOURCES/plesk.config.inc.php config/config.inc.php ; \
+		cp -v ../SOURCES/plesk.password.inc.php config/password.inc.php ; \
+	else \
+		mv config/config.inc.php.sample config/config.inc.php ; \
+	fi
 
-	mkdir -p $(CURDIR)/debian/roundcubemail/etc/roundcubemail/
-	cp -a config/config.inc.php.sample $(CURDIR)/debian/roundcubemail/etc/roundcubemail/config.inc.php
-	cp -a config/defaults.inc.php $(CURDIR)/debian/roundcubemail/etc/roundcubemail/defaults.inc.php
-	cp -a config/mimetypes.php $(CURDIR)/debian/roundcubemail/etc/roundcubemail/mimetypes.php
-
-	ln -s ../../../etc/roundcubemail $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/config
-
-	# Fix file permission
-	find $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/ -type f -exec chmod ugo-x {} \;
-	find $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/bin/ -type f -exec chmod ugo+x {} \;
-
-	# Copy plugin configuration files to the correct location
-	for conffile in $$(find $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/plugins -type f -name "config.inc.php.dist"); do \
-		plugin=$$(basename $$(dirname $$conffile)); \
-		mv $$conffile $(CURDIR)/debian/roundcubemail/etc/roundcubemail/$$plugin.inc.php; \
-		ln -s ../../../../../etc/roundcubemail/$$plugin.inc.php $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/plugins/$$plugin/config.inc.php; \
-	done
-
-	# Create the symbolic links for logs/ and temp/
-	ln -s ../../../var/lib/roundcubemail/ $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/temp
-	ln -s ../../../var/log/roundcubemail/ $(CURDIR)/debian/roundcubemail/usr/share/roundcubemail/logs
-
-	# Install apache2 configuration
-	mkdir -p $(CURDIR)/debian/roundcubemail/etc/apache2/sites-available
-	install -pm 644 $(CURDIR)/debian/conf/roundcubemail.conf $(CURDIR)/debian/roundcubemail/etc/apache2/sites-available/roundcubemail.conf
+	dh_auto_build
 
 override_dh_compress:
-	dh_compress -Xsql   
+	dh_compress -Xsql

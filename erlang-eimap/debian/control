@@ -4,7 +4,7 @@ Section: devel
 Priority: extra
 Standards-Version: 3.9.6
 Homepage: https://git.kolab.org/diffusion/EI/eimap.git
-Build-Depends: debhelper (>= 9), erlang-goldrush (>= 0.1.7), erlang-lager (>= 2.2.0), rebar (>= 2.5.1), erlang-crypto
+Build-Depends: debhelper (>= 9), erlang-goldrush (>= 0.1.7), erlang-lager (>= 2.2.0), rebar3 (>= 3.3.2), erlang-crypto
 
 Package: erlang-eimap
 Architecture: any

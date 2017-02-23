@@ -15,11 +15,17 @@ URL:		https://github.com/lemenkov/erlang-rpm-macros
 VCS:		scm:git:https://github.com/lemenkov/erlang-rpm-macros.git
 %endif
 Source0:	https://github.com/lemenkov/erlang-rpm-macros/archive/%{version}/%{name}-%{version}.tar.gz
+
+Patch1:     erlang-rpm-macros-add-suse-compat-macros.patch
+
 BuildArch:	noarch
 Requires:	rpm-build >= 4.8
 # Requires for BEAM parsing
 Requires:	python2-pybeam
 Requires:	rpm-python
+
+Provides:   rpm-macros-erlang
+Provides:   rpm-build-erlang
 
 
 %description
@@ -28,7 +34,7 @@ Macros for simplifying building of Erlang packages.
 
 %prep
 %setup -q
-
+%patch1 -p1
 
 %build
 # Nothing to build

@@ -1,0 +1,7 @@
+etc/roundcubemail
+usr/share/roundcubemail
+usr/share/roundcubemail/plugins
+usr/share/roundcubemail/public_html
+usr/share/roundcubemail/public_html/assets
+usr/share/roundcubemail/public_html/assets/plugins
+var/lib/roundcubemail/plugins

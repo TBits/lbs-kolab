@@ -2,11 +2,10 @@
 
 set -e
 
-#EXTRA#
-#DEBHELPER#
-
 fixperms() {
-    chown -R www-data:www-data \
+    group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "adm")
+    user=$(getent passwd roundcube_sysuser >/dev/null 2>&1 && echo "roundcube_sysuser" || echo "www-data")
+    chown -R ${user}:${group} \
         /var/cache/iRony \
         /var/log/iRony
     chmod 750 \
@@ -23,13 +22,17 @@ reload_apache()
     fi
 }
 
-
 case "$1" in
     configure)
         fixperms
         a2enmod rewrite >/dev/null 2>&1 || true
-        if [ -e "/etc/apache2/sites-available/iRony.conf" -a ! -e "/etc/apache2/sites-enabled/iRony.conf" ]; then
-            a2ensite iRony.conf
+
+        if [ -f "/etc/plesk-release" ]; then
+            exit 0
+        fi
+
+        if [ -e "/etc/apache2/sites-available/chwala.conf" -a ! -e "/etc/apache2/sites-enabled/chwala.conf" ]; then
+            a2ensite chwala.conf
         fi
         reload_apache reload
     ;;

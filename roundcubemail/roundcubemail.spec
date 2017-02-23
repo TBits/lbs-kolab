@@ -26,9 +26,15 @@
 %global httpd_name apache2
 %global httpd_user wwwrun
 %else
+%if 0%{?plesk}
+%global httpd_group roundcube_sysgroup
+%global httpd_name httpd
+%global httpd_user roundcube_sysuser
+%else
 %global httpd_group apache
 %global httpd_name httpd
 %global httpd_user apache
+%endif
 %endif
 
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
@@ -57,12 +63,17 @@ Source1:        comm.py
 Source20:       roundcubemail.conf
 Source21:       roundcubemail.logrotate
 
+Source100:      plesk.config.inc.php
+Source101:      plesk.password.inc.php
+
 Patch201:       default-configuration.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 
 BuildRequires:  composer
+
+%if 0%{?plesk} < 1
 BuildRequires:  php-gd
 BuildRequires:  php-mbstring
 BuildRequires:  php-mcrypt
@@ -84,6 +95,7 @@ BuildRequires:  php-pear(Net_LDAP3)
 BuildRequires:  php-pear(Net_Sieve)
 BuildRequires:  php-pear(Net_SMTP)
 BuildRequires:  php-pear(Net_Socket)
+%endif
 
 %if "%{_arch}" != "ppc64" && "%{_arch}" != "ppc64le" && 0%{?suse_version} < 1
 BuildRequires:  python-cssmin
@@ -95,14 +107,18 @@ BuildRequires:  uglify-js
 #BuildRequires:  firefox
 BuildRequires:  python
 BuildRequires:  python-nose
-BuildRequires:  python-selenium
+#BuildRequires:  python-selenium
 
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 
+%if 0%{?plesk}
+Requires:       %{name}-skin-plesk
+%else
 %if 0%{?kolab_enterprise}
 Requires:       %{name}-skin-enterprise
 %else
 Requires:       %{name}-skin-chameleon
+%endif
 %endif
 
 # Archive and Zipdownload plugins required through
@@ -145,11 +161,14 @@ Requires:       php-pear(Mail_mimeDecode)
 Requires:       php-pear(MDB2) >= 2.5.0
 Requires:       php-pear(MDB2_Driver_mysqli)
 Requires:       php-pear(Net_IDNA2)
-Requires:       php-pear(Net_LDAP2)
-Requires:       php-pear(Net_LDAP3)
 Requires:       php-pear(Net_Sieve)
 Requires:       php-pear(Net_SMTP)
 Requires:       php-pear(Net_Socket)
+
+%if 0%{?plesk} < 1
+Requires:       php-pear(Net_LDAP2)
+Requires:       php-pear(Net_LDAP3)
+%endif
 
 Requires:       %{name}(core-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -335,12 +354,7 @@ Summary:        Plugin jqueryui
 Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-jqueryui-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-%if 0%{?fedora} >= 25
-# avoid that skin-classic is installed, which is not what we want. that would not look right
-Requires:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
-%else
 Requires:       %{name}(plugin-jqueryui-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-%endif
 Provides:       %{name}(plugin-jqueryui) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description plugin-jqueryui
@@ -797,18 +811,6 @@ Provides:       %{name}(plugin-acl-skin-larry) = %{?epoch:%{epoch}:}%{version}-%
 %description plugin-acl-skin-larry
 Plugin acl / Skin larry
 
-%package plugin-acl-skin-classic
-Summary:        Plugin acl / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-acl) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-acl-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-acl-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-acl-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-acl-skin-classic
-Plugin acl / Skin classic
-
 %package plugin-archive-skin-larry
 Summary:        Plugin archive / Skin larry
 Group:          Applications/Internet
@@ -820,18 +822,6 @@ Provides:       %{name}(plugin-archive-skin-larry) = %{?epoch:%{epoch}:}%{versio
 
 %description plugin-archive-skin-larry
 Plugin archive / Skin larry
-
-%package plugin-archive-skin-classic
-Summary:        Plugin archive / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-archive) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-archive-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-archive-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-archive-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-archive-skin-classic
-Plugin archive / Skin classic
 
 %package plugin-enigma-skin-larry
 Summary:        Plugin enigma / Skin larry
@@ -845,18 +835,6 @@ Provides:       %{name}(plugin-enigma-skin-larry) = %{?epoch:%{epoch}:}%{version
 %description plugin-enigma-skin-larry
 Plugin enigma / Skin larry
 
-%package plugin-enigma-skin-classic
-Summary:        Plugin enigma / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-enigma) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-enigma-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-enigma-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-enigma-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-enigma-skin-classic
-Plugin enigma / Skin classic
-
 %package plugin-help-skin-larry
 Summary:        Plugin help / Skin larry
 Group:          Applications/Internet
@@ -868,18 +846,6 @@ Provides:       %{name}(plugin-help-skin-larry) = %{?epoch:%{epoch}:}%{version}-
 
 %description plugin-help-skin-larry
 Plugin help / Skin larry
-
-%package plugin-help-skin-classic
-Summary:        Plugin help / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-help) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-help-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-help-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-help-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-help-skin-classic
-Plugin help / Skin classic
 
 %package plugin-hide_blockquote-skin-larry
 Summary:        Plugin hide_blockquote / Skin larry
@@ -905,18 +871,6 @@ Provides:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{versi
 %description plugin-jqueryui-skin-larry
 Plugin jqueryui / Skin larry
 
-%package plugin-jqueryui-skin-classic
-Summary:        Plugin jqueryui / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-jqueryui) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-jqueryui-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-jqueryui-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-jqueryui-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-jqueryui-skin-classic
-Plugin jqueryui / Skin classic
-
 %package plugin-legacy_browser-skin-larry
 Summary:        Plugin legacy_browser / Skin larry
 Group:          Applications/Internet
@@ -928,18 +882,6 @@ Provides:       %{name}(plugin-legacy_browser-skin-larry) = %{?epoch:%{epoch}:}%
 
 %description plugin-legacy_browser-skin-larry
 Plugin legacy_browser / Skin larry
-
-%package plugin-legacy_browser-skin-classic
-Summary:        Plugin legacy_browser / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-legacy_browser) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-legacy_browser-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser-skin-classic
-Plugin legacy_browser / Skin classic
 
 %package plugin-managesieve-skin-larry
 Summary:        Plugin managesieve / Skin larry
@@ -953,18 +895,6 @@ Provides:       %{name}(plugin-managesieve-skin-larry) = %{?epoch:%{epoch}:}%{ve
 %description plugin-managesieve-skin-larry
 Plugin managesieve / Skin larry
 
-%package plugin-managesieve-skin-classic
-Summary:        Plugin managesieve / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-managesieve) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-managesieve-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-managesieve-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-managesieve-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-managesieve-skin-classic
-Plugin managesieve / Skin classic
-
 %package plugin-markasjunk-skin-larry
 Summary:        Plugin markasjunk / Skin larry
 Group:          Applications/Internet
@@ -976,18 +906,6 @@ Provides:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{ver
 
 %description plugin-markasjunk-skin-larry
 Plugin markasjunk / Skin larry
-
-%package plugin-markasjunk-skin-classic
-Summary:        Plugin markasjunk / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-markasjunk) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-markasjunk-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-markasjunk-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-markasjunk-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-markasjunk-skin-classic
-Plugin markasjunk / Skin classic
 
 %package plugin-vcard_attachments-skin-larry
 Summary:        Plugin vcard_attachments / Skin larry
@@ -1001,18 +919,6 @@ Provides:       %{name}(plugin-vcard_attachments-skin-larry) = %{?epoch:%{epoch}
 %description plugin-vcard_attachments-skin-larry
 Plugin vcard_attachments / Skin larry
 
-%package plugin-vcard_attachments-skin-classic
-Summary:        Plugin vcard_attachments / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-vcard_attachments) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-vcard_attachments-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-vcard_attachments-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-vcard_attachments-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-vcard_attachments-skin-classic
-Plugin vcard_attachments / Skin classic
-
 %package plugin-zipdownload-skin-larry
 Summary:        Plugin zipdownload / Skin larry
 Group:          Applications/Internet
@@ -1025,18 +931,6 @@ Provides:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{ve
 %description plugin-zipdownload-skin-larry
 Plugin zipdownload / Skin larry
 
-%package plugin-zipdownload-skin-classic
-Summary:        Plugin zipdownload / Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(plugin-zipdownload) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-zipdownload-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-zipdownload-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-zipdownload-skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-zipdownload-skin-classic
-Plugin zipdownload / Skin classic
-
 %package plugin-acl-skin-larry-assets
 Summary:        Plugin acl / Skin larry (Assets)
 Group:          Applications/Internet
@@ -1046,16 +940,6 @@ Provides:       %{name}(plugin-acl-skin-larry-assets) = %{?epoch:%{epoch}:}%{ver
 
 %description plugin-acl-skin-larry-assets
 Plugin acl / Skin larry (Assets Package)
-
-%package plugin-acl-skin-classic-assets
-Summary:        Plugin acl / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-acl-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-acl-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-acl-skin-classic-assets
-Plugin acl / Skin classic (Assets Package)
 
 %package plugin-archive-skin-larry-assets
 Summary:        Plugin archive / Skin larry (Assets)
@@ -1067,16 +951,6 @@ Provides:       %{name}(plugin-archive-skin-larry-assets) = %{?epoch:%{epoch}:}%
 %description plugin-archive-skin-larry-assets
 Plugin archive / Skin larry (Assets Package)
 
-%package plugin-archive-skin-classic-assets
-Summary:        Plugin archive / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-archive-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-archive-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-archive-skin-classic-assets
-Plugin archive / Skin classic (Assets Package)
-
 %package plugin-enigma-skin-larry-assets
 Summary:        Plugin enigma / Skin larry (Assets)
 Group:          Applications/Internet
@@ -1087,16 +961,6 @@ Provides:       %{name}(plugin-enigma-skin-larry-assets) = %{?epoch:%{epoch}:}%{
 %description plugin-enigma-skin-larry-assets
 Plugin enigma / Skin larry (Assets Package)
 
-%package plugin-enigma-skin-classic-assets
-Summary:        Plugin enigma / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-enigma-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-enigma-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-enigma-skin-classic-assets
-Plugin enigma / Skin classic (Assets Package)
-
 %package plugin-help-skin-larry-assets
 Summary:        Plugin help / Skin larry (Assets)
 Group:          Applications/Internet
@@ -1106,16 +970,6 @@ Provides:       %{name}(plugin-help-skin-larry-assets) = %{?epoch:%{epoch}:}%{ve
 
 %description plugin-help-skin-larry-assets
 Plugin help / Skin larry (Assets Package)
-
-%package plugin-help-skin-classic-assets
-Summary:        Plugin help / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-help-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-help-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-help-skin-classic-assets
-Plugin help / Skin classic (Assets Package)
 
 %package plugin-hide_blockquote-skin-larry-assets
 Summary:        Plugin hide_blockquote / Skin larry (Assets)
@@ -1137,16 +991,6 @@ Provides:       %{name}(plugin-jqueryui-skin-larry-assets) = %{?epoch:%{epoch}:}
 %description plugin-jqueryui-skin-larry-assets
 Plugin jqueryui / Skin larry (Assets Package)
 
-%package plugin-jqueryui-skin-classic-assets
-Summary:        Plugin jqueryui / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-jqueryui-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-jqueryui-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-jqueryui-skin-classic-assets
-Plugin jqueryui / Skin classic (Assets Package)
-
 %package plugin-legacy_browser-skin-larry-assets
 Summary:        Plugin legacy_browser / Skin larry (Assets)
 Group:          Applications/Internet
@@ -1156,16 +1000,6 @@ Provides:       %{name}(plugin-legacy_browser-skin-larry-assets) = %{?epoch:%{ep
 
 %description plugin-legacy_browser-skin-larry-assets
 Plugin legacy_browser / Skin larry (Assets Package)
-
-%package plugin-legacy_browser-skin-classic-assets
-Summary:        Plugin legacy_browser / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-legacy_browser-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser-skin-classic-assets
-Plugin legacy_browser / Skin classic (Assets Package)
 
 %package plugin-managesieve-skin-larry-assets
 Summary:        Plugin managesieve / Skin larry (Assets)
@@ -1177,16 +1011,6 @@ Provides:       %{name}(plugin-managesieve-skin-larry-assets) = %{?epoch:%{epoch
 %description plugin-managesieve-skin-larry-assets
 Plugin managesieve / Skin larry (Assets Package)
 
-%package plugin-managesieve-skin-classic-assets
-Summary:        Plugin managesieve / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-managesieve-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-managesieve-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-managesieve-skin-classic-assets
-Plugin managesieve / Skin classic (Assets Package)
-
 %package plugin-markasjunk-skin-larry-assets
 Summary:        Plugin markasjunk / Skin larry (Assets)
 Group:          Applications/Internet
@@ -1196,16 +1020,6 @@ Provides:       %{name}(plugin-markasjunk-skin-larry-assets) = %{?epoch:%{epoch}
 
 %description plugin-markasjunk-skin-larry-assets
 Plugin markasjunk / Skin larry (Assets Package)
-
-%package plugin-markasjunk-skin-classic-assets
-Summary:        Plugin markasjunk / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-markasjunk-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-markasjunk-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-markasjunk-skin-classic-assets
-Plugin markasjunk / Skin classic (Assets Package)
 
 %package plugin-vcard_attachments-skin-larry-assets
 Summary:        Plugin vcard_attachments / Skin larry (Assets)
@@ -1217,16 +1031,6 @@ Provides:       %{name}(plugin-vcard_attachments-skin-larry-assets) = %{?epoch:%
 %description plugin-vcard_attachments-skin-larry-assets
 Plugin vcard_attachments / Skin larry (Assets Package)
 
-%package plugin-vcard_attachments-skin-classic-assets
-Summary:        Plugin vcard_attachments / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-vcard_attachments-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-vcard_attachments-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-vcard_attachments-skin-classic-assets
-Plugin vcard_attachments / Skin classic (Assets Package)
-
 %package plugin-zipdownload-skin-larry-assets
 Summary:        Plugin zipdownload / Skin larry (Assets)
 Group:          Applications/Internet
@@ -1236,16 +1040,6 @@ Provides:       %{name}(plugin-zipdownload-skin-larry-assets) = %{?epoch:%{epoch
 
 %description plugin-zipdownload-skin-larry-assets
 Plugin zipdownload / Skin larry (Assets Package)
-
-%package plugin-zipdownload-skin-classic-assets
-Summary:        Plugin zipdownload / Skin classic (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-zipdownload-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-zipdownload-skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-zipdownload-skin-classic-assets
-Plugin zipdownload / Skin classic (Assets Package)
 
 %package skin-larry
 Summary:        Skin larry
@@ -1258,17 +1052,6 @@ Provides:       %{name}(skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %description skin-larry
 Skin larry
 
-%package skin-classic
-Summary:        Skin classic
-Group:          Applications/Internet
-Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(skin-classic) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description skin-classic
-Skin classic
-
 %package skin-larry-assets
 Summary:        Skin larry (Assets)
 Group:          Applications/Internet
@@ -1278,27 +1061,32 @@ Provides:       %{name}(skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{rel
 %description skin-larry-assets
 Skin larry (Assets Package)
 
-%package skin-classic-assets
-Summary:        Skin classic (Assets)
-Group:          Applications/Internet
-Provides:       %{name}(skin-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(skin-classic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description skin-classic-assets
-Skin classic (Assets Package)
-
 %prep
 %setup -q -c "%{name}-%{version}"
 
 pushd %{name}-%{version}
+
+find . -type d -name "classic" | while read dir; do
+    rm -rvf ${dir}
+done
+
+%if 0%{?plesk}
+cp -vf %{SOURCE100} config/config.inc.php.sample
+cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
+%endif
+
+cp -a program/resources/blank.tif program/resources/blank.tiff
 
 %patch201 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
 
-# Remove hidden files
+# Remove hidden files and directories
 find . -type f -name ".*" -delete
+find . -type d -name ".*" ! -name "." ! -name ".." | while read dir; do
+    rm -rvf ${dir}
+done
 
 # Remove file URI modifier
 sed -r -i -e 's/^(\s+)protected function file_mod(.*)$/\1protected function file_mod\2 { return $file; }\n\1protected function dummy\2/g' program/include/rcmail_output_html.php
@@ -1316,7 +1104,7 @@ cp -a %{name}-%{version}/{CHANGELOG,LICENSE,README.md} .
 
 rm -rf %{name}-%{version}/plugins/jqueryui/themes/redmond
 
-for skin in larry classic; do
+for skin in larry; do
     # Template files and the like
     for sdir in $(find %{name}-%{version}/ -type d -name "${skin}" | sort); do
         target_dir=$(echo $sdir | %{__sed} -e "s|%{name}-%{version}|%{name}-skin-${skin}-%{version}|g")
@@ -1462,7 +1250,7 @@ for plugin in $(find %{name}-%{version}/plugins -mindepth 1 -maxdepth 1 -type d 
         echo ""
     ) >> plugins-assets.files
 
-    for skin in larry classic; do
+    for skin in larry; do
         for dir in $(find $target_dir -type d -name "${skin}" | sort); do
             starget_dir=$(echo $dir | %{__sed} -e "s|%{name}-plugin-$(basename ${plugin})-%{version}|%{name}-plugin-$(basename ${plugin})-skin-${skin}-%{version}|g")
             %{__mkdir_p} $(dirname $starget_dir)
@@ -1570,7 +1358,9 @@ function new_files() {
 %{__rm} -rf %{buildroot}
 
 %{__install} -d \
+%if 0%{?plesk} < 1
     %{buildroot}%{_ap_sysconfdir}/conf.d \
+%endif
     %{buildroot}%{_sysconfdir}/logrotate.d \
     %{buildroot}%{confdir} \
     %{buildroot}%{datadir}/public_html \
@@ -1581,7 +1371,9 @@ pushd %{name}-%{version}
 # Move robots.txt to the correct place
 %{__install} -pm 644 robots.txt %{buildroot}%{datadir}/public_html/robots.txt
 
+%if 0%{?plesk} < 1
 %{__install} -pm 644 %SOURCE20 %{buildroot}%{_ap_sysconfdir}/conf.d
+%endif
 
 %{__install} -pm 644 %SOURCE21 %{buildroot}%{_sysconfdir}/logrotate.d/roundcubemail
 
@@ -1709,6 +1501,7 @@ for file in $(find ${orig_dir} -type f \
         -name "*.svg" -o \
         -name "*.swf" -o \
         -name "*.tif" -o \
+        -name "*.tiff" -o \
         -name "*.ttf" -o \
         -name "*.wav" -o \
         -name "*.woff" | \
@@ -1721,9 +1514,9 @@ done
 
 new_files > core.files
 
-echo "== Files for core: =="
-cat core.files
-echo "==========================="
+#echo "== Files for core: =="
+#cat core.files
+#echo "==========================="
 
 for file in `find %{name}-assets-%{version}/ -type f`; do
     asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|%{name}-assets-%{version}|%{buildroot}%{datadir}|g"))
@@ -1733,15 +1526,15 @@ done
 
 new_files > core-assets.files
 
-echo "== Files for core assets: =="
-cat core-assets.files
-echo "==========================="
+#echo "== Files for core assets: =="
+#cat core-assets.files
+#echo "==========================="
 
 echo "================================================================="
 echo "Dividing Skin Assets and Non-Assets"
 echo "================================================================="
 
-for skin in larry classic; do
+for skin in larry; do
     # Take the files from the original directory,
     # Find the ones that are assets,
     # Move those over to the assets-specific directory.
@@ -1789,6 +1582,7 @@ for skin in larry classic; do
             -name "*.svg" -o \
             -name "*.swf" -o \
             -name "*.tif" -o \
+            -name "*.tiff" -o \
             -name "*.ttf" -o \
             -name "*.wav" -o \
             -name "*.woff"
@@ -1810,18 +1604,18 @@ for skin in larry classic; do
 
     new_files > skin-${skin}.files
 
-    echo "== Files for skin ${skin}: =="
-    cat skin-${skin}.files
-    echo "==========================="
+    #echo "== Files for skin ${skin}: =="
+    #cat skin-${skin}.files
+    #echo "==========================="
 
     %{__mkdir_p} %{buildroot}%{datadir}/public_html/assets/skins/
     cp -a %{name}-skin-${skin}-assets-%{version}/public_html/assets/skins/* %{buildroot}%{datadir}/public_html/assets/skins/.
 
     new_files > skin-${skin}-assets.files
 
-    echo "== Files for skin assets ${skin}: =="
-    cat skin-${skin}-assets.files
-    echo "==========================="
+    #echo "== Files for skin assets ${skin}: =="
+    #cat skin-${skin}-assets.files
+    #echo "==========================="
 done
 
 echo "================================================================="
@@ -1829,7 +1623,7 @@ echo "Dividing Plugins, Plugin Assets, Plugin Skins and Plugin Skin Assets and N
 echo "================================================================="
 
 for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort); do
-    for skin in larry classic; do
+    for skin in larry; do
         orig_dir="%{name}-plugin-${plugin}-skin-${skin}-%{version}"
 
         # No skin, no assets
@@ -1876,6 +1670,7 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
                 -name "*.svg" -o \
                 -name "*.swf" -o \
                 -name "*.tif" -o \
+                -name "*.tiff" -o \
                 -name "*.ttf" -o \
                 -name "*.wav" -o \
                 -name "*.woff"
@@ -1901,9 +1696,9 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
 
     new_files > plugin-${plugin}.files
 
-    echo "== Files for plugin ${plugin}: =="
-    cat plugin-${plugin}.files
-    echo "==========================="
+    #echo "== Files for plugin ${plugin}: =="
+    #cat plugin-${plugin}.files
+    #echo "==========================="
 
     # Skin-independent assets
     orig_dir="%{name}-plugin-${plugin}-%{version}"
@@ -1946,6 +1741,7 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
             -name "*.svg" -o \
             -name "*.swf" -o \
             -name "*.tif" -o \
+            -name "*.tiff" -o \
             -name "*.ttf" -o \
             -name "*.wav" -o \
             -name "*.woff"
@@ -1972,13 +1768,13 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
 
     new_files > plugin-${plugin}-assets.files
 
-    echo "== Files for plugin ${plugin}: =="
-    cat plugin-${plugin}-assets.files
-    echo "==========================="
+    #echo "== Files for plugin ${plugin}: =="
+    #cat plugin-${plugin}-assets.files
+    #echo "==========================="
 done
 
 for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort); do
-    for skin in larry classic; do
+    for skin in larry; do
         touch plugin-${plugin}-skin-${skin}.files
         touch plugin-${plugin}-skin-${skin}-assets.files
 
@@ -1996,9 +1792,9 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
             echo "%doc README.md" > plugin-${plugin}-skin-${skin}.files
         fi
 
-        echo "== Files for skin ${plugin}-${skin}: =="
-        cat plugin-${plugin}-skin-${skin}.files
-        echo "==========================="
+        #echo "== Files for skin ${plugin}-${skin}: =="
+        #cat plugin-${plugin}-skin-${skin}.files
+        #echo "==========================="
 
         # Install the assets
         for file in `find %{name}-plugin-${plugin}-skin-${skin}-assets-%{version} -type f`; do
@@ -2012,9 +1808,9 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
             echo "%doc README.md" > plugin-${plugin}-skin-${skin}-assets.files
         fi
 
-        echo "== Files for skin ${plugin}-${skin}: =="
-        cat plugin-${plugin}-skin-${skin}-assets.files
-        echo "==========================="
+        #echo "== Files for skin ${plugin}-${skin}: =="
+        #cat plugin-${plugin}-skin-${skin}-assets.files
+        #echo "==========================="
 
     done
 done
@@ -2247,7 +2043,7 @@ if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
 fi
 
 /usr/share/roundcubemail/bin/updatedb.sh \
-    --dir /usr/share/doc/roundcubemail-%{version}/SQL/ \
+    --dir /usr/share/doc/roundcubemail-core-%{version}/SQL/ \
     --package roundcube || : \
     >/dev/null 2>&1
 
@@ -2756,13 +2552,16 @@ fi
 
 %files core -f core.files
 %defattr(-,root,root,-)
+%doc %{name}-%{version}/SQL
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %if 0%{?suse_version}
 %dir %{_ap_sysconfdir}/
 %dir %{_ap_sysconfdir}/conf.d/
 %attr(0755,root,%{httpd_group}) %dir %{confdir}
 %endif
+%if 0%{?plesk} < 1
 %config(noreplace) %{_ap_sysconfdir}/conf.d/%{name}.conf
+%endif
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/config.inc.php
 %attr(0640,root,%{httpd_group}) %{confdir}/defaults.inc.php
 %attr(0640,root,%{httpd_group}) %{confdir}/mimetypes.php
@@ -2991,25 +2790,13 @@ fi
 %files plugin-acl-skin-larry -f plugin-acl-skin-larry.files
 %defattr(-,root,root,-)
 
-%files plugin-acl-skin-classic -f plugin-acl-skin-classic.files
-%defattr(-,root,root,-)
-
 %files plugin-archive-skin-larry -f plugin-archive-skin-larry.files
-%defattr(-,root,root,-)
-
-%files plugin-archive-skin-classic -f plugin-archive-skin-classic.files
 %defattr(-,root,root,-)
 
 %files plugin-enigma-skin-larry -f plugin-enigma-skin-larry.files
 %defattr(-,root,root,-)
 
-%files plugin-enigma-skin-classic -f plugin-enigma-skin-classic.files
-%defattr(-,root,root,-)
-
 %files plugin-help-skin-larry -f plugin-help-skin-larry.files
-%defattr(-,root,root,-)
-
-%files plugin-help-skin-classic -f plugin-help-skin-classic.files
 %defattr(-,root,root,-)
 
 %files plugin-hide_blockquote-skin-larry -f plugin-hide_blockquote-skin-larry.files
@@ -3018,61 +2805,31 @@ fi
 %files plugin-jqueryui-skin-larry -f plugin-jqueryui-skin-larry.files
 %defattr(-,root,root,-)
 
-%files plugin-jqueryui-skin-classic -f plugin-jqueryui-skin-classic.files
-%defattr(-,root,root,-)
-
 %files plugin-legacy_browser-skin-larry -f plugin-legacy_browser-skin-larry.files
-%defattr(-,root,root,-)
-
-%files plugin-legacy_browser-skin-classic -f plugin-legacy_browser-skin-classic.files
 %defattr(-,root,root,-)
 
 %files plugin-managesieve-skin-larry -f plugin-managesieve-skin-larry.files
 %defattr(-,root,root,-)
 
-%files plugin-managesieve-skin-classic -f plugin-managesieve-skin-classic.files
-%defattr(-,root,root,-)
-
 %files plugin-markasjunk-skin-larry -f plugin-markasjunk-skin-larry.files
-%defattr(-,root,root,-)
-
-%files plugin-markasjunk-skin-classic -f plugin-markasjunk-skin-classic.files
 %defattr(-,root,root,-)
 
 %files plugin-vcard_attachments-skin-larry -f plugin-vcard_attachments-skin-larry.files
 %defattr(-,root,root,-)
 
-%files plugin-vcard_attachments-skin-classic -f plugin-vcard_attachments-skin-classic.files
-%defattr(-,root,root,-)
-
 %files plugin-zipdownload-skin-larry -f plugin-zipdownload-skin-larry.files
-%defattr(-,root,root,-)
-
-%files plugin-zipdownload-skin-classic -f plugin-zipdownload-skin-classic.files
 %defattr(-,root,root,-)
 
 %files plugin-acl-skin-larry-assets -f plugin-acl-skin-larry-assets.files
 %defattr(-,root,root,-)
 
-%files plugin-acl-skin-classic-assets -f plugin-acl-skin-classic-assets.files
-%defattr(-,root,root,-)
-
 %files plugin-archive-skin-larry-assets -f plugin-archive-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files plugin-archive-skin-classic-assets -f plugin-archive-skin-classic-assets.files
 %defattr(-,root,root,-)
 
 %files plugin-enigma-skin-larry-assets -f plugin-enigma-skin-larry-assets.files
 %defattr(-,root,root,-)
 
-%files plugin-enigma-skin-classic-assets -f plugin-enigma-skin-classic-assets.files
-%defattr(-,root,root,-)
-
 %files plugin-help-skin-larry-assets -f plugin-help-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files plugin-help-skin-classic-assets -f plugin-help-skin-classic-assets.files
 %defattr(-,root,root,-)
 
 %files plugin-hide_blockquote-skin-larry-assets -f plugin-hide_blockquote-skin-larry-assets.files
@@ -3081,49 +2838,25 @@ fi
 %files plugin-jqueryui-skin-larry-assets -f plugin-jqueryui-skin-larry-assets.files
 %defattr(-,root,root,-)
 
-%files plugin-jqueryui-skin-classic-assets -f plugin-jqueryui-skin-classic-assets.files
-%defattr(-,root,root,-)
-
 %files plugin-legacy_browser-skin-larry-assets -f plugin-legacy_browser-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files plugin-legacy_browser-skin-classic-assets -f plugin-legacy_browser-skin-classic-assets.files
 %defattr(-,root,root,-)
 
 %files plugin-managesieve-skin-larry-assets -f plugin-managesieve-skin-larry-assets.files
 %defattr(-,root,root,-)
 
-%files plugin-managesieve-skin-classic-assets -f plugin-managesieve-skin-classic-assets.files
-%defattr(-,root,root,-)
-
 %files plugin-markasjunk-skin-larry-assets -f plugin-markasjunk-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files plugin-markasjunk-skin-classic-assets -f plugin-markasjunk-skin-classic-assets.files
 %defattr(-,root,root,-)
 
 %files plugin-vcard_attachments-skin-larry-assets -f plugin-vcard_attachments-skin-larry-assets.files
 %defattr(-,root,root,-)
 
-%files plugin-vcard_attachments-skin-classic-assets -f plugin-vcard_attachments-skin-classic-assets.files
-%defattr(-,root,root,-)
-
 %files plugin-zipdownload-skin-larry-assets -f plugin-zipdownload-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files plugin-zipdownload-skin-classic-assets -f plugin-zipdownload-skin-classic-assets.files
 %defattr(-,root,root,-)
 
 %files skin-larry -f skin-larry.files
 %defattr(-,root,root,-)
 
-%files skin-classic -f skin-classic.files
-%defattr(-,root,root,-)
-
 %files skin-larry-assets -f skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files skin-classic-assets -f skin-classic-assets.files
 %defattr(-,root,root,-)
 
 %changelog

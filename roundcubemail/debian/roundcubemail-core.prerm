@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#EXTRA#
+#DEBHELPER#
+
+set -e
+
+if [ "$1" = "remove" ]; then
+    if [ ! -f "/etc/plesk-release" ]; then
+        a2dissite roundcubemail.conf
+    fi
+fi
+
+exit 0

@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/getopt-$1.tar.gz/,dversionmangle=s/\+dfsg// \
+  https://github.com/jcomellas/getopt/tags .*/v?(\d\S*)\.tar\.gz

@@ -109,7 +109,9 @@ rm -rf \
 %install
 mkdir -p \
     %{buildroot}/%{_datadir}/%{name} \
+%if 0%{?plesk} < 1
     %{buildroot}/%{_ap_sysconfdir}/conf.d/ \
+%endif
     %{buildroot}/%{_sysconfdir}/%{name} \
     %{buildroot}/%{_var}/log/%{name}
 
@@ -162,7 +164,9 @@ rm -rf config.inc.php.dist
 ln -s ../../../../../..%{_sysconfdir}/roundcubemail/libkolab.inc.php config.inc.php
 popd
 
+%if 0%{?plesk} < 1
 cp -a docs/kolab-syncroton.conf %{buildroot}/%{_ap_sysconfdir}/conf.d/
+%endif
 
 find %{buildroot}/%{_datadir}/%{name}/ -type f -name "*.orig" -delete
 
@@ -218,7 +222,9 @@ exit 0
 %dir %{_ap_sysconfdir}/
 %dir %{_ap_sysconfdir}/conf.d/
 %endif
+%if 0%{?plesk} < 1
 %config(noreplace) %{_ap_sysconfdir}/conf.d/kolab-syncroton.conf
+%endif
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_datadir}/%{name}
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}

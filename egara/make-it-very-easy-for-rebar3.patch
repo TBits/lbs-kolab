@@ -1,0 +1,60 @@
+diff -ur egara-0.2.orig/apps/egara/src/egara.app.src egara-0.2/apps/egara/src/egara.app.src
+--- egara-0.2.orig/apps/egara/src/egara.app.src	2016-11-11 15:52:50.000000000 +0100
++++ egara-0.2/apps/egara/src/egara.app.src	2016-11-21 14:49:55.300535578 +0100
+@@ -2,24 +2,14 @@
+ {application, egara,
+  [
+   {description, "Kolab event and groupware data archival, e-discovery and data loss prevention system."},
+-  {vsn, "0.1"},
++  {vsn, "0.2"},
+   {registered, []},
+   {applications, [
+                   kernel,
+                   stdlib,
+                   crypto,
+                   compiler,
+-                  syntax_tools,
+-                  goldrush,
+-                  lager,
+-                  jsx,
+-                  procket,
+-                  inert,
+-                  mnesia,
+-                  poolboy,
+-                  riakc,
+-                  syn,
+-                  eimap
++                  syntax_tools
+                  ]},
+   {mod, { egara, []}},
+   {env, [
+Only in egara-0.2: _build
+diff -ur egara-0.2.orig/rebar.config egara-0.2/rebar.config
+--- egara-0.2.orig/rebar.config	2016-11-11 15:52:50.000000000 +0100
++++ egara-0.2/rebar.config	2016-11-21 14:45:37.371742363 +0100
+@@ -9,23 +9,9 @@
+             ]
+ }.
+ 
+-{ deps, [
+-    lager,
+-    jsx,
+-    { lager_syslog, "3.*", { git, "git://github.com/basho/lager_syslog.git", { tag, "3.0.1" } } },
+-    { inert, ".*", { git, "https://github.com/msantos/inert.git", { branch, "master" } } }, %{ tag, "0.6.2" } } },
+-    { procket, ".*", { git, "https://github.com/msantos/procket.git", { branch, "master" } } }, %{ tag, "0.7.0" } } },
+-    { riakc, ".*", { git, "https://github.com/basho/riak-erlang-client", { tag, "2.5.0" } } },
+-    poolboy,
+-    {'iso8601', ".*", { git, "https://github.com/erlsci/iso8601.git", { tag, "1.2.1" } } },
+-    { syn, "1.5.0" },
+-    { eimap, ".*", { git, "https://git.kolab.org/diffusion/EI/eimap.git", { tag, "0.4.0" } } }
+-   ]
+-}.
+-
+ { sub_dirs, [ "apps/egara" ] }.
+ { cover_enabled, true }.
+-{ relx, [ { release, { egara, "0.1" }, [egara]},
++{ relx, [ { release, { egara, "0.2" }, [egara]},
+           { dev_mode, false },
+           { include_erts, false },
+           { extended_start_script, true },
+Only in egara-0.2: rebar.lock

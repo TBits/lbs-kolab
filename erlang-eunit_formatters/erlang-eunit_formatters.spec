@@ -5,25 +5,24 @@
 %global realname eunit_formatters
 %global upstream seancribbs
 %global debug_package %{nil}
-%global git_tag 96b6ced
+%global git_tag dd1c7fd
 %global patchnumber 0
 
-
-Name:		erlang-%{realname}
-Version:	0.1.2
-Release:	1%{?dist}
-Summary:	Because eunit's output sucks
-Group:		Development/Languages
-License:	ASL 2.0
-URL:		https://github.com/basho/riak_dt
+Name:		    erlang-%{realname}
+Version:	    0.3.1
+Release:	    1%{?dist}
+Summary:	    Because eunit's output sucks
+Group:		    Development/Languages
+License:	    ASL 2.0
+URL:		    https://github.com/basho/riak_dt
 # wget --content-disposition https://github.com/seancribbs/eunit_formatters/tarball/0.1.2
-Source0:	%{upstream}-%{realname}-%{version}-%{patchnumber}-g%{git_tag}.tar.gz
+Source0:	    %{upstream}-%{realname}-v%{version}-%{patchnumber}-g%{git_tag}.tar.gz
 
 # Compile-time requirements
 BuildRequires:	erlang-rebar
 
-Requires:	erlang-kernel%{?_isa}
-Requires:	erlang-stdlib%{?_isa} >= R13B
+Requires:	    erlang-kernel%{?_isa}
+Requires:	    erlang-stdlib%{?_isa} >= R13B
 
 %description
 Because eunit's output sucks. Let's make it better.
@@ -31,7 +30,7 @@ Because eunit's output sucks. Let's make it better.
 
 %prep
 %setup -q -n %{upstream}-%{realname}-%{git_tag}
-sed -i -e "s,git,\"%{version}\",g" src/%{realname}.app.src
+sed -i -e "s, git,\"%{version}\",g" src/%{realname}.app.src
 
 %build
 rebar compile -v
@@ -56,5 +55,8 @@ rebar eunit skip_deps=true -v || :
 
 
 %changelog
+* Sun Nov  6 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.1-1
+- Update to 0.3.1
+
 * Thu Jul  9 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.1.2-1
 - Initial package

@@ -1,0 +1,62 @@
+#!/bin/sh
+
+#EXTRA#
+#DEBHELPER#
+
+set -e
+
+fixperms() {
+    group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "adm")
+    user=$(getent passwd roundcube_sysuser >/dev/null 2>&1 && echo "roundcube_sysuser" || echo "www-data")
+    chown -R ${user}:${group} \
+        /var/lib/roundcubemail \
+        /var/log/roundcubemail
+
+    chmod 750 \
+        /var/lib/roundcubemail \
+        /var/log/roundcubemail
+
+	chown -R root:${group} /etc/roundcubemail
+
+	find /etc/roundcubemail -type d -exec chmod u+rwx,g+rx,g-w,o-rwx {} \;
+	find /etc/roundcubemail -type f -exec chmod u+rw,u-x,g+r,g-wx,o-rwx {} \;
+}
+
+reload_apache()
+{
+    if apache2ctl configtest 2>/dev/null; then
+        invoke-rc.d apache2 $1 || true
+    else
+        echo "Your apache2 configuration is broken, so we're not restarting it for you."
+    fi
+}
+
+update_database() {
+    /usr/share/roundcubemail/bin/updatedb.sh \
+        --dir /usr/share/doc/roundcubemail/SQL/ \
+        --package roundcube \
+        >/dev/null 2>&1 || :
+}
+
+case "$1" in
+    configure)
+        fixperms
+        update_database
+        a2enmod rewrite
+
+        sed -i "s/rcmail-\!24ByteDESkey\*Str/`head -c 200 /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c24`/" \
+            /etc/roundcubemail/defaults.inc.php || : &> /dev/null
+
+        if [ -f "/etc/plesk-release" ]; then
+            exit 0
+        fi
+
+        if [ -e "/etc/apache2/sites-available/roundcubemail.conf" -a ! -e "/etc/apache2/sites-enabled/roundcubemail.conf" ]; then
+            a2ensite roundcubemail.conf
+        fi
+        reload_apache reload
+    ;;
+esac
+
+exit 0
+
