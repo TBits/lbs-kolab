@@ -1,3 +1,9 @@
+kolab-freebusy (1.1~dev20150706-0~kolab3) unstable; urgency=low
+
+  * roundcubemail package has been renamed to roundcubemail-core
+
+ -- Timotheus Pokorra (TBits.net) <tp@tbits.net>  Thu, 23 Feb 2017 12:56:00 +0100
+
 kolab-freebusy (1.1~dev20150706-0~kolab2) unstable; urgency=low
 
   * Add dependency on php-monolog

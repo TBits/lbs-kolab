@@ -13,7 +13,7 @@ Architecture: all
 Depends: ${misc:Depends},
         php-monolog,
         php-net-ldap3,
-        roundcubemail,
+        roundcubemail-core,
         roundcubemail-plugins-kolab
 Description: Free/Busy for Kolab Groupware
  The Kolab Groupware Free/Busy web application offers simple
