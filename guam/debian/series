@@ -1,1 +1,1 @@
-guam-0.8.2-relax-dependencies.patch -p1
+make-it-very-easy-on-rebar3.patch -p1

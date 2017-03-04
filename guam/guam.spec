@@ -5,6 +5,7 @@
 %global debug_package %{nil}
 
 %global realname kolab_guam
+%global binname guam
 
 %global guam_user guam
 %global guam_group guam
@@ -21,7 +22,7 @@
 
 Name:               guam
 Version:            0.9.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -143,7 +144,7 @@ install -p -m 755 contrib/%{name}.sysvinit \
 %endif
 
 pushd %{buildroot}%{_erldir}/bin/
-ln -s ../lib/%{realname}-%{version}/bin/%{realname} %{realname}
+ln -s ../lib/%{realname}-%{version}/bin/%{binname} %{realname}
 popd
 
 cp -a _build/default/rel/%{name}/bin %{buildroot}%{_erllibdir}/%{name}-%{version}/
@@ -161,7 +162,7 @@ ln -s ../../lib lib
 popd
 
 pushd %{buildroot}%{_sbindir}
-ln -sfv ../..%{_erllibdir}/%{name}-%{version}/bin/%{realname} %{name}
+ln -sfv ../..%{_erllibdir}/%{name}-%{version}/bin/%{binname} %{name}
 popd
 
 %check
@@ -208,6 +209,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Fri Mar  03 2017 Timotheus Pokorra <tp@tbits.net> - 0.9.0-2
+- fix symbolic links to guam binary, it is called guam not kolab_guam
+
 * Tue Jul  12 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.8.3-1
 - Release of version 0.8.3
 

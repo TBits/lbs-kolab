@@ -46,6 +46,7 @@ Depends:    apache2 | httpd,
             roundcubemail-plugin-filesystem-attachments,
             roundcubemail-plugin-jqueryui,
             roundcubemail-plugin-zipdownload,
+            roundcubemail-plugin-managesieve,
             ucf,
             ${misc:Depends}
 Description: Core framework package for Roundcube

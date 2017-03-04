@@ -7,7 +7,8 @@ set -e
 
 if [ "$1" = "remove" ]; then
     if [ ! -f "/etc/plesk-release" ]; then
-        a2dissite roundcubemail.conf
+        a2dissite roundcubemail.conf > /dev/null || true
+        reload_apache restart
     fi
 fi
 
