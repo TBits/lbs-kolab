@@ -47,7 +47,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.2.3
+Version:        1.2.4
 
 Release:        1%{?dist}
 
@@ -1074,8 +1074,6 @@ done
 cp -vf %{SOURCE100} config/config.inc.php.sample
 cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 %endif
-
-cp -a program/resources/blank.tif program/resources/blank.tiff
 
 %patch201 -p1
 
@@ -2860,6 +2858,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Mar 15 2017 Timotheus Pokorra <tp@tbits.net> - 1.2.4-1
+- Check in upstream 1.2.4 release
+
 * Wed Nov 30 2016 Timotheus Pokorra <tp@tbits.net> - 1.2.3-1
 - Check in upstream 1.2.3 release
 

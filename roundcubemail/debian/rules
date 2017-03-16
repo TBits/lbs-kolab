@@ -14,8 +14,6 @@ override_dh_auto_build:
 
 	rm -rvf tests/
 
-	cp -av program/resources/blank.tif program/resources/blank.tiff
-
 	# Compress the CSS
 	for file in `find $(CURDIR) -type f -name "*.css"`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
@@ -91,6 +89,11 @@ override_dh_auto_build:
 		fi ; \
 		echo "usr/share/roundcubemail/plugins/$${plugin}" >> debian/roundcubemail-plugin-$${pkgname}.dirs ; \
 		echo "plugins/$${plugin} usr/share/roundcubemail/plugins/" >> debian/roundcubemail-plugin-$${pkgname}.install ; \
+		if [ -d "$(CURDIR)/plugins/$${plugin}/lib/Roundcube" ]; then \
+			mv $(CURDIR)/plugins/$${plugin}/lib $(CURDIR) ; \
+			echo "usr/share/roundcubemail/plugins/$${plugin}/lib/Roundcube" >> debian/roundcubemail-plugin-$${pkgname}.dirs ; \
+			echo "plugins/$${plugin}/lib/Roundcube usr/share/roundcubemail/plugins/$${plugin}/lib/ >> debian/roundcubemail-plugin-$${pkgname}.install ; \
+		fi ; \
 		echo "" >> debian/control ; \
 		echo "Package: roundcubemail-plugin-$${pkgname}" >> debian/control ; \
 		echo "Architecture: all" >> debian/control ; \
