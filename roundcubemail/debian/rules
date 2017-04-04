@@ -92,7 +92,7 @@ override_dh_auto_build:
 		if [ -d "$(CURDIR)/plugins/$${plugin}/lib/Roundcube" ]; then \
 			mv $(CURDIR)/plugins/$${plugin}/lib $(CURDIR) ; \
 			echo "usr/share/roundcubemail/plugins/$${plugin}/lib/Roundcube" >> debian/roundcubemail-plugin-$${pkgname}.dirs ; \
-			echo "plugins/$${plugin}/lib/Roundcube usr/share/roundcubemail/plugins/$${plugin}/lib/ >> debian/roundcubemail-plugin-$${pkgname}.install ; \
+			echo "plugins/$${plugin}/lib/Roundcube usr/share/roundcubemail/plugins/$${plugin}/lib/" >> debian/roundcubemail-plugin-$${pkgname}.install ; \
 		fi ; \
 		echo "" >> debian/control ; \
 		echo "Package: roundcubemail-plugin-$${pkgname}" >> debian/control ; \
