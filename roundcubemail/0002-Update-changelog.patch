@@ -1,0 +1,33 @@
+From d5be34ad17faeb520d958a868784c49d58c015a2 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Fri, 17 Mar 2017 10:50:33 +0100
+Subject: [PATCH 2/6] Update changelog
+
+---
+ CHANGELOG | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index 7ce0291..e345387 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -1,6 +1,8 @@
+ CHANGELOG Roundcube Webmail
+ ===========================
+ 
++- Fix so settings/upload.inc could not be used by plugins (#5694)
++
+ RELEASE 1.2.4
+ -------------
+ - Managesieve: Fix handling of scripts with nested rules (#5540)
+@@ -25,7 +27,6 @@ RELEASE 1.2.4
+ - Add rewrite rule to disable access to /vendor/bin folder in .htaccess (#5630)
+ - Fix bug where it was too easy accidentally move a folder when using the subscription checkbox (#5655)
+ - Fix XSS issue in handling of a style tag inside of an svg element
+-- Fix so settings/upload.inc could not be used by plugins (#5694)
+ 
+ RELEASE 1.2.3
+ -------------
+-- 
+2.9.3
+

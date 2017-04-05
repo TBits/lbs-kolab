@@ -1,3 +1,9 @@
+nodejs (0.12.8-0~kolab2) wheezy; urgency=medium
+
+  * Set correct search path for node modules
+
+ -- Daniel Hoffend <dh@dotlan.net>  Mon, 15 Feb 2016 00:10:11 +0100
+
 nodejs (0.12.8-0~kolab1) wheezy; urgency=medium
 
   * Fix release in debian changelog.

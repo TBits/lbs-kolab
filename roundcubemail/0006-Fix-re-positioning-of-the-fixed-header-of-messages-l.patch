@@ -1,0 +1,28 @@
+From cc3b79bf664c06403c3c8a3315bb7410033254c2 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Sun, 2 Apr 2017 12:07:43 +0200
+Subject: [PATCH 6/6] Fix re-positioning of the fixed header of messages list
+ in Chrome when using minimal mode toggle and About dialog (#5711)
+
+---
+ skins/larry/ui.js | 4 ++++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/skins/larry/ui.js b/skins/larry/ui.js
+index 0bd8304..c833391 100644
+--- a/skins/larry/ui.js
++++ b/skins/larry/ui.js
+@@ -131,6 +131,10 @@ function rcube_mail_ui()
+       var ismin = $(document.body).toggleClass('minimal').hasClass('minimal');
+       save_pref('minimalmode', ismin?1:0);
+       $(window).resize();
++
++      // This hack fixes re-positioning of the fixed header of messages list (#5711)
++      if (bw.chrome)
++        $('#mailviewsplitterv').trigger('mousedown').trigger('mouseup');
+     });
+ 
+     /***  mail task  ***/
+-- 
+2.9.3
+

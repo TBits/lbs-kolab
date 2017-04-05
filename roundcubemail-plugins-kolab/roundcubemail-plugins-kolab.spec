@@ -29,8 +29,8 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.3
-Release:        0.20170125.git%{?dist}
+Version:        3.3.0
+Release:        1%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -38,8 +38,12 @@ License:        AGPLv3+ and GPLv3+
 URL:            http://www.kolab.org
 
 # From 562ed98bd2e265c0d8a12bd2092b72d85d3e3543
-Source0:        roundcubemail-plugins-kolab-3.3.tar.gz
+Source0:        https://mirror.kolabenterprise.com/pub/releases/roundcubemail-plugins-kolab-%{version}.tar.gz
 Source1:        comm.py
+
+Source100:      plesk.calendar.inc.php
+Source101:      plesk.kolab_folders.inc.php
+Source102:      plesk.libkolab.inc.php
 
 Patch0001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
@@ -60,7 +64,9 @@ BuildRequires:  python
 Requires:       php-kolabformat >= 1.0
 Requires:       php-kolab >= 0.5
 Requires:       php-pear(HTTP_Request2)
+%if 0%{?plesk} < 1
 Requires:       php-pear(Net_LDAP3)
+%endif
 Requires:       php-pear(Mail_Mime) >= 1.8.5
 Requires:       roundcubemail >= %{roundcube_version}
 Requires:       roundcubemail(plugin-calendar) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -257,6 +263,7 @@ Plugin ldap_authentication
 %package -n roundcubemail-plugin-libcalendaring
 Summary:        Plugin libcalendaring
 Group:          Applications/Internet
+Requires:       php-sabre-vobject
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-libcalendaring-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(plugin-libcalendaring-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -835,6 +842,13 @@ Plugin tasklist / Skin larry (Assets Package)
 %setup -q  -c "%{name}-%{version}"
 
 pushd %{name}-%{version}
+
+%if 0%{?plesk}
+# Provide defaults for Plesk
+cp -af %{SOURCE100} plugins/calendar/config.inc.php.dist
+cp -af %{SOURCE101} plugins/kolab_folders/config.inc.php.dist
+cp -af %{SOURCE102} plugins/libkolab/config.inc.php.dist
+%endif
 
 %patch0001 -p1
 
@@ -1981,6 +1995,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Apr  4 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.0-1
+- Release of version 3.3.0
+
 * Fri Nov 11 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3-0.20161115.git
 - Check in 3.3 snapshot
 
