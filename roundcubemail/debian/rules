@@ -12,6 +12,7 @@ override_dh_auto_build:
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_namespaces.php
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_classmap.php
 
+	rm -rvf installer/
 	rm -rvf tests/
 
 	# Compress the CSS
@@ -24,7 +25,7 @@ override_dh_auto_build:
 		mkdir -p $${asset_loc} ; \
 		echo "$${file} -> $${asset_loc}/$$(basename $${file})" ; \
 		cat $${file} | cssmin > $${asset_loc}/$$(basename $${file}) || \
-			cp -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
+			mv -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
 	done
 
 	# Compress the JS, but not the already minified
@@ -37,7 +38,7 @@ override_dh_auto_build:
 		mkdir -p $${asset_loc} ; \
 		echo "$${file} -> $${asset_loc}/$$(basename $${file})" ; \
 		uglifyjs $${file} > $${asset_loc}/$$(basename $${file}) || \
-			cp -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
+			mv -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
 	done
 
 	# The already minied JS can just be copied over to the assets location
@@ -48,7 +49,7 @@ override_dh_auto_build:
 				-e "s|$(CURDIR)/skins/|$(CURDIR)/public_html/assets/skins/|g") ; \
 			) ; \
 		mkdir -p $${asset_loc} ; \
-		cp -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
+		mv -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
 	done
 
 	# Other assets

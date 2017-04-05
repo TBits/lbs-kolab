@@ -66,6 +66,13 @@ Source21:       roundcubemail.logrotate
 Source100:      plesk.config.inc.php
 Source101:      plesk.password.inc.php
 
+Patch0001:      0001-Fix-so-settings-upload.inc-could-not-be-used-by-plug.patch
+Patch0002:      0002-Update-changelog.patch
+Patch0003:      0003-Remove-redundant-spaces-from-generated-contact-names.patch
+Patch0004:      0004-Fix-regression-in-LDAP-fuzzy-search-where-it-always-.patch
+Patch0005:      0005-Fix-bug-where-namespace-prefix-could-not-be-truncate.patch
+Patch0006:      0006-Fix-re-positioning-of-the-fixed-header-of-messages-l.patch
+
 Patch201:       default-configuration.patch
 
 BuildArch:      noarch
@@ -1074,6 +1081,13 @@ done
 cp -vf %{SOURCE100} config/config.inc.php.sample
 cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 %endif
+
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
+%patch0006 -p1
 
 %patch201 -p1
 

@@ -1,0 +1,60 @@
+From 6a178b3a7f0331feab65727c5e2ddefbd08367ee Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Mon, 20 Mar 2017 09:15:50 +0100
+Subject: [PATCH 3/6] Remove redundant spaces from generated contact names
+
+---
+ config/defaults.inc.php                     | 10 +++++-----
+ program/lib/Roundcube/rcube_addressbook.php |  8 ++++++--
+ 2 files changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/config/defaults.inc.php b/config/defaults.inc.php
+index 6bf250b..2a2e550 100644
+--- a/config/defaults.inc.php
++++ b/config/defaults.inc.php
+@@ -1032,11 +1032,11 @@ $config['addressbook_pagesize'] = 50;
+ // sort contacts by this col (preferably either one of name, firstname, surname)
+ $config['addressbook_sort_col'] = 'surname';
+ 
+-// the way how contact names are displayed in the list
+-// 0: display name
+-// 1: (prefix) firstname middlename surname (suffix)
+-// 2: (prefix) surname firstname middlename (suffix)
+-// 3: (prefix) surname, firstname middlename (suffix)
++// The way how contact names are displayed in the list.
++// 0: prefix firstname middlename surname suffix (only if display name is not set)
++// 1: firstname middlename surname
++// 2: surname firstname middlename
++// 3: surname, firstname middlename
+ $config['addressbook_name_listing'] = 0;
+ 
+ // use this timezone to display date/time
+diff --git a/program/lib/Roundcube/rcube_addressbook.php b/program/lib/Roundcube/rcube_addressbook.php
+index 3943fcf..1db4c30 100644
+--- a/program/lib/Roundcube/rcube_addressbook.php
++++ b/program/lib/Roundcube/rcube_addressbook.php
+@@ -497,8 +497,11 @@ abstract class rcube_addressbook
+         $contact = rcube::get_instance()->plugins->exec_hook('contact_displayname', $contact);
+         $fn = $contact['name'];
+ 
+-        if (!$fn)  // default display name composition according to vcard standard
+-            $fn = trim(join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']))));
++        // default display name composition according to vcard standard
++        if (!$fn) {
++            $fn = join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
++            $fn = trim(preg_replace('/\s+/', ' ', $fn));
++        }
+ 
+         // use email address part for name
+         $email = self::get_col_values('email', $contact, true);
+@@ -547,6 +550,7 @@ abstract class rcube_addressbook
+         }
+ 
+         $fn = trim($fn, ', ');
++        $fn = preg_replace('/\s+/', ' ', $fn);
+ 
+         // fallbacks...
+         if ($fn === '') {
+-- 
+2.9.3
+

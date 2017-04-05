@@ -29,8 +29,8 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.3
-Release:        0.20170125.git%{?dist}
+Version:        3.3.0
+Release:        1%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -38,7 +38,7 @@ License:        AGPLv3+ and GPLv3+
 URL:            http://www.kolab.org
 
 # From 562ed98bd2e265c0d8a12bd2092b72d85d3e3543
-Source0:        roundcubemail-plugins-kolab-3.3.tar.gz
+Source0:        https://mirror.kolabenterprise.com/pub/releases/roundcubemail-plugins-kolab-%{version}.tar.gz
 Source1:        comm.py
 
 Source100:      plesk.calendar.inc.php
@@ -1995,6 +1995,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Apr  4 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.0-1
+- Release of version 3.3.0
+
 * Fri Nov 11 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3-0.20161115.git
 - Check in 3.3 snapshot
 
