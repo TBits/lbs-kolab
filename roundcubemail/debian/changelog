@@ -1,3 +1,9 @@
+roundcubemail (1.2.4-0~kolab2) unstable; urgency=low
+
+  * Fix packaging semantics
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  5 Apr 2017 11:11:11 +0200
+
 roundcubemail (1.2.4-0~kolab1.16) unstable; urgency=low
 
   * Check in upstream 1.2.4 release
