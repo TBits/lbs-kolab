@@ -1,11 +1,13 @@
 #!/usr/bin/make -f
 
+DH_VERBOSE=1
+
 %:
 	dh $@
 
 override_dh_auto_build:
-	mkdir -p $HOME/.composer
-	echo '{}' > $HOME/.composer/composer.json
+	mkdir -p $$HOME/.composer
+	echo '{}' > $$HOME/.composer/composer.json
 	patch -p1 < debian/patches/add-composer-autoloader.diff || :
 	composer.sh -vvv dumpautoload --optimize
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_psr4.php
@@ -90,8 +92,7 @@ override_dh_auto_build:
 		echo "usr/share/roundcubemail/plugins/$${plugin}" >> debian/roundcubemail-plugin-$${pkgname}.dirs ; \
 		echo "plugins/$${plugin} usr/share/roundcubemail/plugins/" >> debian/roundcubemail-plugin-$${pkgname}.install ; \
 		if [ -d "$(CURDIR)/plugins/$${plugin}/lib/Roundcube" ]; then \
-			mv $(CURDIR)/plugins/$${plugin}/lib $(CURDIR) ; \
-			echo "usr/share/roundcubemail/plugins/$${plugin}/lib/Roundcube" >> debian/roundcubemail-plugin-$${pkgname}.dirs ; \
+			echo "usr/share/roundcubemail/plugins/$${plugin}/lib" >> debian/roundcubemail-plugin-$${pkgname}.dirs ; \
 			echo "plugins/$${plugin}/lib/Roundcube usr/share/roundcubemail/plugins/$${plugin}/lib/" >> debian/roundcubemail-plugin-$${pkgname}.install ; \
 		fi ; \
 		echo "" >> debian/control ; \
@@ -114,9 +115,19 @@ override_dh_auto_build:
 	dh_auto_build
 
 override_dh_install:
-	# Install apache2 configuration
-	mkdir -p $(CURDIR)/debian/roundcubemail/etc/apache2/sites-available
-	install -pm 644 $(CURDIR)/debian/conf/roundcubemail.conf $(CURDIR)/debian/roundcubemail/etc/apache2/sites-available/roundcubemail.conf
+	if [ ! -f "/etc/plesk-release" ]; then \
+		mkdir -p $(CURDIR)/debian/roundcubemail/etc/apache2/sites-available ; \
+		install -pm 644 $(CURDIR)/debian/conf/roundcubemail.conf $(CURDIR)/debian/roundcubemail/etc/apache2/sites-available/roundcubemail.conf ; \
+	fi
+
+	for ifile in $$(ls -1 debian/*.install); do \
+		echo "$${ifile}:" ; \
+		cat $${ifile} ; \
+	done
+
+	pwd
+
+	dh_install
 
 override_dh_compress:
 	dh_compress -Xsql
