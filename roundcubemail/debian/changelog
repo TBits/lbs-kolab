@@ -1,4 +1,4 @@
-roundcubemail (1.2.4-0~kolab2) unstable; urgency=low
+roundcubemail (1.2.4-0~kolab2.3) unstable; urgency=low
 
   * Fix packaging semantics
 

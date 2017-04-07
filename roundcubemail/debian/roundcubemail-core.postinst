@@ -16,6 +16,7 @@ fixperms() {
         /var/lib/roundcubemail \
         /var/log/roundcubemail
 
+    group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "www-data")
 	chown -R root:${group} /etc/roundcubemail
 
 	find /etc/roundcubemail -type d -exec chmod u+rwx,g+rx,g-w,o-rwx {} \;
