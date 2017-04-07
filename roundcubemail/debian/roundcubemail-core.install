@@ -2,6 +2,7 @@ bin usr/share/roundcubemail
 config/config.inc.php etc/roundcubemail
 config/defaults.inc.php etc/roundcubemail
 config/mimetypes.php etc/roundcubemail
+index.php usr/share/roundcubemail
 program usr/share/roundcubemail
 public_html/assets/program usr/share/roundcubemail/public_html/assets
 public_html/assets/skins usr/share/roundcubemail/public_html/assets

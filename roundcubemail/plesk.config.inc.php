@@ -12,9 +12,9 @@
     $domain = implode('.', $components);
     $config['session_domain'] = $domain;
 */
-    $config['support_url'] = "https://kolabenterprise.com/support";
+    $config['support_url'] = "https://www.plesk.com/support/";
 
-    $config['product_name'] = "Kolab 16";
+    $config['product_name'] = "Plesk Premium Mail, powered by Kolab";
 
     $config['use_secure_urls'] = true;
 
