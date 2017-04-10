@@ -43,8 +43,13 @@ Depends:    apache2 | httpd,
             php5-ldap | php-ldap,
             php5-mcrypt | php-mcrypt,
             php5-pspell | php-pspell,
+            roundcubemail-plugin-acl,
+            roundcubemail-plugin-archive,
             roundcubemail-plugin-filesystem-attachments,
             roundcubemail-plugin-jqueryui,
+            roundcubemail-plugin-newmail-notifier,
+            roundcubemail-plugin-password,
+            roundcubemail-plugin-redundant-attachments,
             roundcubemail-plugin-zipdownload,
             roundcubemail-plugin-managesieve,
             ucf,
@@ -59,4 +64,3 @@ Description: Core framework package for Roundcube
  .
  This package provides the core code for roundcube. You should install
  it along with one of the roundcube database metapackages.
-
