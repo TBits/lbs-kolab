@@ -84,14 +84,6 @@ override_dh_auto_build:
 		fi ; \
 		echo "usr/share/roundcubemail/plugins/$${plugin}" >> debian/roundcubemail-plugin-$${pkgname}.dirs ; \
 		echo "plugins/$${plugin} usr/share/roundcubemail/plugins/" >> debian/roundcubemail-plugin-$${pkgname}.install ; \
-		echo "" >> debian/control ; \
-		echo "Package: roundcubemail-plugin-$${pkgname}" >> debian/control ; \
-		echo "Architecture: all" >> debian/control ; \
-		echo "Depends: roundcubemail-core" >> debian/control ; \
-		echo "Description: $${plugin}} plugin for Roundcube" >> debian/control ; \
-		echo "" >> debian/control ; \
-		sed -i -e "/Files:/ i\
- roundcubemail-plugin-$${plugin} deb web extra" debian/control ; \
 	done
 
 	if [ -f "/etc/plesk-release" ]; then \
