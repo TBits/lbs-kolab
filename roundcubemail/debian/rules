@@ -17,7 +17,7 @@ override_dh_auto_build:
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_psr4.php
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_namespaces.php
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_classmap.php
-	sed -i -e "s|__DIR__ . '/../..' . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_static.php
+	sed -i -e "s|__DIR__ . '/../..' . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_static.php || true
 
 	rm -rvf tests/
 
@@ -104,7 +104,7 @@ override_dh_auto_build:
 		echo "Package: roundcubemail-plugin-$${pkgname}" >> debian/control ; \
 		echo "Architecture: all" >> debian/control ; \
 		echo "Depends: roundcubemail-core" >> debian/control ; \
-		echo "Description: $${plugin}} plugin for Roundcube" >> debian/control ; \
+		echo "Description: $${plugin} plugin for Roundcube" >> debian/control ; \
 		echo "" >> debian/control ; \
 		sed -i -e "/Files:/ i\
  roundcubemail-plugin-$${plugin} deb web extra" debian/control ; \
