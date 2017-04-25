@@ -166,3 +166,5 @@
     $config['fileapi_plugins'] = Array('kolab_folders');
     $config['fileapi_manticore'] = false;
     $config['fileapi_wopi_office'] = false;
+
+    @include('/etc/roundcubemail/licensing.inc.php');
