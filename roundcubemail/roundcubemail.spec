@@ -49,7 +49,7 @@
 Name:           roundcubemail
 Version:        1.2.4
 
-Release:        2%{?dist}
+Release:        4%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -2872,6 +2872,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Apr 25 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.4-4
+- Correct config.inc.php
+
 * Mon Apr 24 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.4-2
 - Include licensing.inc.php for Plesk installations
 

@@ -16,6 +16,15 @@
 
     $config['product_name'] = "Plesk Premium Mail, powered by Kolab";
 
+    $config['default_host'] = "localhost";
+    $config['default_port'] = 143;
+
+    $config['smtp_server'] = "localhost";
+    $config['smtp_port'] = 25;
+    $config['smtp_user'] = '%u';
+    $config['smtp_pass'] = '%p';
+    $config['smtp_helo_host'] = $_SERVER["HTTP_HOST"];
+
     $config['use_secure_urls'] = true;
 
     $config['assets_path'] = "/assets/";
