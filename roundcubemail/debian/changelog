@@ -1,3 +1,9 @@
+roundcubemail (1.2.4-0~kolab4) unstable; urgency=low
+
+  * Correct config.inc.php
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 25 Apr 2017 11:11:11 +0200
+
 roundcubemail (1.2.4-0~kolab3) unstable; urgency=low
 
   * Include licensing.inc.php for Plesk installations
