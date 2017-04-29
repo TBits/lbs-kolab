@@ -1,3 +1,9 @@
+roundcubemail (1.2.5-0~kolab1) unstable; urgency=low
+
+  * Check in upstream 1.2.5 release
+
+ -- Timotheus Pokorra <tp@tbits.net>  Fri, 28 Apr 2017 08:42:00 +0200
+
 roundcubemail (1.2.4-0~kolab4) unstable; urgency=low
 
   * Correct config.inc.php
