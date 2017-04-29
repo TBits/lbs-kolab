@@ -2,7 +2,7 @@ Format: 1.0
 Source: roundcubemail
 Binary: roundcubemail
 Architecture: all
-Version: 1:1.2.4-0~kolab4
+Version: 1:1.2.5-0~kolab2
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.roundcube.net/
@@ -14,5 +14,5 @@ Package-List:
  roundcubemail deb web extra
  roundcubemail-core deb web extra
 Files:
- 00000000000000000000000000000000 0 roundcubemail-1.2.4.tar.gz
+ 00000000000000000000000000000000 0 roundcubemail-1.2.5.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

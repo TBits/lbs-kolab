@@ -1,7 +1,1 @@
 default-configuration.patch -p1
-0001-Fix-so-settings-upload.inc-could-not-be-used-by-plug.patch -p1
-0002-Update-changelog.patch -p1
-0003-Remove-redundant-spaces-from-generated-contact-names.patch -p1
-0004-Fix-regression-in-LDAP-fuzzy-search-where-it-always-.patch -p1
-0005-Fix-bug-where-namespace-prefix-could-not-be-truncate.patch -p1
-0006-Fix-re-positioning-of-the-fixed-header-of-messages-l.patch -p1
