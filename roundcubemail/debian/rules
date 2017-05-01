@@ -121,8 +121,8 @@ override_dh_auto_build:
 
 override_dh_install:
 	if [ ! -f "/etc/plesk-release" ]; then \
-		mkdir -p $(CURDIR)/debian/roundcubemail/etc/apache2/sites-available ; \
-		install -pm 644 $(CURDIR)/debian/conf/roundcubemail.conf $(CURDIR)/debian/roundcubemail/etc/apache2/sites-available/roundcubemail.conf ; \
+		mkdir -p $(CURDIR)/debian/roundcubemail-core/etc/apache2/sites-available ; \
+		install -pm 644 $(CURDIR)/debian/conf/roundcubemail.conf $(CURDIR)/debian/roundcubemail-core/etc/apache2/sites-available/roundcubemail.conf ; \
 	fi
 
 	dh_install
