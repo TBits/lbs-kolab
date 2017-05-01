@@ -1,14 +1,20 @@
+roundcubemail (1.2.5-0~kolab3) unstable; urgency=low
+
+  * Fix incomplete move of roundcubemail.conf
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 30 Apr 2017 09:25:24 +0200
+
 roundcubemail (1.2.5-0~kolab2) unstable; urgency=low
 
   * roundcubemail.conf must be in roundcubemail-core because a2ensite is called in postinst
 
- -- Timotheus Pokorra <tp@tbits.net>  Wed, 28 Apr 2017 08:43:00 +0200
+ -- Timotheus Pokorra <tp@tbits.net>  Fri, 28 Apr 2017 08:43:00 +0200
 
 roundcubemail (1.2.5-0~kolab1) unstable; urgency=low
 
   * Check in upstream 1.2.5 release
 
- -- Timotheus Pokorra <tp@tbits.net>  Wed, 28 Apr 2017 08:42:00 +0200
+ -- Timotheus Pokorra <tp@tbits.net>  Fri, 28 Apr 2017 08:42:00 +0200
 
 roundcubemail (1.2.4-0~kolab4) unstable; urgency=low
 
@@ -26,7 +32,7 @@ roundcubemail (1.2.4-0~kolab2.4) unstable; urgency=low
 
   * Fix dependencies and package contents
 
- -- Christoph Erhardt <kola@sicherha.de>  Sat, 08 Apr 2017 08:52:58 +0200
+ -- Christoph Erhardt <kolab@sicherha.de>  Sat, 08 Apr 2017 08:52:58 +0200
 
 roundcubemail (1.2.4-0~kolab2.3) unstable; urgency=low
 
