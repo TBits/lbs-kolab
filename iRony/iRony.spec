@@ -37,16 +37,16 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           iRony
-Version: 0.4
-Release:	    0.20160321.git%{?dist}
+Version:        0.4.0
+Release:	    0.20170502.git%{?dist}
 Summary:        DAV for Kolab Groupware
 
 Group:          Applications/Internet
 License:        AGPLv3+
 URL:            http://kolab.org
 
-# From f7e4e0e36b62f10d2570d6fccef686c3e1c43af0
-Source0:        iRony-0.4.tar.gz
+# From 7ebe1adc8b7c0f818d837d682b2b85202aac9303
+Source0:        iRony-%{version}.tar.gz
 Source1:        iRony.conf
 Source2:        iRony.logrotate
 
@@ -60,6 +60,7 @@ Requires:       roundcubemail(core) >= 1.1
 Requires:       roundcubemail-plugin-kolab_auth >= 3.3
 %endif
 Requires:       roundcubemail-plugin-kolab_folders >= 3.3
+Requires:       roundcubemail-plugin-libcalendaring >= 3.3
 Requires:       roundcubemail-plugin-libkolab >= 3.3
 %if 0%{?suse_version}
 Requires:       http_daemon
@@ -167,6 +168,9 @@ fi
 %attr(0770,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Tue May  2 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4.0-1
+- Release of version 0.4.0
+
 * Thu Jan  8 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.0-1
 - Release of version 0.3.0
 
