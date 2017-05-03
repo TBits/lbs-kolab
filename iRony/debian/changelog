@@ -1,3 +1,15 @@
+irony (0.4.0-0~kolab1) unstable; urgency=low
+
+  * Release of version 0.4.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  2 May 2017 12:12:13 +0100
+
+irony (0.4~dev20160321-0~kolab4.1) unstable; urgency=low
+
+  * Enhance packaging
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  7 Feb 2017 12:12:13 +0100
+
 irony (0.4~dev20160321-0~kolab4) unstable; urgency=low
 
   * Updated Autoloader again

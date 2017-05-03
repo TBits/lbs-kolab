@@ -20,8 +20,9 @@ Depends:
         php-sabre-http-3 (>= 3.0.5),
         php-sabre-event (>= 1.0.1),
         php-sabre-vobject-3 (>= 3.2.4),
-        roundcubemail,
-        roundcubemail-plugins-kolab (>= 3.1.12),
+        roundcubemail-core,
+        roundcubemail-plugin-libcalendaring (>= 3.1.12),
+        roundcubemail-plugin-libkolab (>= 3.1.12),
         ${misc:Depends}
 Description: Kolab Groupware DAV Access
  iRony is the DAV protocol access layer to Kolab Groupware
