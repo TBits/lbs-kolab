@@ -1,0 +1,13 @@
+Source: roundcubemail-skin-plesk
+Section: web
+Priority: extra
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Uploaders: Paul Klos <kolab@klos2day.nl>
+Build-Depends: debhelper (>= 8), roundcubemail-skin-chameleon (>= 0.3.7), node-less (>= 1.7.0), nodejs
+Standards-Version: 3.9.3
+
+Package: roundcubemail-skin-plesk
+Architecture: all
+Depends:	roundcubemail-core (>= 1.1)
+Description: skinnable AJAX based webmail solution - Plesk skin
+ Adds the Plesk skin to Roundcube
