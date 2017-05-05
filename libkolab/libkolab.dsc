@@ -20,8 +20,8 @@ Build-Depends:
 	libossp-uuid-dev,
 	libqt4-dev,
 	libxerces-c-dev,
-    php5-cli,
-	php5-dev,
+    php-cgi | php5-cli,
+	php-dev | php5-dev,
 	python-dev,
 	swig (>= 2.0)
 Package-List: 

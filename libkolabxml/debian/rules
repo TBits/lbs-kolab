@@ -1,6 +1,8 @@
 #!/usr/bin/make -f
 
 PHPAPI := $(shell php-config --phpapi)
+PHPEXT := $(shell php-config --extension-dir)
+PHPINC := $(shell php-config --include-dir)
 PYTHON_SITEARCH := $(shell python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib(1)')
 
 # Uncomment this to turn on verbose mode.
@@ -17,13 +19,23 @@ override_dh_gencontrol:
 	dh_gencontrol
 
 override_dh_auto_configure:
+	if [ $$(php-config --vernum) -gt 70000 ]; then \
+		sed -i -e 's/-c++ -php/-c++ -php7/g' src/php/CMakeLists.txt ; \
+	fi
+
 	dh_auto_configure -- \
 		-DSWIG=/usr/bin/swig \
 		-DPHP_BINDINGS=ON \
+		-DPHP_INCLUDE_DIR=$(PHPINC) \
 		-DPYTHON_BINDINGS=ON \
 		-DPYTHON_INSTALL_DIR=$(PYTHON_SITEARCH)
 
 override_dh_install:
 	mkdir -p debian/tmp/usr/share/php
-	mv debian/tmp/usr/lib/php5/$(PHPAPI)/kolabformat.php debian/tmp/usr/share/php/kolabformat.php
+	if [ -d "/etc/php/mods-available" ]; then \
+		echo "debian/kolabformat.ini etc/php/mods-available" >> debian/php-kolabformat.install ; \
+	else \
+		echo "debian/kolabformat.ini etc/php5/mods-available" >> debian/php-kolabformat.install ; \
+	fi
+	mv debian/tmp/usr/lib/php*/$(PHPAPI)/kolabformat.php debian/tmp/usr/share/php/kolabformat.php
 	dh_install --list-missing

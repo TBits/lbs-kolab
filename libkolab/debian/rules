@@ -1,6 +1,9 @@
 #!/usr/bin/make -f
 
 PHPAPI := $(shell php-config --phpapi)
+PHPBIN := $(shell php-config --php-binary)
+PHPEXT := $(shell php-config --extension-dir)
+PHPINC := $(shell php-config --include-dir)
 PYTHON_SITEARCH := $(shell python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib(1)')
 
 export DH_VERBOSE=1
@@ -12,12 +15,18 @@ export DEB_LDFLAGS_MAINT_APPEND="-Wl,--as-needed"
 	dh $@ --parallel --with python2
 
 override_dh_auto_configure:
+	if [ $$(php-config --vernum) -gt 70000 ]; then \
+		sed -i \
+			-e 's/-c++ -php/-c++ -php7/g' \
+			-e 's|php php5|php php5 php/$(PHPAPI)|g' cmake/modules/SWIGUtils.cmake ; \
+	fi
+
 	dh_auto_configure -- \
 		-DLIB_INSTALL_DIR=/usr/lib \
 		-DPHP_BINDINGS=ON \
-		-DPHP_INSTALL_DIR=/usr/lib/php5/$(PHPAPI)/ \
-		-DPHP4_EXECUTABLE=/usr/bin/php5 \
-		-DPHP4_INCLUDE_PATH=/usr/include/php5/ \
+		-DPHP_INSTALL_DIR=$(PHPEXT) \
+		-DPHP4_EXECUTABLE=$(PHPBIN) \
+		-DPHP4_INCLUDE_PATH=$(PHPINC) \
 		-DPYTHON_BINDINGS=ON \
 		-DPYTHON_INSTALL_DIR=$(PYTHON_SITEARCH) \
 		-DUSE_LIBCALENDARING=ON
@@ -30,19 +39,23 @@ override_dh_install:
 	# Install the PHP modules manually, because they depend on PHP the API version,
 	# which has to be determined dynamically, so we can't put it into an .install file.
 	mkdir -p debian/tmp/usr/share/php
-	mv debian/tmp/usr/lib/php5/$(PHPAPI)/kolabcalendaring.php debian/tmp/usr/share/php/kolabcalendaring.php
-	mv debian/tmp/usr/lib/php5/$(PHPAPI)/kolabicalendar.php debian/tmp/usr/share/php/kolabicalendar.php
-	mv debian/tmp/usr/lib/php5/$(PHPAPI)/kolabobject.php debian/tmp/usr/share/php/kolabobject.php
-	mv debian/tmp/usr/lib/php5/$(PHPAPI)/kolabshared.php debian/tmp/usr/share/php/kolabshared.php
+	mv debian/tmp/$(PHPEXT)/dummy.php debian/tmp/usr/share/php/dummy.php
+	mv debian/tmp/$(PHPEXT)/kolabcalendaring.php debian/tmp/usr/share/php/kolabcalendaring.php
+	mv debian/tmp/$(PHPEXT)/kolabicalendar.php debian/tmp/usr/share/php/kolabicalendar.php
+	mv debian/tmp/$(PHPEXT)/kolabobject.php debian/tmp/usr/share/php/kolabobject.php
+	mv debian/tmp/$(PHPEXT)/kolabshared.php debian/tmp/usr/share/php/kolabshared.php
+	echo "$(PHPEXT)" >> debian/php-kolab.install
 	# Put kolab.ini into place
-	mkdir -p debian/tmp/usr/share/php5/kolab
-	cp debian/usr/share/php5/kolab/kolab.ini debian/tmp/usr/share/php5/kolab/
-	# Dummy plugin (workaround for #2050)
-	mkdir -p debian/tmp/usr/share/php5/kolabdummy
-	cp debian/usr/share/php5/kolabdummy/kolabdummy.ini debian/tmp/usr/share/php5/kolabdummy/
-	# End dummy plugin
+	if [ -d "/etc/php/mods-available" ]; then \
+		echo "debian/kolab.ini etc/php/mods-available" >> debian/php-kolab.install ; \
+		echo "debian/kolabdummy.ini etc/php/mods-available" >> debian/php-kolab.install ; \
+	else \
+		echo "debian/kolab.ini etc/php5/mods-available" >> debian/php-kolab.install ; \
+		echo "debian/kolabdummy.ini etc/php5/mods-available" >> debian/php-kolab.install ; \
+	fi
+
 	touch debian/tmp/$(PYTHON_SITEARCH)/kolab/__init__.py
-	# Install the packages 
+	# Install the packages
 	dh_install --list-missing
 
 override_dh_auto_test:

@@ -1,3 +1,9 @@
+libkolab (2.0~dev20151230-0~kolab3)  unstable; urgency=low
+
+  * Liberate the build requirements for Debian/Ubuntu
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  4 May 2017 09:09:09 +0100
+
 libkolab (2.0~dev20151230-0~kolab2)  unstable; urgency=low
 
   * Fix Debian packages

@@ -1,4 +1,2 @@
-/usr/share/php5/kolab/kolab.ini usr/share/php5/kolab/
-/usr/share/php5/kolabdummy/kolabdummy.ini usr/share/php5/kolabdummy/
-usr/lib/php5/*/*.so
-usr/share/php/kolab*.php
+usr/lib/php*/*/*.so
+usr/share/php/*.php
