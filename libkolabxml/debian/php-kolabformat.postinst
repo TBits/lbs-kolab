@@ -7,6 +7,8 @@ set -e
 
 if [ -d "/etc/php5/mods-available" ]; then
     inidir=/etc/php5/mods-available
+elif [ -d "/etc/php/mods-available" ]; then
+    inidir=/etc/php/mods-available
 else
     inidir=/etc/php5/conf.d/
 fi
@@ -34,9 +36,11 @@ if [ "$1" = "configure" ]; then
 	fi
 
 	# Enable the module
-    if [ -x "$(which php5enmod 2>/dev/null)" ]; then
-    	php5enmod ${module}/${priority:-20}
-    fi
+	if [ -x "$(which php5enmod 2>/dev/null)" ]; then
+	    php5enmod ${module}/${priority:-20}
+	elif [ -x "$(which $phpenmod 2>/dev/null)" ]; then
+	    phpenmod ${module}/${priority:-20}
+	fi
 fi
 
 exit 0
