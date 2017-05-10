@@ -5,10 +5,12 @@ set -e
 #EXTRA#
 #DEBHELPER#
 
-if [ -d "/etc/php5/mods-available" ]; then
-    inidir=/etc/php5/mods-available
+if [ -d "/etc/php/7.0/mods-available" ]; then
+    inidir=/etc/php/7.0/mods-available
 elif [ -d "/etc/php/mods-available" ]; then
     inidir=/etc/php/mods-available
+elif [ -d "/etc/php5/mods-available" ]; then
+    inidir=/etc/php5/mods-available
 else
     inidir=/etc/php5/conf.d
 fi
@@ -22,11 +24,19 @@ priority=29
 if [ "$1" = "configure" ]; then
 
 	# Register new conffile with UCF
-	ucf /usr/share/php5/${module}/${inifile} ${inidir}/${inifile}
+	if [ -f "/usr/share/php5/${module}/${inifile}" ]; then
+		ucf /usr/share/php5/${module}/${inifile} ${inidir}/${inifile}
+	fi
+
 	ucfr --force ${package} ${inidir}/${inifile}
 
 	# Move pre-extension manager conffile
-	dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.4.0~ -- "$@";
+	if [ -f "/etc/php5/conf.d/${inifile}" ]; then
+		dpkg-maintscript-helper mv_conffile \
+			/etc/php5/conf.d/${inifile} \
+			${inidir}/${inifile} \
+			0.4.0~ -- "$@";
+	fi
 
 	if [ -f "${inidir}/${inifile}.dpkg-new" ]; then
 	    md5sum="$(md5sum ${inidir}/${inifile}.dpkg-new | sed -e 's/ .*//')"
@@ -37,10 +47,10 @@ if [ "$1" = "configure" ]; then
 	fi
 
 	# Enable the module
-	if [ -x "$(which $php5enmod 2>/dev/null)" ]; then
-	    php5enmod ${module}/${priority:-19}
-	elif [ -x "$(which $phpenmod 2>/dev/null)" ]; then
-	    phpenmod ${module}/${priority:-19}
+	if [ -x "$(which phpenmod 2>/dev/null)" ]; then
+		phpenmod ${module}/${priority:-19}
+	elif [ -x "$(which php5enmod 2>/dev/null)" ]; then
+		php5enmod ${module}/${priority:-19}
 	fi
 fi
 # End dummy plugin
@@ -53,11 +63,19 @@ priority=31
 if [ "$1" = "configure" ]; then
 
 	# Register new conffile with UCF
-	ucf /usr/share/php5/${module}/${inifile} ${inidir}/${inifile}
+	if [ -f "/usr/share/php5/${module}/${inifile}" ]; then
+		ucf /usr/share/php5/${module}/${inifile} ${inidir}/${inifile}
+	fi
+
 	ucfr --force ${package} ${inidir}/${inifile}
 
 	# Move pre-extension manager conffile
-	dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.4.0~ -- "$@";
+	if [ -f "/etc/php5/conf.d/${inifile}" ]; then
+		dpkg-maintscript-helper mv_conffile \
+			/etc/php5/conf.d/${inifile} \
+			${inidir}/${inifile} \
+			0.4.0~ -- "$@";
+	fi
 
 	if [ -f "${inidir}/${inifile}.dpkg-new" ]; then
 	    md5sum="$(md5sum ${inidir}/${inifile}.dpkg-new | sed -e 's/ .*//')"
@@ -68,18 +86,18 @@ if [ "$1" = "configure" ]; then
 	fi
 
 	# Enable the module
-	if [ -x "$(which $php5enmod 2>/dev/null)" ]; then
-	    php5enmod ${module}/${priority:-21}
-	elif [ -x "$(which $phpenmod 2>/dev/null)" ]; then
-	    phpenmod ${module}/${priority:-21}
+	if [ -x "$(which phpenmod 2>/dev/null)" ]; then
+		phpenmod ${module}/${priority:-21}
+	elif [ -x "$(which php5enmod 2>/dev/null)" ]; then
+		php5enmod ${module}/${priority:-21}
 	fi
 fi
 
 if [ "$1" = "configure" ]; then
 
 	# make sure that kolabformat.so is loaded after dummy.so, see #2050
-	sed -i "s/extension=dummy.so/extension=dummy.so\nextension=kolabformat.so/" $inidir/kolab.ini || echo "cannot find $inidir/kolab.ini"
-	sed -i "s/extension=kolabformat.so/;extension=kolabformat.so/" $inidir/kolabformat.ini || echo "cannot find $inidir/kolabformat.ini"
+	sed -i "s/extension=dummy.so/extension=dummy.so\nextension=kolabformat.so/" ${inidir}/kolab.ini
+	sed -i "s/extension=kolabformat.so/;extension=kolabformat.so/" ${inidir}/kolabformat.ini
 
 fi
 

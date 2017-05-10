@@ -160,12 +160,6 @@ Requires:       iRony
 Requires:       kolab-autoconf
 Requires:       kolab-freebusy
 Requires:       kolab-syncroton
-%if 0%{?kolab_enterprise} < 0
-%ifnarch %{arm}
-Requires:       manticore
-Requires:       mongodb-server
-%endif
-%endif
 # Install or /usr/bin/mysql isn't available
 Requires:       mysql
 

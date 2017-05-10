@@ -5,7 +5,11 @@ set -e
 #EXTRA#
 #DEBHELPER#
 
-if [ -d "/etc/php5/mods-available" ]; then
+if [ -d "/etc/php/7.0/mods-available" ]; then
+    inidir=/etc/php/7.0/mods-available
+elif [ -d "/etc/php/mods-available" ]; then
+    inidir=/etc/php/mods-available
+elif [ -d "/etc/php5/mods-available" ]; then
     inidir=/etc/php5/mods-available
 else
     inidir=/etc/php5/conf.d
@@ -15,27 +19,32 @@ module=kolab
 package=php-${module}
 inifile=${module}.ini
 
-dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.3.0~ -- "$@";
+if [ -f "/etc/php5/conf.d/${inifile}" ]; then
+	dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.3.0~ -- "$@";
+fi
 
 # Query which package has this conffile registered
 if which ucfq >/dev/null; then
-ucfp=$(ucfq -w ${inidir}/${inifile} | cut -f 2 -d:)
+	ucfp=$(ucfq -w ${inidir}/${inifile} | cut -f 2 -d:)
 fi
 
 # Only work with the config file if it still belongs to us
 if test "$ucfp" = ${package}; then
-  if [ "$1" = "purge" ]; then
-	  for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist;  do
-	  rm -f ${inidir}/${inifile}${ext}
-	  done
-	  rm -f ${inidir}/${inifile}
-	  if which ucf >/dev/null; then
-	  ucf --purge ${inidir}/${inifile}
-	  fi
-	  if which ucfr >/dev/null; then
-	  ucfr --purge ${package} ${inidir}/${inifile}
-	  fi
-  fi
+	if [ "$1" = "purge" ]; then
+		for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist;  do
+			rm -f ${inidir}/${inifile}${ext}
+		done
+
+		rm -f ${inidir}/${inifile}
+
+		if which ucf >/dev/null; then
+			ucf --purge ${inidir}/${inifile}
+		fi
+
+		if which ucfr >/dev/null; then
+			ucfr --purge ${package} ${inidir}/${inifile}
+		fi
+  	fi
 fi
 
 # Dummy plugin (workaround for #2050)
@@ -43,26 +52,31 @@ module=kolabdummy
 package=php-kolab
 inifile=${module}.ini
 
-dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.3.0~ -- "$@";
+if [ -f "/etc/php5/conf.d/${inifile}" ]; then
+	dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.3.0~ -- "$@";
+fi
 
 # Query which package has this conffile registered
 if which ucfq >/dev/null; then
-ucfp=$(ucfq -w ${inidir}/${inifile} | cut -f 2 -d:)
+	ucfp=$(ucfq -w ${inidir}/${inifile} | cut -f 2 -d:)
 fi
 
 # Only work with the config file if it still belongs to us
 if test "$ucfp" = ${package}; then
-  if [ "$1" = "purge" ]; then
-	  for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist;  do
-	  rm -f ${inidir}/${inifile}${ext}
-	  done
-	  rm -f ${inidir}/${inifile}
-	  if which ucf >/dev/null; then
-	  ucf --purge ${inidir}/${inifile}
-	  fi
-	  if which ucfr >/dev/null; then
-	  ucfr --purge ${package} ${inidir}/${inifile}
-	  fi
+	if [ "$1" = "purge" ]; then
+		for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist;  do
+			rm -f ${inidir}/${inifile}${ext}
+		done
+
+		rm -f ${inidir}/${inifile}
+
+		if which ucf >/dev/null; then
+			ucf --purge ${inidir}/${inifile}
+		fi
+
+		if which ucfr >/dev/null; then
+			ucfr --purge ${package} ${inidir}/${inifile}
+		fi
   fi
 fi
 # End dummy plugin

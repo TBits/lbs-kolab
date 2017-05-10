@@ -5,7 +5,7 @@ Architecture: all
 Version: 1.0.0-0.5
 Maintainer: Ross Duggan <ross.duggan@acm.org>
 Standards-Version: 3.9.4
-Build-Depends: debhelper (>= 7), po-debconf, php5-dev, sharutils
+Build-Depends: debhelper (>= 7), po-debconf, php-dev | php5-dev, sharutils
 Homepage: https://github.com/composer/composer
 Vcs-Git: git://anonscm.debian.org/pkg-php/composer.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/composer.git

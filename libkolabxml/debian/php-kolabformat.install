@@ -1,3 +1,2 @@
-debian/kolabformat.ini etc/php/mods-available/
 usr/lib/php*/*/*kolabformat.so
 usr/share/php/kolabformat.php

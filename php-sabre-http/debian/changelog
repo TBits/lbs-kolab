@@ -1,3 +1,9 @@
+php-sabre-http-3 (3.0.5-6) unstable; urgency=medium
+
+  * Update build requirements for PHP 7
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, May  9 2017 11:11:11 +0200
+
 php-sabre-http-3 (3.0.5-5) unstable; urgency=medium
 
   * Updated Packaging for Kolab to be inline with Debian Package

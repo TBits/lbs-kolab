@@ -32,7 +32,9 @@ override_dh_auto_configure:
 
 override_dh_install:
 	mkdir -p debian/tmp/usr/share/php
-	if [ -d "/etc/php/mods-available" ]; then \
+	if [ -d "/etc/php/7.0/mods-available/" ]; then \
+		echo "debian/kolabformat.ini etc/php/7.0/mods-available" >> debian/php-kolabformat.install ; \
+	elif [ -d "/etc/php/mods-available/" ]; then \
 		echo "debian/kolabformat.ini etc/php/mods-available" >> debian/php-kolabformat.install ; \
 	else \
 		echo "debian/kolabformat.ini etc/php5/mods-available" >> debian/php-kolabformat.install ; \

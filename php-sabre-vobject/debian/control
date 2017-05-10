@@ -6,6 +6,7 @@ Uploaders: David Prévot <taffit@debian.org>
 Build-Depends: debhelper (>= 9),
                help2man,
                php-codesniffer,
+               php-mbstring | libapache2-mod-php5,
                phpab,
                phpunit,
                pkg-php-tools (>= 1.7~)

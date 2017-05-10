@@ -5,7 +5,11 @@ set -e
 #EXTRA#
 #DEBHELPER#
 
-if [ -d "/etc/php5/mods-available" ]; then
+if [ -d "/etc/php/7.0/mods-available" ]; then
+    inidir=/etc/php/7.0/mods-available/
+elif [ -d "/etc/php/mods-available" ]; then
+    inidir=/etc/php/mods-available/
+elif [ -d "/etc/php5/mods-available" ]; then
     inidir=/etc/php5/mods-available/
 else
     inidir=/etc/php5/conf.d/
@@ -16,7 +20,9 @@ package=php-${module}
 inifile=${module}.ini
 
 if [ "$1" = "remove" ]; then
-    if [ -x "$(which php5dismod 2>/dev/null)" ]; then
+    if [ -x "$(which phpdismod 2>/dev/null)" ]; then
+    	phpdismod ${module}
+    elif [ -x "$(which php5dismod 2>/dev/null)" ]; then
     	php5dismod ${module}
     elif [ -f "${inidir}/${inifile}" ]; then
         rm -f "${inidir}/${inifile}"
