@@ -1,3 +1,10 @@
+composer (1.0.0-0.5) unstable; urgency=low
+
+  * symlink composer.sh to composer to be backwards compatible with future
+    packages
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sun, 04 Dec 2016 23:26:01 +0100
+
 composer (1.0.0-0.4) unstable; urgency=low
 
   * Build from same tarball as the RPM

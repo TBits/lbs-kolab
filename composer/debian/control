@@ -2,11 +2,11 @@ Source: composer
 Section: web
 Priority: optional
 Maintainer: Ross Duggan <ross.duggan@acm.org>
-Build-Depends: debhelper (>= 7), po-debconf, php5-dev, sharutils
+Build-Depends: debhelper (>= 7), po-debconf, php-dev | php5-dev, sharutils
 Standards-Version: 3.9.4
 
 Package: composer
-Depends: php5-cli | hhvm
+Depends: php-cli | php5-cli | hhvm
 Architecture: any
 Description: Dependency Manager for PHP
  Composer is a dependency manager tracking local dependencies of your

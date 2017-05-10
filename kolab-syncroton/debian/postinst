@@ -6,7 +6,9 @@ set -e
 #DEBHELPER#
 
 fixperms() {
-    chown -R www-data:adm \
+    group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "adm")
+    user=$(getent passwd roundcube_sysuser >/dev/null 2>&1 && echo "roundcube_sysuser" || echo "www-data")
+    chown -R ${user}:${group} \
         /var/lib/kolab-syncroton \
         /var/log/kolab-syncroton
     chmod 750 \
@@ -36,6 +38,11 @@ case "$1" in
         fixperms
         update_database
         a2enmod rewrite >/dev/null 2>&1 || true
+
+        if [ -f "/etc/plesk-release" ]; then
+            exit 0
+        fi
+
         if [ -e "/etc/apache2/sites-available/kolab-syncroton.conf" -a ! -e "/etc/apache2/sites-enabled/kolab-syncroton.conf" ]; then
             a2ensite kolab-syncroton.conf
         fi

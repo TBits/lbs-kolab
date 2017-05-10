@@ -30,6 +30,8 @@ URL:                https://kolab.org/about/guam
 
 Source0:            guam-%{version}.tar.gz
 
+Source100:          plesk.sys.config
+
 Patch9991:          guam-0.8.2-relax-dependencies.patch
 
 BuildRequires:      erlang >= 17.4
@@ -138,6 +140,10 @@ EOF
 mv %{buildroot}/opt/%{realname}/releases/*/sys.config \
     %{buildroot}%{_sysconfdir}/guam/sys.config
 
+%if 0%{?plesk}
+install -m 644 -p %{SOURCE100} %{buildroot}%{_sysconfdir}/guam/sys.config
+%endif
+
 ln -s ../../../..%{_sysconfdir}/%{name}/sys.config \
     $(ls -1d %{buildroot}/opt/%{realname}/releases/*/)/sys.config
 
@@ -179,6 +185,10 @@ fi
 %post
 %systemd_post guam.service
 
+if [ ! -f "/etc/guam/dh_2048.pem" ]; then
+    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+fi
+
 %preun
 %systemd_preun guam.service
 
@@ -189,6 +199,10 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %else
 %post
 chkconfig --add guam >/dev/null 2>&1 || :
+
+if [ ! -f "/etc/guam/dh_2048.pem" ]; then
+    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+fi
 
 %posttrans
 test -f /etc/sysconfig/guam-disable-posttrans || \

@@ -1,8 +1,8 @@
 Format: 1.0
 Source: libkolabxml
-Binary: libkolabxml1, php-kolabformat, python-kolabformat, libkolabxml-dev
+Binary: libkolabxml1v5, php-kolabformat, python-kolabformat, libkolabxml-dev
 Architecture: any
-Version: 1.2~dev20150904-0~kolab31.2~dev20151230-0~kolab1
+Version: 1.2~dev20160909-0~kolab4
 Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
 Homepage: http://git.kolab.org/libkolabxml
@@ -16,14 +16,14 @@ Build-Depends: cmake,
                libossp-uuid-dev,
                libqt4-dev,
                libxerces-c-dev,
-               php5-cli,
-               php5-dev,
+               php-cgi | php5-cli,
+               php-dev | php5-dev,
                python-dev,
                swig (>= 2.0),
                xsdcxx
 Package-List: 
  libkolabxml-dev deb libdevel optional
- libkolabxml1 deb libs optional
+ libkolabxml1v5 deb libs optional
  php-kolabformat deb libs optional
  python-kolabformat deb python optional
 Files: 

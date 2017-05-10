@@ -12,8 +12,8 @@ Build-Depends: cmake,
                libossp-uuid-dev,
                libqt4-dev,
                libxerces-c-dev,
-               php5-cli,
-               php5-dev,
+               php-cgi | php5-cli,
+               php-dev | php5-dev,
                python-dev,
                swig (>= 2.0),
                xsdcxx
@@ -21,7 +21,7 @@ X-Python-Version: >= 2.7
 Standards-Version: 3.9.3
 Homepage: http://git.kolab.org/libkolabxml
 
-Package: libkolabxml1
+Package: libkolabxml1v5
 Architecture: any
 Depends: ${misc:Depends},
 	${shlibs:Depends}
@@ -34,7 +34,7 @@ Description: Libkolabxml is the reference implementation of the Kolab XML format
 
 Package: php-kolabformat
 Architecture: any
-Depends: libkolabxml1 (= ${binary:Version}),
+Depends: libkolabxml1v5 (= ${binary:Version}),
 	${misc:Depends},
 	${shlibs:Depends},
 	${php:Depends},
@@ -48,7 +48,7 @@ Description: PHP bindings for Kolab Format 3.0 XML parsing
 Package: python-kolabformat
 Architecture: any
 Section: python
-Depends: libkolabxml1 (= ${binary:Version}),
+Depends: libkolabxml1v5 (= ${binary:Version}),
 	python,
 	${misc:Depends},
 	${shlibs:Depends}
@@ -61,7 +61,7 @@ Description: Python bindings for Kolab Format 3.0 XML parsing
 Package: libkolabxml-dev
 Section: libdevel
 Architecture: any
-Depends: libkolabxml1 (= ${binary:Version}),
+Depends: libkolabxml1v5 (= ${binary:Version}),
          ${misc:Depends}
 Description: Development files for libkolabxml
  Libkolabxml is the reference implementation of the Kolab XML format.

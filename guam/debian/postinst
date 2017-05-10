@@ -1,0 +1,14 @@
+#!/bin/bash
+
+case "$1" in
+    configure)
+        if [ ! -f "/etc/guam/dh_2048.pem" ]; then
+            openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+        fi
+
+        if [ -L "/etc/systemd/system/guam.service" ]; then
+            systemctl unmask guam || :
+        fi
+    ;;
+esac
+

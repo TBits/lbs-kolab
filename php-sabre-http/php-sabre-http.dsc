@@ -11,9 +11,9 @@ Vcs-Git: git://anonscm.debian.org/pkg-php/php-sabre-http.git -b 3.0
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-sabre-http.git
 Build-Depends: debhelper (>= 9),
                php-codesniffer,
-               php5-curl,
+               php-curl | php5-curl,
                php-sabre-event,
-               php5-xdebug,
+               php-xdebug | php5-xdebug,
                phpab,
                phpunit,
                pkg-php-tools (>= 1.7~)

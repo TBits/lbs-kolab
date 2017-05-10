@@ -5,7 +5,11 @@ set -e
 #EXTRA#
 #DEBHELPER#
 
-if [ -d "/etc/php5/mods-available" ]; then
+if [ -d "/etc/php/7.0/mods-available" ]; then
+    inidir=/etc/php/7.0/mods-available
+elif [ -d "/etc/php/mods-available" ]; then
+    inidir=/etc/php/mods-available
+elif [ -d "/etc/php5/mods-available" ]; then
     inidir=/etc/php5/mods-available
 else
     inidir=/etc/php5/conf.d/
@@ -19,24 +23,31 @@ priority=30
 if [ "$1" = "configure" ]; then
 
 	# Register new conffile with UCF
-	ucf /usr/share/php5/kolab/${inifile} ${inidir}/${inifile}
-	ucfr --force ${package} ${inidir}/${inifile}
+    if [ -f "/usr/share/php5/kolab/${inifile}" ]; then
+	    ucf /usr/share/php5/kolab/${inifile} ${inidir}/${inifile}
+    fi
+
+    ucfr --force ${package} ${inidir}/${inifile}
 
 	# Move pre-extension manager conffile
-	dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.8.1-3~ -- "$@";
+    if [ -f "/etc/php5/conf.d/${inifile}" ]; then
+	    dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.8.1-3~ -- "$@";
+    fi
 
 	if [ -f "${inidir}/${inifile}.dpkg-new" ]; then
 	    md5sum="$(md5sum ${inidir}/${inifile}.dpkg-new | sed -e 's/ .*//')"
 	    old_md5sum="$(md5sum ${inidir}/${inifile} | sed -e 's/ .*//')"
 	    if [ "$md5sum" = "$old_md5sum" ]; then
-		mv "${inidir}/${inifile}.dpkg-new" "${inidir}/${inifile}"
+		    mv "${inidir}/${inifile}.dpkg-new" "${inidir}/${inifile}"
 	    fi
 	fi
 
 	# Enable the module
-    if [ -x "$(which php5enmod 2>/dev/null)" ]; then
-    	php5enmod ${module}/${priority:-20}
-    fi
+	if [ -x "$(which phpenmod 2>/dev/null)" ]; then
+	    phpenmod ${module}/${priority:-20}
+	elif [ -x "$(which php5enmod 2>/dev/null)" ]; then
+	    php5enmod ${module}/${priority:-20}
+	fi
 fi
 
 exit 0

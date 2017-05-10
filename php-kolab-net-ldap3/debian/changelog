@@ -1,3 +1,9 @@
+php-net-ldap3 (1.0.4-0~kolab2) unstable; urgency=low
+
+  * Adjust dependencies for future Debian/Ubuntu releases
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  5 May 2017 15:27:46 +0100
+
 php-net-ldap3 (1.0.4-0~kolab1) unstable; urgency=low
 
   * Release version 1.0.4

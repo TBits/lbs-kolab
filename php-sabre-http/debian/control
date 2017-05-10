@@ -5,9 +5,9 @@ Maintainer: Kolab for Debian <devel@lists.kolab.org>
 Uploaders: Daniel Hoffend <dh@dotlan.net>
 Build-Depends: debhelper (>= 9),
                php-codesniffer,
-               php5-curl,
+               php-curl | php5-curl,
                php-sabre-event,
-               php5-xdebug,
+               php-xdebug | php5-xdebug,
                phpunit,
                pkg-php-tools (>= 1.7~)
 Standards-Version: 3.9.7

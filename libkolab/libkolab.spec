@@ -127,6 +127,10 @@ Python bindings for libkolab
 %prep
 %setup -q -n libkolab-%{version}
 
+%if 0%{?fedora} >= 25
+sed -i "s/-php/-php7/g" cmake/modules/SWIGUtils.cmake
+%endif
+
 %build
 rm -rf build
 mkdir -p build

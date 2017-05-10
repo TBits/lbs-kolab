@@ -1,1 +1,2 @@
 libossp-uuid-include.patch -p1
+fix-qverify-argument.patch -p1

@@ -1,3 +1,15 @@
+libkolabxml (1.2~dev20160909-0~kolab4) unstable; urgency=low
+
+  * Liberate the build requirements
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  4 May 2017 16:38:05 +0200
+
+libkolabxml (1.2~dev20160909-0~kolab1) unstable; urgency=low
+
+  * Get the Debian packaging up to par with the new upstream
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  9 Feb 2016 16:38:05 +0200
+
 libkolabxml (1.2~dev20151230-0~kolab1) unstable; urgency=low
 
   * use 9 as dh compat level in debian.tar.gz to get hardening flags

@@ -37,7 +37,7 @@
 
 Name:           kolab-syncroton
 Version:        2.3.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
@@ -46,6 +46,9 @@ URL:            http://www.syncroton.org
 
 Source0:        kolab-syncroton-2.3.4.tar.gz
 Source1:        kolab-syncroton.logrotate
+
+Patch0001:      0001-Nicely-handle-errors-on-FolderCreate-T2223.patch
+Patch0002:      0002-Only-call-kolab_auth-ldap_close-if-the-method-actual.patch
 
 BuildArch:      noarch
 
@@ -92,6 +95,9 @@ and Tasks though this package - based on Syncroton technology.
 %prep
 %setup -q -n %{name}-%{version}
 
+%patch0001 -p1
+%patch0002 -p1
+
 rm -rf \
     lib/ext/Auth/ \
     lib/ext/MDB2/ \
@@ -109,7 +115,9 @@ rm -rf \
 %install
 mkdir -p \
     %{buildroot}/%{_datadir}/%{name} \
+%if 0%{?plesk} < 1
     %{buildroot}/%{_ap_sysconfdir}/conf.d/ \
+%endif
     %{buildroot}/%{_sysconfdir}/%{name} \
     %{buildroot}/%{_var}/log/%{name}
 
@@ -162,7 +170,9 @@ rm -rf config.inc.php.dist
 ln -s ../../../../../..%{_sysconfdir}/roundcubemail/libkolab.inc.php config.inc.php
 popd
 
+%if 0%{?plesk} < 1
 cp -a docs/kolab-syncroton.conf %{buildroot}/%{_ap_sysconfdir}/conf.d/
+%endif
 
 find %{buildroot}/%{_datadir}/%{name}/ -type f -name "*.orig" -delete
 
@@ -218,12 +228,17 @@ exit 0
 %dir %{_ap_sysconfdir}/
 %dir %{_ap_sysconfdir}/conf.d/
 %endif
+%if 0%{?plesk} < 1
 %config(noreplace) %{_ap_sysconfdir}/conf.d/kolab-syncroton.conf
+%endif
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_datadir}/%{name}
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Fri Feb 24 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.4-2
+- Only call kolab_auth::ldap_close() if the method actually exists
+
 * Wed Jan 25 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.4-1
 - Release of version 2.3.4
 

@@ -25,9 +25,14 @@ override_dh_auto_install:
 	echo '#!/bin/bash' > $(DESTDIR)/usr/sbin/guam
 	echo 'exec /opt/kolab_guam/bin/kolab_guam $$*' \
 	     >> $(DESTDIR)/usr/sbin/guam
-	mv $(DESTDIR)/opt/kolab_guam/releases/$(DEB_VERSION_UPSTREAM)/sys.config \
-	   $(DESTDIR)/etc/guam/sys.config
-	ln -s ../../../../etc/guam/sys.config \
+	if [ -f "/etc/plesk-release" ]; then \
+		cp ../SOURCES/plesk.sys.config \
+			$(DESTDIR)/etc/guam/sys.config ; \
+	else \
+		mv $(DESTDIR)/opt/kolab_guam/releases/$(DEB_VERSION_UPSTREAM)/sys.config \
+			$(DESTDIR)/etc/guam/sys.config ; \
+	fi
+	ln -sf ../../../../etc/guam/sys.config \
 	   $(DESTDIR)/opt/kolab_guam/releases/$(DEB_VERSION_UPSTREAM)/sys.config
 	mv $(DESTDIR)/opt/kolab_guam/log $(DESTDIR)/var/log/guam
 	ln -s ../../var/log/guam $(DESTDIR)/opt/kolab_guam/log
