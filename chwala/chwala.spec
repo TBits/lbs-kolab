@@ -100,7 +100,11 @@ install -pm 644 doc/chwala.conf %{buildroot}/%{_ap_sysconfdir}/conf.d/chwala.con
 %endif
 
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
-cp -pr %SOURCE2 %{buildroot}%{_sysconfdir}/logrotate.d/chwala
+cp -pr %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/chwala
+
+sed -i \
+    -e 's/apache apache/%{httpd_user} %{httpd_group}/g' \
+    %{buildroot}%{_sysconfdir}/logrotate.d/chwala
 
 rm -rf public_html/skins/default/images/mimetypes/_css.sh
 cp -a lib public_html %{buildroot}/usr/share/%{name}
@@ -161,6 +165,9 @@ fi
 %attr(0750,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Wed May 10 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5-0.2.git
+- Fix log rotation on Plesk systems
+
 * Tue Nov 15 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5-0.1.git
 - Check in 0.5 snapshot
 

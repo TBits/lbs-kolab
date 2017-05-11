@@ -2,12 +2,12 @@ Format: 1.0
 Source: chwala
 Binary: chwala
 Architecture: all
-Version: 0.5~dev20161115-0~kolab3.1
+Version: 0.5~dev20161115-0~kolab4
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
 Homepage: http://kolab.org/about/chwala/
 Standards-Version: 3.9.3
-Build-Depends: debhelper (>= 8)
+Build-Depends: debhelper (>= 8), psa | bash
 Package-List:
  roundcubemail deb web extra
 Files:

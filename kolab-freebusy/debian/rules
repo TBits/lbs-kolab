@@ -3,19 +3,32 @@
 export DH_VERBOSE=1
 
 %:
-	dh $@ 
+	dh $@
+
+override_dh_auto_configure:
+	if [ -f "/etc/plesk-release" ]; then \
+		sed -i -e 's/www-data adm/roundcube_sysuser roundcube_sysgroup/g' debian/kolab-freebusy.logrotate ; \
+	fi
 
 override_dh_install:
-	if [ -f composer.json-dist ]; then rm -rf composer.json; mv composer.json-dist composer.json; fi
-	mkdir -p $HOME/.composer/
-	echo '{}' > $HOME/.composer/composer.json
+	if [ -f composer.json-dist ]; then \
+		rm -rf composer.json ; \
+		mv composer.json-dist composer.json ; \
+	fi
+	mkdir -p $$HOME/.composer/
+	echo '{}' > $$HOME/.composer/composer.json
 	composer -vvv dumpautoload --optimize
+
 	dh_install --list-missing -XLICENSE
-	# install sample config	
+
+	# install sample config
 	install -m 644 $(CURDIR)/config/config.ini.sample $(CURDIR)/debian/kolab-freebusy/etc/kolab-freebusy/config.ini
+
 	# Install apache2 configuration
-	mkdir -p $(CURDIR)/debian/kolab-freebusy/etc/apache2/sites-available
-	install -pm 644 $(CURDIR)/debian/apache2.conf $(CURDIR)/debian/kolab-freebusy/etc/apache2/sites-available/kolab-freebusy.conf
+	if [ ! -f "/etc/plesk-release" ]; then \
+		mkdir -p $(CURDIR)/debian/kolab-freebusy/etc/apache2/sites-available ; \
+		install -pm 644 $(CURDIR)/debian/apache2.conf $(CURDIR)/debian/kolab-freebusy/etc/apache2/sites-available/kolab-freebusy.conf ; \
+	fi
 
 override_dh_link:
 	# These become links

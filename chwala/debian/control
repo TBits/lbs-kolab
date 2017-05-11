@@ -3,7 +3,7 @@ Section: web
 Priority: extra
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
-Build-Depends: debhelper (>= 8)
+Build-Depends: debhelper (>= 8), psa | bash
 Homepage: http://www.chwala.org/
 Standards-Version: 3.9.3
 

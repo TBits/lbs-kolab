@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Build-Depends: debhelper (>= 8),
-    univention-config-dev | bash (>= 1.0)
+    univention-config-dev | psa | bash
 Standards-Version: 3.9.6
 Vcs-Browser: http://git.kolabsys.com/apt/kolab/
 Vcs-Git: git://git.kolabsys.com/git/apt/kolab
@@ -77,43 +77,6 @@ Description: MTA server for Kolab Groupware server
  This is a metapackage for the MTA server dependencies of
  Kolab Groupware
 
-Package: kolab-plesk
-Architecture: all
-Depends:    chwala,
-            guam,
-            irony,
-            kolab-syncroton,
-            php-kolabformat,
-            php-kolab,
-            php-auth-sasl,
-            php-http-request2,
-            php-mail-mime,
-            roundcubemail-core,
-            roundcubemail-plugin-acl,
-            roundcubemail-plugin-archive,
-            roundcubemail-plugin-calendar,
-            roundcubemail-plugin-contextmenu,
-            roundcubemail-plugin-jqueryui,
-            roundcubemail-plugin-kolab-activesync,
-            roundcubemail-plugin-kolab-addressbook,
-            roundcubemail-plugin-kolab-config,
-            roundcubemail-plugin-kolab-files,
-            roundcubemail-plugin-kolab-folders,
-            roundcubemail-plugin-kolab-notes,
-            roundcubemail-plugin-kolab-tags,
-            roundcubemail-plugin-managesieve,
-            roundcubemail-plugin-markasjunk,
-            roundcubemail-plugin-newmail-notifier,
-            roundcubemail-plugin-odfviewer,
-            roundcubemail-plugin-password,
-            roundcubemail-plugin-pdfviewer,
-            roundcubemail-plugin-tasklist,
-            roundcubemail-plugin-zipdownload,
-            roundcubemail-skin-plesk
-Description: Meta-package for Kolab on Plesk
- This is a metapackage for the installation of Kolab on
- Debian, integrated with Plesk
-
 Package: kolab-webclient
 Architecture: all
 Depends:    chwala,
@@ -123,8 +86,7 @@ Depends:    chwala,
             mysql-client,
             mysql-server,
             php-mdb2-driver-mysql (>= 1.5.0b2),
-            roundcubemail,
-            roundcubemail-core,
+            roundcubemail (>= 0.9),
             roundcubemail-plugin-contextmenu,
             roundcubemail-plugins-kolab (>= 3.0),
             roundcubemail-skin-chameleon (>= 0.3),

@@ -124,6 +124,10 @@ mkdir -p \
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 cp -pr %SOURCE1 %{buildroot}%{_sysconfdir}/logrotate.d/kolab-syncroton
 
+sed -i \
+    -e 's/apache apache/%{httpd_user} %{httpd_group}/g' \
+    %{buildroot}%{_sysconfdir}/logrotate.d/kolab-syncroton
+
 cp -a lib %{buildroot}/%{_datadir}/%{name}/.
 cp -a index.php %{buildroot}/%{_datadir}/%{name}/.
 
@@ -236,6 +240,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Wed May 10 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.4-3
+- Fix log rotation on Plesk
+
 * Fri Feb 24 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.4-2
 - Only call kolab_auth::ldap_close() if the method actually exists
 

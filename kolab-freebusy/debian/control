@@ -2,7 +2,7 @@ Source: kolab-freebusy
 Section: mail
 Priority: extra
 Maintainer: Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>
-Build-Depends: debhelper (>= 8.0.0)
+Build-Depends: debhelper (>= 8.0.0), composer, psa | bash
 Standards-Version: 3.9.3
 Homepage: http://www.kolab.org
 Vcs-Git: git://git.kolabsys.com/git/apt/kolab-freebusy

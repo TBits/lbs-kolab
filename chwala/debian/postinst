@@ -9,6 +9,7 @@ fixperms() {
         /var/cache/chwala \
         /var/lib/chwala \
         /var/log/chwala
+
     chmod 750 \
         /var/cache/chwala \
         /var/lib/chwala \
@@ -24,28 +25,19 @@ reload_apache()
     fi
 }
 
-update_database() {
-    /usr/share/roundcubemail/bin/updatedb.sh \
-        --dir /usr/share/doc/chwala/SQL/ \
-        --package chwala \
-        >/dev/null 2>&1 || :
-}
-
 
 case "$1" in
     configure)
         fixperms
-        update_database
-        a2enmod rewrite >/dev/null 2>&1 || true
+        if [ ! -f "/etc/plesk-release" ]; then
+            a2enmod rewrite >/dev/null 2>&1 || true
 
-        if [ -f "/etc/plesk-release" ]; then
-            exit 0
-        fi
+            if [ -e "/etc/apache2/sites-available/chwala.conf" -a ! -e "/etc/apache2/sites-enabled/chwala.conf" ]; then
+                a2ensite chwala.conf
+            fi
 
-        if [ -e "/etc/apache2/sites-available/chwala.conf" -a ! -e "/etc/apache2/sites-enabled/chwala.conf" ]; then
-            a2ensite chwala.conf
+            reload_apache reload
         fi
-        reload_apache reload
     ;;
 esac
 
