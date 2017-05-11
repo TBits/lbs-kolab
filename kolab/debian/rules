@@ -5,7 +5,11 @@ export DH_VERBOSE=1
 
 override_dh_auto_install:
 	# Test to see if we are building for a UCS platform
-	if [ -x "$$(which univention-install-config-registry 2>/dev/null)" ]; then \
+	if [ -f "/etc/plesk-release" ]; then \
+		cat $(CURDIR)/debian/kolab-plesk.control >> $(CURDIR)/debian/control ; \
+                sed -i -e "/Files:/ i\
+ kolab-plesk deb web extra" debian/control ; \
+	elif [ -x "$$(which univention-install-config-registry 2>/dev/null)" ]; then \
 		cp -av $(CURDIR)/ucs/conffiles/ $(CURDIR)/. ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-imap.univention-config-registry $(CURDIR)/debian/ ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-imap.univention-config-registry-categories $(CURDIR)/debian/ ; \

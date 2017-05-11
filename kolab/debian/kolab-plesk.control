@@ -1,0 +1,37 @@
+
+Package: kolab-plesk
+Architecture: all
+Depends:    chwala,
+            guam,
+            irony,
+            kolab-syncroton,
+            php-kolabformat,
+            php-kolab,
+            php-auth-sasl,
+            php-http-request2,
+            php-mail-mime,
+            roundcubemail-core,
+            roundcubemail-plugin-acl,
+            roundcubemail-plugin-archive,
+            roundcubemail-plugin-calendar,
+            roundcubemail-plugin-contextmenu,
+            roundcubemail-plugin-jqueryui,
+            roundcubemail-plugin-kolab-activesync,
+            roundcubemail-plugin-kolab-addressbook,
+            roundcubemail-plugin-kolab-config,
+            roundcubemail-plugin-kolab-files,
+            roundcubemail-plugin-kolab-folders,
+            roundcubemail-plugin-kolab-notes,
+            roundcubemail-plugin-kolab-tags,
+            roundcubemail-plugin-managesieve,
+            roundcubemail-plugin-markasjunk,
+            roundcubemail-plugin-newmail-notifier,
+            roundcubemail-plugin-odfviewer,
+            roundcubemail-plugin-password,
+            roundcubemail-plugin-pdfviewer,
+            roundcubemail-plugin-tasklist,
+            roundcubemail-plugin-zipdownload,
+            roundcubemail-skin-plesk
+Description: Meta-package for Kolab on Plesk
+ This is a metapackage for the installation of Kolab on
+ Debian, integrated with Plesk

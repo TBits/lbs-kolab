@@ -3,7 +3,7 @@ Section: web
 Priority: extra
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
-Build-Depends: debhelper (>= 8)
+Build-Depends: debhelper (>= 8), psa | bash
 Homepage: http://www.chwala.org/
 Standards-Version: 3.9.3
 
@@ -12,8 +12,8 @@ Architecture: all
 Depends:
     php-http-request2,
     smarty3 (>= 3.1.7),
-    roundcubemail,
-    roundcubemail-plugins-kolab,
+    roundcubemail-core,
+    roundcubemail-plugin-libkolab,
     php-sabre-dav-2.1 (>= 2.1),
     ${misc:Depends}
 Description: Glorified WebDAV, done right

@@ -12,8 +12,21 @@ export DH_VERBOSE=1
 %:
 	dh $@
 
+override_dh_auto_configure:
+	if [ -f "/etc/plesk-release" ]; then \
+		sed -i -e 's/www-data adm/roundcube_sysuser roundcube_sysgroup/g' debian/kolab-syncroton.logrotate ; \
+	fi
+
 override_dh_install:
+	mkdir -p debian/tmp
 	dh_install --list-missing -XLICENSE
+
+	if [ ! -f "/etc/plesk-release" ]; then \
+		mkdir -p $(CURDIR)/debian/kolab-syncroton/etc/apache2/sites-available ; \
+		install -pm 644 $(CURDIR)/docs/kolab-syncroton.conf \
+			$(CURDIR)/debian/kolab-syncroton/etc/apache2/sites-available/kolab-syncroton.conf ; \
+	fi
+
 	# Some PHP files seem to be executable
 	find debian/kolab-syncroton/usr/share/kolab-syncroton/lib -type f -name "*php" -perm +1 -print0 | xargs -r0 chmod -x
 

@@ -1,3 +1,9 @@
+kolab (16.0.1-4) unstable; urgency=low
+
+  * Plesk-specific meta-package, bump release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 10 May 2017 12:56:00 +0100
+
 kolab (16.0.1-2) unstable; urgency=low
 
   * Add clamav-freshclam as a dependency

@@ -3,10 +3,13 @@
 set -e
 
 fixperms() {
-    chown -R www-data:adm \
+    group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "adm")
+    user=$(getent passwd roundcube_sysuser >/dev/null 2>&1 && echo "roundcube_sysuser" || echo "www-data")
+    chown -R ${user}:${group} \
         /var/cache/chwala \
         /var/lib/chwala \
         /var/log/chwala
+
     chmod 750 \
         /var/cache/chwala \
         /var/lib/chwala \
@@ -26,11 +29,15 @@ reload_apache()
 case "$1" in
     configure)
         fixperms
-        a2enmod rewrite >/dev/null 2>&1 || true
-        if [ -e "/etc/apache2/sites-available/chwala.conf" -a ! -e "/etc/apache2/sites-enabled/chwala.conf" ]; then
-            a2ensite chwala.conf
+        if [ ! -f "/etc/plesk-release" ]; then
+            a2enmod rewrite >/dev/null 2>&1 || true
+
+            if [ -e "/etc/apache2/sites-available/chwala.conf" -a ! -e "/etc/apache2/sites-enabled/chwala.conf" ]; then
+                a2ensite chwala.conf
+            fi
+
+            reload_apache reload
         fi
-        reload_apache reload
     ;;
 esac
 

@@ -1,3 +1,15 @@
+chwala (0.5~dev20161115-0~kolab4) unsable; urgency=low
+
+  * Fix log rotation on Plesk platforms
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabys.com>  Wed, 10 May 2017 12:12:12 +0100
+
+chwala (0.5~dev20161115-0~kolab3.1) unsable; urgency=low
+
+  * Enhance packaging
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabys.com>  Tue,  7 Feb 2017 12:12:12 +0100
+
 chwala (0.5~dev20161115-0~kolab3) unstable; urgency=low
 
   * Added dependency to php-sabre-dav-2.1 needed by webdav driver

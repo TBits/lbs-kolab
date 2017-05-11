@@ -1,3 +1,9 @@
+roundcubemail (1.2.5-0~kolab4) unstable; urgency=low
+
+  * Fix log rotation on Plesk
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 10 May 2017 11:11:11 +0200
+
 roundcubemail (1.2.5-0~kolab3) unstable; urgency=low
 
   * Fix incomplete move of roundcubemail.conf

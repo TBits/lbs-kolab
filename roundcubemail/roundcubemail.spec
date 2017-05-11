@@ -49,7 +49,7 @@
 Name:           roundcubemail
 Version:        1.2.5
 
-Release:        1%{?dist}
+Release:        4%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -1374,6 +1374,9 @@ pushd %{name}-%{version}
 %endif
 
 %{__install} -pm 644 %SOURCE21 %{buildroot}%{_sysconfdir}/logrotate.d/roundcubemail
+
+sed -i -e 's/apache apache/%{httpd_user} %{httpd_group}/g' \
+    %{buildroot}%{_sysconfdir}/logrotate.d/roundcubemail
 
 # use dist files as config files
 %{__install} -pm 644 config/config.inc.php.sample %{buildroot}%{confdir}/config.inc.php
@@ -2858,6 +2861,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed May 10 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.5-2
+- Fix log rotation in Plesk
+
 * Fri Apr 28 2017 Timotheus Pokorra <tp@tbits.net> - 1.2.5-1
 - Check in upstream 1.2.5 release
 

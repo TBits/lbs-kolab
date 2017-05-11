@@ -6,11 +6,19 @@ export DH_OPTIONS=-v
 %:
 	dh $@
 
+override_dh_auto_configure:
+	if [ -f "/etc/plesk-release" ]; then \
+		sed -i -e 's/www-data adm/roundcube_sysuser roundcube_sysgroup/g' debian/chwala.logrotate ; \
+	fi
+
 override_dh_install:
 	dh_install -XLICENSE -X.gitignore
 
-	mkdir -p $(CURDIR)/debian/chwala/etc/apache2/sites-available
-	install -pm 644 $(CURDIR)/doc/chwala.conf $(CURDIR)/debian/chwala/etc/apache2/sites-available/chwala.conf
+	if [ ! -f "/etc/plesk-release" ]; then \
+		mkdir -p $(CURDIR)/debian/chwala/etc/apache2/sites-available ; \
+		install -pm 644 $(CURDIR)/doc/chwala.conf \
+			$(CURDIR)/debian/chwala/etc/apache2/sites-available/chwala.conf ; \
+	fi
 
 	# prepare for symbolic links, throw away unneeded code (same as in .spec file)
 	rm -rf $(CURDIR)/debian/chwala/usr/share/chwala/lib/ext/Auth

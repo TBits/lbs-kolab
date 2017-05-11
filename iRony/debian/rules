@@ -6,9 +6,19 @@
 %:
 	dh $@
 
+override_dh_auto_configure:
+	if [ -f "/etc/plesk-release" ]; then \
+		sed -i -e 's/www-data adm/roundcube_sysuser roundcube_sysgroup/g' debian/irony.logrotate ; \
+	fi
+
 override_dh_install:
+	if [ ! -f "/etc/plesk-release" ]; then \
+		mkdir -p $(CURDIR)/debian/irony/etc/apache2/sites-available ; \
+		cp -a $(CURDIR)/debian/iRony.conf \
+			$(CURDIR)/debian/irony/etc/apache2/sites-available/irony.conf ; \
+	fi
+
 	mkdir -p $(CURDIR)/debian/irony/etc/iRony/
-	cp -a $(CURDIR)/debian/iRony.conf $(CURDIR)/debian/irony/etc/iRony/apache.conf
 	cp -a config/dav.inc.php.sample $(CURDIR)/debian/irony/etc/iRony/dav.inc.php
 	mkdir -p $(CURDIR)/debian/irony/usr/share/iRony/config
 	mkdir -p $(CURDIR)/debian/irony/usr/share/iRony/lib

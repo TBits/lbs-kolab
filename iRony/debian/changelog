@@ -1,3 +1,9 @@
+irony (0.4.0-0~kolab2) unstable; urgency=low
+
+  * Fix log rotation on Plesk
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 10 May 2017 12:12:13 +0100
+
 irony (0.4.0-0~kolab1) unstable; urgency=low
 
   * Release of version 0.4.0

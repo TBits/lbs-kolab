@@ -92,6 +92,9 @@ mkdir -p \
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 cp -pr %SOURCE1 %{buildroot}%{_sysconfdir}/logrotate.d/kolab-freebusy
 
+sed -i -e 's/apache apache/%{httpd_user} %{httpd_group}/g' \
+    %{buildroot}%{_sysconfdir}/logrotate.d/kolab-freebusy
+
 install -pm 644 doc/kolab-freebusy.conf %{buildroot}/%{_ap_sysconfdir}/conf.d/%{name}.conf
 
 cp -a lib %{buildroot}/%{_datadir}/%{name}/lib

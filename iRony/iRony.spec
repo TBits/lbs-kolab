@@ -119,6 +119,10 @@ install -pm 644 %{SOURCE1} %{buildroot}/%{_ap_sysconfdir}/conf.d/%{name}.conf
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 cp -pr %SOURCE2 %{buildroot}%{_sysconfdir}/logrotate.d/iRony
 
+sed -i \
+    -e 's/apache apache/%{httpd_user} %{httpd_group}/g' \
+    %{buildroot}%{_sysconfdir}/logrotate.d/iRony
+
 mkdir %{buildroot}/usr/share/%{name}/lib
 
 cp -a public_html vendor %{buildroot}/usr/share/%{name}
@@ -168,6 +172,9 @@ fi
 %attr(0770,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Wed May 10 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4.0-2
+- Fix log rotation on Plesk
+
 * Tue May  2 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4.0-1
 - Release of version 0.4.0
 
