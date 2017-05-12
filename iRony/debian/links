@@ -1,4 +1,3 @@
-etc/iRony/apache.conf etc/apache2/sites-available/iRony.conf
 etc/iRony/dav.inc.php usr/share/iRony/config/dav.inc.php
 etc/roundcubemail/defaults.inc.php usr/share/iRony/config/defaults.inc.php
 etc/roundcubemail/config.inc.php usr/share/iRony/config/config.inc.php
