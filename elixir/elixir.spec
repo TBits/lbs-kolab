@@ -1,7 +1,7 @@
 Name:           elixir
-Version:        1.3.3
+Version:        1.4.2
 Release:        1%{?dist}
-Summary:        A modern approach to programming for the Erlang VM 
+Summary:        A modern approach to programming for the Erlang VM
 
 Group:          Development/Languages
 # See LEGAL (provided by upstream) for explaination/breakdown.
@@ -10,15 +10,18 @@ URL:            http://elixir-lang.org/
 
 Source0:        https://github.com/elixir-lang/elixir/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
-
-BuildRequires:  erlang >= R17
 BuildRequires:  erlang-rebar
 BuildRequires:  git
+Requires: erlang-compiler
+Requires: erlang-crypto
+Requires: erlang-erts
+Requires: erlang-inets
+Requires: erlang-kernel
+Requires: erlang-parsetools
+Requires: erlang-public_key
+Requires: erlang-stdlib
+Requires: erlang-tools
 
-Requires:       erlang >= R17
-Requires:       erlang-erts >= R17
-Requires:       erlang-inets
-Requires:       rebar
 
 %description
 Elixir is a programming language built on top of the Erlang VM.
@@ -27,8 +30,6 @@ fault-tolerant, non-stop applications with hot code swapping.
 
 %prep
 %setup -q
-rm rebar
-ln -s "$(which rebar)" .
 sed -i -e "s/time //g" Makefile
 find -name '*.bat' -exec rm \{\} \;
 
@@ -37,12 +38,11 @@ find -name '*.bat' -exec rm \{\} \;
 rm lib/elixir/test/elixir/io/ansi_test.exs
 
 %build
-export LANG="en_US.UTF-8"
-make %{?_smp_mflags}
+%{rebar_compile}
 
 %check
 export LANG="en_US.UTF-8"
-make test
+%{rebar_eunit}
 
 %install
 mkdir -p %{buildroot}/%{_datadir}/%{name}/%{version}
@@ -61,8 +61,39 @@ ln -s %{_datadir}/%{name}/%{version}/bin/{elixir,elixirc,iex,mix} %{buildroot}/%
 
 
 %changelog
-* Mon Sep 19 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.3.3-1
-- Check in 1.3.3
+* Mon Apr 17 2017 Martin Langhoff <martin@laptop.org> - 1.4.2-1
+- New upstream release
+
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
+* Tue Nov  8 2016 Martin Langhoff <martin@laptop.org> - 1.3.4-1
+- New upstream release
+
+* Mon Sep 19 2016 Martin Langhoff <martin@laptop.org> - 1.3.3-1
+- New upstream release.
+
+* Thu Sep 1 2016 Martin Langhoff <martin@laptop.org> - 1.3.2-1
+- New upstream release
+
+* Tue Jun 28 2016 Martin Langhoff <martin@laptop.org> - 1.3.1-1
+- New upstream release
+
+* Fri Jun 24 2016 Martin Langhoff <martin@laptop.org> - 1.3.0-1
+- New upstream release
+
+* Fri Jun 10 2016 Martin Langhoff <martin@laptop.org> - 1.2.6-1
+- New upstream release 1.2.6
+
+* Fri May 20 2016 Peter Lemenkov <lemenkov@gmail.com> - 1.2.5-2
+- Manually specify Requires for now - our dependency generator cannot handle
+  noarch packages yet.
+
+* Fri May 20 2016 Peter Lemenkov <lemenkov@gmail.com> - 1.2.5-1
+- Ver. 1.2.5
+
+* Mon Apr 4 2016 Martin Langhoff <martin@laptop.org> - 1.2.4-1
+- New upstream release.
 
 * Wed Feb 24 2016 Martin Langhoff <martin@laptop.org> - 1.2.3-1
 - New upstream release.

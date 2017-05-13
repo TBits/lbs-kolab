@@ -15,7 +15,6 @@ Patch1:         rebar3-3.1.0-doc.patch
 
 BuildArch:      noarch
 Requires:       erlang
-Conflicts:      erlang-rebar
 
 BuildRequires:  erlang-rpm-macros
 BuildRequires:  erlang-rebar >= 2.6.1
