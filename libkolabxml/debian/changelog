@@ -1,3 +1,9 @@
+libkolabxml (1.2~dev20160909-0~kolab5) unstable; urgency=low
+
+  * Provide proper upgrade path
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Fri, 12 May 2017 18:02:30 +0200
+
 libkolabxml (1.2~dev20160909-0~kolab4) unstable; urgency=low
 
   * Liberate the build requirements

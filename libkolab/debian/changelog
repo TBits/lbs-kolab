@@ -1,3 +1,11 @@
+libkolab (2.0~dev20151230-0~kolab5) unstable; urgency=low
+
+  * Provide proper upgrade path
+  * Nuke the dummy plugin - it causes an infinite loop on apache reload, which
+    is even worse than the segfault it's supposed to work around
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 14 May 2017 13:10:54 +0200
+
 libkolab (2.0~dev20151230-0~kolab4)  unstable; urgency=low
 
   * Liberate the build requirements for Debian/Ubuntu

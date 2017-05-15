@@ -29,20 +29,4 @@ if [ "$1" = "remove" ]; then
     fi
 fi
 
-# Dummy plugin (workaround for #2050)
-module=kolabdummy
-package=php-kolab
-inifile=${module}.ini
-
-if [ "$1" = "remove" ]; then
-    if [ -x "$(which phpdismod 2>/dev/null)" ]; then
-        phpdismod ${module}
-    elif [ -x "$(which php5dismod 2>/dev/null)" ]; then
-        php5dismod ${module}
-    elif [ -f "${inidir}/${inifile}" ]; then
-        rm -f "${inidir}/${inifile}"
-    fi
-fi
-# End dummy plugin
-
 exit 0

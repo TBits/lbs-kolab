@@ -62,6 +62,8 @@ Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-libcalendaring,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: calendar plugin for Roundcube
 
 Package: roundcubemail-plugin-html-converter
@@ -82,23 +84,31 @@ Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-jqueryui,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_activesync plugin for Roundcube
 
 Package: roundcubemail-plugin-kolab-addressbook
 Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_addressbook plugin for Roundcube
 
 Package: roundcubemail-plugin-kolab-auth
 Architecture: all
 Depends: roundcubemail-core
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_auth plugin for Roundcube
 
 Package: roundcubemail-plugin-kolab-config
 Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_config plugin for Roundcube
 
 Package: roundcubemail-plugin-kolab-delegation
@@ -106,6 +116,8 @@ Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-kolab-auth,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_delegation plugin for Roundcube
 
 Package: roundcubemail-plugin-kolab-files
@@ -113,12 +125,16 @@ Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-libkolab,
          php-curl | php5-curl
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_files plugin for Roundcube
 
 Package: roundcubemail-plugin-kolab-folders
 Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_folders plugin for Roundcube
 
 Package: roundcubemail-plugin-kolab-notes
@@ -126,6 +142,8 @@ Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-acl,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_notes plugin for Roundcube
 
 Package: roundcubemail-plugin-kolab-shortcuts
@@ -137,6 +155,8 @@ Package: roundcubemail-plugin-kolab-tags
 Architecture: all
 Depends: roundcubemail-core,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_tags plugin for Roundcube
 
 Package: roundcubemail-plugin-ldap-authentication
@@ -148,11 +168,15 @@ Package: roundcubemail-plugin-libcalendaring
 Architecture: all
 Depends: roundcubemail-core,
          php-sabre-vobject-3
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: libcalendaring plugin for Roundcube
 
 Package: roundcubemail-plugin-libkolab
 Architecture: all
 Depends: roundcubemail-core
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: libkolab plugin for Roundcube
 
 Package: roundcubemail-plugin-loginfail
@@ -168,11 +192,15 @@ Description: logon_page plugin for Roundcube
 Package: roundcubemail-plugin-odfviewer
 Architecture: all
 Depends: roundcubemail-core
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: odfviewer plugin for Roundcube
 
 Package: roundcubemail-plugin-pdfviewer
 Architecture: all
 Depends: roundcubemail-core
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: pdfviewer plugin for Roundcube
 
 Package: roundcubemail-plugin-piwik-analytics
@@ -187,6 +215,8 @@ Depends: roundcubemail-core,
          roundcubemail-plugin-jqueryui,
          roundcubemail-plugin-libcalendaring,
          roundcubemail-plugin-libkolab
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: tasklist plugin for Roundcube
 
 Package: roundcubemail-plugin-tinymce-config

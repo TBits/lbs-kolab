@@ -104,6 +104,8 @@ override_dh_auto_build:
 		echo "Package: roundcubemail-plugin-$${pkgname}" >> debian/control ; \
 		echo "Architecture: all" >> debian/control ; \
 		echo "Depends: roundcubemail-core" >> debian/control ; \
+		echo "Breaks: roundcubemail (<< 1:1.2.4)" >> debian/control ; \
+		echo "Replaces: roundcubemail (<< 1:1.2.4)" >> debian/control ; \
 		echo "Description: $${plugin} plugin for Roundcube" >> debian/control ; \
 		echo "" >> debian/control ; \
 		sed -i -e "/Files:/ i\
