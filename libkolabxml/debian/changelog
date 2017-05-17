@@ -1,3 +1,9 @@
+libkolabxml (1.2~dev20160909-0~kolab6) unstable; urgency=low
+
+  * Prioritize kolabformat library appropriately
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 16 May 2017 16:38:05 +0200
+
 libkolabxml (1.2~dev20160909-0~kolab5) unstable; urgency=low
 
   * Provide proper upgrade path
