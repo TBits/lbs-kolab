@@ -27,6 +27,8 @@ Homepage: http://git.kolab.org/libkolab
 Package: libkolab2
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}, libkolabxml1v5 (>= 1.0)
+Conflicts: libkolab0
+Replaces: libkolab0
 Description: Maps KDE containers to Kolab formats
  libkolab provides conversions from/to KDE containers, mime message
  handling and facilities to read and write kolabv2 and kolabv3.

@@ -5,13 +5,6 @@ set -e
 #EXTRA#
 #DEBHELPER#
 
-# Dummy plugin (workaround for #2050)
-inifile=kolabdummy.ini
-if [ -f "/etc/php5/conf.d/${inifile}" ]; then
-	dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} /etc/php5/mods-available/${inifile} 0.3.0~ -- "$@";
-fi
-# End dummy plugin
-
 inifile=kolab.ini
 if [ -f "/etc/php5/conf.d/${inifile}" ]; then
 	dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} /etc/php5/mods-available/${inifile} 0.3.0~ -- "$@";

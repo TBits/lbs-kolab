@@ -1,3 +1,17 @@
+libkolab (2.0~dev20151230-0~kolab6)  unstable; urgency=low
+
+  * Set priority for php-kolab extensions
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 16 May 2017 09:09:09 +0100
+
+libkolab (2.0~dev20151230-0~kolab5) unstable; urgency=low
+
+  * Provide proper upgrade path
+  * Nuke the dummy plugin - it causes an infinite loop on apache reload, which
+    is even worse than the segfault it's supposed to work around
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 14 May 2017 13:10:54 +0200
+
 libkolab (2.0~dev20151230-0~kolab4)  unstable; urgency=low
 
   * Liberate the build requirements for Debian/Ubuntu

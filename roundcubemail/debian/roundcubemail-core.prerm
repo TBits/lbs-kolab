@@ -5,15 +5,6 @@
 
 set -e
 
-reload_apache()
-{
-    if apache2ctl configtest 2>/dev/null; then
-        invoke-rc.d apache2 $1 || true
-    else
-        echo "Your apache2 configuration is broken, so we're not restarting it for you."
-    fi
-}
-
 if [ "$1" = "remove" ]; then
     if [ ! -f "/etc/plesk-release" ]; then
         a2dissite roundcubemail.conf > /dev/null || true

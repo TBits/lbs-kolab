@@ -1,3 +1,9 @@
+roundcubemail (1.2.5-0~kolab5) unstable; urgency=low
+
+  * Fix upgrade path
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 14 May 2017 09:53:34 +0200
+
 roundcubemail (1.2.5-0~kolab4) unstable; urgency=low
 
   * Fix log rotation on Plesk

@@ -47,38 +47,4 @@ if test "$ucfp" = ${package}; then
   	fi
 fi
 
-# Dummy plugin (workaround for #2050)
-module=kolabdummy
-package=php-kolab
-inifile=${module}.ini
-
-if [ -f "/etc/php5/conf.d/${inifile}" ]; then
-	dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/${inifile} ${inidir}/${inifile} 0.3.0~ -- "$@";
-fi
-
-# Query which package has this conffile registered
-if which ucfq >/dev/null; then
-	ucfp=$(ucfq -w ${inidir}/${inifile} | cut -f 2 -d:)
-fi
-
-# Only work with the config file if it still belongs to us
-if test "$ucfp" = ${package}; then
-	if [ "$1" = "purge" ]; then
-		for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist;  do
-			rm -f ${inidir}/${inifile}${ext}
-		done
-
-		rm -f ${inidir}/${inifile}
-
-		if which ucf >/dev/null; then
-			ucf --purge ${inidir}/${inifile}
-		fi
-
-		if which ucfr >/dev/null; then
-			ucfr --purge ${package} ${inidir}/${inifile}
-		fi
-  fi
-fi
-# End dummy plugin
-
 exit 0

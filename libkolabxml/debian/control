@@ -25,6 +25,8 @@ Package: libkolabxml1v5
 Architecture: any
 Depends: ${misc:Depends},
 	${shlibs:Depends}
+Conflicts: libkolabxml1
+Replaces: libkolabxml1
 Description: Libkolabxml is the reference implementation of the Kolab XML format
  The Kolab 3.0 XML format is defined in
  http://wiki.kolab.org/User:Mollekopf/Drafts/KEP:17.

@@ -39,7 +39,6 @@ override_dh_install:
 	# Install the PHP modules manually, because they depend on PHP the API version,
 	# which has to be determined dynamically, so we can't put it into an .install file.
 	mkdir -p debian/tmp/usr/share/php
-	mv debian/tmp/$(PHPEXT)/dummy.php debian/tmp/usr/share/php/dummy.php
 	mv debian/tmp/$(PHPEXT)/kolabcalendaring.php debian/tmp/usr/share/php/kolabcalendaring.php
 	mv debian/tmp/$(PHPEXT)/kolabicalendar.php debian/tmp/usr/share/php/kolabicalendar.php
 	mv debian/tmp/$(PHPEXT)/kolabobject.php debian/tmp/usr/share/php/kolabobject.php
@@ -48,13 +47,10 @@ override_dh_install:
 	# Put kolab.ini into place
 	if [ -d "/etc/php/7.0/mods-available" ]; then \
 		echo "debian/kolab.ini etc/php/7.0/mods-available" >> debian/php-kolab.install ; \
-		echo "debian/kolabdummy.ini etc/php/7.0/mods-available" >> debian/php-kolab.install ; \
 	elif [ -d "/etc/php/mods-available" ]; then \
 		echo "debian/kolab.ini etc/php/mods-available" >> debian/php-kolab.install ; \
-		echo "debian/kolabdummy.ini etc/php/mods-available" >> debian/php-kolab.install ; \
 	else \
 		echo "debian/kolab.ini etc/php5/mods-available" >> debian/php-kolab.install ; \
-		echo "debian/kolabdummy.ini etc/php5/mods-available" >> debian/php-kolab.install ; \
 	fi
 
 	touch debian/tmp/$(PYTHON_SITEARCH)/kolab/__init__.py
