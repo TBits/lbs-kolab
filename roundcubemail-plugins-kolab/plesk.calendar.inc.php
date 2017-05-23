@@ -8,7 +8,13 @@
     $config['calendar_work_end'] = 18;
     $config['calendar_event_coloring'] = 0;
 
-    $config['calendar_caldav_url'] = "https://" . $_SERVER["HTTP_HOST"] . "/calendars/%u/%i";
+    $config['calendar_caldav_url'] = (
+        (
+            array_key_exists('HTTPS', $_SERVER) &&
+            !empty($_SERVER['HTTPS']) &&
+            $_SERVER['HTTPS'] !== 'off'
+        ) ? "https://" : "http://") .
+            $_SERVER["HTTP_HOST"] . "/iRony/calendars/%u/%i/";
 
     $config['calendar_contact_birthdays'] = true;
 
