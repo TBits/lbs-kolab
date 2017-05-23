@@ -88,6 +88,7 @@ override_dh_auto_build:
 
 	if [ -f "/etc/plesk-release" ]; then \
 		cp -v ../SOURCES/plesk.calendar.inc.php config/calendar.inc.php ; \
+		cp -v ../SOURCES/plesk.kolab_addressbook.inc.php config/kolab_addressbook.inc.php ; \
 		cp -v ../SOURCES/plesk.kolab_folders.inc.php config/kolab_folders.inc.php ; \
 		cp -v ../SOURCES/plesk.libkolab.inc.php config/libkolab.inc.php ; \
 	fi

@@ -29,7 +29,7 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.3.0
+Version:        3.3.1
 Release:        1%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -42,8 +42,9 @@ Source0:        https://mirror.kolabenterprise.com/pub/releases/roundcubemail-pl
 Source1:        comm.py
 
 Source100:      plesk.calendar.inc.php
-Source101:      plesk.kolab_folders.inc.php
-Source102:      plesk.libkolab.inc.php
+Source101:      plesk.kolab_addressbook.inc.php
+Source102:      plesk.kolab_folders.inc.php
+Source103:      plesk.libkolab.inc.php
 
 Patch0001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
@@ -846,8 +847,9 @@ pushd %{name}-%{version}
 %if 0%{?plesk}
 # Provide defaults for Plesk
 cp -af %{SOURCE100} plugins/calendar/config.inc.php.dist
-cp -af %{SOURCE101} plugins/kolab_folders/config.inc.php.dist
-cp -af %{SOURCE102} plugins/libkolab/config.inc.php.dist
+cp -af %{SOURCE101} plugins/kolab_addressbook/config.inc.php.dist
+cp -af %{SOURCE102} plugins/kolab_folders/config.inc.php.dist
+cp -af %{SOURCE103} plugins/libkolab/config.inc.php.dist
 %endif
 
 %patch0001 -p1
@@ -1995,6 +1997,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Mon May 22 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.1-1
+- Release of version 3.3.1
+
 * Tue Apr  4 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.0-1
 - Release of version 3.3.0
 
