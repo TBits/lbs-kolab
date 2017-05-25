@@ -30,7 +30,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -47,6 +47,8 @@ Source102:      plesk.kolab_folders.inc.php
 Source103:      plesk.libkolab.inc.php
 
 Patch0001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
+
+Patch1001:      0001-Fix-regression-where-declining-an-event-from-Calenda.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:      noarch
@@ -853,6 +855,7 @@ cp -af %{SOURCE103} plugins/libkolab/config.inc.php.dist
 %endif
 
 %patch0001 -p1
+%patch1001 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
 
@@ -1997,6 +2000,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Wed May 24 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.1-2
+- Fix reqression in handling delegated events
+
 * Mon May 22 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.1-1
 - Release of version 3.3.1
 
