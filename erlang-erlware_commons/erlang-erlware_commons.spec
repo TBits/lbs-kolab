@@ -1,7 +1,7 @@
 %define bname erlware_commons
 Name:           erlang-%bname
 Version:        0.21.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An Erlang providers library
 License:        Apache-2.0
 Group:          Development/Tools/Other
@@ -16,6 +16,8 @@ BuildRequires:  erlang
 %description
 Providers is an Erlang providers library.
 
+# avoid error on Fedora 25: error: Empty %files file /home/abuild/rpmbuild/BUILD/erlware_commons/debugfiles.list
+%global debug_package %{nil}
 
 %prep
 %setup -q -n %bname
@@ -60,6 +62,9 @@ rebar -C %bname.rebar.config eunit
 
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> 0.21.0-2
+- fix for Fedora 25, there is no debugging information
+
 * Sat Jun 11 2016 Led <ledest@gmail.com> 0.21.0-1
 - 0.21.0
 

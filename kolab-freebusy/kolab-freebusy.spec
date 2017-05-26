@@ -36,6 +36,13 @@ Source1:        kolab-freebusy.logrotate
 BuildArch:      noarch
 
 BuildRequires:  composer
+%if 0%{?fedora}
+# fix issue:
+# have choice for php-composer(justinrainbow/json-schema) >= 2.0 needed by composer: php-justinrainbow-json-schema4 php-justinrainbow-json-schema
+# have choice for php-composer(justinrainbow/json-schema) < 5 needed by composer: php-justinrainbow-json-schema4 php-justinrainbow-json-schema php-JsonSchema
+BuildRequires:  php-justinrainbow-json-schema4
+%endif
+
 BuildRequires:  php-Monolog
 BuildRequires:  php-sabre-dav >= 2.1.3
 BuildRequires:  roundcubemail(core)
@@ -156,6 +163,9 @@ fi
 %attr(0770,root,%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> - 1.1.0.1
+- Fix build error on Fedora 25, composer needs php-justinrainbow-json-schema4
+
 * Mon Feb 23 2015 Daniel Hoffend <dh@dotlan.net> - 1.0.7.3
 - seperate httpd.conf from .spec file
 

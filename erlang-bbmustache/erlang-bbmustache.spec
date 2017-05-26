@@ -1,7 +1,7 @@
 %define bname bbmustache
 Name:           erlang-%bname
 Version:        1.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Binary pattern match Based Mustache template engine for Erlang/OTP
 License:        MIT
 Group:          Development/Tools/Other
@@ -17,6 +17,8 @@ BuildRequires:  erlang-eunit_formatters
 %description
 %summary.
 
+# avoid error on Fedora 25: error: Empty %files file /home/abuild/rpmbuild/BUILD/erlware_commons/debugfiles.list
+%global debug_package %{nil}
 
 %prep
 %setup -q -n %bname-%version
@@ -48,6 +50,9 @@ rebar -C %bname.rebar.config eunit
 
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> 1.3.0-2
+- fix for Fedora 25, there is no debugging information
+
 * Mon Sep 19 2016 Led <ledest@gmail.com> 1.3.0-1
 - 1.3.0
 

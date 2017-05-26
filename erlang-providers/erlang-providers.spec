@@ -1,7 +1,7 @@
 %define bname providers
 Name:           erlang-%bname
 Version:        1.6.0
-Release:        2
+Release:        3
 Summary:        An Erlang providers library
 License:        LGPL-3.0
 Group:          Development/Tools/Other
@@ -18,6 +18,8 @@ BuildRequires:  erlang-common_test
 %description
 Providers is an Erlang providers library.
 
+# avoid error on Fedora 25: error: Empty %files file /home/abuild/rpmbuild/BUILD/erlware_commons/debugfiles.list
+%global debug_package %{nil}
 
 %prep
 %setup -q -n %bname-%version
@@ -58,6 +60,9 @@ rebar -C %bname.rebar.config ct
 
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> 1.6.0-3
+- fix for Fedora 25, there is no debugging information
+
 * Sun Jan 31 2016 Led <ledest@gmail.com> 1.6.0-2
 - add epmd to BuildRequires
 

@@ -1,7 +1,7 @@
 %define bname cf
 Name:           erlang-%bname
 Version:        0.2.2
-Release:        1
+Release:        2
 Summary:        Colored output for Erlang/OTP io and io_lib
 License:        MIT
 Group:          Development/Tools/Other
@@ -19,6 +19,8 @@ BuildRequires:  erlang-rebar >= 2.6.1
 cf is a helper library for termial colour printing extending the Erlang/OTP
 io:format syntax to add colours.
 
+# avoid error on Fedora 25: error: Empty %files file /home/abuild/rpmbuild/BUILD/erlware_commons/debugfiles.list
+%global debug_package %{nil}
 
 %prep
 %setup -q -n %bname-%version
@@ -60,6 +62,9 @@ install -p -m 0644 *.md %buildroot%_docdir/%name/
 
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> 0.2.2-2
+- fix for Fedora 25, there is no debugging information
+
 * Sun Nov  6 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> 0.2.2-1
 - Update to 0.2.2
 

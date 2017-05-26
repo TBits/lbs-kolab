@@ -73,6 +73,13 @@ Requires:       webserver
 # by any package.
 BuildRequires:  chwala
 BuildRequires:  composer
+%if 0%{?fedora}
+# fix issue:
+# have choice for php-composer(justinrainbow/json-schema) >= 2.0 needed by composer: php-justinrainbow-json-schema4 php-justinrainbow-json-schema
+# have choice for php-composer(justinrainbow/json-schema) < 5 needed by composer: php-justinrainbow-json-schema4 php-justinrainbow-json-schema php-JsonSchema
+BuildRequires:  php-justinrainbow-json-schema4
+%endif
+
 BuildRequires:  roundcubemail
 BuildRequires:  roundcubemail-plugins-kolab
 BuildRequires:  php-sabre-dav >= 2.1.3
@@ -172,6 +179,9 @@ fi
 %attr(0770,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> - 0.4.0-3
+- Fix build error on Fedora 25, composer needs php-justinrainbow-json-schema4
+
 * Wed May 10 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4.0-2
 - Fix log rotation on Plesk
 

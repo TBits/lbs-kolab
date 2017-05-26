@@ -1,7 +1,7 @@
 %define bname relx
 Name:           erlang-%bname
 Version:        3.21.1
-Release:        1
+Release:        2
 Summary:        A release assembler for Erlang
 License:        Apache-2.0
 Group:          Development/Tools/Other
@@ -29,6 +29,8 @@ directory.
 The release-specification-file is optional but otherwise contains additional
 specification information for releases.
 
+# avoid error on Fedora 25: error: Empty %files file /home/abuild/rpmbuild/BUILD/erlware_commons/debugfiles.list
+%global debug_package %{nil}
 
 %prep
 %setup -q -n %bname-%version
@@ -96,6 +98,9 @@ rebar -C %bname.rebar.config eunit
 
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> 3.21.1-2
+- fix for Fedora 25, there is no debugging information
+
 * Thu Oct 20 2016 Led <ledest@gmail.com> 3.21.1-1
 - 3.21.1
 - git 53a87ed

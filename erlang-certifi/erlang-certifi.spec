@@ -1,7 +1,7 @@
 %define bname certifi
 Name: erlang-%bname
 Version: 0.7.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: An Erlang specific port of certifi
 License: MIT
 Group: Development/Tools/Other
@@ -18,6 +18,8 @@ can find itself, or where a uniform set of CAs is valuable.
 This an Erlang specific port of certifi (http://certifi.io/). The CA bundle is
 derived from Mozilla's canonical set.
 
+# avoid error on Fedora 25: error: Empty %files file /home/abuild/rpmbuild/BUILD/erlware_commons/debugfiles.list
+%global debug_package %{nil}
 
 %prep
 %setup -q
@@ -55,6 +57,9 @@ install -p -m 0644 *.md %buildroot%_docdir/%name/
 
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> 0.7.0-2
+- fix for Fedora 25, there is no debugging information
+
 * Mon Oct 10 2016 Led <ledest@gmail.com> 0.7.0-1
 - 0.7.0
 

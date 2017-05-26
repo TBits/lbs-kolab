@@ -30,7 +30,7 @@
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.3.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -54,6 +54,12 @@ BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:      noarch
 
 BuildRequires:  composer
+%if 0%{?fedora}
+# fix issue:
+# have choice for php-composer(justinrainbow/json-schema) >= 2.0 needed by composer: php-justinrainbow-json-schema4 php-justinrainbow-json-schema
+# have choice for php-composer(justinrainbow/json-schema) < 5 needed by composer: php-justinrainbow-json-schema4 php-justinrainbow-json-schema php-JsonSchema
+BuildRequires:  php-justinrainbow-json-schema4
+%endif
 
 %if "%{_arch}" != "ppc64" && "%{_arch}" != "ppc64le" && 0%{?suse_version} < 1
 BuildRequires:  python-cssmin
@@ -2000,6 +2006,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> - 3.3.1-3
+- Fix build error on Fedora 25, composer needs php-justinrainbow-json-schema4
+
 * Wed May 24 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.1-2
 - Fix reqression in handling delegated events
 
