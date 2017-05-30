@@ -1,0 +1,21 @@
+[Unit]
+Description=Kolab WOPI REST API interface
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/kolab_wopi
+ExecStart=/opt/kolab_wopi/bin/kolab_wopi foreground
+Restart=on-failure
+KillMode=process
+SuccessExitStatus=143
+TimeoutSec=10
+RestartSec=5
+Environment=HOME=/opt/kolab_wopi
+Environment=LANG=en_US.UTF-8
+Environment=MIX_ENV=prod "PORT=4000"
+SyslogIdentifier=kolab-wopi
+
+[Install]
+WantedBy=multi-user.target
+
