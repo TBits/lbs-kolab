@@ -37,14 +37,14 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           chwala
-Version:        0.5
-Release:        0.20161115.git%{?dist}
+Version:        0.5.0
+Release:        1%{?dist}
 Summary:        Glorified WebDAV, done right
 
 Group:          Applications/Internet
 License:        AGPLv3+
 URL:            http://chwala.org
-Source0:        chwala-0.5.tar.gz
+Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source2:        chwala.logrotate
 
 Patch1:         chwala-0.2-suhosin.session.encrypt-php_flag.patch
@@ -111,23 +111,18 @@ cp -a lib public_html %{buildroot}/usr/share/%{name}
 
 pushd %{buildroot}/%{_datadir}/%{name}
 
-pushd lib/ext
-rm -rf Auth
-rm -rf HTTP
-rm -rf Mail
-rm -rf Net
-rm -rf PEAR*.php
-rm -rf Roundcube
-ln -s ../../../roundcubemail/program/lib/Roundcube Roundcube
-popd
+mkdir -p lib/drivers/kolab/plugins
 
 pushd lib/drivers/kolab/plugins
-rm -rf kolab_auth kolab_folders libkolab
 %if 0%{?plesk} < 1
 ln -s ../../../../../roundcubemail/plugins/kolab_auth kolab_auth
 %endif
 ln -s ../../../../../roundcubemail/plugins/kolab_folders kolab_folders
 ln -s ../../../../../roundcubemail/plugins/libkolab libkolab
+popd
+
+pushd lib
+ln -s ../../roundcubemail/program/lib/Roundcube Roundcube
 popd
 
 ln -s ../../..%{_localstatedir}/cache/%{name} cache
@@ -165,6 +160,9 @@ fi
 %attr(0750,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Wed May 31 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5.0-1
+- Release 0.5.0
+
 * Wed May 10 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5-0.2.git
 - Fix log rotation on Plesk systems
 
