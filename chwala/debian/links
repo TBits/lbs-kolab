@@ -2,7 +2,7 @@ etc/roundcubemail /usr/share/chwala/config
 var/cache/chwala /usr/share/chwala/cache
 var/lib/chwala /usr/share/chwala/temp
 var/log/chwala /usr/share/chwala/logs
-usr/share/roundcubemail/program/lib/Roundcube /usr/share/chwala/lib/ext/Roundcube
+usr/share/roundcubemail/program/lib/Roundcube /usr/share/chwala/lib/Roundcube
 usr/share/roundcubemail/plugins/kolab_auth /usr/share/chwala/lib/drivers/kolab/plugins/kolab_auth
 usr/share/roundcubemail/plugins/kolab_folders /usr/share/chwala/lib/drivers/kolab/plugins/kolab_folders
 usr/share/roundcubemail/plugins/libkolab /usr/share/chwala/lib/drivers/kolab/plugins/libkolab
