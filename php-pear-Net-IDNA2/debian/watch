@@ -1,0 +1,2 @@
+version=3
+http://pear.php.net/package/Net_IDNA2/download .*/Net_IDNA2-(.*).tgz
