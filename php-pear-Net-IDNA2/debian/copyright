@@ -1,0 +1,17 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Net_IDNA2
+Upstream-Contact: Stefan Neufeind <stefan@neufeind.net>
+Source: http://pear.php.net/package/Net_IDNA2
+
+Files: *
+Copyright: 2010, Stefan Neufeind <pear.neufeind@speedpartner.de>
+           2010, Daniel O'Connor <daniel.oconnor@gmail.com>
+License: LGPL-2.1+
+
+Files: debian/*
+Copyright: 2016, Rajasekhar Ponakala <rajasekhar@swecha.net>
+License: LGPL-2.1+
+
+License: LGPL-2.1+
+ GNU Lesser General Public License, version 2.1 or later.
+ /usr/share/common-licenses/LGPL-2.1

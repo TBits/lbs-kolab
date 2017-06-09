@@ -11,7 +11,10 @@ Vcs-Git: http://git.kolab.org/kolab-syncroton
 Package: kolab-syncroton
 Architecture: all
 Depends:    php-auth-sasl,
+            php-mail-mime,
+            php-mail-mimedecode,
             php-mdb2 (>= 2.5.0),
+            php-net-idna2,
             php-net-smtp,
             php-net-socket,
             php-cli | php5-cli,

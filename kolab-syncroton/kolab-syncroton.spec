@@ -36,19 +36,16 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           kolab-syncroton
-Version:        2.3.4
-Release:        2%{?dist}
+Version:        2.3.5
+Release:        1%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
 License:        LGPLv2
 URL:            http://www.syncroton.org
 
-Source0:        kolab-syncroton-2.3.4.tar.gz
+Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
-
-Patch0001:      0001-Nicely-handle-errors-on-FolderCreate-T2223.patch
-Patch0002:      0002-Only-call-kolab_auth-ldap_close-if-the-method-actual.patch
 
 BuildArch:      noarch
 
@@ -94,21 +91,6 @@ and Tasks though this package - based on Syncroton technology.
 
 %prep
 %setup -q -n %{name}-%{version}
-
-%patch0001 -p1
-%patch0002 -p1
-
-rm -rf \
-    lib/ext/Auth/ \
-    lib/ext/MDB2/ \
-    lib/ext/MDB2.php \
-    lib/ext/Net/IDNA2/ \
-    lib/ext/Net/IDNA2.php \
-    lib/ext/Net/SMTP.php \
-    lib/ext/Net/Socket.php \
-    lib/ext/Roundcube/ \
-    lib/ext/Zend/ \
-    lib/plugins/
 
 %build
 
@@ -240,6 +222,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Thu Jun  8 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.5-1
+- Release 2.3.5
+
 * Wed May 10 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.4-3
 - Fix log rotation on Plesk
 

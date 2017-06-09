@@ -1,0 +1,5 @@
+php-net-idna2 (0.1.1-1) unstable; urgency=medium
+
+  * Initial release. (Closes: #839288)
+
+ -- Rajasekhar Ponakala <rajasekhar@swecha.net>  Fri, 26 Aug 2016 08:38:11 +0530
