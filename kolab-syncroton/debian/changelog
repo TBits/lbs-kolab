@@ -1,3 +1,9 @@
+kolab-syncroton (2.3.5-0~kolab2) unstable; urgency=low
+
+  * Ship lib/ext/Syncroton
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  9 Jun 2017 15:13:40 +0200
+
 kolab-syncroton (2.3.5-0~kolab1) unstable; urgency=low
 
   * Release of version 2.3.5
