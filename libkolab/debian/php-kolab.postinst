@@ -6,13 +6,17 @@ set -e
 #DEBHELPER#
 
 if [ -d "/etc/php/7.0/mods-available" ]; then
-    inidir=/etc/php/7.0/mods-available
+    basedir=/etc/php/7.0
+    inidir=${basedir}/mods-available
 elif [ -d "/etc/php/mods-available" ]; then
-    inidir=/etc/php/mods-available
+    basedir=/etc/php
+    inidir=${basedir}/mods-available
 elif [ -d "/etc/php5/mods-available" ]; then
-    inidir=/etc/php5/mods-available
+    basedir=/etc/php5
+    inidir=${basedir}/mods-available
 else
-    inidir=/etc/php5/conf.d
+    basedir=/etc/php5
+    inidir=${basedir}/conf.d
 fi
 
 module=kolab
@@ -44,6 +48,22 @@ if [ "$1" = "configure" ]; then
 		mv "${inidir}/${inifile}.dpkg-new" "${inidir}/${inifile}"
 	    fi
 	fi
+
+	# Remove broken/duplicate module symlinks possibly left over from an old
+	# installation
+	if [ -x "$(which phpquery 2>/dev/null)" ]; then
+		sapis=$(phpquery -S)
+	elif [ -x "$(which php5query 2>/dev/null)" ]; then
+		sapis=$(php5query -S)
+	fi
+	for sapi in ${sapis}; do
+		if [ -L ${basedir}/${sapi}/conf.d/20-${inifile} ]; then
+			rm ${basedir}/${sapi}/conf.d/20-${inifile}
+		fi
+		if [ -L ${basedir}/${sapi}/conf.d/20-kolabdummy.ini ]; then
+			rm ${basedir}/${sapi}/conf.d/20-kolabdummy.ini
+		fi
+	done
 
 	# Enable the module
 	if [ -x "$(which phpenmod 2>/dev/null)" ]; then

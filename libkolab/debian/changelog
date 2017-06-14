@@ -1,3 +1,9 @@
+libkolab (2.0~dev20151230-0~kolab7) unstable; urgency=low
+
+  * Fix warnings caused by duplicate/broken configuration-file symlinks
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 04 Jun 2017 12:02:47 +0200
+
 libkolab (2.0~dev20151230-0~kolab6)  unstable; urgency=low
 
   * Set priority for php-kolab extensions

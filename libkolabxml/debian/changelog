@@ -1,3 +1,9 @@
+libkolabxml (1.2~dev20160909-0~kolab7) unstable; urgency=low
+
+  * Fix warnings caused by duplicate configuration-file symlinks
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 04 Jun 2017 12:02:01 +0200
+
 libkolabxml (1.2~dev20160909-0~kolab6) unstable; urgency=low
 
   * Prioritize kolabformat library appropriately
