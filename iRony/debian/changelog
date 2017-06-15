@@ -1,3 +1,9 @@
+irony (0.4.0-0~kolab4) unstable; urgency=low
+
+  * Smoothen upgrade path
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 04 Jun 2017 11:27:27 +0200
+
 irony (0.4.0-0~kolab3) unstable; urgency=low
 
   * Fix iRony apache site configuration

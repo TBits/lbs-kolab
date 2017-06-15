@@ -15,7 +15,7 @@ override_dh_install:
 	if [ ! -f "/etc/plesk-release" ]; then \
 		mkdir -p $(CURDIR)/debian/irony/etc/apache2/sites-available ; \
 		cp -a $(CURDIR)/debian/iRony.conf \
-			$(CURDIR)/debian/irony/etc/apache2/sites-available/irony.conf ; \
+			$(CURDIR)/debian/irony/etc/apache2/sites-available/iRony.conf ; \
 	fi
 
 	mkdir -p $(CURDIR)/debian/irony/etc/iRony/

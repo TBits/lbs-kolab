@@ -14,7 +14,7 @@ reload_apache()
 
 case "$1" in
     upgrade|install)
-        # rename old apache/http sites rom sitename to sitename.conf
+        # rename old apache/http sites from sitename to sitename.conf
         if [ -e /etc/apache2/sites-available/iRony -a ! -e /etc/apache2/sites-available/iRony.conf ]; then
             if [ -h /etc/apache2/sites-enabled/iRony ]; then
                 a2dissite iRony
@@ -23,8 +23,16 @@ case "$1" in
             a2ensite iRony.conf
             reload_apache
         fi
+        # fixup accidental creation of irony.conf in 0.4.0-0~kolab1
+        if [ -e /etc/apache2/sites-available/irony.conf -a ! -e /etc/apache2/sites-available/iRony.conf ]; then
+            if [ -h /etc/apache2/sites-enabled/irony.conf ]; then
+                a2dissite irony.conf
+            fi
+            mv /etc/apache2/sites-available/irony.conf /etc/apache2/sites-available/iRony.conf
+            a2ensite iRony.conf
+            reload_apache
+        fi
     ;;
 esac
 
 exit 0
-
