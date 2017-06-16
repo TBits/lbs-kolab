@@ -23,8 +23,8 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           kolab-freebusy
-Version: 1.1
-Release: 0.20150706.git92624e4%{?dist}
+Version:        1.1.0
+Release:        1%{?dist}
 Summary:        Kolab Free/Busy Web Presentation Layer
 
 Group:          Applications/Internet
@@ -163,10 +163,13 @@ fi
 %attr(0770,root,%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
-* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> - 1.1.0.1
+* Thu Jun 15 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.1.0-1
+- Release 1.1.0
+
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> - 1.1-0.1
 - Fix build error on Fedora 25, composer needs php-justinrainbow-json-schema4
 
-* Mon Feb 23 2015 Daniel Hoffend <dh@dotlan.net> - 1.0.7.3
+* Mon Feb 23 2015 Daniel Hoffend <dh@dotlan.net> - 1.0.7-3
 - seperate httpd.conf from .spec file
 
 * Sun Feb 22 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.0.7-2
