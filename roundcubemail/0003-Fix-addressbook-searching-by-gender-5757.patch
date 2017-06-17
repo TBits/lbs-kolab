@@ -1,0 +1,41 @@
+From 58d7cdc3fcff334d29bcd7d6e7ceb4f0a360e41a Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Thu, 11 May 2017 08:56:42 +0200
+Subject: [PATCH 3/6] Fix addressbook searching by gender (#5757)
+
+---
+ CHANGELOG                                   | 1 +
+ program/lib/Roundcube/rcube_addressbook.php | 5 +++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index e83c007ce..b71909661 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
+ 
+ - Fix bug where comment notation within style tag would cause the whole style to be ignored (#5747)
+ - Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
++- Fix addressbook searching by gender (#5757)
+ 
+ RELEASE 1.2.5
+ -------------
+diff --git a/program/lib/Roundcube/rcube_addressbook.php b/program/lib/Roundcube/rcube_addressbook.php
+index 1db4c303d..ae56bab5a 100644
+--- a/program/lib/Roundcube/rcube_addressbook.php
++++ b/program/lib/Roundcube/rcube_addressbook.php
+@@ -670,6 +670,11 @@ abstract class rcube_addressbook
+                 && $value->format('Ymd') == $search->format('Ymd'));
+         }
+ 
++        // Gender is a special value, must use strict comparison (#5757)
++        if ($colname == 'gender') {
++            $mode = self::SEARCH_STRICT;
++        }
++
+         // composite field, e.g. address
+         foreach ((array)$value as $val) {
+             $val = mb_strtolower($val);
+-- 
+2.13.0
+

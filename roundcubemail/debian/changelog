@@ -1,3 +1,11 @@
+roundcubemail (1.2.5-0~kolab6) unstable; urgency=low
+
+  * Fix saving preferences (timezone)
+  * Fix syntax error against MariaDB 10.2
+  * Fix assets for enigma plugin
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 16 Jun 2017 11:11:11 +0200
+
 roundcubemail (1.2.5-0~kolab5) unstable; urgency=low
 
   * Fix upgrade path

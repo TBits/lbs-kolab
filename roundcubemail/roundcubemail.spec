@@ -49,7 +49,7 @@
 Name:           roundcubemail
 Version:        1.2.5
 
-Release:        4%{?dist}
+Release:        6%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -68,10 +68,23 @@ Source101:      plesk.password.inc.php
 
 Patch201:       default-configuration.patch
 
+Patch0001:      0001-Fix-bug-where-comment-notation-within-style-tag-woul.patch
+Patch0002:      0002-Fix-bug-where-it-wasn-t-possible-to-scroll-folders-l.patch
+Patch0003:      0003-Fix-addressbook-searching-by-gender-5757.patch
+Patch0004:      0004-Enigma-Fix-compatibility-with-assets_dir.patch
+Patch0005:      0005-Fix-SQL-syntax-error-on-MariaDB-10.2-5774.patch
+Patch0006:      0006-Fix-bug-where-it-wasn-t-possible-to-set-timezone-to-.patch
+
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 
 BuildRequires:  composer
+%if 0%{?fedora}
+# fix issue:
+# have choice for php-composer(justinrainbow/json-schema) >= 2.0 needed by composer: php-justinrainbow-json-schema4 php-justinrainbow-json-schema
+# have choice for php-composer(justinrainbow/json-schema) < 5 needed by composer: php-justinrainbow-json-schema4 php-justinrainbow-json-schema php-JsonSchema
+BuildRequires:  php-justinrainbow-json-schema4
+%endif
 
 %if 0%{?plesk} < 1
 BuildRequires:  php-gd
@@ -146,6 +159,12 @@ Recommends:     mod_php_any
 %else
 Requires:       webserver
 Requires:       php-common >= 5.3
+%endif
+
+%if 0%{?fedora}
+# to avoid on OBS, for packages depending on roundcubemail-core: 
+# have choice for webserver needed by roundcubemail-core: lighttpd httpd nginx cherokee
+Requires:       httpd
 %endif
 
 Requires:       php-gd
@@ -2861,6 +2880,14 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Jun 16 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.5-6
+- Fix saving preferences (timezone)
+- Fix syntax error against MariaDB 10.2
+- Fix assets for enigma plugin
+
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> - 1.2.5-5
+- avoid problems on Fedora, roundcubemail-core requires webserver but there are several available
+
 * Wed May 10 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.5-2
 - Fix log rotation in Plesk
 

@@ -1,0 +1,48 @@
+From 3d498cd632362d2fb19f578d8e96e8785580c490 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Sat, 3 Jun 2017 19:00:00 +0200
+Subject: [PATCH 6/6] Fix bug where it wasn't possible to set timezone to
+ auto-detected value (#5782)
+
+---
+ CHANGELOG                            | 1 +
+ program/lib/Roundcube/rcube_user.php | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index 2cb45faba..e4d5c375d 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
+ - Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
+ - Fix addressbook searching by gender (#5757)
+ - Fix SQL syntax error on MariaDB 10.2 (#5774)
++- Fix bug where it wasn't possible to set timezone to auto-detected value (#5782)
+ 
+ RELEASE 1.2.5
+ -------------
+diff --git a/program/lib/Roundcube/rcube_user.php b/program/lib/Roundcube/rcube_user.php
+index bda6e54b6..472cec368 100644
+--- a/program/lib/Roundcube/rcube_user.php
++++ b/program/lib/Roundcube/rcube_user.php
+@@ -188,14 +188,16 @@ class rcube_user
+         $a_user_prefs = $plugin['prefs'];
+         $old_prefs    = $plugin['old'];
+         $config       = $this->rc->config;
++        $defaults     = $config->all();
+ 
+         // merge (partial) prefs array with existing settings
+         $this->prefs = $save_prefs = $a_user_prefs + $old_prefs;
+         unset($save_prefs['language']);
+ 
+         // don't save prefs with default values if they haven't been changed yet
++        // Warning: we use result of rcube_config::all() here instead of just get() (#5782)
+         foreach ($a_user_prefs as $key => $value) {
+-            if ($value === null || (!isset($old_prefs[$key]) && ($value == $config->get($key)))) {
++            if ($value === null || (!isset($old_prefs[$key]) && $value === $defaults[$key])) {
+                 unset($save_prefs[$key]);
+             }
+         }
+-- 
+2.13.0
+
