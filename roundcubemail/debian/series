@@ -1,1 +1,7 @@
 default-configuration.patch -p1
+0001-Fix-bug-where-comment-notation-within-style-tag-woul.patch -p1
+0002-Fix-bug-where-it-wasn-t-possible-to-scroll-folders-l.patch -p1
+0003-Fix-addressbook-searching-by-gender-5757.patch -p1
+0004-Enigma-Fix-compatibility-with-assets_dir.patch -p1
+0005-Fix-SQL-syntax-error-on-MariaDB-10.2-5774.patch -p1
+0006-Fix-bug-where-it-wasn-t-possible-to-set-timezone-to-.patch -p1

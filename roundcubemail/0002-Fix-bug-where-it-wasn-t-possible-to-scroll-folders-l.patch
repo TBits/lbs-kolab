@@ -1,0 +1,55 @@
+From 1b8d76644769cbe2bcbddb657aafed550999aebf Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Fri, 5 May 2017 13:41:49 +0200
+Subject: [PATCH 2/6] Fix bug where it wasn't possible to scroll folders list
+ in Edge (#5750)
+
+---
+ CHANGELOG            | 1 +
+ skins/larry/mail.css | 4 +---
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index 5bd46f0d3..e83c007ce 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
+ ===========================
+ 
+ - Fix bug where comment notation within style tag would cause the whole style to be ignored (#5747)
++- Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
+ 
+ RELEASE 1.2.5
+ -------------
+diff --git a/skins/larry/mail.css b/skins/larry/mail.css
+index e29265643..155e16b01 100644
+--- a/skins/larry/mail.css
++++ b/skins/larry/mail.css
+@@ -16,7 +16,7 @@
+ 	left: 0;
+ 	width: 200px;
+ 	bottom: 0;
+-	z-index: 2;
++	z-index: 1; /* fixes scrolling in Edge (#5750) */
+ }
+ 
+ #mailview-right {
+@@ -25,7 +25,6 @@
+ 	left: 212px;
+ 	right: 0;
+ 	bottom: 0;
+-	z-index: 3;
+ }
+ 
+ #mailview-right.fullwidth {
+@@ -224,7 +223,6 @@ html.mozilla #mailboxlist > li:first-child {
+ 	left: 0;
+ 	height: 40px;
+ 	white-space: nowrap;
+-	z-index: 10;
+ }
+ 
+ #messagetoolbar.fullwidth {
+-- 
+2.13.0
+

@@ -1,0 +1,47 @@
+From 913ffcfbbec71529c7ffb1ee675bd7b5decf571f Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Sun, 28 May 2017 20:23:13 +0200
+Subject: [PATCH 5/6] Fix SQL syntax error on MariaDB 10.2 (#5774)
+
+---
+ CHANGELOG                                | 1 +
+ program/lib/Roundcube/rcube_contacts.php | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index d2a648e15..2cb45faba 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
+ - Fix bug where comment notation within style tag would cause the whole style to be ignored (#5747)
+ - Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
+ - Fix addressbook searching by gender (#5757)
++- Fix SQL syntax error on MariaDB 10.2 (#5774)
+ 
+ RELEASE 1.2.5
+ -------------
+diff --git a/program/lib/Roundcube/rcube_contacts.php b/program/lib/Roundcube/rcube_contacts.php
+index ef42328fe..532a5685f 100644
+--- a/program/lib/Roundcube/rcube_contacts.php
++++ b/program/lib/Roundcube/rcube_contacts.php
+@@ -502,7 +502,7 @@ class rcube_contacts extends rcube_addressbook
+ 
+         // count contacts for this user
+         $sql_result = $this->db->query(
+-            "SELECT COUNT(c.`contact_id`) AS rows".
++            "SELECT COUNT(c.`contact_id`) AS cnt".
+             " FROM " . $this->db->table_name($this->db_name, true) . " AS c".
+                 $join.
+             " WHERE c.`del` <> 1".
+@@ -515,7 +515,7 @@ class rcube_contacts extends rcube_addressbook
+ 
+         $sql_arr = $this->db->fetch_assoc($sql_result);
+ 
+-        $this->cache['count'] = (int) $sql_arr['rows'];
++        $this->cache['count'] = (int) $sql_arr['cnt'];
+ 
+         return $this->cache['count'];
+     }
+-- 
+2.13.0
+
