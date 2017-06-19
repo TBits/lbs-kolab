@@ -1,0 +1,71 @@
+From 07a86bbd51c6444135eb8ed7ded465aad64167eb Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Fri, 16 Jun 2017 15:07:10 +0000
+Subject: [PATCH 2/2] Fix MeetingStatus value (Bifrost#T34257)
+
+Wrong value caused Outlook to think every event with attendees is organized
+by the current user even if he was an attendee not organizer.
+---
+ lib/kolab_sync_data_calendar.php | 39 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
+
+diff --git a/lib/kolab_sync_data_calendar.php b/lib/kolab_sync_data_calendar.php
+index 14d929f..fcfd51f 100644
+--- a/lib/kolab_sync_data_calendar.php
++++ b/lib/kolab_sync_data_calendar.php
+@@ -308,7 +308,7 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+         }
+ 
+         // Event meeting status
+-        $result['meetingStatus'] = intval(!empty($result['attendees']));
++        $this->meeting_status_from_kolab($collection, $event, $result);
+ 
+         // Recurrence (and exceptions)
+         $this->recurrence_from_kolab($collection, $event, $result);
+@@ -543,6 +543,43 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+     }
+ 
+     /**
++     * Set MeetingStatus according to event data
++     */
++    protected function meeting_status_from_kolab($collection, $event, &$result)
++    {
++        // 0 - The event is an appointment, which has no attendees.
++        // 1 - The event is a meeting and the user is the meeting organizer.
++        // 3 - This event is a meeting, and the user is not the meeting organizer.
++        // 5 - The meeting has been canceled and the user was the meeting organizer.
++        // 7 - The meeting has been canceled. The user was not the meeting organizer.
++        $status = 0;
++
++        if (!empty($event['attendees'])) {
++            // Find out if the user is an organizer
++            // TODO: Delegation/aliases support
++            $user_emails  = kolab_sync::get_instance()->user->list_emails();
++            $user_emails  = array_map(function($v) { return $v['email']; }, $user_emails);
++            $is_organizer = true;
++
++            foreach ($event['attendees'] as $attendee) {
++                if (in_array_nocase($attendee['email'], $user_emails)) {
++                    $is_organizer = false;
++                    break;
++                }
++            }
++
++            if ($event['status'] == 'CANCELLED') {
++                $status = !empty($is_organizer) ? 5 : 7;
++            }
++            else {
++                $status = !empty($is_organizer) ? 1 : 3;
++            }
++        }
++
++        $result['meetingStatus'] = $status;
++    }
++
++    /**
+      * Converts libkolab alarms spec. into a number of minutes
+      */
+     protected function from_kolab_alarm($event)
+-- 
+2.13.0
+

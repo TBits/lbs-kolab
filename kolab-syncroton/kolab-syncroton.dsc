@@ -2,7 +2,7 @@ Format: 1.0
 Source: kolab-syncroton
 Binary: kolab-syncroton
 Architecture: all
-Version: 2.3.5-0~kolab2
+Version: 2.3.5-0~kolab3
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.kolab.org/

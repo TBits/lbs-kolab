@@ -47,6 +47,9 @@ URL:            http://www.syncroton.org
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
 
+Patch0001:      0001-T2477-GAL-for-Outlook.patch
+Patch0002:      0002-Fix-MeetingStatus-value-Bifrost-T34257.patch
+
 BuildArch:      noarch
 
 # Use this build requirement to make sure we are using
@@ -222,6 +225,10 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Sun Jun 18 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.5-2
+- Implement a GAL virtual folder with LDAP backend for Outlook over Activesync
+- Fix organizer / ownership for events
+
 * Thu Jun  8 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.5-1
 - Release 2.3.5
 
