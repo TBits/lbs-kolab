@@ -15,24 +15,23 @@
 %global with_systemd 1
 %endif
 
-%{!?_unitdir: %global _unitdir /usr/lib/systemd/system}
-
 %define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
 
 Name:               guam
-Version:            0.8.3
-Release:            0.20160219.git%{?dist}
+Version:            0.9.2
+Release:            0.20170426.git%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
 License:            GPLv3+
 URL:                https://kolab.org/about/guam
 
-Source0:            guam-%{version}.tar.gz
-
+Source0:            https://mirror.kolabenterprise.com/pub/releases/guam-%{version}.tar.gz
 Source100:          plesk.sys.config
 
-Patch9991:          guam-0.8.2-relax-dependencies.patch
+Patch0001:          0001-Avoid-empty-lines-in-the-responses-to-IMAP-clients.patch
+Patch9991:          guam-0.9.1-relax-dependencies.patch
+Patch9992:          guam-0.9.2-set-version-number.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-asn1
@@ -100,7 +99,9 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
+%patch0001 -p1
 %patch9991 -p1
+%patch9992 -p1
 
 %build
 rebar compile
@@ -223,7 +224,10 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
-* Tue Jul  12 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.8.3-1
+* Mon Jun 19 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-1
+- Release version 0.9.2
+
+* Tue Jul 12 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.8.3-1
 - Release of version 0.8.3
 
 * Fri Jul  8 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.8.2-2

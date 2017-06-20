@@ -1,0 +1,55 @@
+From a3c6ca5afcfd73e8921be60afec0ed102da02c71 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Wed, 26 Apr 2017 16:24:35 +0200
+Subject: [PATCH] Avoid empty lines in the responses to IMAP clients.
+
+---
+ .../src/rules/kolab_guam_rule_filter_groupware.erl | 24 +++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
+index 9d89e92..1beec7c 100644
+--- a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
++++ b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
+@@ -78,15 +78,37 @@ apply_if_id_matches(Command, Data, State) ->
+ apply_if_found_kolab(0) -> true;
+ apply_if_found_kolab(_) -> false.
+ 
++% Filter out a would-be empty list of folders, should the list of folders
++% consist of only groupware folders.
++filter_folders(<<>>, State, _, LastChunk) ->
++    { <<>>, State#state{ active = true, last_chunk = LastChunk } };
++
++% Send the response to the client. Note that the last list item is not
++% imploded \r\n in to, so that needs to be added.
++filter_folders(Response, State, More, LastChunk) ->
++    {
++        <<Response/binary, "\r\n">>,
++        State#state { active = More, last_chunk = LastChunk }
++    }.
++
++% The buffer is empty
+ filter_folders(<<>>, State) ->
+     { <<>>, State#state{ active = true } };
++
++% Parse folders from the buffer, potentially leaving some cruft behind -- the
++% start of the next, incomplete server response line.
+ filter_folders(Buffer, #state{ last_chunk = LeftOvers } = State) ->
++    % Add the left overs from the previous buffer to the current buffer
+     FullBuffer = <<LeftOvers/binary, Buffer/binary>>,
++    % From that buffer, only take the complete lines and save off the
++    % remainder.
+     { FullLinesBuffer, LastChunk } = eimap_utils:only_full_lines(FullBuffer),
++    % Create a list so we can filter the individual folders
+     ListResponses = binary:split(FullLinesBuffer, <<"\r\n">>, [ global ]),
+     { Response, More } = filter_folders(State, ListResponses, { <<>>, true }),
+     %io:format("Filtered ... ~p~n", [Response]),
+-    { <<Response/binary, "\r\n">>, State#state { active = More, last_chunk = LastChunk } }.
++    % To send or not to send?
++    filter_folders(Response, State, More, LastChunk).
+ 
+ filter_folders(_State, [], Return) -> Return;
+ filter_folders(_State, _Folders, { Acc, false }) -> { Acc, false };
+-- 
+2.9.3
+
