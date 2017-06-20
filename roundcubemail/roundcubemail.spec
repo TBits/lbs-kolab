@@ -1096,6 +1096,13 @@ cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 
 %patch201 -p1
 
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
+%patch0006 -p1
+
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
 
@@ -2880,7 +2887,7 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
-* Fri Jun 16 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.5-6
+* Mon Jun 19 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.5-6
 - Fix saving preferences (timezone)
 - Fix syntax error against MariaDB 10.2
 - Fix assets for enigma plugin
