@@ -151,7 +151,7 @@ fi
 %files
 %doc README.md LICENSE doc/SQL/
 %if 0%{?plesk} < 1
-%{_ap_sysconfdir}/conf.d/%{name}.conf
+%config(noreplace) %{_ap_sysconfdir}/conf.d/%{name}.conf
 %endif
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_datadir}/%{name}

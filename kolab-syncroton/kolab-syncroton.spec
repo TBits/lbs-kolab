@@ -95,6 +95,9 @@ and Tasks though this package - based on Syncroton technology.
 %prep
 %setup -q -n %{name}-%{version}
 
+%patch0001 -p1
+%patch0002 -p1
+
 %build
 
 %install
