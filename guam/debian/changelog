@@ -1,3 +1,10 @@
+guam (0.9.2-2) unstable; urgency=medium
+
+  * Fix potentially empty responses
+  * Fix T25795 / IDLE passthrough
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Mon, 26 Jun 2017 06:06:06 +0600
+
 guam (0.9.2-1) unstable; urgency=medium
 
   * Release of version 0.9.2

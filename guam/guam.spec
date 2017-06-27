@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.2
-Release:            0.20170426.git%{?dist}
+Release:            2%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -30,6 +30,8 @@ Source0:            https://mirror.kolabenterprise.com/pub/releases/guam-%{versi
 Source100:          plesk.sys.config
 
 Patch0001:          0001-Avoid-empty-lines-in-the-responses-to-IMAP-clients.patch
+Patch0002:          guam-0.9.2-T25795.patch
+
 Patch9991:          guam-0.9.1-relax-dependencies.patch
 Patch9992:          guam-0.9.2-set-version-number.patch
 
@@ -100,6 +102,8 @@ the perimeter of your IMAP environment.
 %setup -q
 
 %patch0001 -p1
+%patch0002 -p1
+
 %patch9991 -p1
 %patch9992 -p1
 
@@ -224,6 +228,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Mon Jun 26 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-2
+- Fix T25795
+
 * Mon Jun 19 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-1
 - Release version 0.9.2
 
