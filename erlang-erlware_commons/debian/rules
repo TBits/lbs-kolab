@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+DESTDIR = $(CURDIR)/debian/$(DEB_SOURCE)
+LIBDIR = $(DESTDIR)/usr/lib/erlang/lib/erlware_commons-$(DEB_VERSION_UPSTREAM)
+DOCDIR = $(DESTDIR)/usr/share/doc/$(DEB_SOURCE)
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	erl -noshell -eval '{ok, L} = file:consult("rebar.config"), file:write_file("erlware_commons.rebar.config", lists:map(fun(E) -> io_lib:format("~p.~n", [E]) end, [{erl_opts, [slim, inline, no_debug_info, nowarn_deprecated_function|lists:delete(debug_info, proplists:get_value(erl_opts, L, []))]}, {edoc_opts, [{preprocess, true}|proplists:get_value(edoc_opts, L, [])]} |lists:foldl(fun proplists:delete/2, L, [deps, cover_enabled, edoc_opts, erl_opts])])), halt().'
+	rebar -C erlware_commons.rebar.config compile -v
+	rebar -C erlware_commons.rebar.config doc -v
+
+override_dh_auto_test:
+	rebar -C erlware_commons.rebar.config eunit
+
+override_dh_auto_install:
+	install -d -m 0755 $(LIBDIR)/ebin
+	install -p -m 0644 ebin/* $(LIBDIR)/ebin/
+	install -d -m 0755 $(LIBDIR)/include
+	install -p -m 0644 include/* $(LIBDIR)/include/
+	install -d -m 0755 $(LIBDIR)/priv
+	install -p -m 0644 priv/* $(LIBDIR)/priv/
+	install -d -m 0755 $(LIBDIR)/doc
+	install -p -m 0644 doc/*.css $(LIBDIR)/doc/
+	install -p -m 0644 doc/*.html $(LIBDIR)/doc/
+	install -p -m 0644 doc/*.png $(LIBDIR)/doc/
+
+override_dh_installdocs:
+	dh_installdocs
+	install -d -m 0755 $(DOCDIR)
+	ln -sf ../../lib/erlang/lib/erlware_commons-$(DEB_VERSION_UPSTREAM)/doc $(DOCDIR)/html
+	install -p -m 0644 *.md $(DOCDIR)/

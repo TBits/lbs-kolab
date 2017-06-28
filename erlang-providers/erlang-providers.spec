@@ -6,7 +6,7 @@ Summary:        An Erlang providers library
 License:        LGPL-3.0
 Group:          Development/Tools/Other
 URL:            https://github.com/tsloughter/%bname
-Source:         %bname-%version.tar.xz
+Source:         %bname-%version.tar.gz
 Provides:       erlang-%bname = %version-%release
 
 BuildRequires:  erlang-rpm-macros

@@ -6,7 +6,7 @@ Summary:        An Erlang providers library
 License:        Apache-2.0
 Group:          Development/Tools/Other
 URL:            https://github.com/erlware/%bname
-Source:         %bname.tar.xz
+Source:         %bname.tar.gz
 Provides:       erlang-%bname = %version-%release
 
 BuildRequires:  erlang-rpm-macros

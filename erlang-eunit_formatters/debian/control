@@ -1,0 +1,15 @@
+Source: erlang-eunit-formatters
+Section: devel
+Priority: extra
+Maintainer: Christoph Erhardt <kolab@sicherha.de>
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 9), erlang, rebar
+Homepage: https://github.com/seancribbs/eunit_formatters
+
+Package: erlang-eunit-formatters
+Architecture: any
+Section: devel
+Depends: ${misc:Depends},
+	erlang-base | erlang-base-hipe
+Description: Better output for eunit suites
+ Because eunit's output sucks. Let's make it better.

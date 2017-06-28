@@ -6,7 +6,7 @@ Summary: An Erlang specific port of certifi
 License: MIT
 Group: Development/Tools/Other
 URL: https://github.com/certifi/%name
-Source: %name-%version.tar.xz
+Source: %name-%version.tar.gz
 
 BuildRequires: erlang-rpm-macros
 BuildRequires: erlang-rebar >= 2.6.1

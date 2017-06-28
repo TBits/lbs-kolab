@@ -22,31 +22,38 @@ override_dh_auto_test:
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/sbin $(DESTDIR)/etc/guam \
 		$(DESTDIR)/lib/systemd/system $(DESTDIR)/var/log/ \
-		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
+		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/ \
+		$(DESTDIR)/usr/lib/erlang/bin $(DESTDIR)/var/log/guam
 
 	install -p -m 644 contrib/guam.service \
 	        $(DESTDIR)/lib/systemd/system/guam.service
 
 	cp -a _build/default/rel/guam/bin \
-		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
+		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/
 
 	cp -a _build/default/rel/guam/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/ebin \
-		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
+		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/
 
 	cp -a _build/default/rel/guam/releases \
-		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
+		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/
 
-	mv $(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/sys.config \
+	mv $(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/sys.config \
 		 $(DESTDIR)/etc/guam/sys.config
 
 	ln -s ../../../../../../../etc/guam/sys.config \
-		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/sys.config
+		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/sys.config
 
-	mv $(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/vm.args \
+	mv $(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/vm.args \
 		$(DESTDIR)/etc/guam/vm.args
 
 	ln -s ../../../../../../../etc/guam/vm.args \
-		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/vm.args
+		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/vm.args
 
-	mv $(DESTDIR)//usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/log/ $(DESTDIR)/var/log/guam
-	ln -s ../../../../../var/log/guam /usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/log
+	#mv $(DESTDIR)//usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/log/ $(DESTDIR)/var/log/guam
+	#ln -s ../../../../../var/log/guam /usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/log
+
+	ln -s ../../usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/bin/guam \
+		$(DESTDIR)/usr/sbin/guam
+
+	ln -s ../lib/guam-$(DEB_VERSION_UPSTREAM)/bin/guam \
+		$(DESTDIR)/usr/lib/erlang/bin/kolab_guam

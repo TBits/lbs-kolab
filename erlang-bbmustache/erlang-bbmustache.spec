@@ -6,7 +6,7 @@ Summary:        Binary pattern match Based Mustache template engine for Erlang/O
 License:        MIT
 Group:          Development/Tools/Other
 URL:            https://github.com/soranoba/%bname
-Source:         %bname-%version.tar.xz
+Source:         %bname-%version.tar.gz
 Provides:       erlang-%bname = %version-%release
 
 BuildRequires:  erlang-rpm-macros

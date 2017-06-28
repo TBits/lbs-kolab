@@ -1,0 +1,7 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: eunit_formatters
+Source: https://github.com/seancribbs/eunit_formatters
+
+Files: *
+Copyright: 2014 Sean Cribbs
+License: Apache-2.0

@@ -1,0 +1,5 @@
+erlang-cth-readable (1.2.3-1) unstable; urgency=low
+
+  * initial Debian Package
+
+ -- hede <kolab983@der-he.de>  Fri, 02 Jun 2017 17:26:56 +0000

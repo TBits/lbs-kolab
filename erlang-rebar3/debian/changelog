@@ -1,3 +1,11 @@
+erlang-rebar3 (3.3.2-1mic1) unstable; urgency=low
+
+  * fix debian build 
+  * use rebar2 
+  * use dh-rebar autobuild, needs "erlang-" prefix
+
+ -- hede <kolab983@der-he.de>  Fri, 09 Jun 2017 19:26:56 +0000
+
 rebar3 (3.3.2-1) unstable; urgency=low
 
   * Update to rebar3

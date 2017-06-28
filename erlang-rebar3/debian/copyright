@@ -1,68 +1,14 @@
 Format: Format: http://dep.debian.net/deps/dep5
-Name: rebar
-Maintainer: Nobuhiro Iwamatsu <iwamatsu@debian.org>
-Source: https://github.com/basho/rebar
-
-Files: src/getopt.erl
-Copyright: Juan Jose Comellas <juanjo@comellas.org>
-License: BSD-2-clause
-
-Files: src/mustache.erl
-Copyright: Copyright (c) 2009 Tom Preston-Werner <tom@mojombo.com>
-License: MIT
-
-Files: src/rebar_abnfc_compiler.erl
-Copyright (c) 2010 Anthony Ramine (nox@dev-extend.eu),
-License: MIT
-
-Files: src/rebar_appups.erl
-       src/rebar_upgrade.erl
-Copyright: Copyright (c) 2011 Joe Williams (joe@joetify.com)
-License: MIT
-
-Files: src/rebar_asn1_compiler.erl
-Files: src/rebar_eunit.erl
-Files: src/rebar_utils.erl
-Copyright: Copyright (c) 2009, 2010 Dave Smith (dizzyd@dizzyd.com)
-License: MIT
-
-Files: src/rebar.erl
-       src/rebar_app_utils.erl
-       src/rebar_base_compiler.erl
-       src/rebar_cleaner.erl
-       src/rebar_config.erl
-       src/rebar_core.erl
-       src/rebar_ct.erl
-       src/rebar_deps.erl
-       src/rebar_edoc.erl
-       src/rebar_erlc_compiler.erl
-       src/rebar_erlydtl_compiler.erl
-       src/rebar_escripter.erl
-       src/rebar_file_utils.erl
-       src/rebar_lfe_compiler.erl
-       src/rebar_log.erl
-       src/rebar_otp_app.erl
-       src/rebar_port_compiler.erl
-       src/rebar_protobuffs_compiler.erl
-       src/rebar_rel_utils.erl
-       src/rebar_reltool.erl
-       src/rebar_require_vsn.erl
-       src/rebar_subdirs.erl
-       src/rebar_templater.erl
-       src/rebar_xref.erl
-Copyright: Copyright (c) 2009 Dave Smith (dizzyd@dizzyd.com)
-License: MIT
-
-Files: src/rebar_neotoma_compiler.erl
-Copyright: Copyright (c) 2010 Cliff Moon (cliff@moonpolysoft.com)
-License: MIT
+Name: Rebar3
+Maintainer: hede <kolab983@der-he.de>
+Source: https://github.com/erlang/rebar3
 
 Files: *
-Copyright: Copyright 2005-2011, Basho Team and other contributors
-License: Apache-2.0
+Copyright: Sorry, this is a TODO for now
+License: unknown
 
 Files: debian/*
-Copyright: Copyright 2012, Nobuhiro Iwamatsu <iwamatsu@debian.org>
+Copyright: Copyright 2017, hede <kolab983@der-he.de>
 License: MIT
 
 License: The MIT License

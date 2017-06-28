@@ -49,6 +49,8 @@ Source1:        kolab-syncroton.logrotate
 
 Patch0001:      0001-T2477-GAL-for-Outlook.patch
 Patch0002:      0002-Fix-MeetingStatus-value-Bifrost-T34257.patch
+Patch0003:      0003-Add-important-note-about-uid-and-changed-fields-in-G.patch
+Patch0004:      0004-T2519-Fix-Recurrence-element-structure.patch
 
 BuildArch:      noarch
 
@@ -97,6 +99,8 @@ and Tasks though this package - based on Syncroton technology.
 
 %patch0001 -p1
 %patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
 
 %build
 

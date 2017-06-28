@@ -1,0 +1,23 @@
+diff -rupN old/rebar.config new/rebar.config
+--- old/rebar.config	2017-06-07 20:57:32.721530158 +0000
++++ new/rebar.config	2017-06-07 20:57:47.871946764 +0000
+@@ -1,4 +1,4 @@
+-{deps, [cf]}.
++%%{deps, [cf]}.
+ 
+ {ct_opts, [
+     {ct_hooks, [cth_readable_failonly, cth_readable_shell]}
+diff -rupN old/rebar.config.script new/rebar.config.script
+--- old/rebar.config.script	2017-06-07 20:57:32.721530158 +0000
++++ new/rebar.config.script	1970-01-01 00:00:00.000000000 +0000
+@@ -1,10 +0,0 @@
+-case erlang:function_exported(rebar3, main, 1) of
+-    true -> % rebar3
+-        CONFIG;
+-    false -> % rebar 2.x or older
+-        %% Rebuild deps, possibly including those that have been moved to
+-        %% profiles
+-        [{deps, [
+-            {cf, ".*", {git, "https://github.com/project-fifo/cf.git", "a6b3957"}}
+-        ]} | lists:keydelete(deps, 1, CONFIG)]
+-end.

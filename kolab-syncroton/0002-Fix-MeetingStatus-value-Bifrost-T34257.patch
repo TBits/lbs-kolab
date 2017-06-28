@@ -1,7 +1,7 @@
 From 07a86bbd51c6444135eb8ed7ded465aad64167eb Mon Sep 17 00:00:00 2001
 From: Aleksander Machniak <machniak@kolabsys.com>
 Date: Fri, 16 Jun 2017 15:07:10 +0000
-Subject: [PATCH 2/2] Fix MeetingStatus value (Bifrost#T34257)
+Subject: [PATCH 2/4] Fix MeetingStatus value (Bifrost#T34257)
 
 Wrong value caused Outlook to think every event with attendees is organized
 by the current user even if he was an attendee not organizer.

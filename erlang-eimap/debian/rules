@@ -8,12 +8,13 @@ DESTDIR = $(CURDIR)/debian/erlang-eimap
 	dh $@
 
 override_dh_auto_build:
-	rebar compile -v
+	rebar3 compile -v
+	#rebar3 release --dev-mode false --relname eimap --relvsn 0.4.0 --verbose
 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/ebin \
 	      $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/src
-	install -D -m 644 ebin/eimap.app \
+	install -D -m 644 ./_build/default/lib/eimap/ebin/eimap.app \
 	        $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/ebin/eimap.app
-	install -D -m 644 ebin/*.beam \
+	install -D -m 644 ./_build/default/lib/eimap/ebin/*.beam \
 	        $(DESTDIR)/usr/lib/erlang/lib/eimap-$(DEB_VERSION_UPSTREAM)/ebin/

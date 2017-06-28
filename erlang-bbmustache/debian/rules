@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+DESTDIR = $(CURDIR)/debian/$(DEB_SOURCE)
+LIBDIR = $(DESTDIR)/usr/lib/erlang/lib/bbmustache-$(DEB_VERSION_UPSTREAM)
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	erl -noshell -eval '{ok, L} = file:consult("rebar.config"), file:write_file("bbmustache.rebar.config", lists:map(fun(E) -> [io_lib:print(E), ".\n"] end, [{erl_opts, [slim, inline, no_debug_info|lists:delete(debug_info, proplists:get_value(erl_opts, L, []))]}|lists:foldl(fun proplists:delete/2, L, [deps, erl_opts, cover_enabled])])), halt().'
+	rebar -C bbmustache.rebar.config compile -v
+
+override_dh_auto_test:
+	rebar -C bbmustache.rebar.config eunit
+
+override_dh_auto_install:
+	install -d -m 0755 $(LIBDIR)/ebin
+	install -p -m 0644 ebin/* $(LIBDIR)/ebin/
+
+override_dh_installdocs:
+	dh_installdocs
+	install -p -m 0644 README.* $(DESTDIR)/usr/share/doc/$(DEB_SOURCE)

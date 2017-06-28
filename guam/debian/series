@@ -1,1 +1,2 @@
 make-it-very-easy-on-rebar3.patch -p1
+guam-priv-no-delete.patch -p1

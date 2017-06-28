@@ -1,0 +1,17 @@
+Source: erlang-cth-readable
+Maintainer: hede <kolab983@der-he.de>
+Section: libs
+Priority: optional
+Standards-Version: 3.9.4
+Homepage: https://github.com/ferd/cth_readable
+Build-Depends: debhelper (>= 9), erlang-dev, erlang-tools, rebar, dh-rebar, erlang-common-test
+
+Package: erlang-cth-readable
+Architecture: any
+Section: devel
+Priority: optional
+Depends: ${misc:Depends}, ${shlibs:Depends},
+	erlang-base | erlang-base-hipe
+Enhances: erlang
+Description: An Erlang/OTP library to be used for CT log outputs you want 
+ to be readable around all that noise they contain.

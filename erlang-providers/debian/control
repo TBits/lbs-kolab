@@ -1,0 +1,15 @@
+Source: erlang-providers
+Section: devel
+Priority: extra
+Maintainer: Christoph Erhardt <kolab@sicherha.de>
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 9), erlang, erlang-getopt, rebar
+Homepage: https://github.com/tsloughter/providers
+
+Package: erlang-providers
+Architecture: any
+Section: devel
+Depends: ${misc:Depends},
+	erlang-base | erlang-base-hipe
+Description: Providers provide
+ An Erlang providers library.

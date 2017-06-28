@@ -6,7 +6,7 @@ Summary: Hostname verification library for Erlang
 License: MIT
 Group: Development/Tools/Other
 URL: https://github.com/deadtrickster/%bname.erl
-Source: %bname.erl-%version.tar.xz
+Source: %bname.erl-%version.tar.gz
 Patch1: update-to-and-fix-recent-rebar3-version.patch
 BuildArch: noarch
 Provides: %bname.erl = %version-%release

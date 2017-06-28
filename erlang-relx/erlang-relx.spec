@@ -6,7 +6,7 @@ Summary:        A release assembler for Erlang
 License:        Apache-2.0
 Group:          Development/Tools/Other
 URL:            https://github.com/erlware/%bname
-Source:         %bname-%version.tar.xz
+Source:         %bname-%version.tar.gz
 
 Patch0:         %bname-%version-git.patch
 Patch1:         %bname-2.0.0-doc.patch

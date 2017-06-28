@@ -6,7 +6,7 @@ Summary:        An Erlang/OTP library to be used for CT log outputs
 License:        MIT
 Group:          Development/Tools/Other
 URL:            https://github.com/ferd/%bname
-Source:         %bname-%version.tar.xz
+Source:         %bname-%version.tar.gz
 Provides:       erlang-%bname = %version-%release
 BuildArch:      noarch
 

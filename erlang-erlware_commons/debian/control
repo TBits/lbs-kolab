@@ -1,0 +1,15 @@
+Source: erlang-erlware-commons
+Section: devel
+Priority: extra
+Maintainer: Christoph Erhardt <kolab@sicherha.de>
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 9), erlang, rebar
+Homepage: https://github.com/erlware/erlware_commons
+
+Package: erlang-erlware-commons
+Architecture: any
+Section: devel
+Depends: ${misc:Depends},
+	erlang-base | erlang-base-hipe
+Description: Binary pattern match Based Mustache template engine for Erlang/OTP
+ Binary pattern match Based Mustache template engine for Erlang/OTP.
