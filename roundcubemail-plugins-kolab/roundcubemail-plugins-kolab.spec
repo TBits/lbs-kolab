@@ -29,8 +29,8 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.3.1
-Release:        3%{?dist}
+Version:        3.3.2
+Release:        1%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -46,9 +46,7 @@ Source101:      plesk.kolab_addressbook.inc.php
 Source102:      plesk.kolab_folders.inc.php
 Source103:      plesk.libkolab.inc.php
 
-Patch0001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
-
-Patch1001:      0001-Fix-regression-where-declining-an-event-from-Calenda.patch
+Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:      noarch
@@ -860,7 +858,6 @@ cp -af %{SOURCE102} plugins/kolab_folders/config.inc.php.dist
 cp -af %{SOURCE103} plugins/libkolab/config.inc.php.dist
 %endif
 
-%patch0001 -p1
 %patch1001 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
@@ -2006,6 +2003,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Jun 28 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.2-1
+- Release of version 3.3.2
+
 * Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> - 3.3.1-3
 - Fix build error on Fedora 25, composer needs php-justinrainbow-json-schema4
 
