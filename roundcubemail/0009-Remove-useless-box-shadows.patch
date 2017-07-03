@@ -1,0 +1,39 @@
+From b7fe41def2dcc055455c20f2209876065def44a9 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Wed, 28 Jun 2017 08:29:16 +0200
+Subject: [PATCH 09/14] Remove useless box-shadows
+
+---
+ plugins/enigma/skins/larry/enigma.css           | 2 --
+ plugins/vcard_attachments/skins/larry/style.css | 2 --
+ 2 files changed, 4 deletions(-)
+
+diff --git a/plugins/enigma/skins/larry/enigma.css b/plugins/enigma/skins/larry/enigma.css
+index 9115d4468..611d714e4 100644
+--- a/plugins/enigma/skins/larry/enigma.css
++++ b/plugins/enigma/skins/larry/enigma.css
+@@ -52,8 +52,6 @@ p.enigmaattachment {
+   background: #f9f9f9;
+   border: 1px solid #d3d3d3;
+   border-radius: 4px;
+-  box-shadow: 0 0 2px #ccc;
+-  -webkit-box-shadow: 0 0 2px #ccc;
+ }
+ 
+ p.enigmaattachment a {
+diff --git a/plugins/vcard_attachments/skins/larry/style.css b/plugins/vcard_attachments/skins/larry/style.css
+index 3115f69db..77ee41d18 100644
+--- a/plugins/vcard_attachments/skins/larry/style.css
++++ b/plugins/vcard_attachments/skins/larry/style.css
+@@ -5,8 +5,6 @@ p.vcardattachment {
+ 	background: #f9f9f9;
+ 	border: 1px solid #d3d3d3;
+ 	border-radius: 4px;
+-	box-shadow: 0 0 2px #ccc;
+-	-webkit-box-shadow: 0 0 2px #ccc;
+ }
+ 
+ p.vcardattachment a {
+-- 
+2.13.0
+

@@ -1,0 +1,83 @@
+From 3f820d76fac8ea743b4570ed86834f5409d866e6 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Fri, 30 Jun 2017 11:42:44 +0200
+Subject: [PATCH 13/14] Add Preferences > Mailbox View > Main Options > Layout
+ (#5829)
+
+---
+ CHANGELOG                             |  1 +
+ program/localization/en_US/labels.inc |  3 +++
+ program/steps/settings/func.inc       | 18 ++++++++++++++++++
+ program/steps/settings/save_prefs.inc |  1 +
+ 4 files changed, 23 insertions(+)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index 655026a84..bafb27a7d 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -1,6 +1,7 @@
+ CHANGELOG Roundcube Webmail
+ ===========================
+ 
++- Add Preferences > Mailbox View > Main Options > Layout (#5829)
+ - Password: Fix compatibility with PHP 7+ in cpanel_webmail driver (#5820)
+ - Fix decoding non-ascii attachment names from TNEF attachments (#5646, #5799)
+ - Fix uninitialized string offset in rcube_utils::bin2ascii() and make sure rcube_utils::random_bytes() result has always requested length (#5788)
+diff --git a/program/localization/en_US/labels.inc b/program/localization/en_US/labels.inc
+index acfe45b92..2add20fc7 100644
+--- a/program/localization/en_US/labels.inc
++++ b/program/localization/en_US/labels.inc
+@@ -207,6 +207,9 @@ $labels['layout'] = 'Layout';
+ $labels['layoutwidescreen'] = 'Widescreen';
+ $labels['layoutdesktop'] = 'Desktop';
+ $labels['layoutlist'] = 'List';
++$labels['layoutwidescreendesc'] = 'Widescreen (3-column view)';
++$labels['layoutdesktopdesc'] = 'Desktop (wide list and mail preview below)';
++$labels['layoutlistdesc'] = 'List (no mail preview)';
+ 
+ $labels['folderactions'] = 'Folder actions...';
+ $labels['compact'] = 'Compact';
+diff --git a/program/steps/settings/func.inc b/program/steps/settings/func.inc
+index f6c6f06c0..97132bca2 100644
+--- a/program/steps/settings/func.inc
++++ b/program/steps/settings/func.inc
+@@ -410,6 +410,24 @@ function rcmail_user_prefs($current = null)
+                 'advanced'    => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
+             );
+ 
++            if (!isset($no_override['layout'])) {
++                if (!$current) {
++                    continue 2;
++                }
++
++                $field_id = 'rcmfd_layout';
++                $select   = new html_select(array('name' => '_layout', 'id' => $field_id));
++
++                $select->add($RCMAIL->gettext('layoutwidescreendesc'), 'widescreen');
++                $select->add($RCMAIL->gettext('layoutdesktopdesc'), 'desktop');
++                $select->add($RCMAIL->gettext('layoutlistdesc'), 'list');
++
++                $blocks['main']['options']['date_format'] = array(
++                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('layout'))),
++                    'content' => $select->show($config['layout'] ?: 'widescreen'),
++                );
++            }
++
+             // show config parameter for auto marking the previewed message as read
+             if (!isset($no_override['mail_read_time'])) {
+                 if (!$current) {
+diff --git a/program/steps/settings/save_prefs.inc b/program/steps/settings/save_prefs.inc
+index 0ddf3c7e5..a324da926 100644
+--- a/program/steps/settings/save_prefs.inc
++++ b/program/steps/settings/save_prefs.inc
+@@ -47,6 +47,7 @@ case 'general':
+ 
+ case 'mailbox':
+     $a_user_prefs = array(
++        'layout'               => rcube_utils::get_input_value('_layout', rcube_utils::INPUT_POST),
+         'mail_read_time'       => isset($_POST['_mail_read_time']) ? intval($_POST['_mail_read_time']) : $CONFIG['mail_read_time'],
+         'autoexpand_threads'   => isset($_POST['_autoexpand_threads']) ? intval($_POST['_autoexpand_threads']) : 0,
+         'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
+-- 
+2.13.0
+

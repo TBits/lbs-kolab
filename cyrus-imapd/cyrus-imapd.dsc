@@ -43,5 +43,5 @@ Build-Depends:
 Package-List:
  cyrus-imapd deb mail extra
 Files:
- 00000000000000000000000000000000 0 cyrus-imapd-2.5.10-55-gb6dbffa.tar.gz
+ 00000000000000000000000000000000 0 cyrus-imapd-2.5.10-29-g90db0baae.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

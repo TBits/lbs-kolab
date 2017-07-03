@@ -1,0 +1,68 @@
+From 39fa590bad109dfc4bac70f34590d014f9a9548e Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Wed, 28 Jun 2017 08:26:05 +0200
+Subject: [PATCH 07/14] Fix bug where HTML messages with @media styles could
+ moddify style of page body (#5811)
+
+---
+ CHANGELOG                             | 1 +
+ program/lib/Roundcube/rcube_utils.php | 5 ++++-
+ tests/Framework/Utils.php             | 1 +
+ tests/src/media.css                   | 1 +
+ 4 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index 81558ad4c..9ba086ebe 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
+ - Password: Fix compatibility with PHP 7+ in cpanel_webmail driver (#5820)
+ - Fix decoding non-ascii attachment names from TNEF attachments (#5646, #5799)
+ - Fix uninitialized string offset in rcube_utils::bin2ascii() and make sure rcube_utils::random_bytes() result has always requested length (#5788)
++- Fix bug where HTML messages with @media styles could moddify style of page body (#5811)
+ 
+ RELEASE 1.3.0
+ -------------
+diff --git a/program/lib/Roundcube/rcube_utils.php b/program/lib/Roundcube/rcube_utils.php
+index 3c0fc1eb2..cc5244702 100644
+--- a/program/lib/Roundcube/rcube_utils.php
++++ b/program/lib/Roundcube/rcube_utils.php
+@@ -430,7 +430,10 @@ class rcube_utils
+         $source = preg_replace(
+             array(
+                 '/(^\s*<\!--)|(-->\s*$)/m',
+-                '/(^\s*|,\s*|\}\s*)([a-z0-9\._#\*][a-z0-9\.\-_]*)/im',
++                // (?!##str) below is to not match with ##str_replacement_0##
++                // from rcube_string_replacer used above, this is needed for
++                // cases like @media { body { position: fixed; } } (#5811)
++                '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str)[a-z0-9\._#\*][a-z0-9\.\-_]*)/im',
+                 '/'.preg_quote($container_id, '/').'\s+body/i',
+             ),
+             array(
+diff --git a/tests/Framework/Utils.php b/tests/Framework/Utils.php
+index 71e9f3e30..9b71acef5 100644
+--- a/tests/Framework/Utils.php
++++ b/tests/Framework/Utils.php
+@@ -183,6 +183,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
+ 
+         $this->assertContains('#rcmbody table[class=w600]', $mod, 'Replace styles nested in @media block');
+         $this->assertContains('#rcmbody {width:600px', $mod, 'Replace body selector nested in @media block');
++        $this->assertContains('#rcmbody {min-width:474px', $mod, 'Replace body selector nested in @media block (#5811)');
+     }
+ 
+     /**
+diff --git a/tests/src/media.css b/tests/src/media.css
+index 24eacc8a1..34e5b4342 100644
+--- a/tests/src/media.css
++++ b/tests/src/media.css
+@@ -15,6 +15,7 @@ div, p, a, li, td { -webkit-text-size-adjust:none; }
+ 	body {width:600px !important; margin:auto !important;}
+ 	.pict img {max-width:540px !important;  height:auto !important;}
+ }
++@media screen and (max-width:600px) { body {min-width:474px !important;} }
+ h1{ font-weight:bold; font-size:14px;color:#3c3c3c ;margin:0px; }
+ h2{ color:#8DB048 ; font-size:14px; font-weight:bold; margin-top:20px; border-bottom:1px solid #d6d6d6; padding-bottom:4px; }
+ h3{ color:#7e7e7e ; font-size:14px; font-weight:bold; margin:20px 0px 0px 0px; border-bottom:1px solid #d6d6d6; padding-bottom:0px 0px 4px 0px; }
+-- 
+2.13.0
+

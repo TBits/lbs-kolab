@@ -47,9 +47,9 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.2.5
+Version:        1.3.0
 
-Release:        6%{?dist}
+Release:        1%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -68,12 +68,20 @@ Source101:      plesk.password.inc.php
 
 Patch201:       default-configuration.patch
 
-Patch0001:      0001-Fix-bug-where-comment-notation-within-style-tag-woul.patch
-Patch0002:      0002-Fix-bug-where-it-wasn-t-possible-to-scroll-folders-l.patch
-Patch0003:      0003-Fix-addressbook-searching-by-gender-5757.patch
-Patch0004:      0004-Enigma-Fix-compatibility-with-assets_dir.patch
-Patch0005:      0005-Fix-SQL-syntax-error-on-MariaDB-10.2-5774.patch
-Patch0006:      0006-Fix-bug-where-it-wasn-t-possible-to-set-timezone-to-.patch
+Patch0001:      0001-Drop-ereg-dependency-fix-compat-with-PHP-7-5820.patch
+Patch0002:      0002-Update-changelog.patch
+Patch0003:      0003-Fix-decoding-non-ascii-attachment-names-from-TNEF-at.patch
+Patch0004:      0004-Fix-uninitialized-string-offset-in-rcube_utils-bin2a.patch
+Patch0005:      0005-Fix-absent-directory-error-in-install-jsdeps.sh-when.patch
+Patch0006:      0006-Skip-js-deps-installation-if-there-s-no-jsdeps.json-.patch
+Patch0007:      0007-Fix-bug-where-HTML-messages-with-media-styles-could-.patch
+Patch0008:      0008-Fix-style-issue-on-selected-and-unfocused-message-th.patch
+Patch0009:      0009-Remove-useless-box-shadows.patch
+Patch0010:      0010-Fix-bug-where-a.button-style-from-managesieve-plugin.patch
+Patch0011:      0011-Fix-position-of-selected-icon-for-Mailvelope-Encrypt.patch
+Patch0012:      0012-Fix-fatal-error-when-using-DMY-or-MDY-based-date-for.patch
+Patch0013:      0013-Add-Preferences-Mailbox-View-Main-Options-Layout-582.patch
+Patch0014:      0014-Fix-c-p-issue.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -162,7 +170,7 @@ Requires:       php-common >= 5.3
 %endif
 
 %if 0%{?fedora}
-# to avoid on OBS, for packages depending on roundcubemail-core: 
+# to avoid on OBS, for packages depending on roundcubemail-core:
 # have choice for webserver needed by roundcubemail-core: lighttpd httpd nginx cherokee
 Requires:       httpd
 %endif
@@ -196,6 +204,10 @@ Requires:       %{name}(skin) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-filesystem_attachments) = %{?epoch:%{epoch}:}%{version}-%{release}
 # The jqueryui plugin is required.
 Requires:       %{name}(plugin-jqueryui) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+Obsoletes:      %{name}(plugin-legacy_browser)
+Obsoletes:      %{name}-plugin-legacy_browser
+Provides:       %{name}(plugin-legacy_browser) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 Obsoletes:      %{name}(plugin-threading_as_default}
 Obsoletes:      %{name}-plugin-threading_as_default
@@ -358,6 +370,15 @@ Provides:       %{name}(plugin-http_authentication) = %{?epoch:%{epoch}:}%{versi
 %description plugin-http_authentication
 Plugin http_authentication
 
+%package plugin-identicon
+Summary:        Plugin identicon
+Group:          Applications/Internet
+Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}(plugin-identicon) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description plugin-identicon
+Plugin identicon
+
 %package plugin-identity_select
 Summary:        Plugin identity_select
 Group:          Applications/Internet
@@ -388,17 +409,6 @@ Provides:       %{name}(plugin-krb_authentication) = %{?epoch:%{epoch}:}%{versio
 
 %description plugin-krb_authentication
 Plugin krb_authentication
-
-%package plugin-legacy_browser
-Summary:        Plugin legacy_browser
-Group:          Applications/Internet
-Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-legacy_browser-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-legacy_browser-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser
-Plugin legacy_browser
 
 %package plugin-managesieve
 Summary:        Plugin managesieve
@@ -690,14 +700,6 @@ Provides:       %{name}(plugin-krb_authentication-assets) = %{?epoch:%{epoch}:}%
 %description plugin-krb_authentication-assets
 Plugin krb_authentication Assets
 
-%package plugin-legacy_browser-assets
-Summary:        Plugin legacy_browser Assets
-Group:          Applications/Internet
-Provides:       %{name}(plugin-legacy_browser-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser-assets
-Plugin legacy_browser Assets
-
 %package plugin-managesieve-assets
 Summary:        Plugin managesieve Assets
 Group:          Applications/Internet
@@ -890,18 +892,6 @@ Provides:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{versi
 %description plugin-jqueryui-skin-larry
 Plugin jqueryui / Skin larry
 
-%package plugin-legacy_browser-skin-larry
-Summary:        Plugin legacy_browser / Skin larry
-Group:          Applications/Internet
-Requires:       %{name}(plugin-legacy_browser) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-legacy_browser-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser-skin-larry
-Plugin legacy_browser / Skin larry
-
 %package plugin-managesieve-skin-larry
 Summary:        Plugin managesieve / Skin larry
 Group:          Applications/Internet
@@ -1010,16 +1000,6 @@ Provides:       %{name}(plugin-jqueryui-skin-larry-assets) = %{?epoch:%{epoch}:}
 %description plugin-jqueryui-skin-larry-assets
 Plugin jqueryui / Skin larry (Assets Package)
 
-%package plugin-legacy_browser-skin-larry-assets
-Summary:        Plugin legacy_browser / Skin larry (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-legacy_browser-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser-skin-larry-assets
-Plugin legacy_browser / Skin larry (Assets Package)
-
 %package plugin-managesieve-skin-larry-assets
 Summary:        Plugin managesieve / Skin larry (Assets)
 Group:          Applications/Internet
@@ -1102,6 +1082,14 @@ cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 %patch0004 -p1
 %patch0005 -p1
 %patch0006 -p1
+%patch0007 -p1
+%patch0008 -p1
+%patch0009 -p1
+%patch0010 -p1
+%patch0011 -p1
+%patch0012 -p1
+%patch0013 -p1
+%patch0014 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -1392,8 +1380,6 @@ function new_files() {
     %{buildroot}%{tmpdir}
 
 pushd %{name}-%{version}
-# Move robots.txt to the correct place
-%{__install} -pm 644 robots.txt %{buildroot}%{datadir}/public_html/robots.txt
 
 %if 0%{?plesk} < 1
 %{__install} -pm 644 %SOURCE20 %{buildroot}%{_ap_sysconfdir}/conf.d
@@ -1940,6 +1926,11 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
+%pre plugin-identicon
+if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
+fi
+
 %pre plugin-identity_select
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
@@ -1951,11 +1942,6 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
 fi
 
 %pre plugin-krb_authentication
-if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
-fi
-
-%pre plugin-legacy_browser
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
@@ -2286,6 +2272,21 @@ if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
 fi
 
+%posttrans plugin-identicon
+if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
+    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+%if 0%{?with_systemd}
+            /bin/systemctl condrestart %{httpd_name}.service
+%else
+            /sbin/service %{httpd_name} condrestart
+%endif
+        fi
+    fi
+    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
+    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
+fi
+
 %posttrans plugin-identity_select
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
@@ -2317,21 +2318,6 @@ if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
 fi
 
 %posttrans plugin-krb_authentication
-if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
-%if 0%{?with_systemd}
-            /bin/systemctl condrestart %{httpd_name}.service
-%else
-            /sbin/service %{httpd_name} condrestart
-%endif
-        fi
-    fi
-    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
-    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
-fi
-
-%posttrans plugin-legacy_browser
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
@@ -2649,6 +2635,9 @@ fi
 %defattr(-,root,root,-)
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{_sysconfdir}/%{name}/http_authentication.inc.php
 
+%files plugin-identicon -f plugin-identicon.files
+%defattr(-,root,root,-)
+
 %files plugin-identity_select -f plugin-identity_select.files
 %defattr(-,root,root,-)
 
@@ -2659,9 +2648,6 @@ fi
 %files plugin-krb_authentication -f plugin-krb_authentication.files
 %defattr(-,root,root,-)
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{_sysconfdir}/%{name}/krb_authentication.inc.php
-
-%files plugin-legacy_browser -f plugin-legacy_browser.files
-%defattr(-,root,root,-)
 
 %files plugin-managesieve -f plugin-managesieve.files
 %defattr(-,root,root,-)
@@ -2766,9 +2752,6 @@ fi
 %files plugin-krb_authentication-assets -f plugin-krb_authentication-assets.files
 %defattr(-,root,root,-)
 
-%files plugin-legacy_browser-assets -f plugin-legacy_browser-assets.files
-%defattr(-,root,root,-)
-
 %files plugin-managesieve-assets -f plugin-managesieve-assets.files
 %defattr(-,root,root,-)
 
@@ -2832,9 +2815,6 @@ fi
 %files plugin-jqueryui-skin-larry -f plugin-jqueryui-skin-larry.files
 %defattr(-,root,root,-)
 
-%files plugin-legacy_browser-skin-larry -f plugin-legacy_browser-skin-larry.files
-%defattr(-,root,root,-)
-
 %files plugin-managesieve-skin-larry -f plugin-managesieve-skin-larry.files
 %defattr(-,root,root,-)
 
@@ -2863,9 +2843,6 @@ fi
 %defattr(-,root,root,-)
 
 %files plugin-jqueryui-skin-larry-assets -f plugin-jqueryui-skin-larry-assets.files
-%defattr(-,root,root,-)
-
-%files plugin-legacy_browser-skin-larry-assets -f plugin-legacy_browser-skin-larry-assets.files
 %defattr(-,root,root,-)
 
 %files plugin-managesieve-skin-larry-assets -f plugin-managesieve-skin-larry-assets.files

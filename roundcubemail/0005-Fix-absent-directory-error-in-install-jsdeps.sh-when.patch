@@ -1,0 +1,27 @@
+From da63acbd0d2f2afc32a126cda425aacff7441dce Mon Sep 17 00:00:00 2001
+From: Kai Ren <tyranron@gmail.com>
+Date: Tue, 27 Jun 2017 18:21:27 +0300
+Subject: [PATCH 05/14] Fix absent directory error in `install-jsdeps.sh` when
+ processing `maps` section (#5819)
+
+---
+ bin/install-jsdeps.sh | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/bin/install-jsdeps.sh b/bin/install-jsdeps.sh
+index e5c68ca9d..a88a34a25 100755
+--- a/bin/install-jsdeps.sh
++++ b/bin/install-jsdeps.sh
+@@ -215,6 +215,9 @@ function extract_zipfile($package, $srcfile)
+   // unzip the archive and map source to dest files/directories
+   else if (!empty($package['map'])) {
+     $extract = $CACHEDIR . '/' . $package['lib'] . '-extract';
++    if (!is_dir($extract)) {
++      mkdir($extract, 0774, true);
++    }
+     exec(sprintf('%s -o %s -d %s', $UNZIP, escapeshellarg($srcfile), $extract), $out, $retval);
+ 
+     // get the root folder of the extracted package
+-- 
+2.13.0
+

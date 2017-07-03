@@ -1,3 +1,9 @@
+cyrus-imapd (2.5.11.29-0~kolab1) unstable; urgency=low
+
+  * Check in upstream version 2.5.11
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat,  1 Jul 2017 11:30:13 +0100
+
 cyrus-imapd (2.5.10.55-0~kolab1) unstable; urgency=low
 
   * Fix proxying extended list usage.

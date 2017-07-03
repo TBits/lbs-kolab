@@ -1,0 +1,25 @@
+From 90eafe7eaa036d3f494ddefc5c88cbb205514b06 Mon Sep 17 00:00:00 2001
+From: Remi Collet <remi@famillecollet.com>
+Date: Tue, 27 Jun 2017 13:24:23 +0200
+Subject: [PATCH 01/14] Drop ereg dependency, fix compat with PHP 7 (#5820)
+
+---
+ plugins/password/drivers/cpanel_webmail.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/password/drivers/cpanel_webmail.php b/plugins/password/drivers/cpanel_webmail.php
+index a34b6a1f8..8aabd3c6c 100644
+--- a/plugins/password/drivers/cpanel_webmail.php
++++ b/plugins/password/drivers/cpanel_webmail.php
+@@ -41,7 +41,7 @@ class rcube_cpanel_webmail_password
+     {
+         $user    = $_SESSION['username'];
+         $userpwd = "$user:$curpas";
+-        list($login) = split('@', $user);
++        list($login) = explode('@', $user);
+ 
+         $data = array(
+             'email'    => $login,
+-- 
+2.13.0
+
