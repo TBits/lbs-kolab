@@ -18,9 +18,9 @@
 %global _cyrusgroup mail
 %global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
-%global tag_version 2.5.10
-%global revision    55
-%global git_hash    gb6dbffa
+%global tag_version 2.5.11
+%global revision    30
+%global git_hash    g948a95666
 
 ##
 ## Options
@@ -259,7 +259,7 @@ necessary for developing applications which use the imclient library.
 %setup -q -n %{name}-%{tag_version}-%{revision}-%{git_hash}
 
 %if 0%{?with_bdb} < 1
-sed -i -e 's/,berkeley//g' cunit/db.testc
+sed -i -e 's/,berkeley//g' cunit/aaa-db.testc
 sed -r -i -e 's/"berkeley(|-[a-z-]+)", //g' lib/imapoptions
 %endif
 
