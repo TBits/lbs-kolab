@@ -1126,6 +1126,7 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
                 -name "*.gif" -o \
                 -name "*.ico" -o \
                 -name "*.jpg" -o \
+                -name "*.mp3" -o \
                 -name "*.png" -o \
                 -name "*.svg" -o \
                 -name "*.swf" -o \
@@ -1177,6 +1178,7 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
             -name "*.gif" -o \
             -name "*.ico" -o \
             -name "*.jpg" -o \
+            -name "*.mp3" -o \
             -name "*.png" -o \
             -name "*.svg" -o \
             -name "*.swf" -o \
