@@ -29,7 +29,7 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.3.2
+Version:        3.3.3
 Release:        1%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -2005,6 +2005,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Jul 19 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.3-1
+- Release of version 3.3.3
+
 * Wed Jun 28 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.2-1
 - Release of version 3.3.2
 

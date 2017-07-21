@@ -36,7 +36,7 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           kolab-syncroton
-Version:        2.3.5
+Version:        2.3.6
 Release:        1%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
@@ -46,11 +46,6 @@ URL:            http://www.syncroton.org
 
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
-
-Patch0001:      0001-T2477-GAL-for-Outlook.patch
-Patch0002:      0002-Fix-MeetingStatus-value-Bifrost-T34257.patch
-Patch0003:      0003-Add-important-note-about-uid-and-changed-fields-in-G.patch
-Patch0004:      0004-T2519-Fix-Recurrence-element-structure.patch
 
 BuildArch:      noarch
 
@@ -96,11 +91,6 @@ and Tasks though this package - based on Syncroton technology.
 
 %prep
 %setup -q -n %{name}-%{version}
-
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
-%patch0004 -p1
 
 %build
 
@@ -232,6 +222,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Wed Jul 19 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.6-1
+- Release 2.3.6
+
 * Sun Jun 18 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.5-2
 - Implement a GAL virtual folder with LDAP backend for Outlook over Activesync
 - Fix organizer / ownership for events
