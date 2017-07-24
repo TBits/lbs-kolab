@@ -19,8 +19,8 @@
 %global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
 %global tag_version 2.5.11
-%global revision    36
-%global git_hash    ge79451b24
+%global revision    37
+%global git_hash    g075f0ab02
 
 ##
 ## Options
