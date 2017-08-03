@@ -1,15 +1,1 @@
 default-configuration.patch -p1
-0001-Drop-ereg-dependency-fix-compat-with-PHP-7-5820.patch -p1
-0002-Update-changelog.patch -p1
-0003-Fix-decoding-non-ascii-attachment-names-from-TNEF-at.patch -p1
-0004-Fix-uninitialized-string-offset-in-rcube_utils-bin2a.patch -p1
-0005-Fix-absent-directory-error-in-install-jsdeps.sh-when.patch -p1
-0006-Skip-js-deps-installation-if-there-s-no-jsdeps.json-.patch -p1
-0007-Fix-bug-where-HTML-messages-with-media-styles-could-.patch -p1
-0008-Fix-style-issue-on-selected-and-unfocused-message-th.patch -p1
-0009-Remove-useless-box-shadows.patch -p1
-0010-Fix-bug-where-a.button-style-from-managesieve-plugin.patch -p1
-0011-Fix-position-of-selected-icon-for-Mailvelope-Encrypt.patch -p1
-0012-Fix-fatal-error-when-using-DMY-or-MDY-based-date-for.patch -p1
-0013-Add-Preferences-Mailbox-View-Main-Options-Layout-582.patch -p1
-0014-Fix-c-p-issue.patch -p1

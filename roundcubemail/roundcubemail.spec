@@ -47,9 +47,9 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.3.0
+Version:        1.3.0.34
 
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -67,21 +67,6 @@ Source100:      plesk.config.inc.php
 Source101:      plesk.password.inc.php
 
 Patch201:       default-configuration.patch
-
-Patch0001:      0001-Drop-ereg-dependency-fix-compat-with-PHP-7-5820.patch
-Patch0002:      0002-Update-changelog.patch
-Patch0003:      0003-Fix-decoding-non-ascii-attachment-names-from-TNEF-at.patch
-Patch0004:      0004-Fix-uninitialized-string-offset-in-rcube_utils-bin2a.patch
-Patch0005:      0005-Fix-absent-directory-error-in-install-jsdeps.sh-when.patch
-Patch0006:      0006-Skip-js-deps-installation-if-there-s-no-jsdeps.json-.patch
-Patch0007:      0007-Fix-bug-where-HTML-messages-with-media-styles-could-.patch
-Patch0008:      0008-Fix-style-issue-on-selected-and-unfocused-message-th.patch
-Patch0009:      0009-Remove-useless-box-shadows.patch
-Patch0010:      0010-Fix-bug-where-a.button-style-from-managesieve-plugin.patch
-Patch0011:      0011-Fix-position-of-selected-icon-for-Mailvelope-Encrypt.patch
-Patch0012:      0012-Fix-fatal-error-when-using-DMY-or-MDY-based-date-for.patch
-Patch0013:      0013-Add-Preferences-Mailbox-View-Main-Options-Layout-582.patch
-Patch0014:      0014-Fix-c-p-issue.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1076,21 +1061,6 @@ cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 
 %patch201 -p1
 
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
-%patch0004 -p1
-%patch0005 -p1
-%patch0006 -p1
-%patch0007 -p1
-%patch0008 -p1
-%patch0009 -p1
-%patch0010 -p1
-%patch0011 -p1
-%patch0012 -p1
-%patch0013 -p1
-%patch0014 -p1
-
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
 
@@ -1517,6 +1487,7 @@ for file in $(find ${orig_dir} -type f \
         -name "*.tiff" -o \
         -name "*.ttf" -o \
         -name "*.wav" -o \
+        -name "*.webp" -o \
         -name "*.woff" | \
         grep -vE "${orig_dir}/(plugins|skins)/"
     ); do
@@ -1598,6 +1569,7 @@ for skin in larry; do
             -name "*.tiff" -o \
             -name "*.ttf" -o \
             -name "*.wav" -o \
+            -name "*.webp" -o \
             -name "*.woff"
         ); do
         asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1686,6 +1658,7 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
                 -name "*.tiff" -o \
                 -name "*.ttf" -o \
                 -name "*.wav" -o \
+                -name "*.webp" -o \
                 -name "*.woff"
             ); do
             asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1757,6 +1730,7 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
             -name "*.tiff" -o \
             -name "*.ttf" -o \
             -name "*.wav" -o \
+            -name "*.webp" -o \
             -name "*.woff"
         ); do
         asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -2035,6 +2009,8 @@ function makedesstr () {
     done
     echo $str
 }
+
+find %{logdir} -mindepth 1 -maxdepth 1 -type f -exec chown %{httpd_user}:%{httpd_group} {} \;
 
 %{__sed} -i "s/rcmail-\!24ByteDESkey\*Str/`makedesstr`/" /etc/roundcubemail/defaults.inc.php || : &> /dev/null
 
