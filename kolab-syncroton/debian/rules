@@ -25,6 +25,7 @@ override_dh_install:
 		mkdir -p $(CURDIR)/debian/kolab-syncroton/etc/apache2/sites-available ; \
 		install -pm 644 $(CURDIR)/docs/kolab-syncroton.conf \
 			$(CURDIR)/debian/kolab-syncroton/etc/apache2/sites-available/kolab-syncroton.conf ; \
+		echo "misc:Depends=roundcubemail-plugin-kolab-auth (>= 3.1.12)" >> $(CURDIR)/debian/kolab-syncroton.substvars ; \
 	fi
 
 	# Some PHP files seem to be executable
