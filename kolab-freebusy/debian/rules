@@ -15,9 +15,9 @@ override_dh_install:
 		rm -rf composer.json ; \
 		mv composer.json-dist composer.json ; \
 	fi
-	mkdir -p $$HOME/.composer/
-	echo '{}' > $$HOME/.composer/composer.json
-	composer -vvv dumpautoload --optimize
+	mkdir -p $(CURDIR)/debian/home/.composer/
+	echo '{}' > $(CURDIR)/debian/home/.composer/composer.json
+	HOME=$(CURDIR)/debian/home/ composer -vvv dumpautoload --optimize
 
 	dh_install --list-missing -XLICENSE
 

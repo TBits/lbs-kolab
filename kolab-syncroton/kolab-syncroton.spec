@@ -37,7 +37,7 @@
 
 Name:           kolab-syncroton
 Version:        2.3.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
@@ -47,6 +47,12 @@ URL:            http://www.syncroton.org
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
 
+Patch0001:      0001-Add-ready-hook-for-Kolab-plugins-Bifrost-T36327.patch
+Patch0002:      0002-Fix-LDAP-connection-errors-in-Ping-when-using-active.patch
+Patch0003:      0003-Bump-SEQUENCE-number-on-update-Outlook-only.patch
+Patch0004:      0004-Return-Invalid-item-6-status-on-SMS-entries-instead-.patch
+Patch0005:      0005-implement-setAttendeeStatus.patch
+
 BuildArch:      noarch
 
 # Use this build requirement to make sure we are using
@@ -55,6 +61,7 @@ BuildArch:      noarch
 BuildRequires:  roundcubemail-plugin-kolab_auth >= 3.2
 %endif
 BuildRequires:  roundcubemail-plugin-kolab_folders >= 3.2
+BuildRequires:  roundcubemail-plugin-libcalendaring >= 3.2
 BuildRequires:  roundcubemail-plugin-libkolab >= 3.2
 
 %if 0%{?suse_version}
@@ -80,6 +87,7 @@ Requires:       roundcubemail(core)
 Requires:       roundcubemail-plugin-kolab_auth >= 3.2
 %endif
 Requires:       roundcubemail-plugin-kolab_folders >= 3.2
+Requires:       roundcubemail-plugin-libcalendaring >= 3.2
 Requires:       roundcubemail-plugin-libkolab >= 3.2
 Requires:       php-kolabformat
 Requires:       php-pear-MDB2
@@ -119,7 +127,9 @@ ln -s ../../..%{_var}/log/%{name} logs
 pushd lib/ext
 ln -s ../../../roundcubemail/program/lib/Roundcube
 popd
-for plugin in kolab_auth kolab_folders libkolab; do
+ln -s ../roundcubemail/vendor vendor
+
+for plugin in kolab_auth kolab_folders libcalendaring libkolab; do
     if [ ! -d "/usr/share/roundcubemail/plugins/$plugin" ]; then
         continue
     fi
@@ -222,6 +232,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Fri Aug 18 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.6-2
+- Patch setAttendeeStatus for increased Outlook compatibility
+
 * Wed Jul 19 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.6-1
 - Release 2.3.6
 

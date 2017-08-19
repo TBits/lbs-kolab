@@ -3,6 +3,8 @@ etc/roundcubemail/defaults.inc.php /usr/share/kolab-syncroton/config/defaults.in
 usr/share/roundcubemail/program/lib/Roundcube /usr/share/kolab-syncroton/lib/ext/Roundcube
 usr/share/roundcubemail/plugins/kolab_auth /usr/share/kolab-syncroton/lib/plugins/kolab_auth
 usr/share/roundcubemail/plugins/kolab_folders /usr/share/kolab-syncroton/lib/plugins/kolab_folders
+usr/share/roundcubemail/plugins/libcalendaring /usr/share/kolab-syncroton/lib/plugins/libcalendaring
 usr/share/roundcubemail/plugins/libkolab /usr/share/kolab-syncroton/lib/plugins/libkolab
+usr/share/roundcubemail/vendor /usr/share/kolab-syncroton/vendor
 var/lib/kolab-syncroton /usr/share/kolab-syncroton/temp
 var/log/kolab-syncroton /usr/share/kolab-syncroton/logs

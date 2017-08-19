@@ -1,0 +1,28 @@
+From d32b2289c65d749e55ea97de87f0563d4f989881 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Fri, 4 Aug 2017 16:58:13 +0200
+Subject: [PATCH 04/15] Return "Invalid item" (6) status on SMS entries instead
+ of "Server error" (5)
+
+"Server error" status may cause client to try again and again,
+while "Invalid item" should thell the device to stop.
+---
+ lib/kolab_sync_data_email.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/kolab_sync_data_email.php b/lib/kolab_sync_data_email.php
+index e528f9e..8f4d7a4 100644
+--- a/lib/kolab_sync_data_email.php
++++ b/lib/kolab_sync_data_email.php
+@@ -570,7 +570,7 @@ class kolab_sync_data_email extends kolab_sync_data implements Syncroton_Data_ID
+     {
+         // Throw exception here for better handling of unsupported
+         // entry creation, it can be object of class Email or SMS here
+-        throw new Syncroton_Exception_Status_Sync(Syncroton_Exception_Status_Sync::SYNC_SERVER_ERROR);
++        throw new Syncroton_Exception_Status_Sync(Syncroton_Exception_Status_Sync::INVALID_ITEM);
+     }
+ 
+     /**
+-- 
+2.13.2
+

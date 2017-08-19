@@ -1,3 +1,9 @@
+kolab-freebusy (1.1.0-0~kolab1mic1) unstable; urgency=low
+
+  * fix pbuilder builds
+
+ -- hede <kolab983@der-he.de>  Sun, 06 Aug 2017 10:00:12 +0200
+
 kolab-freebusy (1.1.0-0~kolab1) unstable; urgency=low
 
   * Release of version 1.1.0

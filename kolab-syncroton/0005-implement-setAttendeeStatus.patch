@@ -1,0 +1,389 @@
+diff --git a/lib/kolab_sync.php b/lib/kolab_sync.php
+index c6cb192..823d927 100644
+--- a/lib/kolab_sync.php
++++ b/lib/kolab_sync.php
+@@ -82,7 +82,7 @@ class kolab_sync extends rcube
+         //          e.g. are not using output or rcmail objects or
+         //          doesn't throw errors when using them
+         $plugins = (array)$this->config->get('activesync_plugins', array('kolab_auth'));
+-        $plugins = array_unique(array_merge($plugins, array('libkolab')));
++        $plugins = array_unique(array_merge($plugins, array('libcalendaring', 'libkolab')));
+ 
+         // Initialize/load plugins
+         $this->plugins = kolab_sync_plugin_api::get_instance();
+diff --git a/lib/kolab_sync_data.php b/lib/kolab_sync_data.php
+index 2b91a7d..f1d723e 100644
+--- a/lib/kolab_sync_data.php
++++ b/lib/kolab_sync_data.php
+@@ -92,6 +92,11 @@ abstract class kolab_sync_data implements Syncroton_Data_IData
+     protected $imap_folders = array();
+ 
+     /**
++     * Shortcut to logging.
++     */
++    protected $log;
++
++    /**
+      * Timezone
+      *
+      * @var string
+@@ -186,6 +191,8 @@ abstract class kolab_sync_data implements Syncroton_Data_IData
+ 
+         $this->defaultRootFolder = $this->defaultFolder . '::Syncroton';
+ 
++        $this->log = Syncroton_Registry::get('loggerBackend');
++
+         // set internal timezone of kolab_format to user timezone
+         try {
+             $this->timezone = rcube::get_instance()->config->get('timezone', 'GMT');
+@@ -954,18 +961,16 @@ abstract class kolab_sync_data implements Syncroton_Data_IData
+                     $crc = $matches[1];
+                     $uid = $matches[2];
+ 
+-                    if (strlen($entryid) >= 64) {
+-                        foreach ($folder->select(array(array('uid', '~*', $uid))) as $object) {
+-                            if (($object['uid'] == $uid || strpos($object['uid'], $uid) === 0)
+-                                && $crc == $this->objectCRC($object['uid'], $folder)
+-                            ) {
+-                                $object['_folderid'] = $folderid;
+-                                return $object;
+-                            }
++                    foreach ($folder->select(array(array('uid', '~*', $uid))) as $object) {
++                        if (($object['uid'] == $uid || strpos($object['uid'], $uid) === 0)
++                            && $crc == $this->objectCRC($object['uid'], $folder)
++                        ) {
++                            $object['_folderid'] = $folderid;
++                            return $object;
+                         }
+-
+-                        continue;
+                     }
++
++                    continue;
+                 }
+ 
+                 // Or (faster) strict UID matching...
+diff --git a/lib/kolab_sync_data_calendar.php b/lib/kolab_sync_data_calendar.php
+index 8fab24d..621cb3c 100644
+--- a/lib/kolab_sync_data_calendar.php
++++ b/lib/kolab_sync_data_calendar.php
+@@ -180,6 +180,14 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+     public function getEntry(Syncroton_Model_SyncCollection $collection, $serverId, $as_array = false)
+     {
+         $event  = is_array($serverId) ? $serverId : $this->getObject($collection->collectionId, $serverId);
++
++        // If there is no such event, return NULL (otherwise this function
++        // returns a new Syncroton_Model_Event, that is further treated as if
++        // it were a valid, existing entry.
++        if (!$event) {
++            return NULL;
++        }
++
+         $config = $this->getFolderConfig($event['_mailbox']);
+         $result = array();
+ 
+@@ -273,11 +281,11 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+                     if ($name = $attendee['name']) {
+                         $result['organizerName'] = $name;
+                     }
++
+                     if ($email = $attendee['email']) {
+                         $result['organizerEmail'] = $email;
+                     }
+ 
+-                    unset($event['attendees'][$idx]);
+                     break;
+                 }
+             }
+@@ -286,11 +294,15 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+         // Attendees
+         if (!empty($event['attendees'])) {
+             foreach ($event['attendees'] as $idx => $attendee) {
+-                $att = array();
++                if ($attendee['role'] == 'ORGANIZER')
++                    continue;
++
++                $att = Array();
+ 
+                 if ($name = $attendee['name']) {
+                     $att['name'] = $name;
+                 }
++
+                 if ($email = $attendee['email']) {
+                     $att['email'] = $email;
+                 }
+@@ -450,32 +462,65 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+             $name  = $data->organizerName;
+             $email = $data->organizerEmail;
+             if ($name || $email) {
+-                $event['attendees'][] = array(
++                $_attendee = array(
+                     'role'  => 'ORGANIZER',
+                     'name'  => $name,
+                     'email' => $email,
+                 );
++
++                if ($this->asversion >= 12) {
++                    $_attendee['status'] = $data->meetingStatus == 1 ? 'ACCEPTED' : 'DECLINED';
++                    $_attendee['rsvp'] = FALSE;
++                }
++
++                $event['attendees'][] = $_attendee;
+             }
+         }
+ 
+         // Attendees
+         if (isset($data->attendees)) {
+             foreach ($data->attendees as $attendee) {
++                if ($attendee->email == $data->organizerEmail)
++                    continue;
++
+                 $role = false;
++
+                 if (isset($attendee->attendeeType)) {
+-                    $role = array_search($attendee->attendeeType, $this->attendeeTypeMap);
++                    $role = array_search(
++                        $attendee->attendeeType,
++                        $this->attendeeTypeMap
++                    );
++
+                 }
++
+                 if ($role === false) {
+-                    $role = array_search(self::ATTENDEE_TYPE_REQUIRED, $this->attendeeTypeMap);
++                    $role = array_search(
++                        self::ATTENDEE_TYPE_REQUIRED,
++                        $this->attendeeTypeMap
++                    );
+                 }
+ 
+-                // AttendeeStatus send only on repsonse (?)
+-
+-                $event['attendees'][] = array(
+-                    'role'  => $role,
+-                    'name'  => $attendee->name,
+-                    'email' => $attendee->email,
++                // AttendeeStatus send only on response (?)
++                $_attendee = array(
++                    'role'   => $role,
++                    'name'   => $attendee->name,
++                    'email'  => $attendee->email,
+                 );
++
++                if ($this->asversion >= 12) {
++                    if ($status = $attendee->attendeeStatus) {
++                        $_attendee['status'] = array_search(
++                            $status,
++                            $this->attendeeStatusMap
++                        );
++
++                        if ($status == self::ATTENDEE_STATUS_UNKNOWN) {
++                            $_attendee['rsvp'] = TRUE;
++                        }
++                    }
++                }
++
++                $event['attendees'][] = $_attendee;
+             }
+         }
+ 
+@@ -506,8 +551,141 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+      */
+     public function setAttendeeStatus(Syncroton_Model_MeetingResponse $request)
+     {
++        /*
++         * The request actually involves an iTip request.
++         *
++         * - Get to the iTip,
++         * - Extract the event UID,
++         * - If not already an event in the user's calendar(s), create the event,
++         * - If already an event, update that event.
++         */
++
++        $object = $this->parseMessageId($request->requestId);
++        $message = new rcube_message($object['uid'], $object['foldername']);
++
++        // Parse the message
++        $libcal = libcalendaring::get_instance();
++        $libcal->mail_message_load(array('object' => $message));
++        $ical_objects = $libcal->get_mail_ical_objects();
++
++        $itip = $ical_objects->objects[0];
++        $uid = $itip['uid'];
++
++        // Search the user's (event) folders
++        $folders = $this->listFolders();
++
++        $serverIds = Array();
++        foreach ($folders as $folder => $attrs) {
++            $serverIds[] = $this->serverId($uid, $attrs['imap_name']);
++        }
++
++        // Go search for a match
++        $existing_event = NULL;
++
++        foreach ($serverIds as $serverId) {
++            foreach ($folders as $_folderid => $attrs) {
++                $collection = new Syncroton_Model_SyncCollection(
++                    Array(
++                        'collectionId' => $_folderid
++                    )
++                );
++
++                $existing_event = $this->getEntry(
++                    $collection,
++                    $serverId
++                );
++
++                if ($existing_event) {
++                    $folderId = $_folderid;
++                    break;
++                }
++            }
++
++            if ($existing_event) {
++                break;
++            }
++        }
++
++        /*
++            Consider;
++
++            - $existing_event->sensitivity (private, confidential, public)
++            - $existing_event->attendees[$x]->{role,rsvp,status}
++            - $request->userresponse
++        */
++
++        if ($existing_event) {
++            // This is an existing event that needs updating
++            $user_emails = kolab_sync::get_instance()->user->list_emails();
++            $user_emails  = array_map(
++                function($v) { return $v['email']; },
++                $user_emails
++            );
++
++            foreach ($existing_event->attendees as $idx => $attendee) {
++                if (in_array_nocase($attendee->email, $user_emails)) {
++                    $this->log->debug("found my record, updating status");
++                    switch ($request->userResponse) {
++                        case Syncroton_Model_MeetingResponse::RESPONSE_ACCEPTED:
++                            $existing_event->attendees[$idx]->attendeeStatus = self::ATTENDEE_STATUS_ACCEPTED;
++                            break;
++                        case Syncroton_Model_MeetingResponse::RESPONSE_DECLINED:
++                            $existing_event->attendees[$idx]->attendeeStatus = self::ATTENDEE_STATUS_DECLINED;
++                            break;
++                        case Syncroton_Model_MeetingResponse::RESPONSE_TENTATIVE:
++                            $existing_event->attendees[$idx]->attendeeStatus = self::ATTENDEE_STATUS_TENTATIVE;
++                            break;
++                    }
++                }
++            }
++
++            $this->updateEntry($folderId, $serverId, $existing_event);
++
++        } else {
++            // This is a new event
++            $this->log->debug("This is a new event");
++            $folderId = $this->getDefaultFolder()['realid'];
++
++
++            $user_emails = kolab_sync::get_instance()->user->list_emails();
++            $user_emails  = array_map(
++                function($v) { return $v['email']; },
++                $user_emails
++            );
++
++            $attendees = Array();
++
++            foreach($itip['attendees'] as $idx => $attendee) {
++                $att = $attendee;
++
++                if (in_array_nocase($att['email'], $user_emails)) {
++                    switch ($request->userResponse) {
++                        case Syncroton_Model_MeetingResponse::RESPONSE_ACCEPTED:
++                            $att['status'] = 'ACCEPTED';
++                            $att['rsvp'] = FALSE;
++                            break;
++
++                        case Syncroton_Model_MeetingResponse::RESPONSE_DECLINED:
++                            $att['status'] = 'DECLINED';
++                            $att['rsvp'] = FALSE;
++                            break;
++
++                        case Syncroton_Model_MeetingResponse::RESPONSE_TENTATIVE:
++                            $att['status'] = 'TENTATIVE';
++                            break;
++                    }
++                }
++
++                $attendees[] = $att;
++            }
++
++            $itip['attendees'] = $attendees;
++
++            $data = $this->createObject($folderId, $itip);
++        }
++
+         // @TODO: not implemented
+-        throw new Syncroton_Exception_Status_MeetingResponse(Syncroton_Exception_Status_MeetingResponse::MEETING_ERROR);
++        throw new Syncroton_Exception_Status_MeetingResponse(1);
+     }
+ 
+     /**
+@@ -562,20 +740,25 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+             // TODO: Delegation/aliases support
+             $user_emails  = kolab_sync::get_instance()->user->list_emails();
+             $user_emails  = array_map(function($v) { return $v['email']; }, $user_emails);
+-            $is_organizer = true;
++            $is_organizer = false;
+ 
+             foreach ($event['attendees'] as $attendee) {
++                if ($attendee['role'] != 'ORGANIZER') {
++                    // Irrelevant, skip
++                    continue;
++                }
++
+                 if (in_array_nocase($attendee['email'], $user_emails)) {
+-                    $is_organizer = false;
++                    $is_organizer = true;
+                     break;
+                 }
+             }
+ 
+             if ($event['status'] == 'CANCELLED') {
+-                $status = !empty($is_organizer) ? 5 : 7;
++                $status = $is_organizer ? 5 : 7;
+             }
+             else {
+-                $status = !empty($is_organizer) ? 1 : 3;
++                $status = $is_organizer ? 1 : 3;
+             }
+         }
+ 
+@@ -698,4 +881,26 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+             $entry->endTime = $rounded;
+         }
+     }
++
++    private function parseMessageId($entryid)
++    {
++        // replyEmail/forwardEmail
++        if (is_array($entryid)) {
++            $entryid = $entryid['itemId'];
++        }
++
++        list($folderid, $uid) = explode('::', $entryid);
++        $foldername = $this->backend->folder_id2name($folderid, $this->device->deviceid);
++
++        if ($foldername === null || $foldername === false) {
++            // @TODO exception?
++            return null;
++        }
++
++        return array(
++            'uid'        => $uid,
++            'folderid'   => $folderid,
++            'foldername' => $foldername,
++        );
++    }
+ }
