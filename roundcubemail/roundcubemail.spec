@@ -47,9 +47,9 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.3.0.34
+Version:        1.3.0.41
 
-Release:        2%{?dist}
+Release:        1%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -1050,6 +1050,8 @@ Skin larry (Assets Package)
 
 pushd %{name}-%{version}
 
+rm -rf temp/js_cache/
+
 find . -type d -name "classic" | while read dir; do
     rm -rvf ${dir}
 done
@@ -1069,9 +1071,6 @@ find . -type f -name ".*" -delete
 find . -type d -name ".*" ! -name "." ! -name ".." | while read dir; do
     rm -rvf ${dir}
 done
-
-# Remove file URI modifier
-sed -r -i -e 's/^(\s+)protected function file_mod(.*)$/\1protected function file_mod\2 { return $file; }\n\1protected function dummy\2/g' program/include/rcmail_output_html.php
 
 # Remove any reference to sqlite in config file so people don't
 # mistakely assume it works
@@ -2840,6 +2839,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Sun Aug 27 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.0.41-1
+- Check in 41 revisions ahead of upstream 1.3.0 release
+
 * Mon Jun 19 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.5-6
 - Fix saving preferences (timezone)
 - Fix syntax error against MariaDB 10.2

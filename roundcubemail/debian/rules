@@ -19,7 +19,7 @@ override_dh_auto_build:
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_classmap.php
 	sed -i -e "s|__DIR__ . '/../..' . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_static.php || true
 
-	rm -rvf tests/
+	rm -rvf temp/js_cache/ tests/
 
 	# Compress the CSS
 	for file in `find $(CURDIR) -type f -name "*.css"`; do \

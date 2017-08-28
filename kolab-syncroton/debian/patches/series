@@ -1,5 +1,0 @@
-0001-Add-ready-hook-for-Kolab-plugins-Bifrost-T36327.patch -p1
-0002-Fix-LDAP-connection-errors-in-Ping-when-using-active.patch -p1
-0003-Bump-SEQUENCE-number-on-update-Outlook-only.patch -p1
-0004-Return-Invalid-item-6-status-on-SMS-entries-instead-.patch -p1
-0005-implement-setAttendeeStatus.patch -p1
