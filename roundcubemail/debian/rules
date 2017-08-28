@@ -6,20 +6,20 @@ DH_VERBOSE=1
 	dh $@
 
 override_dh_auto_build:
-	mkdir -p $$HOME/.composer
-	echo '{}' > $$HOME/.composer/composer.json
+	mkdir -p $(CURDIR)/debian/home/.composer/
+	echo '{}' > $(CURDIR)/debian/home/.composer/composer.json
 	patch -p1 < debian/patches/add-composer-autoloader.diff || :
 	if [ -x "$$(which composer.sh 2>/dev/null)" ]; then \
-		composer.sh -vvv dumpautoload --optimize ; \
+		HOME=$(CURDIR)/debian/home/ composer.sh -vvv dumpautoload --optimize ; \
 	else \
-		composer -vvv dumpautoload --optimize ; \
+		HOME=$(CURDIR)/debian/home/ composer -vvv dumpautoload --optimize ; \
 	fi
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_psr4.php
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_namespaces.php
 	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_classmap.php
 	sed -i -e "s|__DIR__ . '/../..' . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_static.php || true
 
-	rm -rvf tests/
+	rm -rvf temp/js_cache/ tests/
 
 	# Compress the CSS
 	for file in `find $(CURDIR) -type f -name "*.css"`; do \
@@ -73,6 +73,7 @@ override_dh_auto_build:
 			-name "*.tiff" -o \
 			-name "*.ttf" -o \
 			-name "*.wav" -o \
+			-name "*.webp" -o \
 			-name "*.woff" \
 		); do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \

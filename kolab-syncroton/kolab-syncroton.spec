@@ -36,8 +36,8 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           kolab-syncroton
-Version:        2.3.6
-Release:        2%{?dist}
+Version:        2.3.7
+Release:        1%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
@@ -46,12 +46,6 @@ URL:            http://www.syncroton.org
 
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
-
-Patch0001:      0001-Add-ready-hook-for-Kolab-plugins-Bifrost-T36327.patch
-Patch0002:      0002-Fix-LDAP-connection-errors-in-Ping-when-using-active.patch
-Patch0003:      0003-Bump-SEQUENCE-number-on-update-Outlook-only.patch
-Patch0004:      0004-Return-Invalid-item-6-status-on-SMS-entries-instead-.patch
-Patch0005:      0005-implement-setAttendeeStatus.patch
 
 BuildArch:      noarch
 
@@ -127,43 +121,10 @@ ln -s ../../..%{_var}/log/%{name} logs
 pushd lib/ext
 ln -s ../../../roundcubemail/program/lib/Roundcube
 popd
+pushd lib
+ln -s ../../roundcubemail/plugins plugins
+popd
 ln -s ../roundcubemail/vendor vendor
-
-for plugin in kolab_auth kolab_folders libcalendaring libkolab; do
-    if [ ! -d "/usr/share/roundcubemail/plugins/$plugin" ]; then
-        continue
-    fi
-    mkdir -p lib/plugins/$plugin
-    pushd lib/plugins/$plugin
-    if [ -d "/usr/share/roundcubemail/plugins/" ]; then
-        find /usr/share/roundcubemail/plugins/$plugin/ -mindepth 1 -maxdepth 1 ! -name "config.inc.php" | while read link_target; do
-            ln -sv "$(echo ${link_target} | sed -e 's|/usr/share/roundcubemail/|../../../../roundcubemail/|g')"
-        done
-    else
-        find ../../../../roundcubemail/plugins/$plugin/ -mindepth 1 -maxdepth 1 ! -name "config.inc.php" -exec ln -sv {} \;
-    fi
-    popd
-done
-popd
-
-# Kolab Authentication plugin
-%if 0%{?plesk} < 1
-pushd %{buildroot}/%{_datadir}/%{name}/lib/plugins/kolab_auth
-rm -rf config.inc.php.dist
-ln -s ../../../../../..%{_sysconfdir}/roundcubemail/kolab_auth.inc.php config.inc.php
-popd
-%endif
-
-# Kolab Folders plugin
-pushd %{buildroot}/%{_datadir}/%{name}/lib/plugins/kolab_folders
-rm -rf config.inc.php.dist
-ln -s ../../../../../..%{_sysconfdir}/roundcubemail/kolab_folders.inc.php config.inc.php
-popd
-
-# Libkolab plugin
-pushd %{buildroot}/%{_datadir}/%{name}/lib/plugins/libkolab
-rm -rf config.inc.php.dist
-ln -s ../../../../../..%{_sysconfdir}/roundcubemail/libkolab.inc.php config.inc.php
 popd
 
 %if 0%{?plesk} < 1
@@ -192,17 +153,19 @@ find %{buildroot}/%{_datadir}/%{name}/ -type f ! -perm /go+r -exec chmod -v go+r
 if [ -d "/usr/share/kolab-syncroton/lib/ext/Roundcube" -a ! -L "/usr/share/kolab-syncroton/lib/ext/Roundcube" ]; then
     rm -rf "/usr/share/kolab-syncroton/lib/ext/Roundcube"
 fi
-if [ -d "/usr/share/kolab-syncroton/lib/plugins/" ]; then
-    find /usr/share/kolab-syncroton/lib/plugins/ -mindepth 2 -maxdepth 2 | while read file; do
-        if [ ! -L "${file}" ]; then
-            rm -rf "${file}"
-        fi
-    done
+
+%pretrans
+if [ -d "/usr/share/kolab-syncroton/lib/plugins" -a ! -L "/usr/share/kolab-syncroton/lib/plugins" ]; then
+    find /usr/share/kolab-syncroton/lib/plugins/ \
+        -type l -exec rm -f {} \;
+    rm -rf /usr/share/kolab-syncroton/lib/plugins/
+    pushd /usr/share/kolab-syncroton/lib/
+    ln -s ../../roundcubemail/plugins
 fi
 
 %post
 if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-    if [ ! -z "`grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini`" ]; then
+    if [ ! -z "`grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null`" ]; then
 %if 0%{?fedora} > 15
         /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -232,6 +195,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Sun Aug 27 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.7-1
+- Release 2.3.7
+
 * Fri Aug 18 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.6-2
 - Patch setAttendeeStatus for increased Outlook compatibility
 

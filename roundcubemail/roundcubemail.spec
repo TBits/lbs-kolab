@@ -47,9 +47,9 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.2.5
+Version:        1.3.0.41
 
-Release:        6%{?dist}
+Release:        1%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -67,13 +67,6 @@ Source100:      plesk.config.inc.php
 Source101:      plesk.password.inc.php
 
 Patch201:       default-configuration.patch
-
-Patch0001:      0001-Fix-bug-where-comment-notation-within-style-tag-woul.patch
-Patch0002:      0002-Fix-bug-where-it-wasn-t-possible-to-scroll-folders-l.patch
-Patch0003:      0003-Fix-addressbook-searching-by-gender-5757.patch
-Patch0004:      0004-Enigma-Fix-compatibility-with-assets_dir.patch
-Patch0005:      0005-Fix-SQL-syntax-error-on-MariaDB-10.2-5774.patch
-Patch0006:      0006-Fix-bug-where-it-wasn-t-possible-to-set-timezone-to-.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -162,7 +155,7 @@ Requires:       php-common >= 5.3
 %endif
 
 %if 0%{?fedora}
-# to avoid on OBS, for packages depending on roundcubemail-core: 
+# to avoid on OBS, for packages depending on roundcubemail-core:
 # have choice for webserver needed by roundcubemail-core: lighttpd httpd nginx cherokee
 Requires:       httpd
 %endif
@@ -196,6 +189,10 @@ Requires:       %{name}(skin) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-filesystem_attachments) = %{?epoch:%{epoch}:}%{version}-%{release}
 # The jqueryui plugin is required.
 Requires:       %{name}(plugin-jqueryui) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+Obsoletes:      %{name}(plugin-legacy_browser)
+Obsoletes:      %{name}-plugin-legacy_browser
+Provides:       %{name}(plugin-legacy_browser) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 Obsoletes:      %{name}(plugin-threading_as_default}
 Obsoletes:      %{name}-plugin-threading_as_default
@@ -358,6 +355,15 @@ Provides:       %{name}(plugin-http_authentication) = %{?epoch:%{epoch}:}%{versi
 %description plugin-http_authentication
 Plugin http_authentication
 
+%package plugin-identicon
+Summary:        Plugin identicon
+Group:          Applications/Internet
+Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}(plugin-identicon) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description plugin-identicon
+Plugin identicon
+
 %package plugin-identity_select
 Summary:        Plugin identity_select
 Group:          Applications/Internet
@@ -388,17 +394,6 @@ Provides:       %{name}(plugin-krb_authentication) = %{?epoch:%{epoch}:}%{versio
 
 %description plugin-krb_authentication
 Plugin krb_authentication
-
-%package plugin-legacy_browser
-Summary:        Plugin legacy_browser
-Group:          Applications/Internet
-Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-legacy_browser-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-legacy_browser-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser
-Plugin legacy_browser
 
 %package plugin-managesieve
 Summary:        Plugin managesieve
@@ -690,14 +685,6 @@ Provides:       %{name}(plugin-krb_authentication-assets) = %{?epoch:%{epoch}:}%
 %description plugin-krb_authentication-assets
 Plugin krb_authentication Assets
 
-%package plugin-legacy_browser-assets
-Summary:        Plugin legacy_browser Assets
-Group:          Applications/Internet
-Provides:       %{name}(plugin-legacy_browser-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser-assets
-Plugin legacy_browser Assets
-
 %package plugin-managesieve-assets
 Summary:        Plugin managesieve Assets
 Group:          Applications/Internet
@@ -890,18 +877,6 @@ Provides:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{versi
 %description plugin-jqueryui-skin-larry
 Plugin jqueryui / Skin larry
 
-%package plugin-legacy_browser-skin-larry
-Summary:        Plugin legacy_browser / Skin larry
-Group:          Applications/Internet
-Requires:       %{name}(plugin-legacy_browser) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-legacy_browser-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser-skin-larry
-Plugin legacy_browser / Skin larry
-
 %package plugin-managesieve-skin-larry
 Summary:        Plugin managesieve / Skin larry
 Group:          Applications/Internet
@@ -1010,16 +985,6 @@ Provides:       %{name}(plugin-jqueryui-skin-larry-assets) = %{?epoch:%{epoch}:}
 %description plugin-jqueryui-skin-larry-assets
 Plugin jqueryui / Skin larry (Assets Package)
 
-%package plugin-legacy_browser-skin-larry-assets
-Summary:        Plugin legacy_browser / Skin larry (Assets)
-Group:          Applications/Internet
-Requires:       %{name}(plugin-legacy_browser-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}(plugin-legacy_browser-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description plugin-legacy_browser-skin-larry-assets
-Plugin legacy_browser / Skin larry (Assets Package)
-
 %package plugin-managesieve-skin-larry-assets
 Summary:        Plugin managesieve / Skin larry (Assets)
 Group:          Applications/Internet
@@ -1085,6 +1050,8 @@ Skin larry (Assets Package)
 
 pushd %{name}-%{version}
 
+rm -rf temp/js_cache/
+
 find . -type d -name "classic" | while read dir; do
     rm -rvf ${dir}
 done
@@ -1096,13 +1063,6 @@ cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 
 %patch201 -p1
 
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
-%patch0004 -p1
-%patch0005 -p1
-%patch0006 -p1
-
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
 
@@ -1111,9 +1071,6 @@ find . -type f -name ".*" -delete
 find . -type d -name ".*" ! -name "." ! -name ".." | while read dir; do
     rm -rvf ${dir}
 done
-
-# Remove file URI modifier
-sed -r -i -e 's/^(\s+)protected function file_mod(.*)$/\1protected function file_mod\2 { return $file; }\n\1protected function dummy\2/g' program/include/rcmail_output_html.php
 
 # Remove any reference to sqlite in config file so people don't
 # mistakely assume it works
@@ -1226,7 +1183,7 @@ for plugin in $(find %{name}-%{version}/plugins -mindepth 1 -maxdepth 1 -type d 
         echo "%posttrans plugin-$(basename ${plugin})"
         echo "if [ ! -f "%%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then"
         echo "    if [ -f \"%%{php_inidir}/apc.ini\" -o -f \"%%{php_inidir}/apcu.ini\" ]; then"
-        echo "        if [ ! -z \"\$(grep ^apc.enabled=1 %%{php_inidir}/apc{,u}.ini)\" ]; then"
+        echo "        if [ ! -z \"\$(grep ^apc.enabled=1 %%{php_inidir}/apc{,u}.ini 2>/dev/null)\" ]; then"
         echo "%if 0%%{?with_systemd}"
         echo "            /bin/systemctl condrestart %%{httpd_name}.service"
         echo "%else"
@@ -1392,8 +1349,6 @@ function new_files() {
     %{buildroot}%{tmpdir}
 
 pushd %{name}-%{version}
-# Move robots.txt to the correct place
-%{__install} -pm 644 robots.txt %{buildroot}%{datadir}/public_html/robots.txt
 
 %if 0%{?plesk} < 1
 %{__install} -pm 644 %SOURCE20 %{buildroot}%{_ap_sysconfdir}/conf.d
@@ -1531,6 +1486,7 @@ for file in $(find ${orig_dir} -type f \
         -name "*.tiff" -o \
         -name "*.ttf" -o \
         -name "*.wav" -o \
+        -name "*.webp" -o \
         -name "*.woff" | \
         grep -vE "${orig_dir}/(plugins|skins)/"
     ); do
@@ -1612,6 +1568,7 @@ for skin in larry; do
             -name "*.tiff" -o \
             -name "*.ttf" -o \
             -name "*.wav" -o \
+            -name "*.webp" -o \
             -name "*.woff"
         ); do
         asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1700,6 +1657,7 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
                 -name "*.tiff" -o \
                 -name "*.ttf" -o \
                 -name "*.wav" -o \
+                -name "*.webp" -o \
                 -name "*.woff"
             ); do
             asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1771,6 +1729,7 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
             -name "*.tiff" -o \
             -name "*.ttf" -o \
             -name "*.wav" -o \
+            -name "*.webp" -o \
             -name "*.woff"
         ); do
         asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
@@ -1940,6 +1899,11 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
+%pre plugin-identicon
+if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
+fi
+
 %pre plugin-identity_select
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
@@ -1951,11 +1915,6 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
 fi
 
 %pre plugin-krb_authentication
-if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
-fi
-
-%pre plugin-legacy_browser
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
@@ -2050,6 +2009,8 @@ function makedesstr () {
     echo $str
 }
 
+find %{logdir} -mindepth 1 -maxdepth 1 -type f -exec chown %{httpd_user}:%{httpd_group} {} \;
+
 %{__sed} -i "s/rcmail-\!24ByteDESkey\*Str/`makedesstr`/" /etc/roundcubemail/defaults.inc.php || : &> /dev/null
 
 %{__sed} -i -r -e "s/.*(\s*define\(\s*'RCMAIL_VERSION'\s*,\s*').*('\);)/\1%{version}-%{release}\2/g" \
@@ -2057,7 +2018,7 @@ function makedesstr () {
 
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2079,7 +2040,7 @@ exit 0
 %posttrans plugin-acl
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2094,7 +2055,7 @@ fi
 %posttrans plugin-additional_message_headers
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2109,7 +2070,7 @@ fi
 %posttrans plugin-archive
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2124,7 +2085,7 @@ fi
 %posttrans plugin-attachment_reminder
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2139,7 +2100,7 @@ fi
 %posttrans plugin-autologon
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2154,7 +2115,7 @@ fi
 %posttrans plugin-database_attachments
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2169,7 +2130,7 @@ fi
 %posttrans plugin-debug_logger
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2184,7 +2145,7 @@ fi
 %posttrans plugin-emoticons
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2199,7 +2160,7 @@ fi
 %posttrans plugin-enigma
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2214,7 +2175,7 @@ fi
 %posttrans plugin-example_addressbook
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2229,7 +2190,7 @@ fi
 %posttrans plugin-filesystem_attachments
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2244,7 +2205,7 @@ fi
 %posttrans plugin-help
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2259,7 +2220,7 @@ fi
 %posttrans plugin-hide_blockquote
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2274,7 +2235,22 @@ fi
 %posttrans plugin-http_authentication
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
+%if 0%{?with_systemd}
+            /bin/systemctl condrestart %{httpd_name}.service
+%else
+            /sbin/service %{httpd_name} condrestart
+%endif
+        fi
+    fi
+    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
+    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
+fi
+
+%posttrans plugin-identicon
+if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
+    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2289,7 +2265,7 @@ fi
 %posttrans plugin-identity_select
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2304,7 +2280,7 @@ fi
 %posttrans plugin-jqueryui
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2319,22 +2295,7 @@ fi
 %posttrans plugin-krb_authentication
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
-%if 0%{?with_systemd}
-            /bin/systemctl condrestart %{httpd_name}.service
-%else
-            /sbin/service %{httpd_name} condrestart
-%endif
-        fi
-    fi
-    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
-    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
-fi
-
-%posttrans plugin-legacy_browser
-if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2349,7 +2310,7 @@ fi
 %posttrans plugin-managesieve
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2364,7 +2325,7 @@ fi
 %posttrans plugin-markasjunk
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2379,7 +2340,7 @@ fi
 %posttrans plugin-new_user_dialog
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2394,7 +2355,7 @@ fi
 %posttrans plugin-new_user_identity
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2409,7 +2370,7 @@ fi
 %posttrans plugin-newmail_notifier
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2424,7 +2385,7 @@ fi
 %posttrans plugin-password
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2439,7 +2400,7 @@ fi
 %posttrans plugin-redundant_attachments
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2454,7 +2415,7 @@ fi
 %posttrans plugin-show_additional_headers
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2469,7 +2430,7 @@ fi
 %posttrans plugin-squirrelmail_usercopy
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2484,7 +2445,7 @@ fi
 %posttrans plugin-subscriptions_option
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2499,7 +2460,7 @@ fi
 %posttrans plugin-userinfo
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2514,7 +2475,7 @@ fi
 %posttrans plugin-vcard_attachments
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2529,7 +2490,7 @@ fi
 %posttrans plugin-virtuser_file
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2544,7 +2505,7 @@ fi
 %posttrans plugin-virtuser_query
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2559,7 +2520,7 @@ fi
 %posttrans plugin-zipdownload
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini)" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -2649,6 +2610,9 @@ fi
 %defattr(-,root,root,-)
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{_sysconfdir}/%{name}/http_authentication.inc.php
 
+%files plugin-identicon -f plugin-identicon.files
+%defattr(-,root,root,-)
+
 %files plugin-identity_select -f plugin-identity_select.files
 %defattr(-,root,root,-)
 
@@ -2659,9 +2623,6 @@ fi
 %files plugin-krb_authentication -f plugin-krb_authentication.files
 %defattr(-,root,root,-)
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{_sysconfdir}/%{name}/krb_authentication.inc.php
-
-%files plugin-legacy_browser -f plugin-legacy_browser.files
-%defattr(-,root,root,-)
 
 %files plugin-managesieve -f plugin-managesieve.files
 %defattr(-,root,root,-)
@@ -2766,9 +2727,6 @@ fi
 %files plugin-krb_authentication-assets -f plugin-krb_authentication-assets.files
 %defattr(-,root,root,-)
 
-%files plugin-legacy_browser-assets -f plugin-legacy_browser-assets.files
-%defattr(-,root,root,-)
-
 %files plugin-managesieve-assets -f plugin-managesieve-assets.files
 %defattr(-,root,root,-)
 
@@ -2832,9 +2790,6 @@ fi
 %files plugin-jqueryui-skin-larry -f plugin-jqueryui-skin-larry.files
 %defattr(-,root,root,-)
 
-%files plugin-legacy_browser-skin-larry -f plugin-legacy_browser-skin-larry.files
-%defattr(-,root,root,-)
-
 %files plugin-managesieve-skin-larry -f plugin-managesieve-skin-larry.files
 %defattr(-,root,root,-)
 
@@ -2865,9 +2820,6 @@ fi
 %files plugin-jqueryui-skin-larry-assets -f plugin-jqueryui-skin-larry-assets.files
 %defattr(-,root,root,-)
 
-%files plugin-legacy_browser-skin-larry-assets -f plugin-legacy_browser-skin-larry-assets.files
-%defattr(-,root,root,-)
-
 %files plugin-managesieve-skin-larry-assets -f plugin-managesieve-skin-larry-assets.files
 %defattr(-,root,root,-)
 
@@ -2887,6 +2839,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Sun Aug 27 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.0.41-1
+- Check in 41 revisions ahead of upstream 1.3.0 release
+
 * Mon Jun 19 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.5-6
 - Fix saving preferences (timezone)
 - Fix syntax error against MariaDB 10.2
