@@ -23,6 +23,9 @@ override_dh_auto_install:
 		fi ; \
 	done
 
+	find $(CURDIR)/ | sort
+	cat $(CURDIR)/debian/control
+
 get-orig-source:
 	dh_testdir
 	wget -O ../erlang-lager_$(DEB_VERSION_UPSTREAM).orig.tar.gz \

@@ -2,8 +2,8 @@ Format: 1.0
 Source: erlang-lager
 Binary: erlang-lager
 Architecture: any
-Version: 3.2.4-0~kolab1
-Maintainer: Philipp Huebner <debalance@debian.org>
+Version: 3.2.4-0~kolab2
+Maintainer: Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>
 Uploaders: Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://github.com/basho/lager
 Standards-Version: 3.9.5

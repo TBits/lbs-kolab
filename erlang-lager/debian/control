@@ -10,8 +10,10 @@ Homepage: https://github.com/basho/lager
 
 Package: erlang-lager
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, erlang-base | ${erlang-abi:Depends},
-         ${erlang:Depends}, erlang-goldrush
+Depends:    ${shlibs:Depends},
+            ${misc:Depends},
+            erlang-base | ${erlang-abi:Depends},
+            erlang-goldrush
 Description: logging framework for Erlang
  Lager (as in the beer) is a logging framework for Erlang. Its purpose is
  to provide a more traditional way to perform logging in an erlang application
