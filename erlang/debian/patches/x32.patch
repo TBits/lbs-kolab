@@ -1,0 +1,54 @@
+Author: Sergei Golovan
+Description: This (not yet thoroughly tested) patch fixes FTBFS for x86_x32
+ architecture (x86_64 with 32-bit integers, longs and pointers).
+Last-Modified: Sun, 27 Dec 2015 12:39:07 +0300
+
+--- a/erts/lib_src/pthread/ethread.c
++++ b/erts/lib_src/pthread/ethread.c
+@@ -195,13 +195,25 @@
+      * we have the cpuid instruction.
+      */
+     __asm__ ("pushf\n\t"
++#if __x86_64__ || (__x86_64__ && __ILP32__)
++	     "popq %%rax\n\t"
++#else /* i386 */
+              "popl %%eax\n\t"
++#endif
+              "movl %%eax, %%ecx\n\t"
+              "xorl $0x200000, %%eax\n\t"
++#if __x86_64__ || (__x86_64__ && __ILP32__)
++             "pushq %%rax\n\t"
++#else /* i386 */
+              "pushl %%eax\n\t"
++#endif
+              "popf\n\t"
+              "pushf\n\t"
++#if __x86_64__ || (__x86_64__ && __ILP32__)
++             "popq %%rax\n\t"
++#else /* i386 */
+              "popl %%eax\n\t"
++#endif
+              "movl $0x0, %0\n\t"
+              "xorl %%ecx, %%eax\n\t"
+              "jz no_cpuid\n\t"
+@@ -223,10 +235,19 @@
+      * B register explicitly (for some reason gcc doesn't provide this
+      * service to us).
+      */
+-    __asm__ ("pushl %%ebx\n\t"
++    __asm__ (
++#if __x86_64__ || (__x86_64__ && __ILP32__)
++	     "pushq %%rbx\n\t"
++#else /* i386 */
++	     "pushl %%ebx\n\t"
++#endif
+ 	     "cpuid\n\t"
+ 	     "movl %%ebx, %1\n\t"
++#if __x86_64__ || (__x86_64__ && __ILP32__)
++	     "popq %%rbx\n\t"
++#else /* i386 */
+ 	     "popl %%ebx\n\t"
++#endif
+ 	     : "=a"(*eax), "=r"(*ebx), "=c"(*ecx), "=d"(*edx)
+ 	     : "0"(*eax)
+ 	     : "cc");

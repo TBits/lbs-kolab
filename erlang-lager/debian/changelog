@@ -1,3 +1,9 @@
+erlang-lager (3.1.0-0~kolab2) unstable; urgency=medium
+
+  * Rebuild
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Tue, 29 Aug 2017 21:39:31 +0100
+
 erlang-lager (3.1.0-0~kolab1) unstable; urgency=medium
 
   * Bump version to 3.1.0.

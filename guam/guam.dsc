@@ -2,7 +2,7 @@ Format: 1.0
 Source: guam
 Binary: guam
 Architecture: any
-Version: 0.9.2-2
+Version: 0.9.2-3
 Maintainer: Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://kolab.org/about/guam
 Standards-Version: 3.9.6

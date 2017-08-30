@@ -2,7 +2,7 @@ Format: 1.0
 Source: erlang-lager
 Binary: erlang-lager
 Architecture: any
-Version: 3.1.0-0~kolab1
+Version: 3.1.0-0~kolab2
 Maintainer: Philipp Huebner <debalance@debian.org>
 Uploaders: Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://github.com/basho/lager

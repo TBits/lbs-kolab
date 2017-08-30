@@ -1,0 +1,23 @@
+Author: Chris Lamb <lamby@debian.org>
+Description: Patch makes erlang compiler honor the SOURCE_DATE_EPOCH
+ environment variable and use its value in build results instead of the
+ current timestamp. The goal is to maintain reproducible builds. More info:
+ https://wiki.debian.org/ReproducibleBuilds
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=795834
+Last-modified: Mon, 17 Aug 2015 14:32:15 +0300
+
+--- a/lib/compiler/src/beam_asm.erl
++++ b/lib/compiler/src/beam_asm.erl
+@@ -226,7 +226,11 @@
+ build_attributes(Opts, SourceFile, Attr, MD5) ->
+     Misc = case member(slim, Opts) of
+ 	       false ->
+-		   {{Y,Mo,D},{H,Mi,S}} = erlang:universaltime(),
++                  {{Y,Mo,D},{H,Mi,S}} = case string:to_integer(os:getenv("SOURCE_DATE_EPOCH")) of
++                       {N,[]} ->calendar:gregorian_seconds_to_datetime(N +
++			    calendar:datetime_to_gregorian_seconds({{1970,1,1},{0,0,0}}));
++                       {_,_} -> erlang:universaltime()
++                  end,
+ 		   [{time,{Y,Mo,D,H,Mi,S}},{source,SourceFile}];
+ 	       true -> []
+ 	   end,

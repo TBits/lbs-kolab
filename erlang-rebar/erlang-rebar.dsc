@@ -2,7 +2,7 @@ Format: 1.0
 Source: rebar
 Binary: rebar
 Architecture: any
-Version: 2.6.1-1~kolab1
+Version: 2.6.1-1~kolab2
 Maintainer: Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
 Uploaders: Nobuhiro Iwamatsu <iwamatsu@debian.org>, micah <micah@muck.riseup.net>, Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://github.com/rebar/rebar

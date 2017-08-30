@@ -2,7 +2,7 @@ Format: 1.0
 Source: erlang-syslog
 Binary: erlang-syslog
 Architecture: any
-Version: 1.0.3-0~kolab1
+Version: 1.0.3-0~kolab2
 Maintainer: hede <kolab983@der-he.de>
 Uploaders: hede <kolab983@der-he.de>
 Homepage: https://github.com/Vagabond/erlang-syslog

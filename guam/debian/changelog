@@ -1,3 +1,9 @@
+guam (0.9.2-3) unstable; urgency=medium
+
+  * Rebuild
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Tue, 29 Aug 2017 06:06:06 +0600
+
 guam (0.9.2-2) unstable; urgency=medium
 
   * Fix potentially empty responses
