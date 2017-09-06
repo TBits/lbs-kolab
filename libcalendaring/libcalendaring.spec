@@ -9,6 +9,8 @@ URL:            http://www.kolab.org/about/libcalendaring
 
 Source0:        libcalendaring-4.9.2.tar.gz
 
+Patch0001:      0001-Correct-shebangs.patch
+
 BuildRequires:  boost-devel
 BuildRequires:  cmake
 BuildRequires:  cyrus-sasl-devel
@@ -44,6 +46,8 @@ These are development headers. Don't bother.
 
 %prep
 %setup -q
+
+%patch0001 -p1
 
 %build
 mkdir build
