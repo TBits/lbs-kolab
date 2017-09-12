@@ -38,11 +38,7 @@ BuildRequires:  php-composer(symfony/console)           >= 2.5
 BuildRequires:  php-composer(symfony/finder)            >= 2.2
 BuildRequires:  php-composer(symfony/process)           >= 2.1
 BuildRequires:  php-composer(symfony/class-loader)
-%if 0%{?opensuse_bs}
 BuildRequires:  php-phpunit-PHPUnit
-%else
-BuildRequires:  %{_bindir}/phpunit
-%endif
 %endif
 
 # From composer.json, requires
