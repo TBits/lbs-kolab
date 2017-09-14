@@ -9,7 +9,7 @@
 
 Name:           erlang-%{realname}
 Version:        0.2.5
-Release:        0.20160111.git%{?dist}
+Release:        2%{?dist}
 Summary:        Erlang IMAP client
 Group:          Development/Libraries
 License:        GPLv3+
@@ -18,6 +18,8 @@ URL:            http://git.kolab.org/diffusion/EI/%{realname}.git
 VCS:            scm:git:https://git.kolab.org/diffusion/EI/%{realname}.git
 %endif
 Source0:        erlang-eimap-0.2.5.tar.gz
+
+Patch1:         rebar-deps.patch
 
 BuildRequires:	erlang-goldrush >= 0.1.7
 BuildRequires:	erlang-lager >= 2.2.0
@@ -31,6 +33,7 @@ IMAP client library for Erlang
 
 %prep
 %setup -q -n eimap-%{version}
+%patch1 -p1
 
 %build
 rebar compile -v

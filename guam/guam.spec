@@ -32,7 +32,7 @@ Source100:          plesk.sys.config
 Patch0001:          0001-Avoid-empty-lines-in-the-responses-to-IMAP-clients.patch
 Patch0002:          guam-0.9.2-T25795.patch
 
-Patch9991:          guam-0.9.1-relax-dependencies.patch
+Patch9991:          rebar-remove-deps.patch
 Patch9992:          guam-0.9.2-set-version-number.patch
 
 BuildRequires:      erlang >= 17.4
@@ -60,9 +60,11 @@ BuildRequires:      erlang-ssl
 BuildRequires:      erlang-stdlib
 BuildRequires:      erlang-syntax_tools
 BuildRequires:      erlang-syslog >= 1.0.3
+%if 0%{?rhel}
 BuildRequires:      erlang-test_server
-BuildRequires:      erlang-tools
 BuildRequires:      erlang-webtool
+%endif
+BuildRequires:      erlang-tools
 BuildRequires:      erlang-wx
 BuildRequires:      erlang-xmerl
 

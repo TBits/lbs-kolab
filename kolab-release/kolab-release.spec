@@ -35,6 +35,10 @@
 %global gpgkey_name beefymiracle
 %endif
 
+%if 0%{?fedora} == 26
+%global gpgkey_name twentysix
+%endif
+
 %else
 %global dist_full_name Enterprise Linux
 %global dist_lower_name redhat
