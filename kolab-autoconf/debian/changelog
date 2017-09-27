@@ -1,3 +1,9 @@
+kolab-autoconf (0.2-1) unstable; urgency=medium
+
+  * Release of version 0.2.
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Tue, 26 Sep 2017 16:24:02 +0100
+
 kolab-autoconf (0.1-1) trusty; urgency=medium
 
   * Initial release.
