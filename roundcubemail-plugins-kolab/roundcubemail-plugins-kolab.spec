@@ -46,6 +46,8 @@ Source101:      plesk.kolab_addressbook.inc.php
 Source102:      plesk.kolab_folders.inc.php
 Source103:      plesk.libkolab.inc.php
 
+Patch0001:      0001-Fix-regression-when-startup-method-of-some-by-role-p.patch
+
 Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -857,6 +859,8 @@ cp -af %{SOURCE101} plugins/kolab_addressbook/config.inc.php.dist
 cp -af %{SOURCE102} plugins/kolab_folders/config.inc.php.dist
 cp -af %{SOURCE103} plugins/libkolab/config.inc.php.dist
 %endif
+
+%patch0001 -p1
 
 %patch1001 -p1
 

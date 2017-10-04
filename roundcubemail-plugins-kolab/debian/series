@@ -1,1 +1,2 @@
 roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch -p1
+0001-Fix-regression-when-startup-method-of-some-by-role-p.patch -p1
