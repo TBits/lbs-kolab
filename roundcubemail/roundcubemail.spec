@@ -297,6 +297,7 @@ Summary:        Plugin enigma
 Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-enigma-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       php-pear-crypt-gpg
 Requires:       %{name}(plugin-enigma-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       %{name}(plugin-enigma) = %{?epoch:%{epoch}:}%{version}-%{release}
 

@@ -1195,6 +1195,13 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
         %{__mv} -vf ${file} ${asset_loc}/$(basename $file)
     done
 
+    if [ "${plugin}" == "logon_page" ]; then
+        %{__mkdir_p} %{buildroot}%{confdir}
+        %{__mv} -vf ${orig_dir}/plugins/logon_page/logon_page.html %{buildroot}%{confdir}
+        pushd ${orig_dir}/plugins/logon_page/
+        ln -s ../../../..%{confdir}/logon_page.html logon_page.html
+    fi
+
     if [ "${plugin}" == "pdfviewer" ]; then
         %{__mv} -vf ${orig_dir}/plugins/pdfviewer/viewer/locale ${asset_dir}/plugins/pdfviewer/viewer/.
         %{__mv} -vf ${orig_dir}/plugins/pdfviewer/viewer/viewer.html ${asset_dir}/plugins/pdfviewer/viewer/.
@@ -1836,6 +1843,7 @@ rm -rf %{buildroot}
 
 %files -n roundcubemail-plugin-logon_page -f plugin-logon_page.files
 %defattr(-,root,root,-)
+%attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/logon_page.html
 
 %files -n roundcubemail-plugin-odfviewer -f plugin-odfviewer.files
 %defattr(-,root,root,-)
