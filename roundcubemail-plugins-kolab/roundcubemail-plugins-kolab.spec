@@ -47,6 +47,7 @@ Source102:      plesk.kolab_folders.inc.php
 Source103:      plesk.libkolab.inc.php
 
 Patch0001:      0001-Fix-regression-when-startup-method-of-some-by-role-p.patch
+Patch0002:      0002-Workaround-libkolabxml-error-on-Etc-UTC-timezone-Bif.patch
 
 Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
@@ -861,6 +862,7 @@ cp -af %{SOURCE103} plugins/libkolab/config.inc.php.dist
 %endif
 
 %patch0001 -p1
+%patch0002 -p1
 
 %patch1001 -p1
 
@@ -1195,13 +1197,6 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
         %{__mv} -vf ${file} ${asset_loc}/$(basename $file)
     done
 
-    if [ "${plugin}" == "logon_page" ]; then
-        %{__mkdir_p} %{buildroot}%{confdir}
-        %{__mv} -vf ${orig_dir}/plugins/logon_page/logon_page.html %{buildroot}%{confdir}
-        pushd ${orig_dir}/plugins/logon_page/
-        ln -s ../../../..%{confdir}/logon_page.html logon_page.html
-    fi
-
     if [ "${plugin}" == "pdfviewer" ]; then
         %{__mv} -vf ${orig_dir}/plugins/pdfviewer/viewer/locale ${asset_dir}/plugins/pdfviewer/viewer/.
         %{__mv} -vf ${orig_dir}/plugins/pdfviewer/viewer/viewer.html ${asset_dir}/plugins/pdfviewer/viewer/.
@@ -1230,6 +1225,14 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
         pushd %{buildroot}%{plugindir}/${plugin}
         %{__mv} config.inc.php.dist %{buildroot}%{confdir}/${plugin}.inc.php
         ln -s ../../../../..%{confdir}/${plugin}.inc.php config.inc.php
+        popd
+    fi
+
+    if [ -f "%{buildroot}%{plugindir}/${plugin}/logon_page.html" ]; then
+        %{__mkdir_p} %{buildroot}%{confdir}
+        %{__mv} -vf %{buildroot}%{plugindir}/${plugin}/logon_page.html %{buildroot}%{confdir}
+        pushd %{buildroot}%{plugindir}/${plugin}/
+        ln -s ../../../../..%{confdir}/logon_page.html logon_page.html
         popd
     fi
 
@@ -1363,6 +1366,10 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
 fi
 
 %pre -n roundcubemail-plugin-logon_page
+if [ -f "%{plugindir}/logon_page/logon_page.html" ]; then
+    mv -vf %{plugindir}/logon_page/logon_page.html %{confdir}/logon_page.html
+fi
+
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
@@ -2017,6 +2024,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Oct  6 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.4-2
+- Fix Etc/UTC timezone
+
 * Mon Oct  2 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.4-1
 - Release of version 3.3.4
 
