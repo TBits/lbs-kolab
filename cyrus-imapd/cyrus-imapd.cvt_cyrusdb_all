@@ -6,11 +6,25 @@ function usage() {
     exit 1
 }
 
-[ -f "/etc/sysconfig/cyrus-imapd" ] && \
+if [ -f /etc/sysconfig/cyrus-imapd ]; then
     . /etc/sysconfig/cyrus-imapd
-
-[ -f "/etc/default/cyrus-imapd" ] && \
+elif [ -f /etc/default/cyrus-imapd ]; then
     . /etc/default/cyrus-imapd
+fi
+
+if [ ! -z "${QUICK}" ]; then
+    if [ ${QUICK} -ne 0 ]; then
+        exit 0
+    fi
+fi
+
+if [ ! -b /dev/null ]; then
+    exit 1
+fi
+
+if [ ! -r /dev/null -o ! -w /dev/null ]; then
+    exit 1
+fi
 
 # Ensure this script is run as the cyrus user.
 if [ -x "$(which runuser 2>/dev/null)" ]; then
@@ -23,8 +37,6 @@ fi
 #    exec $SWITCHUSER -s /bin/bash - cyrus -c "cd \$HOME < /dev/null ; INSTANCE=$0 $*"
 #    exit 0
 #fi
-
-umask 166
 
 alt_config="/etc/imapd.conf"
 devel_mode=0
