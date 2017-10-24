@@ -63,6 +63,8 @@ Source32:           cyr_systemd_helper
 ##
 ## Patches
 ##
+Patch0001:          0001-dlist-Use-int8_t-in-dlist_parsemap.patch
+Patch0002:          0002-Avoid-returning-1-as-255.patch
 
 BuildRoot:          %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
@@ -261,6 +263,11 @@ necessary for developing applications which use the imclient library.
 %if 0%{?with_bdb} < 1
 sed -i -e 's/,berkeley//g' cunit/aaa-db.testc
 sed -r -i -e 's/"berkeley(|-[a-z-]+)", //g' lib/imapoptions
+%endif
+
+%if %{_arch} == "ppc64le"
+%patch0001 -p1
+%patch0002 -p1
 %endif
 
 # only to update config.* files
