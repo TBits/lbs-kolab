@@ -2,6 +2,8 @@
 
 %global ssl_pem_file %{_sysconfdir}/pki/%{name}/%{name}.pem
 
+%{?!_unitdir: %global _unitdir /usr/lib/systemd/system}
+
 Name:               kolab-wopi
 Version:            0.0.1
 Release:	        2%{?dist}
