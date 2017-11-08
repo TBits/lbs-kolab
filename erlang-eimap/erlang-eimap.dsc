@@ -2,7 +2,7 @@ Format: 1.0
 Source: erlang-eimap
 Binary: erlang-eimap
 Architecture: any
-Version: 0.2.5-2
+Version: 0.2.5-3
 Maintainer: Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://git.kolab.org/diffusion/EI/eimap.git
 Standards-Version: 3.9.6

@@ -9,7 +9,7 @@
 
 Name:           erlang-%{realname}
 Version:        0.2.5
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Erlang IMAP client
 Group:          Development/Libraries
 License:        GPLv3+
@@ -20,6 +20,7 @@ VCS:            scm:git:https://git.kolab.org/diffusion/EI/%{realname}.git
 Source0:        erlang-eimap-0.2.5.tar.gz
 
 Patch1:         rebar-deps.patch
+Patch2:         untagged-commands.patch
 
 BuildRequires:	erlang-goldrush >= 0.1.7
 BuildRequires:	erlang-lager >= 2.2.0
@@ -34,6 +35,7 @@ IMAP client library for Erlang
 %prep
 %setup -q -n eimap-%{version}
 %patch1 -p1
+%patch2 -p1
 
 %build
 rebar compile -v
@@ -59,6 +61,9 @@ install -D -m 644 ebin/*.beam %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{ve
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
 
 %changelog
+* Tue Nov  7 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.2.5-5
+- Patch untagged commands
+
 * Tue Jul  5 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.2.5-1
 - Packaging of 0.2.5
 
