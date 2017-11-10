@@ -47,7 +47,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.3.1.12
+Version:        1.3.3
 
 Release:        1%{?dist}
 
@@ -2840,6 +2840,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Nov  9 2017 Timotheus Pokorra <tp@tbits.net> - 1.3.3
+- Check in upstream 1.3.3 release
+
 * Wed Oct  4 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.1.12-1
 - Check in 12 revisions ahead of upstream 1.3.1 release
 
