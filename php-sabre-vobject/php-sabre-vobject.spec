@@ -15,7 +15,7 @@
 Name:           php-%{gh_project}
 Summary:        Library to parse and manipulate iCalendar and vCard objects
 Version:        3.5.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 URL:            http://sabre.io/vobject/
 Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}.tar.gz
@@ -24,6 +24,7 @@ Group:          Development/Libraries
 
 # replace composer autloader by PSR-O trivial one
 Patch0:         %{gh_project}-bin.patch
+Patch1:         T41247.patch
 
 BuildArch:      noarch
 %if %{with_tests}
@@ -59,6 +60,7 @@ years. The VObject library has 100% unittest coverage.
 %setup -q -n %{gh_project}-%{?gh_commit:%{gh_commit}}%{!?gh_commit:%{version}}
 
 %patch0 -p0 -b .psr0
+%patch1 -p1 -b .T41247
 
 : Create trivial PSR0 autoloader for tests
 cat <<EOF | tee psr0.php
@@ -106,6 +108,9 @@ phpunit \
 
 
 %changelog
+* Wed Nov 15 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.5.3-2
+- Avoid unintentional RRULE changes upon SNOOZE (T41247)
+
 * Sun Dec  4 2016 Daniel Hoffend <dh@dotlan.net> - 3.5.3-1
 - update to 3.5.3
 

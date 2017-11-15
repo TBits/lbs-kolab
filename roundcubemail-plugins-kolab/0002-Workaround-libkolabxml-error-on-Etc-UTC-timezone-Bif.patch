@@ -1,0 +1,26 @@
+From 02d375972470e30b487532a0ba663a7851af7290 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Fri, 6 Oct 2017 08:32:58 +0200
+Subject: [PATCH 2/2] Workaround libkolabxml error on Etc/UTC timezone
+ (Bifrost#T43830)
+
+---
+ plugins/libkolab/lib/kolab_format.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/libkolab/lib/kolab_format.php b/plugins/libkolab/lib/kolab_format.php
+index 814800d2..4f55a502 100644
+--- a/plugins/libkolab/lib/kolab_format.php
++++ b/plugins/libkolab/lib/kolab_format.php
+@@ -235,7 +235,7 @@ abstract class kolab_format
+                 $result->setTime($datetime->format('G'), $datetime->format('i'), $datetime->format('s'));
+ 
+             // libkolabxml throws errors on some deprecated timezone names
+-            $utc_aliases = array('UTC', 'GMT', '+00:00', 'Z', 'Etc/GMT');
++            $utc_aliases = array('UTC', 'GMT', '+00:00', 'Z', 'Etc/GMT', 'Etc/UTC');
+ 
+             if ($tz && in_array($tz->getName(), $utc_aliases)) {
+                 $result->setUTC(true);
+-- 
+2.14.1
+

@@ -1,6 +1,27 @@
 #!/bin/sh
 # get_config [config default]
 # extracts config option from config file
+
+if [ -f /etc/sysconfig/cyrus-imapd ]; then
+    . /etc/sysconfig/cyrus-imapd
+elif [ -f /etc/default/cyrus-imapd ]; then
+    . /etc/default/cyrus-imapd
+fi
+
+if [ ! -z "${QUICK}" ]; then
+    if [ ${QUICK} -ne 0 ]; then
+        exit 0
+    fi
+fi
+
+if [ ! -b /dev/null ]; then
+    exit 1
+fi
+
+if [ ! -r /dev/null -o ! -w /dev/null ]; then
+    exit 1
+fi
+
 get_config() {
     if conf=$(grep "^$1" /etc/imapd.conf); then
         echo $conf | cut -d: -f2

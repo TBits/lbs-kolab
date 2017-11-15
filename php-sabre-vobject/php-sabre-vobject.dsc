@@ -2,7 +2,7 @@ Format: 1.0
 Source: php-sabre-vobject-3
 Binary: php-sabre-vobject-3
 Architecture: all
-Version: 3.5.3-2
+Version: 3.5.3-3
 Maintainer: ownCloud for Debian maintainers <pkg-owncloud-maintainers@lists.alioth.debian.org>
 Uploaders: David Prévot <taffit@debian.org>
 Homepage: http://sabre.io/vobject/

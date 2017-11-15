@@ -29,7 +29,7 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.3.3
+Version:        3.3.4
 Release:        1%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -45,6 +45,9 @@ Source100:      plesk.calendar.inc.php
 Source101:      plesk.kolab_addressbook.inc.php
 Source102:      plesk.kolab_folders.inc.php
 Source103:      plesk.libkolab.inc.php
+
+Patch0001:      0001-Fix-regression-when-startup-method-of-some-by-role-p.patch
+Patch0002:      0002-Workaround-libkolabxml-error-on-Etc-UTC-timezone-Bif.patch
 
 Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
@@ -858,6 +861,9 @@ cp -af %{SOURCE102} plugins/kolab_folders/config.inc.php.dist
 cp -af %{SOURCE103} plugins/libkolab/config.inc.php.dist
 %endif
 
+%patch0001 -p1
+%patch0002 -p1
+
 %patch1001 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
@@ -1222,6 +1228,14 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
         popd
     fi
 
+    if [ -f "%{buildroot}%{plugindir}/${plugin}/logon_page.html" ]; then
+        %{__mkdir_p} %{buildroot}%{confdir}
+        %{__mv} -vf %{buildroot}%{plugindir}/${plugin}/logon_page.html %{buildroot}%{confdir}
+        pushd %{buildroot}%{plugindir}/${plugin}/
+        ln -s ../../../../..%{confdir}/logon_page.html logon_page.html
+        popd
+    fi
+
     new_files > plugin-${plugin}.files
 
     echo "== Files for plugin ${plugin}: =="
@@ -1352,6 +1366,10 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
 fi
 
 %pre -n roundcubemail-plugin-logon_page
+if [ -f "%{plugindir}/logon_page/logon_page.html" ]; then
+    mv -vf %{plugindir}/logon_page/logon_page.html %{confdir}/logon_page.html
+fi
+
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
@@ -1832,6 +1850,7 @@ rm -rf %{buildroot}
 
 %files -n roundcubemail-plugin-logon_page -f plugin-logon_page.files
 %defattr(-,root,root,-)
+%attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/logon_page.html
 
 %files -n roundcubemail-plugin-odfviewer -f plugin-odfviewer.files
 %defattr(-,root,root,-)
@@ -2005,6 +2024,12 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Oct  6 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.4-2
+- Fix Etc/UTC timezone
+
+* Mon Oct  2 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.4-1
+- Release of version 3.3.4
+
 * Wed Jul 19 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.3-1
 - Release of version 3.3.3
 

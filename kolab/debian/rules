@@ -23,7 +23,6 @@ override_dh_auto_install:
 		cp -av $(CURDIR)/ucs/debian/kolab-webclient.univention-config-registry-variables $(CURDIR)/debian/ ; \
 		univention-install-config-registry --verbose ; \
 		cp -av $(CURDIR)/ucs/kolab-imap-join-script.sh $(CURDIR)/81kolab-imap.inst ; \
-		cp -av $(CURDIR)/ucs/kolab-imap-unjoin-script.sh $(CURDIR)/81kolab-imap.uinst ; \
 		cp -av $(CURDIR)/ucs/kolab-imap-passwd-change.sh $(CURDIR)/kolab-imap ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-imap.dirs $(CURDIR)/debian/kolab-imap.dirs ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-imap.install $(CURDIR)/debian/kolab-imap.install ; \
@@ -31,14 +30,12 @@ override_dh_auto_install:
 		cp -av $(CURDIR)/ucs/debian/kolab-imap.preinst $(CURDIR)/debian/kolab-imap.preinst ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-imap.prerm $(CURDIR)/debian/kolab-imap.prerm ; \
 		cp -av $(CURDIR)/ucs/kolab-mta-join-script.sh $(CURDIR)/67kolab-mta.inst ; \
-		cp -av $(CURDIR)/ucs/kolab-mta-unjoin-script.sh $(CURDIR)/67kolab-mta.uinst ; \
 		cp -av $(CURDIR)/ucs/kolab-mta-passwd-change.sh $(CURDIR)/kolab-mta ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-mta.dirs $(CURDIR)/debian/kolab-mta.dirs ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-mta.install $(CURDIR)/debian/kolab-mta.install ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-mta.postinst $(CURDIR)/debian/kolab-mta.postinst ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-mta.preinst $(CURDIR)/debian/kolab-mta.preinst ; \
 		cp -av $(CURDIR)/ucs/kolab-ucs-join-script.sh $(CURDIR)/65kolab-ucs.inst ; \
-		cp -av $(CURDIR)/ucs/kolab-ucs-unjoin-script.sh $(CURDIR)/65kolab-ucs.uinst ; \
 		cp -av $(CURDIR)/ucs/kolab-ucs-passwd-change.sh $(CURDIR)/kolab-ucs ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-ucs.dirs $(CURDIR)/debian/kolab-ucs.dirs ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-ucs.install $(CURDIR)/debian/kolab-ucs.install ; \
@@ -46,12 +43,8 @@ override_dh_auto_install:
 		cp -av $(CURDIR)/ucs/debian/kolab-ucs.preinst $(CURDIR)/debian/kolab-ucs.preinst ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-ucs.prerm $(CURDIR)/debian/kolab-ucs.prerm ; \
 		cp -av $(CURDIR)/ucs/kolab-webclient-join-script.sh $(CURDIR)/85kolab-webclient.inst ; \
-		cp -av $(CURDIR)/ucs/kolab-webclient-unjoin-script.sh $(CURDIR)/85kolab-webclient.uinst ; \
 		cp -av $(CURDIR)/ucs/kolab-webclient-passwd-change.sh $(CURDIR)/kolab-webclient ; \
-		cp -av $(CURDIR)/ucs/kolab-ucs-logo.svg $(CURDIR)/. ; \
-		cp -av $(CURDIR)/ucs/kolab-ucs-ldap.acl $(CURDIR)/univention-kolab3.acl ; \
-		cp -av $(CURDIR)/ucs/kolab-ucs-hookKolabEnabled.py $(CURDIR)/hookKolabEnabled.py ; \
-		cp -av $(CURDIR)/ucs/kolab-ucs-syntax-classes.py $(CURDIR)/kolab-syntax-classes.py ; \
+		cp -av $(CURDIR)/ucs/kolab_ucs_logo.png $(CURDIR)/. ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-webclient.dirs $(CURDIR)/debian/kolab-webclient.dirs ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-webclient.install $(CURDIR)/debian/kolab-webclient.install ; \
 		cp -av $(CURDIR)/ucs/debian/kolab-webclient.postinst $(CURDIR)/debian/kolab-webclient.postinst ; \

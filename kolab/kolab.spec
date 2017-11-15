@@ -26,7 +26,6 @@ Requires:       kolab-conf
 Requires:       kolab-imap
 Requires:       kolab-ldap
 Requires:       kolab-mta
-Requires:       kolab-utils
 Requires:       kolab-webadmin
 Requires:       kolab-webclient
 

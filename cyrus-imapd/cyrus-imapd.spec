@@ -749,6 +749,9 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Tue Oct 17 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.11-4
+- Fix potentially non-readable, non-writeable /dev/null
+
 * Tue Dec 13 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.10-55-gb6dbffa
 - Fix proxying extended list usage to backends with answers.
 

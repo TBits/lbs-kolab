@@ -23,7 +23,7 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:       kolab-autoconf
-Version:    0.2
+Version:    1.3
 Release:    1%{?dist}
 Summary:    Autodiscovery for clients of Kolab Groupware
 
@@ -69,6 +69,9 @@ popd
 %attr(0750,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Mon Oct  9 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.3-1
+- Release version 1.3
+
 * Tue Sep 26 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.2-1
 - Release of version 0.2
 
