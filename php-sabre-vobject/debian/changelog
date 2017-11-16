@@ -1,3 +1,9 @@
+php-sabre-vobject-3 (3.5.3-3) unstable; urgency=low
+
+  * Resolve unintentional modifications to RRULEs upon SNOOZE (T41247)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 15 Nov 2017 11:11:11 +0200
+
 php-sabre-vobject-3 (3.5.3-2) unstable; urgency=low
 
   * Build require mbstring

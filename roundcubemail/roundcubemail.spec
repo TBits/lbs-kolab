@@ -66,6 +66,8 @@ Source21:       roundcubemail.logrotate
 Source100:      plesk.config.inc.php
 Source101:      plesk.password.inc.php
 
+Source200:      2017111400.sql
+
 Patch201:       default-configuration.patch
 
 BuildArch:      noarch
@@ -1050,6 +1052,9 @@ Skin larry (Assets Package)
 %setup -q -c "%{name}-%{version}"
 
 pushd %{name}-%{version}
+
+cp -vf %{SOURCE200} SQL/mysql/
+rm -rvf SQL/mysql/2016081200.sql
 
 rm -rf temp/js_cache/
 
@@ -2840,7 +2845,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
-* Thu Nov  9 2017 Timotheus Pokorra <tp@tbits.net> - 1.3.3
+* Tue Nov 14 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.3.3-2
+- Stop dropping columns
+
+* Thu Nov  9 2017 Timotheus Pokorra <tp@tbits.net> - 1.3.3-1
 - Check in upstream 1.3.3 release
 
 * Wed Oct  4 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.1.12-1

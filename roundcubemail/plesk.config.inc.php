@@ -150,7 +150,7 @@
     $config['im_identify_path'] = '/usr/bin/identify';
     $config['im_convert_path'] = '/usr/bin/convert';
     $config['log_dir'] = 'logs/';
-    $config['temp_dir'] = '/var/lib/roundcubemail/';
+    $config['temp_dir'] = '/tmp';
 
     $config['archive_mbox'] = 'Archive';
     $config['junk_mbox'] = 'Spam';

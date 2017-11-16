@@ -113,6 +113,8 @@ override_dh_auto_build:
  roundcubemail-plugin-$${plugin} deb web extra" debian/control ; \
 	done
 
+	cp -v ../SOURCES/2017111400.sql SQL/mysql/
+
 	if [ -f "/etc/plesk-release" ]; then \
 		cp -v ../SOURCES/plesk.config.inc.php config/config.inc.php ; \
 		cp -v ../SOURCES/plesk.password.inc.php config/password.inc.php ; \

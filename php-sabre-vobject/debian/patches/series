@@ -1,2 +1,3 @@
 0001-Use-homemade-autoloader.php.patch
 0002-replace-with-homemade-tests-autoloader.patch
+T41247.patch -p1
