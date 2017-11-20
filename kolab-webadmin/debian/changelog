@@ -1,3 +1,9 @@
+kolab-webadmin (3.2.12-0~kolab1) unstable; urgency=low
+
+  * Release 3.2.12
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 17 Nov 2017 22:08:00 +0100
+
 kolab-webadmin (3.2.11~dev20160627-0~kolab2) unstable; urgency=low
 
   * Adjust dependencies for Debian Stretch / Ubuntu Xenial

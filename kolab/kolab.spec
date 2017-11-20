@@ -12,7 +12,7 @@
 
 Name:           kolab
 Version:        16.0.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
@@ -59,7 +59,11 @@ This is the Kolab Groupware Configuration component meta-package
 Summary:        Kolab Groupware IMAP Component
 Group:          Applications/System
 Requires:       cyrus-imapd
+%if %{?_arch} != "ppc64le"
+%if 0%{?fedora}
 Requires:       guam
+%endif
+%endif
 Requires:       kolab-saslauthd
 Requires:       pykolab
 
