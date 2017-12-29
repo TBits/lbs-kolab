@@ -16,6 +16,7 @@ cd ~
 mkdir -p work_$branch
 cd work_$branch
 
+chmod 600 ~/.ssh/gitkey
 eval `ssh-agent`
 ssh-add ~/.ssh/gitkey
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
