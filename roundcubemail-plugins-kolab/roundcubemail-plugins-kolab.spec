@@ -2018,6 +2018,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Jan  5 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.5-2
+- Repack of 3.3.5
+
 * Tue Nov 28 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.5-1
 - Release of version 3.3.5
 
