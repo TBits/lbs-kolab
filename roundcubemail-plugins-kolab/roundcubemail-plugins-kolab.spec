@@ -29,7 +29,7 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.3.4
+Version:        3.3.5
 Release:        1%{?dist}
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -45,9 +45,6 @@ Source100:      plesk.calendar.inc.php
 Source101:      plesk.kolab_addressbook.inc.php
 Source102:      plesk.kolab_folders.inc.php
 Source103:      plesk.libkolab.inc.php
-
-Patch0001:      0001-Fix-regression-when-startup-method-of-some-by-role-p.patch
-Patch0002:      0002-Workaround-libkolabxml-error-on-Etc-UTC-timezone-Bif.patch
 
 Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
@@ -860,9 +857,6 @@ cp -af %{SOURCE101} plugins/kolab_addressbook/config.inc.php.dist
 cp -af %{SOURCE102} plugins/kolab_folders/config.inc.php.dist
 cp -af %{SOURCE103} plugins/libkolab/config.inc.php.dist
 %endif
-
-%patch0001 -p1
-%patch0002 -p1
 
 %patch1001 -p1
 
@@ -2024,6 +2018,12 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Jan  5 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.5-2
+- Repack of 3.3.5
+
+* Tue Nov 28 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.5-1
+- Release of version 3.3.5
+
 * Fri Oct  6 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.3.4-2
 - Fix Etc/UTC timezone
 
