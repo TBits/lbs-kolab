@@ -37,7 +37,7 @@
 
 Name:           kolab-syncroton
 Version:        2.3.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
@@ -46,6 +46,10 @@ URL:            http://www.syncroton.org
 
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
+
+Patch0001:      0001-Remove-activesync_user_debug-also-from-sample-config.patch
+Patch0002:      0002-Fix-logging-with-per_user_logging-true.patch
+Patch0003:      0003-Do-not-forget-to-bump-the-version.patch
 
 BuildArch:      noarch
 
@@ -93,6 +97,10 @@ and Tasks though this package - based on Syncroton technology.
 
 %prep
 %setup -q -n %{name}-%{version}
+
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
 
 %build
 
@@ -195,6 +203,10 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Wed Jan 24 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.8-2
+- Fix logging
+- Fix version number
+
 * Wed Dec 20 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.8-1
 - Release 2.3.8
 

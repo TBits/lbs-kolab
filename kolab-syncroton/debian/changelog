@@ -1,3 +1,10 @@
+kolab-syncroton (2.3.8-0~kolab2) unstable; urgency=low
+
+  * Fix logging
+  * Fix version number
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, Jan 24 2018 15:13:40 +0200
+
 kolab-syncroton (2.3.8-0~kolab1) unstable; urgency=low
 
   * Release 2.3.8

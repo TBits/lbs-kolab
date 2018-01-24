@@ -1,0 +1,3 @@
+0001-Remove-activesync_user_debug-also-from-sample-config.patch -p1
+0002-Fix-logging-with-per_user_logging-true.patch -p1
+0003-Do-not-forget-to-bump-the-version.patch -p1

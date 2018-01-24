@@ -1,0 +1,25 @@
+From e6d5a6129bac243f65dea3a35b3e7c2c23fc7c97 Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Wed, 24 Jan 2018 08:59:10 +0100
+Subject: [PATCH 3/3] Do not forget to bump the version
+
+---
+ lib/kolab_sync.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/kolab_sync.php b/lib/kolab_sync.php
+index 539cb81..4b55566 100644
+--- a/lib/kolab_sync.php
++++ b/lib/kolab_sync.php
+@@ -46,7 +46,7 @@ class kolab_sync extends rcube
+     public $password;
+ 
+     const CHARSET = 'UTF-8';
+-    const VERSION = "2.3.7";
++    const VERSION = "2.3.8";
+ 
+ 
+     /**
+-- 
+2.14.3
+

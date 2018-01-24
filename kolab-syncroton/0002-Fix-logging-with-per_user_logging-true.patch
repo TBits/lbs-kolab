@@ -1,0 +1,134 @@
+From bbec0775f0aae33d8cbf13f1c4a4ee018c4e59fa Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Tue, 23 Jan 2018 18:12:41 +0000
+Subject: [PATCH 2/3] Fix logging with per_user_logging=true
+
+Also don't enable debug automatically, for consistence with Roundcube Framework
+where per_user_logging do not enable any debug.
+---
+ lib/kolab_sync.php        | 49 ++++++++++++++++-------------------------------
+ lib/kolab_sync_logger.php |  6 +++++-
+ 2 files changed, 22 insertions(+), 33 deletions(-)
+
+diff --git a/lib/kolab_sync.php b/lib/kolab_sync.php
+index 302c873..539cb81 100644
+--- a/lib/kolab_sync.php
++++ b/lib/kolab_sync.php
+@@ -142,7 +142,7 @@ class kolab_sync extends rcube
+         $this->plugins->exec_hook('ready', array('task' => 'syncroton'));
+ 
+         // Set log directory per-user
+-        $this->set_log_dir($this->username ?: $_SERVER['PHP_AUTH_USER']);
++        $this->set_log_dir();
+ 
+         // Save user password for Roundcube Framework
+         $this->password = $_SERVER['PHP_AUTH_PW'];
+@@ -384,13 +384,13 @@ class kolab_sync extends rcube
+     /**
+      * Set logging directory per-user
+      */
+-    protected function set_log_dir($username)
++    protected function set_log_dir()
+     {
+-        if (empty($username)) {
++        if (empty($this->username)) {
+             return;
+         }
+ 
+-        $this->logger->set_username($username);
++        $this->logger->set_username($this->username);
+ 
+         $user_debug = $this->config->get('per_user_logging');
+         $user_log   = $user_debug || $this->config->get('activesync_user_log');
+@@ -400,15 +400,9 @@ class kolab_sync extends rcube
+         }
+ 
+         $log_dir  = $this->config->get('log_dir');
+-        $log_dir .= DIRECTORY_SEPARATOR . $username;
++        $log_dir .= DIRECTORY_SEPARATOR . $this->username;
+ 
+-        // in user_debug mode enable logging only if user directory exists
+-        if ($user_debug) {
+-            if (!is_dir($log_dir)) {
+-                return;
+-            }
+-        }
+-        else if (!is_dir($log_dir)) {
++        if (!$user_debug && !is_dir($log_dir)) {
+             if (!mkdir($log_dir, 0770)) {
+                 return;
+             }
+@@ -424,28 +418,12 @@ class kolab_sync extends rcube
+             }
+         }
+ 
+-        // make sure we're using debug mode where possible,
+         if ($user_debug) {
+-            $this->config->set('debug_level', 1);
+-            $this->config->set('memcache_debug', true);
+-            $this->config->set('imap_debug', true);
+-            $this->config->set('ldap_debug', true);
+-            $this->config->set('smtp_debug', true);
+-            $this->config->set('sql_debug', true);
+-
+-            // SQL/IMAP debug need to be set directly on the object instance
+-            // it's already initialized/configured
+-            if ($db = $this->get_dbh()) {
+-                $db->set_debug(true);
+-            }
+-            if ($storage = $this->get_storage()) {
+-                $storage->set_debug(true);
+-            }
+-
+-            $this->logger->mode = kolab_sync_logger::DEBUG;
++            $this->per_user_log_dir = $log_dir;
++        }
++        else {
++            $this->config->set('log_dir', $log_dir);
+         }
+-
+-        $this->config->set('log_dir', $log_dir);
+ 
+         // re-set PHP error logging
+         if (($this->config->get('debug_level') & 1) && $this->config->get('log_driver') != 'syslog') {
+@@ -453,6 +431,13 @@ class kolab_sync extends rcube
+         }
+     }
+ 
++    /**
++     * Get the per-user log directory
++     */
++    public function get_user_log_dir()
++    {
++        return $this->per_user_log_dir;
++    }
+ 
+     /**
+      * Send HTTP 503 response.
+diff --git a/lib/kolab_sync_logger.php b/lib/kolab_sync_logger.php
+index 4e89757..83e5311 100644
+--- a/lib/kolab_sync_logger.php
++++ b/lib/kolab_sync_logger.php
+@@ -59,7 +59,7 @@ class kolab_sync_logger extends Zend_Log
+         $rcube   = rcube::get_instance();
+         $logfile = $rcube->config->get('activesync_log_file');
+         $format  = $rcube->config->get('log_date_format', 'd-M-Y H:i:s O');
+-        $log_dir = $rcube->config->get('log_dir');
++        $log_dir = $rcube->get_user_log_dir() ?: $rcube->config->get('log_dir');
+ 
+         if (is_numeric($method)) {
+             $mode   = $method;
+@@ -88,6 +88,10 @@ class kolab_sync_logger extends Zend_Log
+             }
+ 
+             $logfile = $log_dir . DIRECTORY_SEPARATOR . $file;
++
++            if (version_compare(version_parse(RCUBE_VERSION), '1.4.0') >= 0) {
++                $logfile .= $rcube->config->get('log_file_ext', '.log');
++            }
+         }
+         else if ($logfile[0] != '/') {
+             $logfile = $log_dir . DIRECTORY_SEPARATOR . $logfile;
+-- 
+2.14.3
+
