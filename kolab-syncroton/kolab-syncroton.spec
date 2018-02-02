@@ -50,6 +50,7 @@ Source1:        kolab-syncroton.logrotate
 Patch0001:      0001-Remove-activesync_user_debug-also-from-sample-config.patch
 Patch0002:      0002-Fix-logging-with-per_user_logging-true.patch
 Patch0003:      0003-Do-not-forget-to-bump-the-version.patch
+Patch0004:      0004-Fix-redundant-GETMETADATA-requests-when-listing-fold.patch
 
 BuildArch:      noarch
 
@@ -101,6 +102,7 @@ and Tasks though this package - based on Syncroton technology.
 %patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
+%patch0004 -p1
 
 %build
 
@@ -203,6 +205,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Fri Feb  2 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.8-3
+- Fix redundant GETMETADATA requests for mail folders
+
 * Wed Jan 24 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.8-2
 - Fix logging
 - Fix version number
