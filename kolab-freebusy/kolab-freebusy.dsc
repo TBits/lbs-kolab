@@ -2,7 +2,7 @@ Format: 1.0
 Source: kolab-freebusy
 Binary: kolab-freebusy
 Architecture: all
-Version: 1.1.0-0~kolab1
+Version: 1.1.0-0~kolab2
 Maintainer: Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>
 Homepage: http://www.kolab.org
 Standards-Version: 3.9.3
