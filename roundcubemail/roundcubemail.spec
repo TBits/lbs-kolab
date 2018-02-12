@@ -47,7 +47,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.3.3
+Version:        1.3.4
 
 Release:        1%{?dist}
 
@@ -2855,6 +2855,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Sun Feb 11 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.4-1
+- Check in upstream 1.3.4 release
+
 * Tue Nov 14 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.3.3-2
 - Stop dropping columns
 
