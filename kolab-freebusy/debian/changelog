@@ -1,3 +1,23 @@
+kolab-freebusy (1.1.0-0~kolab3) unstable; urgency=low
+
+  * Fix autoloader configuration
+  * Add missing dependency on php-sabre-vobject-3
+  * Add debian/source/format
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Fri, 16 Feb 2018 16:34:51 +0100
+
+kolab-freebusy (1.1.0-0~kolab2) unstable; urgency=low
+
+  * Repack of tagged version
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Wed,  7 Feb 2018 12:00:22 +0200
+
+kolab-freebusy (1.1.0-0~kolab1mic1) unstable; urgency=low
+
+  * fix pbuilder builds
+
+ -- hede <kolab983@der-he.de>  Sun, 06 Aug 2017 10:00:12 +0200
+
 kolab-freebusy (1.1.0-0~kolab1) unstable; urgency=low
 
   * Release of version 1.1.0

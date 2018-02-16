@@ -1,0 +1,12 @@
+Index: kolab-freebusy-1.1.0/composer.json
+===================================================================
+--- kolab-freebusy-1.1.0/composer.json
++++ kolab-freebusy-1.1.0-orig/composer.json
+@@ -8,6 +8,7 @@
+ 			"": "/usr/share/pear/"
+ 		},
+ 		"psr-4": {
++			"Sabre\\": "/usr/share/php/sabre21/Sabre/",
+ 			"": "/usr/share/php/"
+ 		}
+ 	}
