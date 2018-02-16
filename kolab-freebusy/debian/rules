@@ -17,7 +17,12 @@ override_dh_install:
 	fi
 	mkdir -p $(CURDIR)/debian/home/.composer/
 	echo '{}' > $(CURDIR)/debian/home/.composer/composer.json
+	patch -p1 < debian/patches/add-composer-autoloader.diff || :
 	HOME=$(CURDIR)/debian/home/ composer -vvv dumpautoload --optimize
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_psr4.php
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_namespaces.php
+	sed -i -e "s|.baseDir . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_classmap.php
+	sed -i -e "s|__DIR__ . '/../..' . '/../../../share|'/usr/share|" $(CURDIR)/vendor/composer/autoload_static.php || true
 
 	dh_install --list-missing -XLICENSE
 
