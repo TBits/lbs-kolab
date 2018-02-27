@@ -31,6 +31,7 @@ Source100:          plesk.sys.config
 
 Patch0001:          0001-Avoid-empty-lines-in-the-responses-to-IMAP-clients.patch
 Patch0002:          guam-0.9.2-T25795.patch
+Patch0003:          guam-0.9.2-allow-empty-lines-in-commands.patch
 
 Patch9991:          rebar-remove-deps.patch
 Patch9992:          guam-0.9.2-set-version-number.patch
@@ -105,6 +106,7 @@ the perimeter of your IMAP environment.
 
 %patch0001 -p1
 %patch0002 -p1
+%patch0003 -p1
 
 %patch9991 -p1
 %patch9992 -p1
@@ -230,6 +232,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Tue Feb 27 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-3
+- Allow empty lines in commands
+
 * Mon Jun 26 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-2
 - Fix T25795
 
