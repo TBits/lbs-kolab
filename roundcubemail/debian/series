@@ -1,1 +1,12 @@
 default-configuration.patch -p1
+0001-Validate-ACL-identifiers.patch -p1
+0002-Fix-PHP-7.2-warning-count-Parameter-must-be-an-array.patch -p1
+0003-Fix-bug-where-text-syntax-was-forced-for-strings-lon.patch -p1
+0005-Update-changelog.patch -p1
+0006-Fix-duplicated-labels-in-Test-SMTP-Config-section-61.patch -p1
+0007-Fix-PHP-Warning-exif_read_data-.-Illegal-IFD-size-61.patch -p1
+0008-Enigma-Fix-key-generation-in-Safari-by-upgrade-to-Op.patch -p1
+0009-Fix-bug-in-remote-content-blocking-on-HTML-image-and.patch -p1
+0010-Change-wording.patch -p1
+0011-Remove-redundant-trim.patch -p1
+0012-Update-composer-reference-to-endroid-qr-code-6132.patch -p1

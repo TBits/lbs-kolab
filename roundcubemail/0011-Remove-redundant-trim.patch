@@ -1,0 +1,25 @@
+From b8e51b9d2fa1819409e596e29378be0d20a748d3 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Thu, 15 Feb 2018 08:59:59 +0100
+Subject: [PATCH 11/12] Remove redundant trim()
+
+---
+ program/lib/Roundcube/rcube_utils.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/program/lib/Roundcube/rcube_utils.php b/program/lib/Roundcube/rcube_utils.php
+index ff7d327b0..8fe12336c 100644
+--- a/program/lib/Roundcube/rcube_utils.php
++++ b/program/lib/Roundcube/rcube_utils.php
+@@ -496,7 +496,7 @@ class rcube_utils
+      */
+     public static function xss_entity_decode($content)
+     {
+-        $callback = function($matches) { return chr(hexdec(trim($matches[1]))); };
++        $callback = function($matches) { return chr(hexdec($matches[1])); };
+ 
+         $out = html_entity_decode(html_entity_decode($content));
+         $out = trim(preg_replace('/(^<!--|-->$)/', '', trim($out)));
+-- 
+2.14.3
+

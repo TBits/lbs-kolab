@@ -1,0 +1,35 @@
+From 96cee7cd92888aec1df2fa3a7d607f16e4aa23a4 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Sun, 11 Feb 2018 11:42:42 +0100
+Subject: [PATCH 05/12] Update changelog
+
+---
+ CHANGELOG                     | 1 +
+ plugins/managesieve/Changelog | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index 386bccce6..c04208d56 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
+ ===========================
+ 
+ - Managesieve: Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
++- Managesieve: Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
+ 
+ RELEASE 1.3.4
+ -------------
+diff --git a/plugins/managesieve/Changelog b/plugins/managesieve/Changelog
+index 39276ce94..5d4069530 100644
+--- a/plugins/managesieve/Changelog
++++ b/plugins/managesieve/Changelog
+@@ -1,4 +1,5 @@
+ - Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
++- Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
+ - Fix parsing dot-staffed lines in multiline text (#5838)
+ - Fix AM/PM suffix in vacation time selectors
+ - Fix bug where 'exists' operator was reset to 'contains' (#5899)
+-- 
+2.14.3
+

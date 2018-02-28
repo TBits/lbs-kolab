@@ -176,4 +176,8 @@
     $config['fileapi_manticore'] = false;
     $config['fileapi_wopi_office'] = false;
 
+    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__))) {
+        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__));
+    }
+
     @include('/etc/roundcubemail/licensing.inc.php');

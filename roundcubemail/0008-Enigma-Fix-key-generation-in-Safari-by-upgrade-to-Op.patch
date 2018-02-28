@@ -1,0 +1,99 @@
+From fb791f3302820cc6b3c127b08925b56ab7c50e60 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Mon, 12 Feb 2018 16:46:25 +0100
+Subject: [PATCH 08/12] Enigma: Fix key generation in Safari by upgrade to
+ OpenPGP 2.6.2 (#6149)
+
+---
+ CHANGELOG                        | 1 +
+ jsdeps.json                      | 8 ++++----
+ plugins/enigma/enigma.js         | 7 ++++---
+ plugins/enigma/lib/enigma_ui.php | 3 ++-
+ 4 files changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index 5ec4c279b..0872463d9 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
+ - Managesieve: Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
+ - Fix duplicated labels in Test SMTP Config section (#6166)
+ - Fix PHP Warning: exif_read_data(...): Illegal IFD size (#6169)
++- Enigma: Fix key generation in Safari by upgrade to OpenPGP 2.6.2 (#6149)
+ 
+ RELEASE 1.3.4
+ -------------
+diff --git a/jsdeps.json b/jsdeps.json
+index 12a6fe7cc..eca883e1d 100644
+--- a/jsdeps.json
++++ b/jsdeps.json
+@@ -62,13 +62,13 @@
+     {
+       "lib": "openpgp",
+       "name": "OpenPGP.js",
+-      "version": "1.6.2",
+-      "url": "https://raw.githubusercontent.com/openpgpjs/openpgpjs/v1.6.2/dist/openpgp.min.js",
++      "version": "2.6.2",
++      "url": "https://raw.githubusercontent.com/openpgpjs/openpgpjs/v2.6.2/dist/openpgp.min.js",
+       "dest": "plugins/enigma/openpgp.min.js",
+-      "sha1": "de75af6883019f490f69211e506377c84f49a85b",
++      "sha1": "cce0087eb20328453b9378a2b01cc6339cef97b2",
+       "license": "LGPL",
+       "copyright": "Copyright (c) OpenPGP Development Team",
+-      "source": "https://github.com/openpgpjs/openpgpjs/blob/v1.6.2/dist/openpgp.js"
++      "source": "https://github.com/openpgpjs/openpgpjs/blob/v2.6.2/dist/openpgp.js"
+     },
+     {
+       "lib": "codemirror",
+diff --git a/plugins/enigma/enigma.js b/plugins/enigma/enigma.js
+index 80759a664..7cdd022f4 100644
+--- a/plugins/enigma/enigma.js
++++ b/plugins/enigma/enigma.js
+@@ -99,7 +99,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
+         size = $('#key-size').val();
+ 
+     $('[name="identity[]"]:checked').each(function() {
+-        users.push(this.value);
++        users.push({name: $(this).data('name') || '', email: $(this).data('email')});
+     });
+ 
+     // validate the form
+@@ -118,11 +118,11 @@ rcube_webmail.prototype.enigma_key_create_save = function()
+         lock = this.set_busy(true, 'enigma.keygenerating');
+         options = {
+             numBits: size,
+-            userId: users,
++            userIds: users,
+             passphrase: password
+         };
+ 
+-        openpgp.generateKeyPair(options).then(function(keypair) {
++        openpgp.generateKey(options).then(function(keypair) {
+             // success
+             var post = {_a: 'import', _keys: keypair.privateKeyArmored, _generated: 1,
+                 _passwd: password, _keyid: keypair.key.primaryKey.fingerprint};
+@@ -131,6 +131,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
+             rcmail.http_post('plugin.enigmakeys', post, lock);
+         }, function(error) {
+             // failure
++            console.error(error);
+             rcmail.set_busy(false, null, lock);
+             rcmail.display_message(rcmail.get_label('enigma.keygenerateerror'), 'error');
+         });
+diff --git a/plugins/enigma/lib/enigma_ui.php b/plugins/enigma/lib/enigma_ui.php
+index a9036522f..92b1e42d8 100644
+--- a/plugins/enigma/lib/enigma_ui.php
++++ b/plugins/enigma/lib/enigma_ui.php
+@@ -723,7 +723,8 @@ class enigma_ui
+         $checkbox   = new html_checkbox(array('name' => 'identity[]'));
+         foreach ((array) $identities as $idx => $ident) {
+             $name = empty($ident['name']) ? ($ident['email']) : $ident['ident'];
+-            $identities[$idx] = html::label(null, $checkbox->show($name, array('value' => $name)) . rcube::Q($name));
++            $attr = array('value' => $idx, 'data-name' => $ident['name'], 'data-email' => $ident['email']);
++            $identities[$idx] = html::label(null, $checkbox->show($idx, $attr) . rcube::Q($name));
+         }
+ 
+         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
+-- 
+2.14.3
+

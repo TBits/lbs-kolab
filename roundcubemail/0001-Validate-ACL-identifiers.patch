@@ -1,0 +1,31 @@
+From a4de40566deddbedf0b7eba00e7665a8723bc9b2 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Tue, 16 Jan 2018 16:17:16 +0100
+Subject: [PATCH 01/12] Validate ACL identifiers
+
+... e.g. to prevent cyrus imap issues
+---
+ plugins/acl/acl.php | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/plugins/acl/acl.php b/plugins/acl/acl.php
+index 31cb514f6..9a015956d 100644
+--- a/plugins/acl/acl.php
++++ b/plugins/acl/acl.php
+@@ -494,6 +494,13 @@ class acl extends rcube_plugin
+                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
+                     $user .= '@' . rcube_utils::idn_to_ascii(preg_replace('/^@/', '', $realm));
+                 }
++
++                // Make sure it's valid email address to prevent from "disappearing folder"
++                // issue in Cyrus IMAP e.g. when the acl user identifier contains spaces inside.
++                if (strpos($user, '@') && !rcube_utils::check_email($user, false)) {
++                    $user = null;
++                }
++
+                 $username = $user;
+             }
+ 
+-- 
+2.14.3
+

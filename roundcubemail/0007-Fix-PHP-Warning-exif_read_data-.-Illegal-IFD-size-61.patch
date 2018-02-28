@@ -1,0 +1,42 @@
+From 96f792c1f21a30cf25deb923f97b3e7f6e1c32e5 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Mon, 12 Feb 2018 15:48:23 +0100
+Subject: [PATCH 07/12] Fix PHP Warning: exif_read_data(...): Illegal IFD size
+ (#6169)
+
+---
+ CHANGELOG                             | 1 +
+ program/lib/Roundcube/rcube_image.php | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index bdd920d42..5ec4c279b 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
+ - Managesieve: Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
+ - Managesieve: Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
+ - Fix duplicated labels in Test SMTP Config section (#6166)
++- Fix PHP Warning: exif_read_data(...): Illegal IFD size (#6169)
+ 
+ RELEASE 1.3.4
+ -------------
+diff --git a/program/lib/Roundcube/rcube_image.php b/program/lib/Roundcube/rcube_image.php
+index 9f442f90a..479cbb6e0 100644
+--- a/program/lib/Roundcube/rcube_image.php
++++ b/program/lib/Roundcube/rcube_image.php
+@@ -256,9 +256,9 @@ class rcube_image
+                 imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $props['width'], $props['height']);
+                 $image = $new_image;
+ 
+-                // fix rotation of image if EXIF data exists and specifies rotation (GD strips the EXIF data)
++                // fix orientation of image if EXIF data exists and specifies orientation (GD strips the EXIF data)
+                 if ($this->image_file && $type == 'jpg' && function_exists('exif_read_data')) {
+-                    $exif = exif_read_data($this->image_file);
++                    $exif = @exif_read_data($this->image_file);
+                     if ($exif && $exif['Orientation']) {
+                         switch ($exif['Orientation']) {
+                             case 3:
+-- 
+2.14.3
+

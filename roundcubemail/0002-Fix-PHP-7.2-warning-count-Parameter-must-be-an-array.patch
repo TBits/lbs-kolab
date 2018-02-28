@@ -1,0 +1,26 @@
+From 78d896d469c00f2aa2c16b39176c4b67c42d58db Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Mon, 22 Jan 2018 08:22:32 +0100
+Subject: [PATCH 02/12] Fix PHP 7.2 warning: count(): Parameter must be an
+ array or an object that implements Countable
+
+---
+ program/steps/mail/sendmail.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/program/steps/mail/sendmail.inc b/program/steps/mail/sendmail.inc
+index 93483cd66..dad9a9795 100644
+--- a/program/steps/mail/sendmail.inc
++++ b/program/steps/mail/sendmail.inc
+@@ -889,7 +889,7 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
+         else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
+             $address = $matches[0];
+             $name    = trim(str_replace($address, '', $item));
+-            if ($name[0] == '"' && $name[count($name)-1] == '"') {
++            if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
+                 $name = substr($name, 1, -1);
+             }
+             $name     = stripcslashes($name);
+-- 
+2.14.3
+
