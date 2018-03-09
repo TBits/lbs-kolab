@@ -1,0 +1,52 @@
+From 8565b51059d38df76d86ae93e7ea01a26988d4c0 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Tue, 6 Mar 2018 09:17:51 +0100
+Subject: [PATCH 13/14] Added 9pt and 11pt to the list of font sizes in HTML
+ editor
+
+---
+ CHANGELOG                       | 1 +
+ program/js/editor.js            | 1 +
+ program/steps/settings/func.inc | 2 +-
+ 3 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index aac6d58b8..797898197 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
+ - Fix PHP Warning: exif_read_data(...): Illegal IFD size (#6169)
+ - Enigma: Fix key generation in Safari by upgrade to OpenPGP 2.6.2 (#6149)
+ - Fix security issue in remote content blocking on HTML image and style tags (#6178)
++- Added 9pt and 11pt to the list of font sizes in HTML editor
+ 
+ RELEASE 1.3.4
+ -------------
+diff --git a/program/js/editor.js b/program/js/editor.js
+index 19b1be339..9460c4a1c 100644
+--- a/program/js/editor.js
++++ b/program/js/editor.js
+@@ -47,6 +47,7 @@ function rcube_text_editor(config, id)
+       statusbar: false,
+       toolbar_items_size: 'small',
+       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
++      fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt',
+       relative_urls: false,
+       remove_script_host: false,
+       convert_urls: false, // #1486944
+diff --git a/program/steps/settings/func.inc b/program/steps/settings/func.inc
+index aa5413c47..b5d8c2824 100644
+--- a/program/steps/settings/func.inc
++++ b/program/steps/settings/func.inc
+@@ -917,7 +917,7 @@ function rcmail_user_prefs($current = null)
+                 $field_id = 'rcmfd_default_font_size';
+                 $select_default_font_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id));
+ 
+-                $fontsizes = array('', '8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
++                $fontsizes = array('', '8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '18pt', '24pt', '36pt');
+                 foreach ($fontsizes as $size) {
+                     $select_default_font_size->add($size, $size);
+                 }
+-- 
+2.14.3
+

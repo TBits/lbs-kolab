@@ -29,7 +29,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.7
+Version:            0.8.8
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -71,7 +71,11 @@ BuildRequires:      python-icalendar
 BuildRequires:      python-kolab
 BuildRequires:      python-kolabformat
 BuildRequires:      python-ldap
+%if 0%{?fedora} > 24
+BuildRequires:      python2-nose
+%else
 BuildRequires:      python-nose
+%endif
 BuildRequires:      python-pep8
 BuildRequires:      python-pyasn1
 BuildRequires:      python-pyasn1-modules
@@ -580,6 +584,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Thu Mar  8 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.8-1
+- Release of version 0.8.8
+
 * Tue Dec 13 2016 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.7-1
 - Release of version 0.8.7
 

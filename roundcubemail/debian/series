@@ -10,3 +10,6 @@ default-configuration.patch -p1
 0010-Change-wording.patch -p1
 0011-Remove-redundant-trim.patch -p1
 0012-Update-composer-reference-to-endroid-qr-code-6132.patch -p1
+0013-Added-9pt-and-11pt-to-the-list-of-font-sizes-in-HTML.patch -p1
+0014-Fix-handling-encoding-of-HTML-tags-in-inline-JSON-ou.patch -p1
+enigma-multihost.patch -p1

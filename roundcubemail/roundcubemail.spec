@@ -49,7 +49,7 @@
 Name:           roundcubemail
 Version:        1.3.4
 
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -69,6 +69,7 @@ Source101:      plesk.password.inc.php
 Source200:      2017111400.sql
 
 Patch201:       default-configuration.patch
+Patch202:       enigma-multihost.patch
 
 Patch0001:      0001-Validate-ACL-identifiers.patch
 Patch0002:      0002-Fix-PHP-7.2-warning-count-Parameter-must-be-an-array.patch
@@ -81,6 +82,8 @@ Patch0009:      0009-Fix-bug-in-remote-content-blocking-on-HTML-image-and.patch
 Patch0010:      0010-Change-wording.patch
 Patch0011:      0011-Remove-redundant-trim.patch
 Patch0012:      0012-Update-composer-reference-to-endroid-qr-code-6132.patch
+Patch0013:      0013-Added-9pt-and-11pt-to-the-list-of-font-sizes-in-HTML.patch
+Patch0014:      0014-Fix-handling-encoding-of-HTML-tags-in-inline-JSON-ou.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1091,6 +1094,9 @@ cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 %patch0010 -p1
 %patch0011 -p1
 %patch0012 -p1
+%patch0013 -p1
+%patch0014 -p1
+%patch202 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -2878,6 +2884,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Mar  8 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.4-3
+- Check in 14 revisions ahead of 1.3.4 release
+
 * Wed Feb 28 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.4-2
 - Check in 12 revisions ahead of 1.3.4 release
 

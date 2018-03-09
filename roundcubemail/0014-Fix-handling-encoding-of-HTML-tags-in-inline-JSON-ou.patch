@@ -1,0 +1,77 @@
+From e5b7bcd20792021a8fe18718fae7de18263fff01 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <alec@alec.pl>
+Date: Wed, 7 Mar 2018 17:40:12 +0100
+Subject: [PATCH 14/14] Fix handling encoding of HTML tags in "inline" JSON
+ output (#6207)
+
+---
+ CHANGELOG                              |  1 +
+ program/include/rcmail_output_json.php |  4 ++--
+ program/lib/Roundcube/rcube_output.php | 10 +++++++++-
+ 3 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index 797898197..9a8fc6d01 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
+ - Enigma: Fix key generation in Safari by upgrade to OpenPGP 2.6.2 (#6149)
+ - Fix security issue in remote content blocking on HTML image and style tags (#6178)
+ - Added 9pt and 11pt to the list of font sizes in HTML editor
++- Fix handling encoding of HTML tags in "inline" JSON output (#6207)
+ 
+ RELEASE 1.3.4
+ -------------
+diff --git a/program/include/rcmail_output_json.php b/program/include/rcmail_output_json.php
+index 5b559e2cd..3a4e76f50 100644
+--- a/program/include/rcmail_output_json.php
++++ b/program/include/rcmail_output_json.php
+@@ -232,7 +232,7 @@ class rcmail_output_json extends rcmail_output
+         $response = $hook['response'];
+         unset($hook['response']);
+ 
+-        echo self::json_serialize($response, $this->devel_mode);
++        echo self::json_serialize($response, $this->devel_mode, false);
+     }
+ 
+     /**
+@@ -245,7 +245,7 @@ class rcmail_output_json extends rcmail_output
+         foreach ($this->commands as $i => $args) {
+             $method = array_shift($args);
+             foreach ($args as $i => $arg) {
+-                $args[$i] = self::json_serialize($arg, $this->devel_mode);
++                $args[$i] = self::json_serialize($arg, $this->devel_mode, false);
+             }
+ 
+             $out .= sprintf(
+diff --git a/program/lib/Roundcube/rcube_output.php b/program/lib/Roundcube/rcube_output.php
+index 905f8434e..dd9c0fb8e 100644
+--- a/program/lib/Roundcube/rcube_output.php
++++ b/program/lib/Roundcube/rcube_output.php
+@@ -267,14 +267,22 @@ abstract class rcube_output
+      *
+      * @param mixed   $input  Input value
+      * @param boolean $pretty Enable JSON formatting
++     * @param boolean $inline Enable inline mode (generates output safe for use inside HTML)
+      *
+      * @return string Serialized JSON string
+      */
+-    public static function json_serialize($input, $pretty = false)
++    public static function json_serialize($input, $pretty = false, $inline = true)
+     {
++        // The input need to be valid UTF-8 to use with json_encode()
+         $input   = rcube_charset::clean($input);
+         $options = 0;
+ 
++        // JSON_HEX_TAG is needed for inlining JSON inside of the <script> tag
++        // if input contains a html tag it will cause issues (#6207)
++        if ($inline) {
++            $options |= JSON_HEX_TAG;
++        }
++
+         if ($pretty) {
+             $options |= JSON_PRETTY_PRINT;
+         }
+-- 
+2.14.3
+
