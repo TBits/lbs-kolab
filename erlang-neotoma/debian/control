@@ -1,0 +1,35 @@
+Source: neotoma
+Section: devel
+Priority: optional
+Maintainer: Nobuhiro Iwamatsu <iwamatsu@debian.org>
+Build-Depends: debhelper (>= 9), rebar, erlang-dev (>= 1:14.b.4), erlang-eunit, dh-rebar
+Standards-Version: 3.9.6
+Homepage: https://github.com/seancribbs/neotoma
+#Vcs-Git: git://git.debian.org/collab-maint/neotoma.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/neotoma.git;a=summary
+
+Package: erlang-neotoma
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+	erlang-base-hipe | erlang-base | ${erlang-abi:Depends}, ${erlang:Depends},
+Description: parser generator for Erlang
+ Neotoma is a packrat parser-generator for Erlang for Parsing
+ Expression Grammars (PEGs). It consists of a parsing-combinator
+ library with memoization routines, a parser for PEGs, and a utility
+ to generate parsers from PEGs.  It is inspired by treetop, a Ruby
+ library with similar aims, and parsec, the parser-combinator library
+ for Haskell.
+ .
+ Features include:
+  - Simple, declarative parsers generated from even simpler grammars.
+  - Fully integrated, single-pass lexical and syntactic analysis (a
+    feature of PEGs).
+  - Packrat-style memoization, boasting parse-time bound linearly to
+    the input size (at the expense of memory usage).
+  - In-place semantic analysis/transformation, supporting single-pass
+    end-to-end in some applications.
+  - Erlang code-generation for the lexical/syntactic analysis piece,
+    with the option of semantic analysis/transformation inline, or in
+    a separate module.
+  - Line/column number tracking for easy resolution of parsing
+    errors.
