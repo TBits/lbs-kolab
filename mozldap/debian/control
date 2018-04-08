@@ -19,7 +19,7 @@ Description: Mozilla LDAP client utilities
 
 Package: libmozldap-0d
 Architecture: any
-Depends: ${shlibs:Depends}, libnss3-1d, libsvrcore0, libsasl2-2, ${misc:Depends}
+Depends: ${shlibs:Depends}, libnss3, libsvrcore0, libsasl2-2, ${misc:Depends}
 Description: Mozilla LDAP client library
  The Mozilla LDAP C SDK is a set of libraries that
  allow applications to communicate with LDAP (Lightweight

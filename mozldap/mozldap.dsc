@@ -2,7 +2,7 @@ Format: 1.0
 Source: mozilla-ldap-sdk
 Binary: mozldap-tools, libmozldap-0d, libmozldap-dev, libmozldap-0d-dbg
 Architecture: any
-Version: 6.0.5-3
+Version: 6.0.7-1
 Maintainer: Michele Baldessari <michele@acksyn.org>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
 Homepage: http://wiki.mozilla.org/LDAP_C_SDK
@@ -17,5 +17,5 @@ Package-List:
  libmozldap-dev deb libdevel optional
  mozldap-tools deb libs optional
 Files: 
- 00000000000000000000000000000000 0 mozldap-6.0.5.tar.gz
+ 00000000000000000000000000000000 0 mozldap-6.0.7.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

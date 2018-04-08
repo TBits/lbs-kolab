@@ -1,1 +1,2 @@
 erlang-lager_syslog-2.0.3-relax-deps.patch -p1
+erlang-lager_syslog-2.0.3-remove-deps.patch -p1

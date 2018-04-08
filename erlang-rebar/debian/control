@@ -6,7 +6,7 @@ Priority: optional
 Standards-Version: 3.9.6
 Homepage: https://github.com/rebar/rebar
 Build-Depends: debhelper (>= 9), erlang-dev, erlang-tools, erlang-syntax-tools,
-	erlang-eunit
+	erlang-crypto, erlang-eunit
 
 Package: rebar
 Architecture: any

@@ -25,7 +25,7 @@ endif
 
 CFLAGS += -g
 SO_SUFFIX := 60
-BASEDIR := $(CURDIR)/mozilla/directory/c-sdk
+BASEDIR := $(CURDIR)/c-sdk
 DISTDIR := $(CURDIR)/mozilla/dist
 # FOR AUTOCONF 2.52 AND NEWER ONLY
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
@@ -51,7 +51,7 @@ DEBIAN_SO :=.0d
 
 # These variables are used only by get-orig-source, which will normally only
 # be run by maintainers.
-VERSION = 6.0.5
+VERSION = 6.0.7
 URL     = http://ftp.mozilla.org/pub/mozilla.org/directory/c-sdk/releases/v$(VERSION)/src/
 # Download the upstream source and make changes as required for DFSG reasons.
 # Assumes wget is available, as this is generally only used by the package
@@ -63,9 +63,9 @@ get-orig-source:
         fi
 	wget $(URL)/mozldap-$(VERSION).tar.gz
 	tar xzf mozldap-$(VERSION).tar.gz
-	rm -r mozldap-$(VERSION)/mozilla/directory/c-sdk/ldap/docs/
-	rm -r mozldap-$(VERSION)/mozilla/directory/c-sdk/ldap/examples/macintosh
-	rm -r mozldap-$(VERSION)/mozilla/directory/c-sdk/ldap/examples/windows/winldap/res
+	rm -r mozldap-$(VERSION)/c-sdk/ldap/docs/
+	rm -r mozldap-$(VERSION)/c-sdk/ldap/examples/macintosh
+	rm -r mozldap-$(VERSION)/c-sdk/ldap/examples/windows/winldap/res
 	mv mozldap-$(VERSION) mozilla-ldap-sdk-$(VERSION)
 	tar cf mozilla-ldap-sdk_$(VERSION)+dfsg.orig.tar mozilla-ldap-sdk-$(VERSION)
 	rm -r mozilla-ldap-sdk-$(VERSION) mozldap-$(VERSION).tar.gz
@@ -87,7 +87,7 @@ build-stamp: configure
 	$(MAKE) -C $(BASEDIR) \
 		NSS_DYNAMIC_SOFTOKN=0 \
 		DEBIAN_SO_SUFFIX=$(DEBIAN_SO)
-	$(MAKE) -C mozilla/directory/c-sdk/ldap/clients/tools \
+	$(MAKE) -C c-sdk/ldap/clients/tools \
 		NSS_DYNAMIC_SOFTOKN=0
 
 	touch build-stamp
@@ -133,7 +133,7 @@ install-stamp:
 
 	mkdir -p $(CURDIR)/debian/tmp/usr/share/doc/libmozldap-dev/examples
 	# Copy the examples
-	-cp -r $(CURDIR)/mozilla/directory/c-sdk/ldap/examples/*.[ch] $(CURDIR)/mozilla/directory/c-sdk/ldap/examples/*.conf $(CURDIR)/debian/tmp/usr/share/doc/libmozldap-dev/examples
+	-cp -r $(CURDIR)/c-sdk/ldap/examples/*.[ch] $(CURDIR)/c-sdk/ldap/examples/*.conf $(CURDIR)/debian/tmp/usr/share/doc/libmozldap-dev/examples
 
 	install -m644 $(CURDIR)/debian/libmozldap-0d.lintian-overrides $(CURDIR)/debian/libmozldap-0d/usr/share/lintian/overrides/libmozldap-0d
 	install -m 644 -t $(CURDIR)/debian/libmozldap-dev/usr/lib/pkgconfig/ \
