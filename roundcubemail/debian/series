@@ -1,6 +1,2 @@
 default-configuration.patch -p1
-enigma-multihost.patch -p1
-0001-Fix-parsing-date-strings-e.g.-from-a-Date-mail-heade.patch -p1
-0002-Fix-PHP-7.2-count-Parameter-must-be-an-array-in-ench.patch -p1
-0003-Fix-possible-IMAP-command-injection-and-type-jugglin.patch -p1
-0004-Enigma-Fix-key-selection-for-signing.patch -p1
+roundcubemail-1.3.6-plugin-enigma-homedir.patch -p1

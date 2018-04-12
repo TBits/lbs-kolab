@@ -47,7 +47,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.3.5
+Version:        1.3.6
 
 Release:        1%{?dist}
 
@@ -69,12 +69,7 @@ Source101:      plesk.password.inc.php
 Source200:      2017111400.sql
 
 Patch201:       default-configuration.patch
-Patch202:       enigma-multihost.patch
-
-Patch0001:      0001-Fix-parsing-date-strings-e.g.-from-a-Date-mail-heade.patch
-Patch0002:      0002-Fix-PHP-7.2-count-Parameter-must-be-an-array-in-ench.patch
-Patch0003:      0003-Fix-possible-IMAP-command-injection-and-type-jugglin.patch
-Patch0004:      0004-Enigma-Fix-key-selection-for-signing.patch
+Patch202:       roundcubemail-1.3.6-plugin-enigma-homedir.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1075,11 +1070,6 @@ cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 
 %patch201 -p1
 %patch202 -p1
-
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
-%patch0004 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -2867,6 +2857,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Apr 12 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.6-1
+- Check in 1.3.6 release
+
 * Thu Apr  5 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.5-1
 - Check in 4 revisions ahead of 1.3.5 release
 
