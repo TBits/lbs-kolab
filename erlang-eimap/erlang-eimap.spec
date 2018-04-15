@@ -5,7 +5,7 @@
 %global realname eimap
 %global debug_package %{nil}
 
-%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
+%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%%{VERSION}" %{1})
 
 Name:           erlang-%{realname}
 Version:        0.4.0
@@ -19,7 +19,8 @@ VCS:            scm:git:https://git.kolab.org/diffusion/EI/%{realname}.git
 %endif
 Source0:        erlang-eimap-%{version}.tar.gz
 
-Patch1:         make-things-easy-for-rebar3.patch
+Patch1:         untagged-commands.patch
+Patch2:         make-things-easy-for-rebar3.patch
 
 BuildRequires:	erlang-goldrush
 BuildRequires:	erlang-lager
@@ -35,6 +36,7 @@ IMAP client library for Erlang
 %setup -q -n eimap-%{version}
 
 %patch1 -p1
+%patch2 -p1
 
 %build
 DEBUG=1
@@ -74,8 +76,11 @@ popd
 %{_libdir}/erlang/lib/%{realname}-%{version}/ebin/*.beam
 
 %changelog
-* Mon Nov 21 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4.0-1
+* Sun Apr 08 2018 Christoph Erhardt <kolab@sicherha.de> - 0.4.0-1
 - Upstream release 0.4.0
+
+* Tue Nov  7 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.2.5-5
+- Patch untagged commands
 
 * Tue Jul  5 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.2.5-1
 - Packaging of 0.2.5

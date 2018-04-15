@@ -64,24 +64,24 @@ __EOF__
 
 
 %install
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/ebin
-install -p -m 0644 ebin/* %buildroot%_otplibdir/%bname-%version/ebin/
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/include
-install -p -m 0644 include/* %buildroot%_otplibdir/%bname-%version/include/
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/priv/templates
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/ebin
+install -p -m 0644 ebin/* %buildroot%_erllibdir/%bname-%version/ebin/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/include
+install -p -m 0644 include/* %buildroot%_erllibdir/%bname-%version/include/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/priv/templates
 for i in priv/templates/*; do
 	case $i in
 		*bin|*script) m="0755" ;;
 		*) m="0644" ;;
 	esac
-	install -p -m $m $i %buildroot%_otplibdir/%bname-%version/priv/templates/
+	install -p -m $m $i %buildroot%_erllibdir/%bname-%version/priv/templates/
 done
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/doc
-install -p -m 0644 doc/*.{css,html,png} %buildroot%_otplibdir/%bname-%version/doc/
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/examples
-install -p -m 0644 examples/* %buildroot%_otplibdir/%bname-%version/examples/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/doc
+install -p -m 0644 doc/*.{css,html,png} %buildroot%_erllibdir/%bname-%version/doc/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/examples
+install -p -m 0644 examples/* %buildroot%_erllibdir/%bname-%version/examples/
 install -d -m 0755 %buildroot%_docdir/%name
-ln -sf %_otplibdir/%bname-%version/doc %buildroot%_docdir/%name/html
+ln -sf %_erllibdir/%bname-%version/doc %buildroot%_docdir/%name/html
 install -p -m 0644 README* CONTRIBUTING* %buildroot%_docdir/%name/
 install -pD -m 0755 %bname.escript %buildroot%_bindir/%bname
 
@@ -93,7 +93,7 @@ rebar -C %bname.rebar.config eunit
 %files
 %defattr(-,root,root)
 %doc %_docdir/%name
-%_otplibdir/*
+%_erllibdir/*
 %_bindir/*
 
 

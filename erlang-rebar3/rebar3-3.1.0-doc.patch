@@ -1,7 +1,7 @@
 diff -Ndur rebar3-3.1.0/src/rebar_file_utils.erl rebar3-3.1.0-doc/src/rebar_file_utils.erl
 --- rebar3-3.1.0/src/rebar_file_utils.erl	2016-04-04 21:41:14.000000000 +0300
 +++ rebar3-3.1.0-doc/src/rebar_file_utils.erl	2016-04-10 20:41:48.000000000 +0300
-@@ -210,10 +210,10 @@
+@@ -227,10 +227,10 @@
  
  %% returns an os appropriate tmpdir given a path
  -spec system_tmpdir() -> file:filename().

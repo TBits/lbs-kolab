@@ -1,5 +1,7 @@
-%global certifi_version %(rpm -q --queryformat='%{VERSION}' erlang-certifi)
-%global cf_version %(rpm -q --queryformat='%{VERSION}' erlang-cf)
+%global bbmustache_version %(rpm -q --queryformat='%%{VERSION}' erlang-bbmustache)
+%global certifi_version %(rpm -q --queryformat='%%{VERSION}' erlang-certifi)
+%global cf_version %(rpm -q --queryformat='%%{VERSION}' erlang-cf)
+%global getopt_version %(rpm -q --queryformat='%%{VERSION}' erlang-getopt)
 
 Name:           erlang-rebar3
 Version:        3.3.2
@@ -46,8 +48,10 @@ libraries from a variety of locations (git, hg, etc).
 sed -i 's/ @\(equiv \)/ \1/g' src/rebar_erlc_compiler.erl
 
 sed -i -r \
+    -e 's/bbmustache,(\s+)".*"/bbmustache,\1"%{bbmustache_version}"/g' \
     -e 's/certifi,(\s+)".*"/certifi,\1"%{certifi_version}"/g' \
     -e 's/cf,(\s+)".*"/cf,\1"%{cf_version}"/g' \
+    -e 's/getopt,(\s+)".*"/getopt,\1"%{getopt_version}"/g' \
     rebar.config
 
 %build
@@ -65,16 +69,16 @@ EOF
 find | sort
 install -pD -m 0755 rebar3.escript %buildroot%_bindir/rebar3
 for d in ebin priv/templates; do
-	install -d -m 0755 %buildroot%_otplibdir/rebar-%version/$d
-	install -p -m 0644 $d/* %buildroot%_otplibdir/rebar-%version/$d/
+	install -d -m 0755 %buildroot%_erllibdir/rebar-%version/$d
+	install -p -m 0644 $d/* %buildroot%_erllibdir/rebar-%version/$d/
 done
-install -d -m 0755 %buildroot%_otplibdir/rebar-%version/doc
-install -p -m 0644 doc/*.{css,html,png} %buildroot%_otplibdir/rebar-%version/doc/
+install -d -m 0755 %buildroot%_erllibdir/rebar-%version/doc
+install -p -m 0644 doc/*.{css,html,png} %buildroot%_erllibdir/rebar-%version/doc/
 install -d -m 0755 %buildroot%_docdir/%name
-ln -sf %_otplibdir/rebar-%version/doc %buildroot%_docdir/%name/html
+ln -sf %_erllibdir/rebar-%version/doc %buildroot%_docdir/%name/html
 install -p -m 0644 CONTRIBUTING* README* THANKS* %buildroot%_docdir/%name/
 
-%add_erlang_req_app_skiplist relx
+#%add_erlang_req_app_skiplist relx
 
 %if 0
 %check
@@ -85,7 +89,7 @@ install -p -m 0644 CONTRIBUTING* README* THANKS* %buildroot%_docdir/%name/
 %files
 %defattr(-,root,root)
 %doc %_docdir/%name
-%_otplibdir/*
+%_erllibdir/*
 %_bindir/rebar3
 
 %changelog

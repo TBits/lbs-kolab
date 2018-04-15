@@ -38,14 +38,14 @@ done
 
 
 %install
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/ebin
-install -p -m 0644 ebin/* %buildroot%_otplibdir/%bname-%version/ebin/
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/include
-install -p -m 0644 include/* %buildroot%_otplibdir/%bname-%version/include/
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/doc
-install -p -m 0644 doc/*.{css,html,png} %buildroot%_otplibdir/%bname-%version/doc/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/ebin
+install -p -m 0644 ebin/* %buildroot%_erllibdir/%bname-%version/ebin/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/include
+install -p -m 0644 include/* %buildroot%_erllibdir/%bname-%version/include/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/doc
+install -p -m 0644 doc/*.{css,html,png} %buildroot%_erllibdir/%bname-%version/doc/
 install -d -m 0755 %buildroot%_docdir/%name
-ln -sf %_otplibdir/%bname-%version/doc %buildroot%_docdir/%name/html
+ln -sf %_erllibdir/%bname-%version/doc %buildroot%_docdir/%name/html
 install -p -m 0644 README* %buildroot%_docdir/%name/
 
 
@@ -56,7 +56,7 @@ rebar -C %bname.rebar.config ct
 %files
 %defattr(-,root,root)
 %doc %_docdir/%name
-%_otplibdir/*
+%_erllibdir/*
 
 
 %changelog

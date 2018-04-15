@@ -39,21 +39,21 @@ done
 
 
 %install
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/ebin
-install -p -m 0644 ebin/* %buildroot%_otplibdir/%bname-%version/ebin/
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/priv
-install -p -m 0644 priv/* %buildroot%_otplibdir/%bname-%version/priv/
-install -d -m 0755 %buildroot%_otplibdir/%bname-%version/doc
-install -p -m 0644 doc/*.{css,html,png} %buildroot%_otplibdir/%bname-%version/doc/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/ebin
+install -p -m 0644 ebin/* %buildroot%_erllibdir/%bname-%version/ebin/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/priv
+install -p -m 0644 priv/* %buildroot%_erllibdir/%bname-%version/priv/
+install -d -m 0755 %buildroot%_erllibdir/%bname-%version/doc
+install -p -m 0644 doc/*.{css,html,png} %buildroot%_erllibdir/%bname-%version/doc/
 install -d -m 0755 %buildroot%_docdir/%name
-ln -sf %_otplibdir/%bname-%version/doc %buildroot%_docdir/%name/html
+ln -sf %_erllibdir/%bname-%version/doc %buildroot%_docdir/%name/html
 install -p -m 0644 *.md %buildroot%_docdir/%name/
 
 
 %files
 %defattr(-,root,root)
 %doc %_docdir/%name
-%_otplibdir/*
+%_erllibdir/*
 
 
 %changelog
