@@ -5,7 +5,7 @@
 %global realname eimap
 %global debug_package %{nil}
 
-%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
+%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%%{VERSION}" %{1})
 
 Name:           erlang-%{realname}
 Version:        0.2.5

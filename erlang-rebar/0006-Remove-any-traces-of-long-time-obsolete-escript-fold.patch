@@ -11,7 +11,7 @@ diff --git a/src/rebar_utils.erl b/src/rebar_utils.erl
 index 64595a2..08f5b5f 100644
 --- a/src/rebar_utils.erl
 +++ b/src/rebar_utils.erl
-@@ -222,12 +222,7 @@ abort(String, Args) ->
+@@ -225,12 +225,7 @@ abort(String, Args) ->
  %% undocumented exported fun and has been removed in R14.
  escript_foldl(Fun, Acc, File) ->
      {module, zip} = code:ensure_loaded(zip),

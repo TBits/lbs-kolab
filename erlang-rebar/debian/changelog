@@ -1,3 +1,9 @@
+rebar (2.6.4-1~kolab1) unstable; urgency=medium
+
+  * Update to 2.6.4
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 15 Apr 2018 10:25:36 +0200
+
 rebar (2.6.1-1~kolab2) unstable; urgency=medium
 
   * Rebuild

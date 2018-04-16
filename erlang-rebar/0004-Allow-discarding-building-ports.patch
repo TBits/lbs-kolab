@@ -11,7 +11,7 @@ diff --git a/src/rebar_port_compiler.erl b/src/rebar_port_compiler.erl
 index 906bcb0..9ae4778 100644
 --- a/src/rebar_port_compiler.erl
 +++ b/src/rebar_port_compiler.erl
-@@ -300,6 +300,12 @@ get_specs(Config, AppFile) ->
+@@ -348,6 +348,12 @@ get_specs(Config, AppFile) ->
                      %% No spec provided. Construct a spec
                      %% from old-school so_name and sources
                      [port_spec_from_legacy(Config, AppFile)];

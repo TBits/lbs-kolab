@@ -15,13 +15,13 @@ index f9b0c22..9f5ae44 100644
 +++ b/ebin/rebar.app
 @@ -5,7 +5,6 @@
   [{description, "Rebar: Erlang Build Tool"},
-   {vsn, "2.6.1"},
+   {vsn, "2.6.4"},
    {modules, [ rebar,
 -              rebar_abnfc_compiler,
                rebar_app_utils,
                rebar_appups,
                rebar_asn1_compiler,
-@@ -81,7 +80,6 @@
+@@ -82,7 +81,6 @@
           %% Dir specific processing modules
           {modules, [
                      {app_dir, [
