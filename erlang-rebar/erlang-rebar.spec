@@ -5,7 +5,7 @@
 %global realname rebar
 %global upstream rebar
 %global debug_package %{nil}
-%global git_tag e9f62c4
+%global git_tag 2429ddf
 %global patchnumber 0
 
 # Set this to true when starting a rebuild of the whole erlang stack. There's
@@ -14,7 +14,7 @@
 %global bootstrap 1
 
 Name:           erlang-%{realname}
-Version:        2.6.1
+Version:        2.6.4
 Release:        1%{?dist}
 Summary:        Erlang Build Tools
 Group:          Development/Tools
@@ -128,6 +128,9 @@ cp -a priv %{buildroot}%{_libdir}/erlang/lib/%{realname}-%{version}/
 %{_libdir}/erlang/lib/%{realname}-%{version}
 
 %changelog
+* Sun Apr 15 2018 Christoph Erhardt <kolab@sicherha.de> - 2.6.4-1
+- Update to version 2.6.4
+
 * Thu Mar 17 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.6.1-1
 - Update to version 2.6.1
 

@@ -11,7 +11,7 @@ diff --git a/src/rebar_deps.erl b/src/rebar_deps.erl
 index a6e5b27..ba2b4e8 100644
 --- a/src/rebar_deps.erl
 +++ b/src/rebar_deps.erl
-@@ -393,7 +393,12 @@ find_dep(Config, Dep, _Source) ->
+@@ -429,7 +429,12 @@ find_dep(Config, Dep, _Source) ->
      %% _Source is defined.  Regardless of what it is, we must find it
      %% locally satisfied or fetch it from the original source
      %% into the project's deps

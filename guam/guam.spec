@@ -18,21 +18,22 @@
 
 %{!?_unitdir: %global _unitdir /usr/lib/systemd/system}
 
-%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
+%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%%{VERSION}" %{1})
 
 Name:               guam
-Version:            0.9.0
-Release:            2%{?dist}
+Version:            0.9.4
+Release:            1%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
 License:            GPLv3+
 URL:                https://kolab.org/about/guam
 
-Source0:            %{name}-%{version}.tar.gz
-Source1:            sys.config
+Source0:            https://mirror.kolabenterprise.com/pub/releases/guam-%{version}.tar.gz
+Source100:          plesk.sys.config
 
-Patch1:             make-it-very-easy-on-rebar3.patch
+Patch9991:          make-it-very-easy-on-rebar3.patch
+Patch9992:          guam-priv-no-delete.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-asn1
@@ -60,6 +61,10 @@ BuildRequires:      erlang-ssl
 BuildRequires:      erlang-stdlib
 BuildRequires:      erlang-syntax_tools
 BuildRequires:      erlang-syslog >= 1.0.3
+%if 0%{?rhel}
+BuildRequires:      erlang-test_server
+BuildRequires:      erlang-webtool
+%endif
 BuildRequires:      erlang-tools
 BuildRequires:      erlang-wx
 BuildRequires:      erlang-xmerl
@@ -99,7 +104,10 @@ the perimeter of your IMAP environment.
 %prep
 %setup -q
 
-%patch1 -p1
+%patch9991 -p1
+%patch9992 -p1
+
+sed -i 's/"0\.9\.0"/"%{version}"/' rebar.config
 
 %build
 
@@ -132,7 +140,7 @@ mkdir -p \
     %{buildroot}%{_var}/log/%{name}/
 
 # Configuration
-install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}/sys.config
+install -m 644 %{SOURCE100} %{buildroot}%{_sysconfdir}/%{name}/sys.config
 
 # Service scripts
 %if 0%{?with_systemd}
@@ -150,6 +158,10 @@ popd
 cp -a _build/default/rel/%{name}/bin %{buildroot}%{_erllibdir}/%{name}-%{version}/
 cp -a _build/default/rel/%{name}/lib/%{realname}-%{version}/ebin/ %{buildroot}%{_erllibdir}/%{name}-%{version}/
 cp -a _build/default/rel/%{name}/releases/ %{buildroot}%{_erllibdir}/%{name}-%{version}/
+
+%if 0%{?plesk}
+install -m 644 -p %{SOURCE100} %{buildroot}%{_sysconfdir}/guam/sys.config
+%endif
 
 pushd %{buildroot}%{_erllibdir}/%{name}-%{version}/releases/%{version}/
 ln -sfv ../../../../../../..%{_sysconfdir}/%{name}/sys.config sys.config
@@ -169,14 +181,29 @@ popd
 # Hopeless on -0.9
 rebar3 eunit -v || :
 
+%pre
+if [ $1 == 1 ]; then
+    /usr/sbin/groupadd --system %{guam_group} 2> /dev/null || :
+    /usr/sbin/useradd -c "Guam Service" -d /opt/kolab_guam -g %{guam_group} \
+        -s /sbin/nologin --system %{guam_user} 2> /dev/null || :
+fi
+
 %postun
 %if 0%{?with_systemd}
 %systemd_postun
 %endif
+if [ $1 == 0 ]; then
+    /usr/sbin/userdel %{guam_user} 2>/dev/null || :
+    /usr/sbin/groupdel %{guam_group} 2>/dev/null || :
+fi
 
 %if 0%{?with_systemd}
 %post
 %systemd_post %{name}.service
+
+if [ ! -f "/etc/guam/dh_2048.pem" ]; then
+    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+fi
 
 %preun
 %systemd_preun %{name}.service
@@ -188,6 +215,10 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %else
 %post
 chkconfig --add %{name} >/dev/null 2>&1 || :
+
+if [ ! -f "/etc/guam/dh_2048.pem" ]; then
+    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+fi
 
 %posttrans
 test -f /etc/sysconfig/guam-disable-posttrans || \
@@ -209,10 +240,19 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
-* Fri Mar  03 2017 Timotheus Pokorra <tp@tbits.net> - 0.9.0-2
-- fix symbolic links to guam binary, it is called guam not kolab_guam
+* Sun Apr 15 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-1
+- Release version 0.9.4
 
-* Tue Jul  12 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.8.3-1
+* Tue Feb 27 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-3
+- Allow empty lines in commands
+
+* Mon Jun 26 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-2
+- Fix T25795
+
+* Mon Jun 19 2017 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-1
+- Release version 0.9.2
+
+* Tue Jul 12 2016 Aaron Seigo <seigo@kolabsystems.com> - 0.8.3-1
 - Release of version 0.8.3
 
 * Fri Jul  8 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.8.2-2

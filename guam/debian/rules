@@ -8,6 +8,7 @@ DESTDIR = $(CURDIR)/debian/guam
 	dh $@ --with=systemd
 
 override_dh_auto_build:
+	sed -i 's/"0\.9\.0"/"$(DEB_VERSION_UPSTREAM)"/' rebar.config
 	export DEBUG=1
 	export HEX_OFFLINE=1
 	rebar3 release \

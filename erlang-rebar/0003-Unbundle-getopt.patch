@@ -16,9 +16,9 @@ index 27707c3..f9b0c22 100644
                rebar_xref,
                rebar_metacmds,
 -              rebar_getopt,
-               rmemo ]},
+               rmemo,
+               rebar_rand_compat ]},
    {registered, []},
-   {applications,
 -- 
 2.5.0
 
