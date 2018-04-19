@@ -22,7 +22,7 @@
 
 Name:               guam
 Version:            0.9.4
-Release:            1%{?dist}
+Release:            3%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -61,10 +61,6 @@ BuildRequires:      erlang-ssl
 BuildRequires:      erlang-stdlib
 BuildRequires:      erlang-syntax_tools
 BuildRequires:      erlang-syslog >= 1.0.3
-%if 0%{?rhel}
-BuildRequires:      erlang-test_server
-BuildRequires:      erlang-webtool
-%endif
 BuildRequires:      erlang-tools
 BuildRequires:      erlang-wx
 BuildRequires:      erlang-xmerl
@@ -140,7 +136,10 @@ mkdir -p \
     %{buildroot}%{_var}/log/%{name}/
 
 # Configuration
-install -m 644 %{SOURCE100} %{buildroot}%{_sysconfdir}/%{name}/sys.config
+cp _build/default/rel/%{name}/etc/sys.config \
+    %{buildroot}%{_sysconfdir}/%{name}/sys.config
+cp _build/default/rel/%{name}/vm.args \
+    %{buildroot}%{_sysconfdir}/%{name}/vm.args
 
 # Service scripts
 %if 0%{?with_systemd}
@@ -164,8 +163,8 @@ install -m 644 -p %{SOURCE100} %{buildroot}%{_sysconfdir}/guam/sys.config
 %endif
 
 pushd %{buildroot}%{_erllibdir}/%{name}-%{version}/releases/%{version}/
-ln -sfv ../../../../../../..%{_sysconfdir}/%{name}/sys.config sys.config
-mv vm.args ../../../../../../..%{_sysconfdir}/%{name}/vm.args
+rm sys.config vm.args
+ln -sv ../../../../../../..%{_sysconfdir}/%{name}/sys.config sys.config
 ln -sv ../../../../../../..%{_sysconfdir}/%{name}/vm.args vm.args
 popd
 
@@ -173,9 +172,10 @@ pushd %{buildroot}%{_erllibdir}/%{name}-%{version}/
 ln -s ../../lib lib
 popd
 
-pushd %{buildroot}%{_sbindir}
-ln -sfv ../..%{_erllibdir}/%{name}-%{version}/bin/%{binname} %{name}
-popd
+cat > %{buildroot}%{_sbindir}/%{name} << EOF
+#!/bin/bash
+exec %{_erllibdir}/%{name}-%{version}/bin/%{binname} \$*
+EOF
 
 %check
 # Hopeless on -0.9
@@ -228,7 +228,7 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %files
 %config(noreplace) %{_sysconfdir}/%{name}/sys.config
 %config(noreplace) %{_sysconfdir}/%{name}/vm.args
-%{_sbindir}/%{name}
+%attr(0750,root,root) %{_sbindir}/%{name}
 %{_libdir}/erlang/bin/%{realname}
 %{_libdir}/erlang/lib/%{name}-%{version}
 %attr(0640,%{guam_user},%{guam_group}) %{_var}/log/%{name}/
@@ -240,6 +240,12 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Thu Apr 19 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-3
+- Use script rather than symlink
+
+* Thu Apr 19 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-2
+- Ship correct variants of sys.config and vm.args
+
 * Sun Apr 15 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-1
 - Release version 0.9.4
 

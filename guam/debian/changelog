@@ -1,3 +1,15 @@
+guam (0.9.4-3) unstable; urgency=medium
+
+  * Use script rather than symlink
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Thu, 19 Apr 2017 21:33:45 +0200
+
+guam (0.9.4-2) unstable; urgency=medium
+
+  * Ship correct variants of sys.config and vm.args
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Thu, 19 Apr 2017 19:36:20 +0200
+
 guam (0.9.4-1) unstable; urgency=medium
 
   * Release of version 0.9.4

@@ -35,17 +35,28 @@ override_dh_auto_install:
 	cp -a _build/default/rel/guam/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/ebin \
 		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/
 
+	rm _build/default/rel/guam/releases/$(DEB_VERSION_UPSTREAM)/sys.config
+	rm _build/default/rel/guam/releases/$(DEB_VERSION_UPSTREAM)/vm.args
+
 	cp -a _build/default/rel/guam/releases \
 		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/
 
-	mv $(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/sys.config \
-		 $(DESTDIR)/etc/guam/sys.config
+	if [ -f "/etc/plesk-release" ]; then \
+		cp ../SOURCES/plesk.sys.config \
+			$(DESTDIR)/etc/guam/sys.config ; \
+	else \
+		sed -i -e 's/pki\/tls\/private\/localhost\.pem/ssl\/certs\/ssl-cert-snakeoil.pem/' \
+			-e 's/pki\/tls\/private\/localhost\.ca\.pem/ssl\/certs\/ssl-cert-snakeoil.pem/' \
+			-e 's/pki\/tls\/private\/localhost\.key/ssl\/private\/ssl-cert-snakeoil.key/' \
+			_build/default/rel/guam/etc/sys.config ; \
+		cp _build/default/rel/guam/etc/sys.config \
+			$(DESTDIR)/etc/guam/sys.config ; \
+	fi
 
 	ln -s ../../../../../../../etc/guam/sys.config \
 		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/sys.config
 
-	mv $(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/vm.args \
-		$(DESTDIR)/etc/guam/vm.args
+	cp _build/default/rel/guam/vm.args $(DESTDIR)/etc/guam/vm.args
 
 	ln -s ../../../../../../../etc/guam/vm.args \
 		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/vm.args
@@ -53,8 +64,10 @@ override_dh_auto_install:
 	#mv $(DESTDIR)//usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/log/ $(DESTDIR)/var/log/guam
 	#ln -s ../../../../../var/log/guam /usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/log
 
-	ln -s ../../usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/bin/guam \
-		$(DESTDIR)/usr/sbin/guam
+	echo '#!/bin/bash' > $(DESTDIR)/usr/sbin/guam
+	echo 'exec /usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/bin/guam $$*' \
+	     >> $(DESTDIR)/usr/sbin/guam
+	chmod +x $(DESTDIR)/usr/sbin/guam
 
 	ln -s ../lib/guam-$(DEB_VERSION_UPSTREAM)/bin/guam \
 		$(DESTDIR)/usr/lib/erlang/bin/kolab_guam
