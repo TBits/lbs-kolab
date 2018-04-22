@@ -176,4 +176,13 @@
     $config['fileapi_manticore'] = false;
     $config['fileapi_wopi_office'] = false;
 
+    // Discretionary user-supplied overrides
+    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__))) {
+        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__));
+    }
+
+    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/seafile.inc.php')) {
+        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/seafile.inc.php');
+    }
+
     @include('/etc/roundcubemail/licensing.inc.php');

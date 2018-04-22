@@ -1,3 +1,28 @@
+kolab-syncroton (2.3.10-0~kolab1) unstable; urgency=low
+
+  * Release 2.3.10
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  8 Mar 2018 15:13:40 +0200
+
+kolab-syncroton (2.3.9-0~kolab1) unstable; urgency=low
+
+  * Release 2.3.9
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  2 Mar 2018 15:13:40 +0200
+
+kolab-syncroton (2.3.8-0~kolab3) unstable; urgency=low
+
+  * Fix redundant GETMETADATA requests for mail folders
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, Feb  2 2018 15:13:40 +0200
+
+kolab-syncroton (2.3.8-0~kolab2) unstable; urgency=low
+
+  * Fix logging
+  * Fix version number
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, Jan 24 2018 15:13:40 +0200
+
 kolab-syncroton (2.3.8-0~kolab1) unstable; urgency=low
 
   * Release 2.3.8

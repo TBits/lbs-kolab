@@ -47,7 +47,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 Name:           roundcubemail
-Version:        1.3.3
+Version:        1.3.6
 
 Release:        1%{?dist}
 
@@ -69,6 +69,7 @@ Source101:      plesk.password.inc.php
 Source200:      2017111400.sql
 
 Patch201:       default-configuration.patch
+Patch202:       roundcubemail-1.3.6-plugin-enigma-homedir.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1068,6 +1069,7 @@ cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
 %endif
 
 %patch201 -p1
+%patch202 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" -delete
@@ -1352,7 +1354,7 @@ function new_files() {
     %{buildroot}%{confdir} \
     %{buildroot}%{datadir}/public_html \
     %{buildroot}%{logdir} \
-    %{buildroot}%{tmpdir}
+    %{buildroot}%{tmpdir}/plugins
 
 pushd %{name}-%{version}
 
@@ -1608,9 +1610,9 @@ for skin in larry; do
     #echo "==========================="
 done
 
-echo "================================================================="
+echo "==================================================================================="
 echo "Dividing Plugins, Plugin Assets, Plugin Skins and Plugin Skin Assets and Non-Assets"
-echo "================================================================="
+echo "==================================================================================="
 
 for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort); do
     for skin in larry; do
@@ -1682,6 +1684,14 @@ for plugin in $(find %{name}-%{version}/plugins/ -mindepth 1 -maxdepth 1 -type d
         pushd %{buildroot}%{plugindir}/${plugin}
         %{__mv} config.inc.php.dist %{buildroot}%{confdir}/${plugin}.inc.php
         ln -s ../../../../..%{confdir}/${plugin}.inc.php config.inc.php
+        popd
+    fi
+
+    if [ "${plugin}" == "enigma" ]; then
+        %{__mkdir_p} %{buildroot}%{tmpdir}/plugins/
+        pushd %{buildroot}%{plugindir}/${plugin}
+        %{__mv} -v home %{buildroot}%{tmpdir}/plugins/${plugin}
+        ln -s ../../../../..%{tmpdir}/plugins/${plugin} home
         popd
     fi
 
@@ -2561,6 +2571,7 @@ fi
 %attr(0640,root,%{httpd_group}) %{confdir}/mimetypes.php
 %attr(0770,root,%{httpd_group}) %dir %{logdir}
 %attr(0770,root,%{httpd_group}) %dir %{tmpdir}
+%attr(0770,root,%{httpd_group}) %dir %{tmpdir}/plugins
 %dir %{_localstatedir}/lib/rpm-state/
 %dir %{_localstatedir}/lib/rpm-state/roundcubemail/
 
@@ -2598,6 +2609,7 @@ fi
 %files plugin-enigma -f plugin-enigma.files
 %defattr(-,root,root,-)
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{_sysconfdir}/%{name}/enigma.inc.php
+%attr(0750,%{httpd_user},%{httpd_group}) %{tmpdir}/plugins/enigma
 
 %files plugin-example_addressbook -f plugin-example_addressbook.files
 %defattr(-,root,root,-)
@@ -2845,6 +2857,21 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Apr 12 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.6-1
+- Check in 1.3.6 release
+
+* Thu Apr  5 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.5-1
+- Check in 4 revisions ahead of 1.3.5 release
+
+* Thu Mar  8 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.4-3
+- Check in 14 revisions ahead of 1.3.4 release
+
+* Wed Feb 28 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.4-2
+- Check in 12 revisions ahead of 1.3.4 release
+
+* Sun Feb 11 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.4-1
+- Check in upstream 1.3.4 release
+
 * Tue Nov 14 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.3.3-2
 - Stop dropping columns
 

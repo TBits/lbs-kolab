@@ -8,6 +8,6 @@ Standards-Version: 3.9.3
 
 Package: roundcubemail-skin-chameleon
 Architecture: all
-Depends:	roundcubemail (>= 0.9)
+Depends:	roundcubemail-core (>= 0.9)
 Description: skinnable AJAX based webmail solution - Kolab skin
  Adds the Kolab skin to Roundcube

@@ -1,3 +1,9 @@
+roundcubemail-skin-chameleon (0.3.9-0~kolab1) unstable; urgency=low
+
+  * Release 0.3.9
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  2 Aug 2017 18:41:13 +0200
+
 roundcubemail-skin-chameleon (0.3.8-0~kolab1) unstable; urgency=low
 
   * Release 0.3.8

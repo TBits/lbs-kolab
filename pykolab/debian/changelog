@@ -1,8 +1,14 @@
+pykolab (0.8.8-0~kolab1) unstable; urgency=low
+
+  * Upstream release of version 0.8.8
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  8 Mar 2018 01:49:00 +0100
+
 pykolab (0.8.7-0~kolab2) unstable; urgency=low
 
-  * Ubuntu Xenial: pykolab requires now python-pymysql because /usr/lib/postfix/kolab_smtp_access_policy needs module pymysql
+  * pykolab requires now python-pymysql because /usr/lib/postfix/kolab_smtp_access_policy needs module pymysql on Ubuntu Xenial
 
- -- Timotheus Pokorra <tp@tbits.net>  Tue, 30 May 2017 01:49:00 +0100
+ -- Timotheus Pokorra <tp@tbits.net>  Thu, 25 May 2017 01:49:00 +0100
 
 pykolab (0.8.7-0~kolab1) unstable; urgency=low
 
