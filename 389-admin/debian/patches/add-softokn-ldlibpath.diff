@@ -1,0 +1,20 @@
+--- a/admserv/cfgstuff/start-ds-admin.in
++++ b/admserv/cfgstuff/start-ds-admin.in
+@@ -50,6 +50,7 @@ SHLIB_PATH=
+ LIBPATH=
+ 
+ ldlibpath_add "@LIBPATH@"
++ldlibpath_add "@LIBPATH@/nss"
+ ldlibpath_add "${OLD_LD_LIBRARY_PATH}"
+ export LD_LIBRARY_PATH
+ 
+--- a/admserv/newinst/src/AdminServer.pm.in
++++ b/admserv/newinst/src/AdminServer.pm.in
+@@ -382,6 +382,7 @@ sub updateHttpConfFiles {
+     my $savepath = $ENV{SHLIB_PATH} || $ENV{LD_LIBRARY_PATH};
+     $ENV{LD_LIBRARY_PATH} = "";
+     libpath_add("@LIBPATH@");
++    libpath_add("@LIBPATH@/nss");
+     libpath_add("$savepath");
+     $ENV{SHLIB_PATH} = $ENV{LD_LIBRARY_PATH};
+ 

@@ -1,0 +1,10 @@
+man_page_fixes
+http_conf_fix
+fix-linking.patch
+fix-script-name-cgi.patch
+support-kfreebsd.patch
+fix-typos.patch
+fix-hyphen-used-as-minus-sign.patch
+fix-group-name.patch
+add-softokn-ldlibpath.diff
+fix-mime-magic-path.diff

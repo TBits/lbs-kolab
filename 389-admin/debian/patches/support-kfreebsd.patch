@@ -1,0 +1,56 @@
+Description: Add support for kFreeBSD
+ The configure script should check for available features of the host instead
+ of assuming that specific hosts (e.g. Linux) have specific features.
+ .
+ This patch hacks the configure script and various source files to behave
+ on kFreeBSD similar to Linux.
+Author: Benjamin Drung <benjamin.drung@profitbricks.com>
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -154,6 +154,12 @@
+     platform="linux"
+     initdir='$(sysconfdir)/rc.d/init.d'
+ 	;;
++  *-*-kfreebsd*)
++    AC_DEFINE([XP_UNIX], [1], [UNIX])
++    AC_DEFINE([FREEBSD], [1], [FreeBSD])
++    platform="freebsd"
++    initdir='$(sysconfdir)/rc.d/init.d'
++    ;;
+   ia64-hp-hpux*)
+     AC_DEFINE([XP_UNIX], [1], [UNIX])
+     AC_DEFINE([hpux], [1], [HP-UX])
+--- a/include/base/systems.h
++++ b/include/base/systems.h
+@@ -157,7 +157,7 @@
+ #define SHMEM_MMAP_FLAGS MAP_SHARED
+ #define THROW_HACK throw()
+ 
+-#elif defined(LINUX)
++#elif defined(LINUX) || defined(FREEBSD)
+ 
+ #define ACCELERATOR_CACHE
+ #define AUTH_DBM
+--- a/include/public/base/systems.h
++++ b/include/public/base/systems.h
+@@ -75,7 +75,7 @@
+ #define SHMEM_UNIX_MMAP
+ #define ZERO(ptr,len) memset(ptr,0,len)
+ 
+-#elif defined(LINUX)
++#elif defined(LINUX) || defined(FREEBSD)
+ 
+ #define FILE_UNIX
+ #define FILE_UNIX_MMAP
+--- a/lib/base/nscputil.cpp
++++ b/lib/base/nscputil.cpp
+@@ -1150,7 +1150,7 @@
+      */
+     if ( (size_t)-1 == iconv( convdesc, NULL, NULL,
+         &curoutbuf, &outbytesleft ) /* initial shift seq. */
+-#ifdef LINUX
++#if defined(LINUX) || defined(FREEBSD)
+          || (size_t)-1 == iconv( convdesc, (char **)&src, &inbytesleft,
+         &curoutbuf, &outbytesleft )     /* convert our chars. */
+ #else

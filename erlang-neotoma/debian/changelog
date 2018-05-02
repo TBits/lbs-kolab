@@ -1,0 +1,15 @@
+neotoma (1.7.3+dfsg-1) unstable; urgency=medium
+
+  * New maintainer. (Closes: #809925)
+  * New upstream release. (Closes: #800569)
+  * Change using dh-rebar.
+  * Update Standards-Version to 3.9.6.
+  * Update debian/watch.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Sat, 13 Feb 2016 16:18:49 +0900
+
+neotoma (1.5.1-1) experimental; urgency=low
+
+  * Initial release, target experimental since we are in a freeze.
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Sat, 01 Dec 2012 20:47:41 +0100

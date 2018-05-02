@@ -1,0 +1,46 @@
+diff -ur erlang-rpm-macros-0.2.2.orig/macros.erlang erlang-rpm-macros-0.2.2/macros.erlang
+--- erlang-rpm-macros-0.2.2.orig/macros.erlang	2016-03-10 13:40:02.000000000 +0100
++++ erlang-rpm-macros-0.2.2/macros.erlang	2016-11-06 18:26:54.491953240 +0100
+@@ -3,6 +3,7 @@
+ %_erldir	%{_libdir}/erlang
+ %_erllibdir	%{_erldir}/lib
+ 
++
+ %__rebar /usr/bin/rebar
+ 
+ %rebar_compile \
+@@ -113,3 +114,34 @@
+ %__erlang_drv_version %(eval \
+ 	rpm -q erlang-erts --provides | grep --color=no erl_drv_version \
+ )
++
++%__erlang %_bindir/erl
++%__erl %__erlang
++%__erlc %_bindir/erlc
++%__escript %_bindir/escript
++
++%_otpdir %_erldir
++%_erlangdir %_erldir
++%_otplibdir %_otpdir/lib
++%_erlanglibdir %_erllibdir
++%_otpmandir %_otpdir/man
++%_erlmandir %_otpmandir
++%_erlangmandir %_erlmandir
++%_erldocdir %_otpdir/doc
++%_erlangdocdir %_erldocdir
++%_otplibnativedir %_otplibdir.native
++%_otplibdebugdir %_otplibdir.debug
++%_erllibnativedir %_otplibnativedir
++%_erllibdebugdir %_otplibdebugdir
++%_erlanglibnativedir %_erllibnativedir
++%_erlanglibdebugdir %_erllibdebugdir
++
++%_erlang_system_info() %(%__erl -noshell -eval 'io:put_chars(erlang:system_info(%1)), halt().')
++%_otp_release %_erlang_system_info otp_release
++%_erts_version %_erlang_system_info version
++
++%_erlang_req_beam_skiplist hipe_bifs
++%add_erlang_req_beam_skiplist() %global _erlang_req_beam_skiplist %_erlang_req_beam_skiplist %*
++%_erlang_req_app_skiplist %nil
++%add_erlang_req_app_skiplist() %global _erlang_req_app_skiplist %_erlang_req_app_skiplist %*
++

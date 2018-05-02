@@ -1,0 +1,5 @@
+erlang-eunit-formatters (0.3.1-1) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 07 Jun 2017 18:33:43 +0200

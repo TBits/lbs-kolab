@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+PACKAGE = $(shell dpkg-parsechangelog | sed -rne 's/^Source: (.+)/\1/p')
+VERSION = $(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9.]+)(\+dfsg)?.*$$/\1/p')
+
+%:
+	dh $@ --buildsystem=rebar --with rebar
+
+override_dh_auto_install:
+	dh_auto_install
+
+	for dir in ebin priv; do \
+		install -d \
+			$(CURDIR)/debian/erlang-$(PACKAGE)/usr/lib/erlang/lib/$(PACKAGE)-$(VERSION)/$$dir ; \
+		install -m 644 $$dir/* \
+		$(CURDIR)/debian/erlang-$(PACKAGE)/usr/lib/erlang/lib/$(PACKAGE)-$(VERSION)/$$dir/ ; \
+	done
+
+#override_dh_gencontrol-arch:
+#	erlang-depends -a
+#	dh_gencontrol -a
+#
+#override_dh_compress-arch:
+#	dh_compress -X.erl -X.beam
+#
+#override_dh_auto_test:
+#	HOME=/tmp rebar eunit -vv

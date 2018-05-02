@@ -1,0 +1,6 @@
+etc/default/dirsrv-admin
+etc/dirsrv/admin-serv/*.conf
+usr/lib/*/dirsrv/*
+usr/sbin/*
+usr/share/dirsrv/*
+usr/share/man/man8/*

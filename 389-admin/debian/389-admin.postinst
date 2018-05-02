@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+invoke_failure() {
+    # invoke-rc.d failed, likely because no instance has been configured yet
+    # but exit with an error if an instance is configured and the invoke failed
+    if [ -z $INSTANCES ]; then
+        echo "... because no instance has been configured yet."
+    else
+        exit 1
+    fi
+}
+
+
+#DEBHELPER#

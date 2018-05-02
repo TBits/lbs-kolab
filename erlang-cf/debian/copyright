@@ -1,0 +1,7 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: cf
+Source: https://github.com/project-fifo/cf
+
+Files: *
+Copyright: 2015, Project-FiFo UG
+License: BSD

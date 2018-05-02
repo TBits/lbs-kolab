@@ -1,0 +1,22 @@
+diff --git a/m4/httpd.m4 b/m4/httpd.m4
+index b72054c..752eaa7 100644
+--- a/m4/httpd.m4
++++ b/m4/httpd.m4
+@@ -61,11 +61,12 @@ esac
+ 
+ httpdconf=${httpd_root}/${httpd_conf_rel}
+ 
+-mimemagic=`awk '"MIMEMagicFile" == $1" {print $2}' $httpdconf`
+-if test ! -f "$mimemagic" ; then
+-# assume relative to root
+-    mimemagic=${httpd_root}/${mimemagic}
+-fi
++mimemagic=/etc/apache2/magic
++#mimemagic=`awk '"MIMEMagicFile" == $1" {print $2}' $httpdconf`
++#if test ! -f "$mimemagic" ; then
++## assume relative to root
++#    mimemagic=${httpd_root}/${mimemagic}
++#fi
+ 
+ # check for mime.types file
+ httpdconfdir=`dirname $httpdconf`

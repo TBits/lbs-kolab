@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+. /usr/share/debconf/confmodule
+
+if [ "$1" = "purge" ]; then
+    rm -f /etc/systemd/system/dirsrv.target.wants/dirsrv@admin.service
+    rm -rf /etc/dirsrv/admin-serv
+    rm -rf /var/log/dirsrv/admin-serv
+fi
+

@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+DESTDIR = $(CURDIR)/debian/$(DEB_SOURCE)
+LIBDIR = $(DESTDIR)/usr/lib/erlang/lib/eunit_formatters-$(DEB_VERSION_UPSTREAM)
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	sed -i -e "s, git, \"$(DEB_VERSION_UPSTREAM)\",g" \
+	        src/eunit_formatters.app.src
+
+override_dh_auto_test:
+	rebar eunit skip_deps=true -v || :
+
+override_dh_auto_install:
+	mkdir -p $(LIBDIR)/ebin
+	install -p -m 644 ebin/eunit_formatters.app $(LIBDIR)/ebin
+	install -p -m 644 ebin/*.beam $(LIBDIR)/ebin
+
+override_dh_installdocs:
+	dh_installdocs
+	install -p -m 644 README.md $(DESTDIR)/usr/share/doc/$(DEB_SOURCE)

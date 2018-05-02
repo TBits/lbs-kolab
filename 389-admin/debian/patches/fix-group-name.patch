@@ -1,0 +1,18 @@
+Description: nobody's group is called "nogroup" on Debian, not "nobody"
+Author: Colin Watson <cjwatson@ubuntu.com>
+Forwarded: not-needed
+Last-Update: 2013-10-07
+
+Index: b/configure.ac
+===================================================================
+--- a/configure.ac
++++ b/configure.ac
+@@ -114,7 +114,7 @@
+ 
+ # server userid, groupid
+ httpduser=nobody
+-httpdgroup=nobody
++httpdgroup=nogroup
+ admservport=9830
+ admservip=0.0.0.0
+ # this is the subdir under $PACKAGE_BASE_NAME where admin server

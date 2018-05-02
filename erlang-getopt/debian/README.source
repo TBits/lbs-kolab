@@ -1,0 +1,8 @@
+erlang-getopt source package infomation
+
+- Remove rebar binary from source code 
+
+  Erlang-getopt's original source codes contains rebar binary.
+  The source package of Debian has deleted this binary.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org> Tue, 28 Jul 2015 19:18:39 +0900

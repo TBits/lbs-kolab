@@ -1,0 +1,9 @@
+diff -rupN old/rebar3 new/rebar3
+--- old/rebar3	1970-01-01 00:00:00.000000000 +0000
++++ new/rebar3	2017-06-10 09:24:22.761474433 +0000
+@@ -0,0 +1,5 @@
++#!/usr/bin/env escript
++%%! -noshell -noinput
++
++main (Args) ->
++    rebar3:main(Args).

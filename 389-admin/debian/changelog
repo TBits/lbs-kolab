@@ -1,0 +1,198 @@
+389-admin (1.1.43-2~kolab1) unstable; urgency=medium
+
+  * Backport patches from Debian Buster because the Stretch package is broken.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Mon, 02 Apr 2018 11:40:02 +0200
+
+389-admin (1.1.43-1) unstable; urgency=medium
+
+  * New upstream release.
+  * control: Build-depend on rename. (Closes: #825162)
+  * control: Bump policy to 3.9.8, no changes.
+  * control: Use https vcs urls.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 31 Aug 2016 00:57:28 +0300
+
+389-admin (1.1.42-2) unstable; urgency=medium
+
+  * Migrate to systemd
+    - 389-admin.dirsrv-admin.service, rules: Add a unit file.
+    - control, rules: Add dh-systemd to build-depends
+  * init: Drop hard dependency on dirsrv. (Closes: #820018)
+  * rules: Enable parallel builds.
+  * rules: Pass --fail-missing to dh_install.
+    - libds-admin-serv0.{install,links.in}, rules: Remove .so, install
+      .so.0 provided by upstream, drop .links.in
+    - rules: Remove upstream initscript
+  * control: Add libcgi-pm-perl to Depends.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 15 Apr 2016 14:23:50 +0300
+
+389-admin (1.1.42-1) unstable; urgency=medium
+
+  * New upstream release.
+  * rules: Support reproducible builds, thanks Chris Lamb. (Closes:
+    #791922)
+  * Refresh patches.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 10 Jul 2015 12:39:58 +0300
+
+389-admin (1.1.38-2) unstable; urgency=medium
+
+  * fix-mime-magic-path.diff: Hardcode path to MIMEMagicFile.
+  * control: Run wrap-and-sort.
+  * control: Add mime-support to build-depends.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 28 May 2015 09:55:27 +0300
+
+389-admin (1.1.38-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Refresh patches.
+  * rules: Support reproducible builds, thanks Chris Lamb. (Closes: #776806)
+  * control: Bump policy to 3.9.6, no changes.
+  * control: Drop build-dep on apache2-mpm-worker. (Closes: #785706)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 28 May 2015 00:23:17 +0300
+
+389-admin (1.1.35-4) unstable; urgency=medium
+
+  * add-softokn-ldlibpath.diff: The libpath needs to be fixed in AdminServer.pm
+    too. (Closes: #737214)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 31 Mar 2015 00:04:24 +0300
+
+389-admin (1.1.35-3) unstable; urgency=medium
+
+  * fix-group-name.patch: Add the patch to series too.
+  * add-softokn-ldlibpath.diff: Fix loading softokn3. (Closes: #737214)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 10 Mar 2015 09:59:36 +0200
+
+389-admin (1.1.35-2) unstable; urgency=medium
+
+  * Team upload.
+  * Update debian/watch file.
+  * Add support-kfreebsd.patch to fix the kFreeBSD build failure.
+  * Fix typos (found by Lintian).
+  * Fix hyphen-used-as-minus-sign warnings (found by Lintian).
+  * Add symbols file for libds-admin-serv0.
+
+ -- Benjamin Drung <benjamin.drung@profitbricks.com>  Thu, 04 Sep 2014 12:57:03 +0200
+
+389-admin (1.1.35-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #746068)
+  * watch: Add a comment about the upstream git tree.
+  * control, http_conf_fix: Migrate to apache 2.4, thanks Colin Watson!
+    (Closes: #725701)
+  * fix-group-name.patch: Use nogroup instead of nobody.
+  * control: Bump policy to 3.9.5, no changes.
+  * control: Update vcs-git field.
+  * control: Update my email.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 01 Aug 2014 12:29:45 +0300
+
+389-admin (1.1.30-1) unstable; urgency=low
+
+  * New upstream release.
+  * control: Rewrap the build-depends.
+  * control: Change the VCS header to point to the git repository.
+  * adm.conf, control, dirsrv-admin.init: Rename Fedora to 389.
+  * control: Wrap Depends.
+  * patches/compile_fixes: Removed.
+  * rules, control: Switch to dh, build-depend on dh-autoreconf.
+  * control, compat: Bump compat and debhelper build-dep to 9.
+  * patches/http_conf_fix: Refresh.
+  * rules: Add CPPFLAGS to force the use of large files (FTBFS on i386).
+  * Rename binary to 389-admin.
+  * Depend on 389-ds-base instead of dirsrv.
+  * Build-depend on 389-ds-base-dev instead of libdirsrv-dev.
+  * install: Use wildcards instead of listing every file.
+  * Build using multiarch paths.
+  * Build using libldap2-dev (>= 2.4.28-1~).
+  * Drop unnecessary build-dep on libsvrcore-dev.
+  * control: Depend on apache2.
+  * Add fix-linking.patch: libds-admin-serv.so didn't link against
+    libldap2 though it used it's symbols.
+  * copyright: Use DEP5 format.
+  * rules: Export USE_64 for 64bit archs.
+  * fix-script-name-cgi.patch: Use the correct name for repl-monitor perl
+    script.
+  * control: Use the team address for maintainer.
+  * Purge debian/po and update README.Debian.
+  * control: Bump the Standards-Version to 3.9.3, no changes.
+  * Add DEP-3 headers to the patches.
+  * patches/speling_fixes: Drop, unnecessary.
+  * patches/remove_softokn3, rules: Patch dropped, fix linking in rules.
+  * watch: Fix the url.
+
+ -- Timo Aaltonen <tjaalton@ubuntu.com>  Thu, 28 Jun 2012 10:13:28 +0300
+
+389-admin (1.1.11-3) unstable; urgency=low
+
+  * Fix httpd*.conf.in files (wrong nss module and disable log module)
+  * Fix success messages in dirsrv-admin.init
+
+ -- Michele Baldessari <michele@acksyn.org>  Sun, 17 Oct 2010 23:20:05 +0200
+
+389-admin (1.1.11-2) unstable; urgency=low
+
+  * Fix QUILT_STAMPFN
+  * Update email address
+  * Fix watch file
+  * Fix svn fields in control file
+  * Add autotools-dev to B-D
+
+ -- Michele Baldessari <michele@acksyn.org>  Sun, 17 Oct 2010 16:04:00 +0200
+
+389-admin (1.1.11-1) unstable; urgency=low
+
+  * New upstream
+  * Fix softtokn3 linking and apr compiling
+  * Bumped to 3.9.1 policy
+  * Depend on libicu44
+  * Fix init script to not bail out if adm.conf is missing
+  * Add adm.conf example file
+  * Improve README.Debian
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sat, 04 Sep 2010 10:48:45 +0200
+
+389-admin (1.1.11~a2-1) unstable; urgency=low
+
+  * New upstream
+  * Bumped to 3.8.4 policy
+  * Switch to dpkg-source 3.0 (quilt) format
+  * Just patch Makefile.in, avoid reautotooling the whole thing
+  * Upped libicu42 dependency
+  * Added *-Vcs fields
+  * Fix typo in debian/control
+  * Fix init.d directory
+
+ -- Michele Baldessari <michele@pupazzo.org>  Mon, 24 May 2010 17:08:37 +0200
+
+389-admin (1.1.10-1) unstable; urgency=low
+
+  * New upstream
+  * Package renamed to reflect upstream changes
+  * Added apache2-mpm-worker as a build-dep
+  * Added libapache2-mod-nss as a build-dep (nss_pchache)
+  * Fix watch file
+
+ -- Michele Baldessari <michele@pupazzo.org>  Mon, 24 May 2010 01:13:32 +0200
+
+fedora-ds-admin (1.1.6-1) unstable; urgency=low
+
+  * New upstream
+  * Added watch file
+  * Added libnss4-tools and libmozilla-ldap-perl as depends
+  * Fixed lsb section ending in init script
+  * Add libapache2-mod-nss as a dependency
+
+ -- Michele Baldessari <michele@pupazzo.org>  Tue, 30 Sep 2008 22:11:15 +0200
+
+fedora-ds-admin (1.1.4-1) unstable; urgency=low
+
+  * Initial release (Closes: #497098).
+
+ -- Michele Baldessari <michele@pupazzo.org>  Sun, 11 May 2008 13:06:20 +0200

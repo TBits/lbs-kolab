@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
+%:
+	dh $@ --buildsystem=rebar --with rebar
+
+override_dh_auto_test:
+	rebar eunit -vv skip_deps=true

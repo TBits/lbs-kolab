@@ -1,0 +1,32 @@
+Author: Timo Aaltonen <tjaalton@ubuntu.com>
+Date:   Fri Dec 30 18:09:15 2011 +0200
+
+    Add fix-linking.patch
+
+    libds-admin-serv.so didn't link against libldap2 though it used it's symbols
+
+    and drop libs that are not used
+
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -151,10 +151,8 @@ else
+ LDAPSDK_LINK = @ldapsdk_lib@ -lssldap60 -lprldap60 -lldap60 -lldif60
+ ADMINUTIL_LINK = @adminutil_lib@ @nspr_lib@ @nss_lib@ @sasl_lib@ @ldapsdk_lib@ @icu_lib@ -ladmsslutil@adminutil_ver@ -ladminutil@adminutil_ver@
+ endif
+-NSPR_LINK = @nspr_lib@ -lplc4 -lplds4 -lnspr4
+-NSS_LINK = @nss_lib@ -lsmime3 -lssl3 -lnss3 -lsoftokn3
+-SASL_LINK = @sasl_lib@ -lsasl2
+-ICU_LINK = @icu_lib@ -licui18n -licuuc -licudata
++NSPR_LINK = @nspr_lib@ -lplc4 -lnspr4
++NSS_LINK = @nss_lib@ -lsmime3 -lssl3 -lnss3
+ 
+ DEFAULT_LIBS_NOCGI = $(ADMINUTIL_LINK) \
+                      $(ICU_LINK) \
+@@ -283,6 +281,7 @@ update_SCRIPTS = admserv/makeUpgradeTar.
+ libds_admin_serv_la_SOURCES = $(libbase_a_SOURCES) $(libsi18n_a_SOURCES) $(libadmin_a_SOURCES)
+ libds_admin_serv_la_LINK = $(MYLINK)
+ libds_admin_serv_la_LIBADD = $(ADMINUTIL_LINK) \
++                             $(LDAPSDK_LINK) \
+                              $(NSPR_LINK)
+ 
+ libdsa_a_SOURCES = lib/libdsa/dsalib_conf.c \

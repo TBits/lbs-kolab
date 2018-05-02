@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+DESTDIR = $(CURDIR)/debian/$(DEB_SOURCE)
+LIBDIR = $(DESTDIR)/usr/lib/erlang/lib/providers-$(DEB_VERSION_UPSTREAM)
+DOCDIR = $(DESTDIR)/usr/share/doc/$(DEB_SOURCE)
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	rebar compile -v
+	rebar doc -v
+
+override_dh_auto_test:
+	HOME=/tmp rebar -C providers.rebar.config ct
+
+override_dh_auto_install:
+	install -d -m 0755 $(LIBDIR)/ebin
+	install -p -m 0644 ebin/* $(LIBDIR)/ebin/
+	install -d -m 0755 $(LIBDIR)/include
+	install -p -m 0644 include/* $(LIBDIR)/include/
+	install -d -m 0755 $(LIBDIR)/doc
+	install -p -m 0644 doc/*.css $(LIBDIR)/doc/
+	install -p -m 0644 doc/*.html $(LIBDIR)/doc/
+	install -p -m 0644 doc/*.png $(LIBDIR)/doc/
+
+override_dh_installdocs:
+	dh_installdocs
+	ln -sf ../../lib/erlang/lib/providers-$(DEB_VERSION_UPSTREAM)/doc \
+	        $(DOCDIR)/html
+	install -p -m 0644 *.md $(DOCDIR)/

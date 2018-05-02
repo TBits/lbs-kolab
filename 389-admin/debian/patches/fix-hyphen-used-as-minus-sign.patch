@@ -1,0 +1,58 @@
+Description: Fix hyphen-used-as-minus-sign warning (found by Lintian).
+ See https://lintian.debian.org/tags/hyphen-used-as-minus-sign.html for
+ an explanation.
+Author: Benjamin Drung <benjamin.drung@profitbricks.com>
+
+--- a/man/man8/ds_removal.8
++++ b/man/man8/ds_removal.8
+@@ -19,7 +19,7 @@
+ ds_removal \- Remove a directory server instance and un-register it from the console
+ .SH SYNOPSIS
+ .B ds_removal
+-[-f] -s \fIserver_id\fR -w \fIadmin_password\fR
++[\-f] \-s \fIserver_id\fR \-w \fIadmin_password\fR
+ .SH DESCRIPTION
+ Removes the specified Directory Server instance and un-registers it from
+ the console.  This will remove all files and directories associated with
+--- a/man/man8/ds_unregister.8
++++ b/man/man8/ds_unregister.8
+@@ -19,7 +19,7 @@
+ ds_unregister \- Un-register a directory server instance from the console
+ .SH SYNOPSIS
+ .B ds_unregister
+--s \fIserver_id\fR -w \fIadmin_password\fR
++\-s \fIserver_id\fR \-w \fIadmin_password\fR
+ .SH DESCRIPTION
+ Un-registers the specified directory server instance from the console.
+ .PP
+--- a/man/man8/register-ds-admin.pl.8
++++ b/man/man8/register-ds-admin.pl.8
+@@ -19,16 +19,16 @@
+ register\-ds\-admin.pl \- Registers Directory Server instances with an Admin Server
+ .SH SYNOPSIS
+ .B register-ds-admin.pl
+-[\fI--options\fR] \fI-- \fR[\fIargs\fR]
++[\fI\-\-options\fR] \fI-\- \fR[\fIargs\fR]
+ .SH DESCRIPTION
+ Registers existing Directory Server instances with an existing Admin Server. 
+ This command does the set up necessary for the use of the Console to manage 
+ the Directory Server instances you are registering.  You can register remote 
+ Directory Server instances to a local Admin Server, as well as register local 
+-Directory Server instances with a remote Admin Server - this allows a single 
++Directory Server instances with a remote Admin Server \- this allows a single 
+ console/Admin Server to manage all your Directory Servers on your network.
+ 
+-Use this command with the \fB--update\fR option after an upgrade to refresh
++Use this command with the \fB\-\-update\fR option after an upgrade to refresh
+  the server information (version, build number, etc.) in the Console.
+ 
+ Can be run in interactive mode with different levels of verbosity, or
+@@ -66,7 +66,7 @@ Log setup messages to this file \- other
+ Update an existing installation (e.g. after upgrading packages)
+ .TP
+ .B \fB\-\-continue
+-(update only) keep going despite errors (also --force)
++(update only) keep going despite errors (also \-\-force)
+ .PP
+ For all options, you can also use the short name e.g. \fB\-h\fR, \fB\-d\fR, etc.  
+ For the \fB\-d\fR argument, specifying it more than once will increase the debug 

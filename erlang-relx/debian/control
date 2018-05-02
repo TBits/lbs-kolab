@@ -1,0 +1,16 @@
+Source: erlang-relx
+Maintainer: hede <kolab983@der-he.de>
+Section: libs
+Priority: optional
+Standards-Version: 3.9.4
+Homepage: http://erlware.github.io/relx
+Build-Depends: debhelper (>= 9), erlang-common-test, erlang-cf, erlang-bbmustache, erlang-erlware-commons, erlang-providers, erlang-neotoma, erlang-dev, erlang-tools, erlang-edoc, erlang-eunit, rebar, dh-rebar
+
+Package: erlang-relx
+Architecture: any
+Section: devel
+Priority: optional
+Depends: ${misc:Depends}, ${shlibs:Depends},
+	erlang-base | erlang-base-hipe
+Enhances: erlang
+Description: Sane, simple release creation for Erlang

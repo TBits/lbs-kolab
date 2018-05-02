@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+DESTDIR = $(CURDIR)/debian/$(DEB_SOURCE)
+LIBDIR = $(DESTDIR)/usr/lib/erlang/lib/cf-$(DEB_VERSION_UPSTREAM)
+DOCDIR = $(DESTDIR)/usr/share/doc/$(DEB_SOURCE)
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	sed -i -e "/^%%/s/\`/'/g" -e '/^%%/s/</\&lt;/g' -e '/^%%/s/>/\&gt;/g' \
+	        src/cf.erl
+
+override_dh_auto_build:
+	erl -noshell -eval '{ok, L} = file:consult("rebar.config"), file:write_file("cf.rebar.config", lists:map(fun(E) -> io_lib:format("~p.~n", [E]) end, [{erl_opts, [slim, inline, no_debug_info|proplists:delete(debug_info, proplists:get_value(erl_opts, L, []))]}, {edoc_opts, [{preprocess, true}|proplists:get_value(edoc_opts, L, [])]} |lists:foldl(fun proplists:delete/2, L, [deps, edoc_opts, erl_opts])])), halt().'
+	rebar -C cf.rebar.config compile -v
+	rebar -C cf.rebar.config doc -v
+
+override_dh_auto_install:
+	install -d -m 0755 $(LIBDIR)/ebin
+	install -p -m 0644 ebin/* $(LIBDIR)/ebin/
+	install -d -m 0755 $(LIBDIR)/doc
+	install -p -m 0644 doc/*.css $(LIBDIR)/doc/
+	install -p -m 0644 doc/*.html $(LIBDIR)/doc/
+	install -p -m 0644 doc/*.png $(LIBDIR)/doc/
+
+override_dh_installdocs:
+	dh_installdocs
+	install -d -m 0755 $(DOCDIR)
+	ln -sf ../../lib/erlang/lib/cf-$(DEB_VERSION_UPSTREAM)/doc \
+	        $(DOCDIR)/html
+	install -p -m 0644 *.md $(DOCDIR)/

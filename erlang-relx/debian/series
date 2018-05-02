@@ -1,0 +1,4 @@
+relx-2.0.0-doc.patch -p1
+relx-3.21.1-git.patch -p1
+relx-remove-rebar-deps.patch -p1
+relx-bin.patch -p1

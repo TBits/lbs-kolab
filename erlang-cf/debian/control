@@ -1,0 +1,16 @@
+Source: erlang-cf
+Section: devel
+Priority: extra
+Maintainer: Christoph Erhardt <kolab@sicherha.de>
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 9), erlang, rebar
+Homepage: https://github.com/project-fifo/cf
+
+Package: erlang-cf
+Architecture: any
+Section: devel
+Depends: ${misc:Depends},
+	erlang-base | erlang-base-hipe
+Description: Colored output for Erlang/OTP io and io_lib
+ cf is a helper library for termial colour printing extending the Erlang/OTP
+ io:format syntax to add colours.

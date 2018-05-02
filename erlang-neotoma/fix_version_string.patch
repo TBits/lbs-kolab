@@ -1,0 +1,13 @@
+diff --git a/src/neotoma.app.src b/src/neotoma.app.src
+index 2f63653..3a5dd15 100644
+--- a/src/neotoma.app.src
++++ b/src/neotoma.app.src
+@@ -1,7 +1,7 @@
+ {application, neotoma,
+  [
+   {description, "PEG/Packrat toolkit and parser-generator."},
+-  {vsn, git},
++  {vsn, "1.7.3"},
+   {applications, [kernel, stdlib]}
+  ]
+ }.

@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+ifeq "$(PKG_VERSION)" ""
+PKG_VERSION=$(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9.]+)(\+dfsg)?.*$$/\1/p')
+endif
+
+ifeq "$(PKG_NAME)" ""
+PKG_NAME=$(shell dpkg-parsechangelog | sed -rne 's/^Source: erlang-(.*)/\1/p')
+endif
+E_PKG_NAME=$(shell echo $(PKG_NAME) | sed -e 's/-/_/g')
+DEB_PKG=erlang-$(PKG_NAME)
+
+%:
+	dh $@ --buildsystem=rebar --with rebar
+
+override_dh_auto_build:
+	patch -p1 < debian/patches/remove-rebar-deps.patch
+	patch -p1 < debian/patches/add-rebar3.escript.patch
+	dh_auto_build
+
+override_dh_install:
+#	install -pDT -m 0755 rebar3.escript $(DESTDIR)/usr/bin/rebar3
+	install -d debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/priv/templates
+	install priv/templates/* debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/priv/templates/
+	dh_install

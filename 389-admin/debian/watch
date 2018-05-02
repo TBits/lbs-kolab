@@ -1,0 +1,3 @@
+# Git: https://pagure.io//389-admin.git
+version=3
+http://www.port389.org/binaries/389-admin-([0-9.]+)\.tar\.bz2

@@ -1,0 +1,26 @@
+Source: erlang-rebar3
+Maintainer: hede <kolab983@der-he.de>
+Section: devel
+Priority: optional
+Standards-Version: 3.9.4
+Homepage: https://github.com/erlang/rebar3
+Build-Depends: debhelper (>= 9), dh-rebar, erlang-dev, erlang-tools, erlang-crypto, erlang-public-key, erlang-erlware-commons, erlang-bbmustache, erlang-certifi, erlang-providers, erlang-relx, erlang-cf, erlang-eunit-formatters, erlang-cth-readable, erlang-getopt, erlang-ssl-verify-hostname, erlang-ssl-verify-fun, erlang-dialyzer
+
+Package: erlang-rebar3
+Architecture: any
+Section: devel
+Priority: optional
+Depends: ${misc:Depends}, ${shlibs:Depends},
+	erlang-base | erlang-base-hipe,
+	erlang-dev, erlang-tools, erlang-dialyzer, erlang-erlware-commons,
+  erlang-bbmustache,
+  erlang-relx, erlang-getopt, erlang-providers, erlang-cf, erlang-asn1,
+  erlang-public-key, erlang-ssl, erlang-inets
+Recommends: git, mercurial
+Enhances: erlang
+Description: Rebar3 is an Erlang tool that makes it easy to create, develop, 
+ and release Erlang libraries, applications, and systems in a repeatable manner.
+ Rebar3 is also a self-contained Erlang script. It is easy to distribute or 
+ embed directly in a project. Tasks or behaviours can be modified or expanded 
+ with a plugin system flexible enough that even other languages on the Erlang
+ VM will use it as a build tool.

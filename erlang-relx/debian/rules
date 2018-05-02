@@ -1,0 +1,69 @@
+#!/usr/bin/make -f
+
+APPNAME=relx
+VERSION=3.21.1
+
+define mod_app_src
+A = "src/$(APPNAME).app.src",
+{ok, [{application, $(APPNAME), L}]} = file:consult(A),
+file:write_file(A, io_lib:format("{application, $(APPNAME), ~p}.~n", [[{vsn, "$(VERSION)"}|proplists:delete(vsn, L)]])),
+halt().
+endef
+export mod_app_src
+
+define write_config
+{ok, L} = file:consult("rebar.config"),
+file:write_file("$(APPNAME).rebar.config",
+                lists:map(fun(E) -> [io_lib:print(E), ".\n"] end,
+                          [{erl_opts, [slim, inline, no_debug_info, nowarn_deprecated_function|lists:delete(debug_info, proplists:get_value(erl_opts, L, []))]},
+                           {eunit_opts, [nowarn_deprecated_function|proplists:get_value(eunit_opts, L, [])]}
+                           |lists:foldl(fun proplists:delete/2, L, [deps, erl_opts, eunit_opts, cover_enabled])])),
+halt().
+endef
+export write_config
+
+ifeq "$(PKG_VERSION)" ""
+PKG_VERSION=$(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9.]+)(\+dfsg)?.*$$/\1/p')
+endif
+
+ifeq "$(PKG_NAME)" ""
+PKG_NAME=$(shell dpkg-parsechangelog | sed -rne 's/^Source: erlang-(.*)/\1/p')
+endif
+E_PKG_NAME=$(shell echo $(PKG_NAME) | sed -e 's/-/_/g')
+DEB_PKG=erlang-$(PKG_NAME)
+
+%:
+	dh $@ --buildsystem=rebar --with rebar
+
+override_dh_auto_configure:
+	#sed -i -r '1s|^.*/env[[:blank:]]+(.*)$$|#!%_bindir/\1|' priv/templates/install_upgrade_escript
+	sed -i -r '1s|^.*/env[[:blank:]]+(.*)$$|#/usr/bin/\1|' priv/templates/install_upgrade_escript
+	#@echo "$$mod_app_src"
+	erl -noshell -eval "$$mod_app_src"
+	#@echo "$$write_config"
+	erl -noshell -eval "$$write_config"
+	mv rebar.config rebar.config.ori
+	mv relx.rebar.config rebar.config
+	dh_auto_configure
+
+#override_dh_auto_build:
+#	dh_auto_build
+
+override_dh_auto_test:
+	HOME=/tmp rebar eunit 
+	dh_auto_test
+
+override_dh_install:
+	install -d debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/priv/templates
+	install priv/templates/* debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/priv/templates/
+	#install -m 644 priv/templates/* debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/priv/templates/
+	install -d debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/examples
+	install examples/* debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/examples/
+	install -d debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/include
+	install include/* debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/include/
+	install -d debian/tmp/usr/bin
+	install -m 0755 bin/relx debian/tmp/usr/bin
+	echo usr/bin >> debian/$(DEB_PKG).install
+	echo usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/examples >> debian/$(DEB_PKG).install
+	echo usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/include >> debian/$(DEB_PKG).install
+	dh_install

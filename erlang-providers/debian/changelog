@@ -1,0 +1,5 @@
+erlang-providers (1.6.0-1) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Mon, 05 Jun 2017 17:11:44 +0200

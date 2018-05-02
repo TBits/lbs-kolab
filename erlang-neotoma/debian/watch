@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/neotama-$1.tar.gz/,dversionmangle=s/\+dfsg// \
+https://github.com/seancribbs/neotoma/tags .*/(\d[\d\.]+)\.tar\.gz

@@ -1,0 +1,5 @@
+erlang-getopt (0.8.2+dfsg-1) unstable; urgency=low
+
+  * Initial release. (Closes: #800565)
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Mon, 05 Oct 2015 23:33:46 +0900

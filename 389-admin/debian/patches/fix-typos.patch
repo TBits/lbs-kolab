@@ -1,0 +1,60 @@
+Description: Fix typos (found by Lintian).
+Author: Benjamin Drung <benjamin.drung@profitbricks.com>
+
+--- a/lib/base/nscputil.cpp
++++ b/lib/base/nscputil.cpp
+@@ -85,7 +85,7 @@ static char *win_char_converter(const ch
+ extern "C" {
+ #endif
+ 
+-static char *convertor( const char *src, int fromUtf8 );
++static char *converter( const char *src, int fromUtf8 );
+ #ifndef _WIN32
+ static const char *GetCurrentCharset(void);
+ #endif
+@@ -1089,14 +1089,14 @@ GetCurrentCharset(void)
+ 
+ #ifdef _WIN32
+ static char *
+-convertor( const char *src, int fromUtf8 )
++converter( const char *src, int fromUtf8 )
+ {
+     return win_char_converter( src, fromUtf8 );
+ }
+ #else /* _WIN32 */
+ 
+ static char *
+-convertor( const char *src, int fromUtf8 )
++converter( const char *src, int fromUtf8 )
+ {
+     const char   *src_charset = NULL;
+     iconv_t             convdesc;
+@@ -1124,7 +1124,7 @@ convertor( const char *src, int fromUtf8
+     if ( (iconv_t)-1 == convdesc ) {
+         if ( errno == EINVAL ) {
+             fprintf( stderr, "%s: conversion from %s to %s is not supported\n",
+-                "convertor", src_charset, UTIL_CHARSET_UTF8 );
++                "converter", src_charset, UTIL_CHARSET_UTF8 );
+         } else {
+             perror( src_charset );
+         }
+@@ -1224,7 +1224,7 @@ util_local_to_utf8(const char *src)
+     } else if ( *src == '\0' ) {        /* trivial case # 2 */
+         utf8 = strdup( "" );
+     } else {
+-        utf8 = convertor( src, 0 );  /* the real deal */
++        utf8 = converter( src, 0 );  /* the real deal */
+         if ( utf8 == NULL ) {
+             utf8 = strdup ( src );
+         }
+--- a/mod_admserv/mod_admserv.c
++++ b/mod_admserv/mod_admserv.c
+@@ -1262,7 +1262,7 @@ task_update_registry_server_bindpw(char
+ 
+    if (!adminDN) {
+       ap_log_error(APLOG_MARK, APLOG_ERR, 0, NULL,
+-         "failed to retreive admin user DN");
++         "failed to retrieve admin user DN");
+       goto bailout;
+    }
+ 

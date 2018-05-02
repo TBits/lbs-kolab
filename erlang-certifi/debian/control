@@ -1,0 +1,16 @@
+Source: erlang-certifi
+Section: devel
+Priority: extra
+Maintainer: Christoph Erhardt <kolab@sicherha.de>
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 9), erlang, rebar
+Homepage: https://github.com/certifi/erlang-certifi
+
+Package: erlang-certifi
+Architecture: any
+Section: devel
+Depends: ${misc:Depends},
+	erlang-base | erlang-base-hipe
+Description: SSL Certificates for Erlang
+ This Erlang library contains a CA bundle that you can reference in your Erlang
+ application.

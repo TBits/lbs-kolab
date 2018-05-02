@@ -1,0 +1,7 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: certifi
+Source: https://github.com/tsloughter/providers
+
+Files: *
+Copyright: 2007 Free Software Foundation, Inc. <http://fsf.org/>
+License: LGPL-3
