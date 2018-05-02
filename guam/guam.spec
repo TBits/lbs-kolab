@@ -7,9 +7,6 @@
 %global realname kolab_guam
 %global binname guam
 
-%global guam_user guam
-%global guam_group guam
-
 %if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
 %global with_systemd 0
 %else
@@ -22,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.4
-Release:            3%{?dist}
+Release:            4%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -65,9 +62,6 @@ BuildRequires:      erlang-tools
 BuildRequires:      erlang-wx
 BuildRequires:      erlang-xmerl
 
-Requires(pre):      shadow-utils
-Requires(postun):   shadow-utils
-
 Requires:           %lock_version erlang
 Requires:           %lock_version erlang-eimap
 Requires:           %lock_version erlang-goldrush
@@ -94,7 +88,7 @@ Requires(preun):    initscripts
 %endif
 
 %description
-Guam is a smart, unjustly outcasted Reverse IMAP Proxy that lives at
+Guam is a smart, unjustly outcast Reverse IMAP Proxy that lives at
 the perimeter of your IMAP environment.
 
 %prep
@@ -127,7 +121,7 @@ mkdir -p \
     %{buildroot}%{_sysconfdir}/%{name}/ \
     %{buildroot}%{_sbindir} \
     %{buildroot}%{_erldir}/bin/ \
-    %{buildroot}%{_erllibdir}/%{name}-%{version}/ \
+    %{buildroot}%{_erllibdir}/%{realname}-%{version}/ \
 %if 0%{?with_systemd}
     %{buildroot}%{_unitdir}/ \
 %else
@@ -154,48 +148,37 @@ pushd %{buildroot}%{_erldir}/bin/
 ln -s ../lib/%{realname}-%{version}/bin/%{binname} %{realname}
 popd
 
-cp -a _build/default/rel/%{name}/bin %{buildroot}%{_erllibdir}/%{name}-%{version}/
-cp -a _build/default/rel/%{name}/lib/%{realname}-%{version}/ebin/ %{buildroot}%{_erllibdir}/%{name}-%{version}/
-cp -a _build/default/rel/%{name}/releases/ %{buildroot}%{_erllibdir}/%{name}-%{version}/
+cp -a _build/default/rel/%{name}/bin %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+cp -a _build/default/rel/%{name}/lib/%{realname}-%{version}/ebin/ %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+cp -a _build/default/rel/%{name}/releases/ %{buildroot}%{_erllibdir}/%{realname}-%{version}/
 
 %if 0%{?plesk}
 install -m 644 -p %{SOURCE100} %{buildroot}%{_sysconfdir}/guam/sys.config
 %endif
 
-pushd %{buildroot}%{_erllibdir}/%{name}-%{version}/releases/%{version}/
+pushd %{buildroot}%{_erllibdir}/%{realname}-%{version}/releases/%{version}/
 rm sys.config vm.args
 ln -sv ../../../../../../..%{_sysconfdir}/%{name}/sys.config sys.config
 ln -sv ../../../../../../..%{_sysconfdir}/%{name}/vm.args vm.args
 popd
 
-pushd %{buildroot}%{_erllibdir}/%{name}-%{version}/
+pushd %{buildroot}%{_erllibdir}/%{realname}-%{version}/
 ln -s ../../lib lib
 popd
 
 cat > %{buildroot}%{_sbindir}/%{name} << EOF
 #!/bin/bash
-exec %{_erllibdir}/%{name}-%{version}/bin/%{binname} \$*
+exec %{_erllibdir}/%{realname}-%{version}/bin/%{binname} \$*
 EOF
 
 %check
 # Hopeless on -0.9
 rebar3 eunit -v || :
 
-%pre
-if [ $1 == 1 ]; then
-    /usr/sbin/groupadd --system %{guam_group} 2> /dev/null || :
-    /usr/sbin/useradd -c "Guam Service" -d /opt/kolab_guam -g %{guam_group} \
-        -s /sbin/nologin --system %{guam_user} 2> /dev/null || :
-fi
-
 %postun
 %if 0%{?with_systemd}
 %systemd_postun
 %endif
-if [ $1 == 0 ]; then
-    /usr/sbin/userdel %{guam_user} 2>/dev/null || :
-    /usr/sbin/groupdel %{guam_group} 2>/dev/null || :
-fi
 
 %if 0%{?with_systemd}
 %post
@@ -230,8 +213,8 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %config(noreplace) %{_sysconfdir}/%{name}/vm.args
 %attr(0750,root,root) %{_sbindir}/%{name}
 %{_libdir}/erlang/bin/%{realname}
-%{_libdir}/erlang/lib/%{name}-%{version}
-%attr(0640,%{guam_user},%{guam_group}) %{_var}/log/%{name}/
+%{_libdir}/erlang/lib/%{realname}-%{version}
+%attr(0640,root,root) %{_var}/log/%{name}/
 
 %if 0%{?with_systemd}
 %{_unitdir}/%{name}.service
@@ -240,6 +223,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Sat Apr 21 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-4
+- Fix packaging, dependencies and more stuff
+
 * Thu Apr 19 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-3
 - Use script rather than symlink
 

@@ -3,12 +3,34 @@
 include /usr/share/dpkg/pkg-info.mk
 
 DESTDIR = $(CURDIR)/debian/guam
+BUNDLEDIR = $(CURDIR)/debian/guam-bundled-libs
+
+# The versions of all dependencies are hardcoded by relx (which honestly sucks).
+# The following magic tries to ensure that the Debian package's dependencies are
+# pinned  to the versions present on the build machine. If the dependencies
+# cannot be satisfied on the end user's machine - for instance because a
+# different Erlang version was installed from backports - we make the package
+# manager pull in an extra package "guam-bundled-libs" that contains all the
+# dependencies in the exact versions expected by relx.
+# For maintainers, this means: please revision-bump this package every time one
+# of its dependencies gets version-bumped.
+GBL := guam-bundled-libs (= $(DEB_VERSION))
+currver = $(shell dpkg-query -f '$${Version}' -W $(1) | sed 's/[+-].*$$//')
+nextver = $(shell echo $(call currver,$(1)) | perl -pe 's/((\d+\.)*)(\d+)$$/$$1.($$3+1)/e')
+pinvermin = $(1) (>= $(call currver,$(1)))
+pinvermax = $(1) (<< $(call nextver,$(1)))
+pinvererlmin = $(1) (>= $(call currver,erlang))
+pinvererlmax = $(1) (<< $(call nextver,erlang))
+altbundle = $(call pinvermin,$(1)) | $(GBL), $(call pinvermax,$(1)) | $(GBL)
+SUBSTVARS += -Vdist:GuamDepends="$(call pinvererlmin,erlang-base) | $(call pinvererlmin,erlang-base-hipe) | $(GBL), $(call pinvererlmax,erlang-base) | $(call pinvererlmax,erlang-base-hipe) | $(GBL), $(call altbundle,erlang-asn1), $(call altbundle,erlang-eimap), $(call altbundle,erlang-inets), $(call altbundle,erlang-lager), $(call altbundle,erlang-lager-syslog), $(call altbundle,erlang-public-key)"
+SUBSTVARS += -Vdist:BundleConflicts="$(call pinvererlmax,erlang-base), $(call pinvererlmax,erlang-base-hipe)"
 
 %:
 	dh $@ --with=systemd
 
 override_dh_auto_build:
-	sed -i 's/"0\.9\.0"/"$(DEB_VERSION_UPSTREAM)"/' rebar.config
+	sed -i -e 's/"0\.9\.0"/"$(DEB_VERSION_UPSTREAM)"/' \
+	       -e 's/include_erts,\s*false/include_erts, true/' rebar.config
 	export DEBUG=1
 	export HEX_OFFLINE=1
 	rebar3 release \
@@ -23,23 +45,24 @@ override_dh_auto_test:
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/sbin $(DESTDIR)/etc/guam \
 		$(DESTDIR)/lib/systemd/system $(DESTDIR)/var/log/ \
-		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/ \
+		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/ \
 		$(DESTDIR)/usr/lib/erlang/bin $(DESTDIR)/var/log/guam
+	chmod o= $(DESTDIR)/var/log/guam
 
 	install -p -m 644 contrib/guam.service \
 	        $(DESTDIR)/lib/systemd/system/guam.service
 
 	cp -a _build/default/rel/guam/bin \
-		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/
+		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
 
 	cp -a _build/default/rel/guam/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/ebin \
-		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/
+		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
 
 	rm _build/default/rel/guam/releases/$(DEB_VERSION_UPSTREAM)/sys.config
 	rm _build/default/rel/guam/releases/$(DEB_VERSION_UPSTREAM)/vm.args
 
 	cp -a _build/default/rel/guam/releases \
-		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/
+		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
 
 	if [ -f "/etc/plesk-release" ]; then \
 		cp ../SOURCES/plesk.sys.config \
@@ -54,20 +77,32 @@ override_dh_auto_install:
 	fi
 
 	ln -s ../../../../../../../etc/guam/sys.config \
-		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/sys.config
+		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/sys.config
 
 	cp _build/default/rel/guam/vm.args $(DESTDIR)/etc/guam/vm.args
 
 	ln -s ../../../../../../../etc/guam/vm.args \
-		$(DESTDIR)/usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/vm.args
+		$(DESTDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/releases/$(DEB_VERSION_UPSTREAM)/vm.args
 
-	#mv $(DESTDIR)//usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/log/ $(DESTDIR)/var/log/guam
-	#ln -s ../../../../../var/log/guam /usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/log
+	#mv $(DESTDIR)//usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/log/ $(DESTDIR)/var/log/guam
+	#ln -s ../../../../../var/log/guam /usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/log
 
 	echo '#!/bin/bash' > $(DESTDIR)/usr/sbin/guam
-	echo 'exec /usr/lib/erlang/lib/guam-$(DEB_VERSION_UPSTREAM)/bin/guam $$*' \
+	echo 'exec /usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/bin/guam $$*' \
 	     >> $(DESTDIR)/usr/sbin/guam
 	chmod +x $(DESTDIR)/usr/sbin/guam
 
-	ln -s ../lib/guam-$(DEB_VERSION_UPSTREAM)/bin/guam \
+	ln -s ../lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/bin/guam \
 		$(DESTDIR)/usr/lib/erlang/bin/kolab_guam
+
+	# Bundled runtime system and libraries
+	mkdir -p $(BUNDLEDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)
+	cp -a _build/default/rel/guam/erts-* \
+		$(BUNDLEDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
+	cp -a _build/default/rel/guam/lib \
+		$(BUNDLEDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/
+	rm -r $(BUNDLEDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)
+	ln -s .. $(BUNDLEDIR)/usr/lib/erlang/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)/lib/kolab_guam-$(DEB_VERSION_UPSTREAM)
+
+override_dh_gencontrol:
+	dh_gencontrol -- $(SUBSTVARS)

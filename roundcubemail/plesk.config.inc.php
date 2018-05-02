@@ -14,12 +14,12 @@
 */
     $config['support_url'] = "https://www.plesk.com/support/";
 
-    $config['product_name'] = "Plesk Premium Mail, powered by Kolab";
+    $config['product_name'] = "Plesk Premium Email, powered by Kolab";
 
-    $config['default_host'] = "localhost";
-    $config['default_port'] = 143;
+    $config['default_host'] = "ssl://localhost";
+    $config['default_port'] = 9993;
 
-    $config['smtp_server'] = "localhost";
+    $config['smtp_server'] = "tls://localhost";
     $config['smtp_port'] = 25;
     $config['smtp_user'] = '%u';
     $config['smtp_pass'] = '%p';

@@ -1,3 +1,10 @@
+guam (0.9.4-4) unstable; urgency=medium
+
+  * Fix packaging, dependencies and more stuff
+  * Make package compatible with Erlang from backports
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sat, 21 Apr 2017 10:39:28 +0200
+
 guam (0.9.4-3) unstable; urgency=medium
 
   * Use script rather than symlink

@@ -13,6 +13,7 @@ Priority: optional
 Depends: ${misc:Depends}, ${shlibs:Depends},
 	erlang-base | erlang-base-hipe,
 	erlang-dev, erlang-tools, erlang-dialyzer, erlang-erlware-commons,
+  erlang-bbmustache,
   erlang-relx, erlang-getopt, erlang-providers, erlang-cf, erlang-asn1,
   erlang-public-key, erlang-ssl, erlang-inets
 Recommends: git, mercurial
