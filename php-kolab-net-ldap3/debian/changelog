@@ -1,3 +1,10 @@
+php-net-ldap3 (1.0.6-1~kolab1) unstable; urgency=low
+
+  * Release version 1.0.6
+  * Add upstream patches
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Wed, 02 May 2018 21:53:23 +0200
+
 php-net-ldap3 (1.0.4-0~kolab2) unstable; urgency=low
 
   * Adjust dependencies for future Debian/Ubuntu releases

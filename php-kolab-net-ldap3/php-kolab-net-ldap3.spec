@@ -24,7 +24,7 @@ Name:               php5-Net_LDAP3
 %else
 Name:               php-kolab-net-ldap3
 %endif
-Version:            1.0.4
+Version:            1.0.6
 Release:            2%{?dist}
 Summary:            Object oriented interface for searching and manipulating LDAP-entries
 Group:              Development/Libraries
@@ -33,7 +33,9 @@ URL:                https://kolab.org
 
 Source0:            pear-Net-LDAP3-%{version}.tar.gz
 
-Patch0001:          0001-Ensure-that-multi-valued-attributes-have-sequential-.patch
+Patch0001:          0001-Improve-setup-of-the-schema-cache-location.patch
+Patch0002:          0002-Fix-regression-in-setting-LDAP-cache-file-path.patch
+Patch0003:          0003-Fix-bug-where-ldapsearch-command-was-failing-when-co.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:          noarch
@@ -43,6 +45,7 @@ Requires:           php-ldap
 Requires:           php-pear(Net_LDAP2)
 Obsoletes:          php-pear(%{pear_name}) < %{version}-%{release}
 Provides:           php-pear(%{pear_name}) = %{version}-%{release}
+Obsoletes:          php-Net-LDAP3 < %{version}-%{release}
 
 %description
 Net_LDAP3 is an LDAPv3 compatible enhancement to Net_LDAP2
@@ -51,6 +54,8 @@ Net_LDAP3 is an LDAPv3 compatible enhancement to Net_LDAP2
 %setup -q -n pear-Net-LDAP3-%{version}
 
 %patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
 
 %build
 
@@ -74,6 +79,13 @@ rm -rf %{buildroot}
 %{_datadir}/%{php}/Net/LDAP3/Result.php
 
 %changelog
+* Thu May 03 2018 Christoph Erhardt <kolab@sicherha.de> - 1.0.6-2
+- Fix upgrade path
+
+* Wed May 02 2018 Christoph Erhardt <kolab@sicherha.de> - 1.0.6-1
+- New upstream release 1.0.6
+- Add upstream patches
+
 * Thu Oct 22 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.0.4-2
 - Ensure multi-valued attributes have sequential indexes
 
