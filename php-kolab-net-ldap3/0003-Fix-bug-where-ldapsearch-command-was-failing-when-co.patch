@@ -1,0 +1,29 @@
+From 56210fdaec70bc1f8f7455a75a6cd34e3a2f7e6d Mon Sep 17 00:00:00 2001
+Message-Id: <56210fdaec70bc1f8f7455a75a6cd34e3a2f7e6d.1525290244.git.christoph@terra.fritz.box>
+In-Reply-To: <d2d74d6aaa43af3dd1735d5afdc51ccd2f78e837.1525290244.git.christoph@terra.fritz.box>
+References: <d2d74d6aaa43af3dd1735d5afdc51ccd2f78e837.1525290244.git.christoph@terra.fritz.box>
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Tue, 26 Dec 2017 08:13:24 +0000
+Subject: [PATCH 3/3] Fix bug where ldapsearch command was failing when
+ configured host contained protocol schema prefix
+
+---
+ lib/Net/LDAP3.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/Net/LDAP3.php b/lib/Net/LDAP3.php
+index 937c785..b12185f 100644
+--- a/lib/Net/LDAP3.php
++++ b/lib/Net/LDAP3.php
+@@ -738,7 +738,7 @@ class Net_LDAP3
+                 $moz_ldapsearch,
+                 '-x',
+                 '-h',
+-                $this->_current_host,
++                preg_replace('|^[a-z]+://|i', '', $this->_current_host),
+                 '-p',
+                 $this->config_get('port', 389),
+                 '-b',
+-- 
+2.14.1
+

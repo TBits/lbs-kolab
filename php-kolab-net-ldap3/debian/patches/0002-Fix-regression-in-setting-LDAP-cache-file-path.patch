@@ -1,0 +1,30 @@
+From 858fd6076366626b6ff45e8bdf57dedeb210ce34 Mon Sep 17 00:00:00 2001
+Message-Id: <858fd6076366626b6ff45e8bdf57dedeb210ce34.1525290244.git.christoph@terra.fritz.box>
+In-Reply-To: <d2d74d6aaa43af3dd1735d5afdc51ccd2f78e837.1525290244.git.christoph@terra.fritz.box>
+References: <d2d74d6aaa43af3dd1735d5afdc51ccd2f78e837.1525290244.git.christoph@terra.fritz.box>
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Tue, 26 Dec 2017 08:10:41 +0000
+Subject: [PATCH 2/3] Fix regression in setting LDAP cache file path
+
+---
+ lib/Net/LDAP3.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/Net/LDAP3.php b/lib/Net/LDAP3.php
+index b5dcae3..937c785 100644
+--- a/lib/Net/LDAP3.php
++++ b/lib/Net/LDAP3.php
+@@ -2150,8 +2150,8 @@ class Net_LDAP3
+ 
+             $_ldap_schema_cache_cfg = array(
+                 'max_age' => 86400,
+-                'path' => sprintf('%s/%s:%d-Net_LDAP2_Schema.cache',
+-                    (sys_get_temp_dir() ?: '/tmp'), str_replace('://', ':', $host) . (strpos($host, ":$port") ? '' : ":$port")),
++                'path' => sprintf('%s/%s-Net_LDAP2_Schema.cache',
++                    sys_get_temp_dir() ?: '/tmp', str_replace('://', ':', $host) . (strpos($host, ":$port") ? '' : ":$port")),
+             );
+ 
+             $_ldap = Net_LDAP2::connect($_ldap_cfg);
+-- 
+2.14.1
+
