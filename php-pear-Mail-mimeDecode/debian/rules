@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --buildsystem=phppear --with phppear
+
+override_dh_auto_configure:
+	dh_auto_configure -O--buildsystem=phppear
+	sed -i '/role="test"/d;' */package.xml
+

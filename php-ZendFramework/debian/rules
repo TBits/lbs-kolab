@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+%:
+	dh $@ --with phpcomposer
+
+override_dh_install:
+	dh_install
+	install -D -m 0755 bin/zf.sh debian/zendframework-bin/usr/bin/zf
+
+override_dh_installchangelogs:
+	dh_installchangelogs $(CURDIR)/debian/upstream/changelog
+
+override_dh_fixperms:
+	dh_fixperms
+	find debian/zendframework/usr/share/php/Zend -type f -executable | xargs chmod 0644
+
+get-orig-source:
+	uscan --verbose --rename --force

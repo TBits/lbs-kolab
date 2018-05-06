@@ -1,0 +1,217 @@
+Jul 13, 2016 - release-1.12.19
+
+Security Updates
+
+    ZF2016-02: The implementation of ORDER BY and GROUP BY in Zend_Db_Select contained potential SQL injection vulnerabilities, and have been patched.
+
+
+Apr 13, 2016 - release-1.12.18
+
+    575: Please Remove YouTube Zend GData Page
+    607: PHP7 debug_backtrace BC break
+    628: Solve problem with subqueries in SELECT block
+    637: List-separator attribute is not being unset for MultiCheckboxes due to a typo.
+    641: Wrong regex pattern in Zend_Validate_Iban class
+    647: VERSION constant incorrect for 1.12.17 release tag.
+    649: ZF2015-09: The Zend_Crypt_MathTest should run on PHP 5.2/5.3
+    651: Update Vagrantfile to use Rasmus' php7 box
+    655: ZF2015-08 breaks binary data
+    656: zf1-extra is missing in release-1.12.17
+    670: Fix for 655 issue
+    677: Wrong PHPDoc in Zend_Mail
+    679: Non-existing method getRequired() in Zend_Form-Elements docs
+    683: Zend_Form_Element_Button::isChecked has wrong documentation
+
+SECURITY UPDATES
+
+    ZF2016-01: A number of classes, including Zend_Filter_Encrypt, Zend_Form_Element_Hash, Zend_Gdata_HttpClient, Zend_Ldap_Attribute, and Zend_OpenId, were using randomization methods with insufficient entropy. They have been updated to each use Zend_Crypt_Math, and the latter was updated to use PHP 7's random_bytes() and random_int() where feasible.
+
+
+Nov 23, 2015 - release-1.12.17
+
+    638: Fixes null byte tests in Zend_Db_Adapter_Pdo
+    632: Updates the TLD list for Zend_Validate_Hostname to version 2015102801
+
+SECURITY UPDATES
+
+    ZF2015-09: Zend_Captcha_Word generates a "word" for a CAPTCHA challenge by selecting a sequence of random letters from a character set. Prior to this version, the selection was performed using PHP's internal array_rand() function. This function does not generate sufficient entropy due to its usage of rand() instead of more cryptographically secure methods such as openssl_pseudo_random_bytes(). This could potentially lead to information disclosure should an attacker be able to brute force the random number generation. This release updates Zend_Crypt_Math to provide cryptographically secure RNG, and updates Zend_Captcha_Word to use these new facilities.
+
+
+Sep 15, 2015 - release-1.12.16
+
+    504: Cannot parse huge documents in Zend_Dom_Query
+    599: Wrong return type in DocBlock of Zend_Console_Getopt::getOption()
+    600: Undefined property $config in Zend_Http_Client_Adapter_Curl
+    604: add doccomments to Zend_Log covering its magic methods
+    606: Fix typo in Zend_Cache-Backends documentation.
+    610: Add ß (Latin small letter sharp s) to .de domain IDNA check
+    612: Zend_Validate_Hostname does not validate NTP hostnames starting with '0' character
+
+SECURITY UPDATES
+
+    ZF2015-07: A number of components, including Zend_Cloud, Zend_Search_Lucene, and Zend_Service_WindowsAzure were creating directories with a liberal umask that could lead to local arbitrary code execution and/or local privilege escalation. This release contains a patch that ensures the directories are created using permissions of 0775 and files using 0664 (essentially umask 0002).
+
+    ZF2015-08: ZF2014-06 uncovered an issue in the sqlsrv adapter provided by the framework whereby null bytes were not filtered correctly when generating SQL. A reporter discovered the same vulnerability is present in our PDO implementation when used with pdo_dblib, and could potentially be applied to other PDO adapters. This release contains a patch to properly escape null bytes used in SQL queries across all PDO adapters shipped with the framework.
+
+
+Aug 11, 2015 - release-1.12.15
+    582: Incorrect application of timeout option in curl http client adapter
+    587: "Invalid header line detected" error if HTTP header value is empty
+    591: ZF2015-06 fix broke the ZF on PHP 5.2
+    593: fix typo in PHPDoc @throws annotation of Zend_Registry::get()
+    595: Removing annoying warning.
+    597: Fix setting of CURLOPT_TIMEOUT
+
+
+Aug 3, 2015 - release-1.12.14
+
+    492: Fix regexp to detect functions in column definition
+    597: Test that e-mail on non-reserved IP is valid
+    580: Azerbaijani language pluralization rule is wrong
+    551: Drop DeveloperGarden API implementation as it shuts down on 30th June 2015
+    583: Fix typo in Zend_Validate_EmailAddress
+    553: Drop Technorati API implementation as it is no longer available
+
+SECURITY UPDATES
+
+    ZF2015-06: ZendXml runs a heuristic detection for XML Entity Expansion and XML eXternal Entity vectors when under php-fpm, due to issues with threading in libxml preventing using that library's built-in mechanisms for disabling them. However, the heuristic was determined to be faulty when multibyte encodings are used for the XML. This release contains a patch to ensure that the heuristic will work with multibyte encodings.
+
+
+May 20, 2015 - release-1.12.13
+
+    567: Cast int and float to string when creating headers
+
+
+May 19, 2015 - release-1.12.12
+
+    493: PHPUnit not being installed
+    511: Add PATCH to the list of allowed methods in Zend_Controller_Request_HttpTestCase
+    513: Save time and space when cloning PHPUnit
+    515: !IE conditional comments bug
+    516: Zend_Locale does not honor parentLocale configuration
+    518: Run travis build also on PHP 7 builds
+    534: Failing unit test: Zend_Validate_EmailAddressTest::testIdnHostnameInEmaillAddress
+    536: Zend_Measure_Number convert some decimal numbers to roman with space char
+    537: Extend view renderer controller fix (#440)
+    540: Fix PHP 7 BC breaks in Zend_XmlRpc/Amf_Server
+    541: Fixed errors in tests on PHP7
+    542: Correctly reset the sub-path when processing routes
+    545: Fixed path delimeters being stripped by chain routes affecting later routes
+    546: TravisCI: Skip memcache(d) on PHP 5.2
+    547: Session Validators throw 'general' Session Exception during Session start
+    550: Notice "Undefined index: browser_version"
+    557: doc: Zend Framework Dependencies table unreadable
+    559: Fixes a typo in Zend_Validate messages for SK
+    561: Zend_Date not expected year
+    564: Zend_Application tries to load ZendX_Application_Resource_FrontController during instantiation
+
+SECURITY UPDATES
+
+    ZF2015-04: Zend_Mail and Zend_Http were both susceptible to CRLF Injection Attack vectors (for HTTP, this is often referred to as HTTP Response Splitting). Both components were updated to perform header value validations to ensure no values contain characters not detailed in their corresponding specifications, and will raise exceptions on detection. Each also provides new facilities for both validating and filtering header values prior to injecting them into header classes. If you use either Zend_Mail or Zend_Http, we recommend upgrading immediately.
+
+
+Feb 11, 2015 - release-1.12.11
+
+    491: [Zend_Translate\ Extend PHPDocumentation to cover 'magic' behavior
+    502: Added @method PHPDocumentation to allow IDE code-completion
+    506: View renderer controller name fix breaks use of custom dispatcher
+
+
+14 Jan 2015 - release-1.12.10
+
+    1: isLast not working as expected in Zend_Service_Amazon_SimpleDb_Page
+    8: Zend_Loader_ClassMapAutoloader is not auto included when using Zend_Loader_AutoloaderFactory::factory
+    15: Zend_Db_Table_Abstract::delete does not delete from dependent table
+    32: Zend_Soap_Client has no 'exceptions' flag.
+    62: Zend_Validate_EmailAddress->_validateMXRecords() fails on Umlaut-Domains
+    187: Zend_Rest_Server does not properly handle optional parameters when anonymous (arg1, etc) parameters are passed in
+    322: Zend_Validate_Hostname: disallowed Unicode code point
+    324: SlideShare API change some tag names.
+    345: CallbackHandler throws warning if WeakRef-extension not installed
+    377: Zend_Console_Getopt: Missing required parameter consumes next option as its parameter value
+    400: PHPUnit contraints: use real class names to help classmap generators
+    426: Use relative filenames for _validIdns for direct include in Zend_Validate_Hostname
+    434: Corrected type of property _currentRoute
+    440: Zend_Controller_Dispatcher_Abstract::_formatName() inconsistent with Action name handling
+    441: Loosen regex to allow nested function calls in SQL
+    444: Update Zend_Validate_Hostname TLDs list to 2014102301 version
+    446: fix typo unkown -> unknown
+    448: fix travis ci build for php 5.2
+    449: Zend_Date doesn't create correct date when seconds are missing from 8601 format
+    452: "fluent", not "fluid"
+    453: Zend_Cache_Backend_Memcached looks at "bytes", but Couchbase 1.x returns "mem_used"
+    456: Documentation of Zend_Feed_Pubsubhubbub_Model_ModelAbstract
+    458: Fixed bug in quoteInto with $count parameter and question sign in $value
+    461: CDATA section for category elements in RSS feed
+    465: Zend_Currency creates invalid cache ids for values with fractions
+    467: debug_backtrace() called twice when only once needed
+    468: Zend_Validate_Hostname improvements
+    469: [Zend_Validate\ Testcase for #322
+    471: End of life for PHPUnit installation using pear
+    475: Zend Json Server Exception is missing the method name
+    478: Create .gitattributes to mirror archive { } in composer.json
+    480: Virtual machine doesn't install initial packages
+    483: Update copyright to 2015
+    484: Adds content headers on POST request in Zend_Controller_Request_HTTP
+    487: Allow overriding cache id and tag validation in Zend_Cache
+    488: Zend_Dojo_View_Helper_Dojo_Container setCdnVersion error...
+    490: Added more specific return documentation for Zend_Navigation Pages
+
+
+16 Sep 2014 - release-1.12.9
+
+    372: Zend_Db_Adapter_Sqlsrv is vulnerable to null byte input
+    423: Zend_Validate_NotEmpty::isValid() generates notice when validating empty array
+    430: zh_HK locale cannot identify Integer
+
+SECURITY UPDATES
+
+    ZF2014-05: Due to an issue that existed in PHP's LDAP extension, it is possible to perform an unauthenticated simple bind against a LDAP server by using a null byte for the password, regardless of whether or not the user normally requires a password. We have provided a patch in order to protect users of unpatched PHP versions (PHP 5.5 <= 5.5.11, PHP 5.4 <= 5.4.27, all versions of PHP 5.3 and below). If you use Zend\Ldap and are on an affected version of PHP, we recommend upgrading immediately.
+    ZF2014-06: A potential SQL injection vector existed when using a SQL Server adapter to manually quote values due to the fact that it was not escaping null bytes. Code was added to ensure null bytes are escaped, and thus mitigate the SQLi vector. We do not recommend manually quoting values, but if you do, and use the SQL Server adapter without PDO, we recommend upgrading immediately.
+
+
+26 Aug 2014 - release-1.12.8
+
+#418 can introduce potential BC breaks in the presence of complex SQL statements (for instance using SQL sub-functions). To fix this, use Zend_Db_Expr in group(), order(), or from() method calls.
+
+    54: Zend_Loader invalid links, missing docs
+    98: Allow editing and flattening of text form fields within PDF documents
+    244: Zend_Oauth_Client: Consider multipart/form-data
+    270: Missing class Zend_Service_Console_Command
+    277: Patch two level cache updates
+    289: Zend_Date milliseconds bug
+    342: Zend_Locale_Format::getFloat does not handle exponential notation ("1e-2" returns -100 instead of 0.01)
+    348: Fixed bug - do not allow invalid hostname with double dots i.e. zend..com
+    354: CLDR v25 released
+    363: Zend_Locale_Data::disableCache(true) is always reset
+    364: Fix convertPhpToIsoFormat
+    365: Fix for array to string conversion error in Zend_Validate_Abstract
+    368: Zend_Validate_Hostname: invalidates long TLDs above 10 characters (latest IANA TLDs)
+    375: Fixes #374 - Implement Zend_Pdf::getJavascript() and Zend_Pdf::setJavascript()
+    378: ZF-1.12.7 breaks code when using multi column ordering
+    382: Proper cleaning of File cache files in cleaning mode ALL
+    385: Serialized DateTime includes fractions of seconds since 5.6.0beta4
+    390: Zend_Locale_Format::_getEncoding() is missing a return statement
+    394: Validate_Hostname: Punycode decoding fails if encoded string has not hyphen
+    399: Argument 4 to hash_hmac() must be of type ?bool, int given
+    402: [Http\ Multiple fixes related to the curl adapter
+    410: fix for issue 393 - always reset libxml_disable_entity_loader
+    414: Fix for 270 Missing class Zend_Service_Console_Command
+    418: Improved regex for SQL group, order, from
+
+
+12 Jun 2014 - release-1.12.7
+
+15 Apr 2014 - release-1.12.6
+
+7 Mar 2014 - release-1.12.5
+
+6 Mar 2014 - release-1.12.4
+
+27 Mar 2013 - release-1.12.3
+
+27 Mar 2013 - release-1.12.2
+
+13 Feb 2013 - release-1.12.1
+
+13 Feb 2013 - release-1.12.0
