@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.4
-Release:            4%{?dist}
+Release:            5%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -164,6 +164,7 @@ popd
 
 pushd %{buildroot}%{_erllibdir}/%{realname}-%{version}/
 ln -s ../../lib lib
+ln -s ../../../../..%{_var}/log/%{name} log
 popd
 
 cat > %{buildroot}%{_sbindir}/%{name} << EOF
@@ -223,6 +224,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Fri May 04 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-5
+- Make logs go to /var/log/guam
+
 * Sat Apr 21 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-4
 - Fix packaging, dependencies and more stuff
 

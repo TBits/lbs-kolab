@@ -1,0 +1,62 @@
+php-mail-mimedecode (1.5.6-1~kolab1) stable; urgency=medium
+
+  * Update to 1.5.6
+  * Build for Kolab
+
+ -- Christoph Erhardt <kolab@sicherha>  Sat, 05 May 2018 09:43:54 +0200
+
+php-mail-mimedecode (1.5.5-2+deb8u1) stable; urgency=medium
+
+  * Team upload.
+  * Rebuild with pkg-php-tools 1.28 (Closes: #793947)
+  * gbp.conf: target jessie
+
+ -- Mathieu Parent <sathieu@debian.org>  Thu, 17 Sep 2015 02:56:17 +0200
+
+php-mail-mimedecode (1.5.5-2) unstable; urgency=low
+
+  * Maintain the package inside the PHP PEAR team (Closes: #656982)
+  * Switch to pkg-php-tools and dh-sequencer
+  * Convert copyright to format 1.0
+  * Add myself as uploader
+  * Bump debhelper compat to 9
+  * Bump Standards-Version to 3.9.4
+
+ -- Prach Pongpanich <prachpub@gmail.com>  Wed, 24 Jul 2013 11:25:32 +0700
+
+php-mail-mimedecode (1.5.5-1) unstable; urgency=low
+
+  * New upstream release.
+      + Include fixes that closes: #286772.
+      + Include another fix that closes: #627569.
+  * Switch to 3.0 (quilt) format.
+  * Move dh-make-php in Build-Depends since it could be needed for the
+    clean target.
+
+ -- Vincent Bernat <bernat@debian.org>  Mon, 06 Jun 2011 19:35:13 +0200
+
+php-mail-mimedecode (1.5.0-3) unstable; urgency=low
+
+  * Switch to cdbs and follows draft policy for PEAR packages
+     + Add Vcs-* fields
+     + Depends on dh-make-php and cdbs
+     + Add debian/dirs
+     + Add versioned dependency on php-pear (>= 1.6.0)
+     + Debian PHP Maintainers team as Maintainer in debian/control
+  * Switch debian/copyright to machine-readable form
+
+ -- Vincent Bernat <bernat@debian.org>  Fri, 09 May 2008 11:39:15 +0200
+
+php-mail-mimedecode (1.5.0-2) unstable; urgency=low
+
+  * Add Conflicts and Replaces fields against php-mail-mime (<< 1.5.0)
+    which already contains the same class.
+
+ -- Vincent Bernat <bernat@luffy.cx>  Sun, 30 Mar 2008 08:10:11 +0200
+
+php-mail-mimedecode (1.5.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #473269)
+
+ -- Vincent Bernat <bernat@luffy.cx>  Sat, 29 Mar 2008 18:20:51 +0100
+

@@ -1,3 +1,10 @@
+guam (0.9.4-5) unstable; urgency=medium
+
+  * Add erlang-eimap to guam-bundled-libs
+  * Make logs go to /var/log/guam
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Fri, 04 May 2018 09:59:56 +0200
+
 guam (0.9.4-4) unstable; urgency=medium
 
   * Fix packaging, dependencies and more stuff

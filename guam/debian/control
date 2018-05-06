@@ -17,7 +17,6 @@ Description: Smart Reverse IMAP Proxy
 Package: guam-bundled-libs
 Architecture: any
 Section: mail
-Depends: ${misc:Depends}
-Conflicts: ${dist:BundleConflicts}
+Depends: ${misc:Depends}, ${dist:GuamBundleDepends}
 Description: Bundled runtime environment for Guam
  This is a support package for backports users.
