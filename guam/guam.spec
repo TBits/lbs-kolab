@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.4
-Release:            5%{?dist}
+Release:            6%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -224,6 +224,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Mon May 07 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-6
+- Trigger rebuild due to updated erlang-lager package
+
 * Fri May 04 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-5
 - Make logs go to /var/log/guam
 

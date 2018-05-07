@@ -8,7 +8,7 @@
 
 Name:           erlang-%{realname}
 Version:        3.2.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A logging framework for Erlang/OTP
 Group:          Development/Languages
 License:        ASL 2.0
@@ -43,6 +43,7 @@ plays nicely with traditional UNIX logging tools like logrotate and syslog.
 %setup -q -n %{realname}-%{version}
 
 %build
+sed -i 's/3\.2\.2/%{version}/' src/%{realname}.app.src
 rebar compile -v
 
 %install
@@ -68,6 +69,9 @@ rebar skip_deps=true eunit -v || :
 %{_libdir}/erlang/lib/%{realname}-%{version}/include/*.hrl
 
 %changelog
+* Mon May 07 2018 Christoph Erhardt <kolab@sicherha.de> - 3.2.4-2
+- Fix version number in lager.app
+
 * Tue Nov 22 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.2.4-1
 - Update to 3.2.4
 
