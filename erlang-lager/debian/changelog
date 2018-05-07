@@ -1,8 +1,21 @@
-erlang-lager (3.1.0-0~kolab2) unstable; urgency=medium
+erlang-lager (3.2.4-1~kolab1) unstable; urgency=medium
 
-  * Rebuild
+  * Fix version number in lager.app
+  * Adopt Debian versioning scheme (revision should start at 1)
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Mon, 07 May 2018 17:13:02 +0200
+
+erlang-lager (3.2.4-0~kolab2) unstable; urgency=medium
+
+  * Remove miscellaneous dependency on erlang-common-test
 
  -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Tue, 29 Aug 2017 21:39:31 +0100
+
+erlang-lager (3.2.4-0~kolab1) unstable; urgency=medium
+
+  * Bump version to 3.2.4.
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Tue, 22 Nov 2016 21:39:31 +0100
 
 erlang-lager (3.1.0-0~kolab1) unstable; urgency=medium
 

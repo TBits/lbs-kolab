@@ -9,6 +9,7 @@ include /usr/share/dpkg/pkg-info.mk
 DESTDIR=$(CURDIR)/debian/erlang-lager
 
 %:
+	sed -i 's/3\.2\.2/$(DEB_VERSION_UPSTREAM)/' src/lager.app.src
 	dh $@ --buildsystem=rebar --with rebar
 
 override_dh_auto_install:
@@ -22,6 +23,9 @@ override_dh_auto_install:
 			$(DESTDIR)/usr/lib/erlang/lib/lager-$(DEB_VERSION_UPSTREAM)/$${subdir} ; \
 		fi ; \
 	done
+
+	find $(CURDIR)/ | sort
+	cat $(CURDIR)/debian/control
 
 get-orig-source:
 	dh_testdir

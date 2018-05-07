@@ -12,7 +12,7 @@
 
 Name:           kolab
 Version:        16.0.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
@@ -59,10 +59,10 @@ This is the Kolab Groupware Configuration component meta-package
 Summary:        Kolab Groupware IMAP Component
 Group:          Applications/System
 Requires:       cyrus-imapd
-%if %{?_arch} != "ppc64le"
-%if 0%{?fedora}
+%if %{?_arch} == "ppc64le" && 0%{?fedora}
+# Do not require Guam on fedora/ppc64le
+%else
 Requires:       guam
-%endif
 %endif
 Requires:       kolab-saslauthd
 Requires:       pykolab
@@ -225,6 +225,12 @@ This is the Kolab Groupware web client meta-package
 %doc README
 
 %changelog
+* Mon May 07 2018 Christoph Erhardt <kolab@sicherha.de> - 16.0.1-6
+- Fix logical expression
+
+* Tue Sep 05 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-5
+- Exclude requiring guam on fedora/ppc64le
+
 * Wed Jan 11 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-4
 - Initial changes for Plesk 17 installation
 
