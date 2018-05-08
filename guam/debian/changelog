@@ -1,3 +1,9 @@
+guam (0.9.4-6) unstable; urgency=medium
+
+  * Apply patch that fixes stalling client buffers and handling of split commands
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Tue, 08 May 2018 09:31:31 +0200
+
 guam (0.9.4-5) unstable; urgency=medium
 
   * Add erlang-eimap to guam-bundled-libs

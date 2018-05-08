@@ -31,6 +31,7 @@ Source100:          plesk.sys.config
 
 Patch9991:          make-it-very-easy-on-rebar3.patch
 Patch9992:          guam-priv-no-delete.patch
+Patch9993:          guam-0.9.2-stalling-client-buffer-and-split-command-handling.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-asn1
@@ -96,6 +97,7 @@ the perimeter of your IMAP environment.
 
 %patch9991 -p1
 %patch9992 -p1
+%patch9993 -p1
 
 sed -i 's/"0\.9\.0"/"%{version}"/' rebar.config
 
@@ -224,8 +226,8 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
-* Mon May 07 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-6
-- Trigger rebuild due to updated erlang-lager package
+* Tue May 08 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-6
+- Apply patch that fixes stalling client buffers and handling of split commands
 
 * Fri May 04 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-5
 - Make logs go to /var/log/guam
