@@ -49,7 +49,7 @@
 Name:           roundcubemail
 Version:        1.3.6
 
-Release:        1%{?dist}
+Release:        3%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -64,9 +64,15 @@ Source20:       roundcubemail.conf
 Source21:       roundcubemail.logrotate
 
 Source100:      plesk.config.inc.php
-Source101:      plesk.password.inc.php
+Source101:      plesk.managesieve.inc.php
+Source102:      plesk.password.inc.php
 
 Source200:      2017111400.sql
+
+Patch0002:      0002-Parse-all-quotas-from-GETQUOTAROOT-6280.patch
+Patch0003:      0003-Update-changelog.patch
+Patch0004:      0004-Fix-bug-where-some-escape-sequences-in-html-styles-c.patch
+Patch0005:      0005-Fix-bug-where-some-forbidden-characters-on-Cyrus-IMA.patch
 
 Patch201:       default-configuration.patch
 Patch202:       roundcubemail-1.3.6-plugin-enigma-homedir.patch
@@ -1065,8 +1071,14 @@ done
 
 %if 0%{?plesk}
 cp -vf %{SOURCE100} config/config.inc.php.sample
-cp -vf %{SOURCE101} plugins/password/config.inc.php.dist
+cp -vf %{SOURCE101} plugins/managesieve/config.inc.php.dist
+cp -vf %{SOURCE102} plugins/password/config.inc.php.dist
 %endif
+
+%patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
 
 %patch201 -p1
 %patch202 -p1
@@ -2857,6 +2869,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon May 14 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.6-3
+- Enable vacation plugin for Plesk installations
+- Patch issues fixed upstream
+
 * Thu Apr 12 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.6-1
 - Check in 1.3.6 release
 
