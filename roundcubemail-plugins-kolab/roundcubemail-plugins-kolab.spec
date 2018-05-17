@@ -46,6 +46,8 @@ Source101:      plesk.kolab_addressbook.inc.php
 Source102:      plesk.kolab_folders.inc.php
 Source103:      plesk.libkolab.inc.php
 
+Patch0001:      0001-Fix-missing-first-occurrence-of-an-event-when-moved-.patch
+
 Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -858,6 +860,7 @@ cp -af %{SOURCE102} plugins/kolab_folders/config.inc.php.dist
 cp -af %{SOURCE103} plugins/libkolab/config.inc.php.dist
 %endif
 
+%patch0001 -p1
 %patch1001 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
@@ -2018,6 +2021,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Thu May 17 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.3.6-2
+- Fix removal of first occurence of event when moving (T103344)
+
 * Tue Apr 17 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.3.6-1
 - Release of 3.3.6
 
