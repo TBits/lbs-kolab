@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.2
-Release:            2%{?dist}
+Release:            4%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -195,7 +195,8 @@ fi
 %systemd_post guam.service
 
 if [ ! -f "/etc/guam/dh_2048.pem" ]; then
-    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1 || \
+    openssl dhparam -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
 fi
 
 %preun
@@ -210,7 +211,8 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 chkconfig --add guam >/dev/null 2>&1 || :
 
 if [ ! -f "/etc/guam/dh_2048.pem" ]; then
-    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1 || \
+    openssl dhparam -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
 fi
 
 %posttrans
@@ -232,6 +234,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 /opt/%{realname}/
 
 %changelog
+* Sat May 19 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-4
+- Fix generating dh parameters on more recent openssl versions
+
 * Tue Feb 27 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-3
 - Allow empty lines in commands
 
