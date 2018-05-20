@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.4
-Release:            6%{?dist}
+Release:            7%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -188,7 +188,8 @@ rebar3 eunit -v || :
 %systemd_post %{name}.service
 
 if [ ! -f "/etc/guam/dh_2048.pem" ]; then
-    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1 || \
+    openssl dhparam -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
 fi
 
 %preun
@@ -203,7 +204,8 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 chkconfig --add %{name} >/dev/null 2>&1 || :
 
 if [ ! -f "/etc/guam/dh_2048.pem" ]; then
-    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
+    openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1 || \
+    openssl dhparam -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1
 fi
 
 %posttrans
@@ -226,6 +228,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Sat May 19 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.4-7
+- Fix generating dh params file on more recent openssl versions
+
 * Tue May 08 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-6
 - Apply patch that fixes stalling client buffers and handling of split commands
 
