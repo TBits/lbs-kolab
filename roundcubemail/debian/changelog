@@ -1,8 +1,8 @@
-roundcubemail (1.4-0~kolab3) unstable; urgency=low
+roundcubemail (1.4-0~kolab4) unstable; urgency=low
 
   * Check in a very early release of 1.4 alpha
 
- -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 20 May 2018 11:11:11 +0200
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 22 May 2018 11:11:11 +0200
 
 roundcubemail (1.4-0~kolab2) unstable; urgency=low
 

@@ -1,167 +1,212 @@
-%if 0%{?opensuse_bs}
-#!BuildIgnore:  php-mysqlnd
-#!BuildIgnore:  roundcubemail-plugin-jqueryui-skin-classic
-#!BuildIgnore:  roundcubemail-skin-classic
-#!BuildIgnore:  roundcubemail-plugin-managesieve-skin-classic
-#!BuildIgnore:  roundcubemail-plugin-acl-skin-classic
-#!BuildIgnore:  roundcubemail-skin-classic
-#!BuildIgnore:  lighttpd
-#!BuildIgnore:  cherokee
-#!BuildIgnore:  nginx
-#!BuildIgnore:  httpd-itk
-%endif
+%{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 
-Name:           roundcubemail-skin-plesk
-Version:        0.3.1
-Release:	    1%{?dist}
-Summary:        Plesk Business Mail Web Client skin
-
-Group:          Web/Applications
-License:        CC-BY-SA
-URL:            http://www.kolab.org
-Source0:        http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
-
-BuildArch:      noarch
-
-BuildRequires:  roundcubemail(skin-chameleon) >= 0.3.8
-BuildRequires:  roundcubemail(skin-chameleon-assets) >= 0.3.8
-
-%if "%{_arch}" != "ppc64" && "%{_arch}" != "ppc64le"
-BuildRequires:  nodejs-less
-%if 0%{?suse_version} < 1
-BuildRequires:  uglify-js
-%endif
+%if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
+%global with_systemd 0
 %else
-BuildRequires:  php-lessphp
+%global with_systemd 1
 %endif
 
-BuildRequires:  python
+%if 0%{?suse_version}
+%global httpd_group www
+%global httpd_name apache2
+%global httpd_user wwwrun
+%else
+%if 0%{?plesk}
+%global httpd_group roundcube_sysgroup
+%global httpd_name httpd
+%global httpd_user roundcube_sysuser
+%else
+%global httpd_group apache
+%global httpd_name httpd
+%global httpd_user apache
+%endif
+%endif
 
-Requires:       roundcubemail(skin-plesk) = %{?epoch:%%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail(skin-plesk-assets) = %{?epoch:%%{epoch}:}%{version}-%{release}
+%global datadir %{_datadir}/roundcubemail
+%global plugindir %{datadir}/plugins
+%global confdir %{_sysconfdir}/roundcubemail
+%global tmpdir %{_var}/lib/roundcubemail
+
+Name:               roundcubemail-skin-plesk
+Version:            0.4
+Release:            6.alpha0%{?dist}
+Summary:            Kolab skin for Roundcube
+
+Group:              Web/Applications
+License:            CC-BY-SA
+URL:                https://kolabsystems.com
+
+Source0:            %{name}-%{version}.tar.gz
+Source1:            comm.py
+
+BuildArch:          noarch
+
+BuildRequires:      nodejs-less
+BuildRequires:      php-lessphp
+BuildRequires:      python
+BuildRequires:      roundcubemail(skin-elastic)
+BuildRequires:      roundcubemail-plugin-libkolab-skin-elastic
+
+Requires:           roundcubemail-core
+Requires:           roundcubemail-plugin-libkolab-skin-elastic
+
+Requires:           roundcubemail(skin-plesk)
+Requires:           roundcubemail(skin-plesk-assets)
 
 %description
-This package contains a Kolab Groupware skin for the Roundcube web mail
-interface.
+This package contains the Plesk Premium Email skin for Roundcube
 
 %package core
-Summary:        Plesk Business Mail Web Client skin
-Group:          Applications/Internet
-Requires:       roundcubemail-core >= 1.1
-Requires:       roundcubemail(skin-larry) >= 1.1
-Provides:       roundcubemail(skin-plesk) = %{?epoch:%%{epoch}:}%{version}-%{release}
+Summary:            Plesk Premium Email Web Client skin
+Group:              Applications/Internet
+Requires:           roundcubemail-core >= 1.1
+Provides:           roundcubemail(skin-plesk) = %{?epoch:%%{epoch}:}%{version}-%{release}
 
 %description core
 Kolab skin for Roundcube
 
 %package assets
-Summary:        Assets for the Plesk Business Mail skin
-Group:          Applications/Internet
-Requires:       roundcubemail(skin-larry-assets) >= 1.1
-Provides:       roundcubemail(skin-plesk-assets) = %{?epoch:%%{epoch}:}%{version}-%{release}
+Summary:            Assets for the Plesk Premium Email skin
+Group:              Applications/Internet
+Provides:           roundcubemail(skin-plesk-assets) = %{?epoch:%%{epoch}:}%{version}-%{release}
 
 %description assets
-Assets for the EKZ skin
+Assets for the Plesk Premium Email skin
 
 %prep
 %setup -q
 
+rm -rvf kolab/
+
+find . | sort
+
+find \
+    %{datadir}/skins/elastic/ \
+    %{datadir}/public_html/assets/skins/elastic/ \
+    %{datadir}/plugins/libkolab/skins/elastic/ \
+    %{datadir}/public_html/assets/plugins/libkolab/skins/elastic/ \
+    -type f | sort | while read file; do
+    target_dir=$(dirname ${file} | sed -e 's|%{datadir}|.|g' -e 's|./public_html/assets/|./|g' -e 's|./public_html/assets/plugins/libkolab/|./|g' -e 's/elastic/plesk/g')
+    file_name=$(basename ${file})
+    if [ ! -d ${target_dir} ]; then
+        %{__mkdir_p} ${target_dir}
+    fi
+    cp -av ${file} ${target_dir}
+done
+
+find . | sort
+
+sed -i -e 's/"elastic"/"plesk"/g' \
+    $(find skins/plesk/ plugins/libkolab/skins/plesk/ -type f)
+
+find plesk/ -type f | sort | while read file; do
+    target_dir="./skins/$(dirname ${file})"
+    file_name=$(basename ${file})
+    if [ ! -d ${target_dir} ]; then
+        %{__mkdir_p} ${target_dir}
+    fi
+    cp -av ${file} ${target_dir}
+done
+
+rm -rvf plesk/
+
+sed -i -e 's/"elastic"/"plesk"/g' plugins/libkolab/skins/plesk/libkolab.less
+
+find . | sort
+
 %build
+# Compile and compress the CSS
+for file in `find . -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"`; do
+    %{_bindir}/lessc --relative-urls ${file} > $(dirname ${file})/$(basename ${file} .less).css
+done
+
+for orig_dir in "skins/plesk/" "plugins/libkolab/skins/plesk/"; do
+    asset_dir="public_html/assets/${orig_dir}"
+
+    # Compress the CSS
+    for file in `find ${orig_dir} -type f -name "*.css"`; do
+        asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
+        %{__mkdir_p} ${asset_loc}
+        cat ${file} | %{_bindir}/python-cssmin > ${asset_loc}/$(basename ${file}) && \
+            %{__rm} -rf ${file} || \
+            %{__mv} -v ${file} ${asset_loc}/$(basename ${file})
+    done || :
+
+    # Compress the JS, but not the already minified
+    for file in `find ${orig_dir} -type f -name "*.js" ! -name "*.min.js"`; do
+        asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
+        %{__mkdir_p} ${asset_loc}
+        uglifyjs ${file} > ${asset_loc}/$(basename ${file}) && \
+            %{__rm} -rf ${file} || \
+            %{__mv} -v ${file} ${asset_loc}/$(basename ${file})
+    done || :
+
+    # The already minified JS can just be copied over to the assets location
+    for file in `find ${orig_dir} -type f -name "*.min.js"`; do
+        asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
+        %{__mkdir_p} ${asset_loc}
+        %{__mv} -v ${file} ${asset_loc}/$(basename ${file})
+    done || :
+
+    # Other assets
+    for file in $(find ${orig_dir} -type f \
+            -name "*.eot" -o \
+            -name "*.gif" -o \
+            -name "*.ico" -o \
+            -name "*.jpg" -o \
+            -name "*.mp3" -o \
+            -name "*.png" -o \
+            -name "*.svg" -o \
+            -name "*.swf" -o \
+            -name "*.tif" -o \
+            -name "*.ttf" -o \
+            -name "*.woff" -o \
+            -name "*.woff2"
+        ); do
+        asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|${asset_dir}|g"))
+        %{__mkdir_p} ${asset_loc}
+        %{__mv} -vf ${file} ${asset_loc}/$(basename $file)
+    done || :
+
+    # Purge empty directories
+    find ${orig_dir} -type d -empty -delete || :
+done
+
+find . | sort
 
 %install
-mkdir -p \
-    %{buildroot}/%{_datadir}/roundcubemail/skins/plesk/ \
-    %{buildroot}/%{_datadir}/roundcubemail/public_html/assets/skins/plesk/
+%{__rm} -rvf %{buildroot}
+%{__mkdir_p} \
+    %{buildroot}%{datadir}/public_html/assets/skins/ \
+    %{buildroot}%{datadir}/skins/
 
-cp -av /usr/share/roundcubemail/skins/chameleon/* \
-    %{buildroot}/%{_datadir}/roundcubemail/skins/plesk/.
+cp -av skins/plesk/ %{buildroot}%{datadir}/skins/.
+cp -av public_html/assets/skins/plesk/ %{buildroot}%{datadir}/public_html/assets/skins/plesk/
+cp -av plugins/ %{buildroot}%{datadir}/plugins
+cp -av public_html/assets/plugins/ %{buildroot}%{datadir}/public_html/assets/.
 
-cp -av /usr/share/roundcubemail/public_html/assets/skins/chameleon/* \
-    %{buildroot}/%{_datadir}/roundcubemail/public_html/assets/skins/plesk/.
-
-rm -rf skins/plesk/colors.sh
-
-cp -av skins/plesk/* %{buildroot}/%{_datadir}/roundcubemail/skins/plesk/.
-
-orig_dir=%{buildroot}/%{_datadir}/roundcubemail/skins/plesk/
-asset_dir=%{buildroot}/%{_datadir}/roundcubemail/public_html/assets/skins/plesk/
-
-# Compress the CSS
-for file in `find ${orig_dir} -type f -name "*.less" ! -name "colors.less" | grep -vE "${orig_dir}/(plugins|skins)/"`; do
-    asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|$asset_dir|g"))
-    %{__mkdir_p} ${asset_loc}
-    (
-        %{_bindir}/lessc -x ${file} > ${asset_loc}/$(basename ${file} .less).css || \
-            cat $(dirname ${file})/colors.less ${file} | %{_bindir}/plessc -r -f=compressed > ${asset_loc}/$(basename ${file} .less).css
-        ) && \
-        %{__rm} -rf ${file} || \
-        %{__mv} -v ${file} ${asset_loc}/$(basename ${file})
-done
-
-# Compress the JS, but not the already minified
-for file in `find ${orig_dir} -type f -name "*.js" ! -name "*.min.js" | grep -vE "${orig_dir}/(plugins|skins)/"`; do
-    asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|$asset_dir|g"))
-    %{__mkdir_p} ${asset_loc}
-    uglifyjs ${file} > ${asset_loc}/$(basename ${file}) && \
-        %{__rm} -rf ${file} || \
-        %{__mv} -v ${file} ${asset_loc}/$(basename ${file})
-done
-
-# The already minified JS can just be copied over to the assets location
-for file in `find ${orig_dir} -type f -name "*.min.js" | grep -vE "${orig_dir}/(plugins|skins)/"`; do
-    asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|$asset_dir|g"))
-    %{__mkdir_p} ${asset_loc}
-    %{__mv} -v ${file} ${asset_loc}/$(basename ${file})
-done
-
-# Other assets
-for file in $(find ${orig_dir} -type f \
-        -name "*.css" -o \
-        -name "*.eot" -o \
-        -name "*.gif" -o \
-        -name "*.ico" -o \
-        -name "*.jpg" -o \
-        -name "*.png" -o \
-        -name "*.svg" -o \
-        -name "*.swf" -o \
-        -name "*.tif" -o \
-        -name "*.ttf" -o \
-        -name "*.woff" | \
-        grep -vE "${orig_dir}/(plugins|skins)/"
-    ); do
-    asset_loc=$(dirname $(echo ${file} | %{__sed} -e "s|${orig_dir}|$asset_dir|g"))
-    %{__mkdir_p} ${asset_loc}
-    %{__mv} -vf ${file} ${asset_loc}/$(basename $file)
-done
+# Workaround for watermark.html
+cp -av skins/plesk/watermark.html %{buildroot}%{datadir}/public_html/assets/skins/plesk/
 
 %files
 %defattr(-,root,root,-)
 
 %files core
 %defattr(-,root,root,-)
-%if 0%{?suse_version}
-%dir %{_datadir}/roundcubemail/
-%dir %{_datadir}/roundcubemail/skins/
-%dir %{_datadir}/roundcubemail/public_html/assets/
-%dir %{_datadir}/roundcubemail/public_html/assets/skins/
-%endif
-%{_datadir}/roundcubemail/skins/plesk/
+%{datadir}/skins/plesk/
+%{datadir}/plugins/libkolab/
 
 %files assets
-%{_datadir}/roundcubemail/public_html/assets/skins/plesk/
+%defattr(-,root,root,-)
+%{datadir}/public_html/assets/skins/plesk/
+%{datadir}/public_html/assets/plugins/libkolab/
 
 %changelog
-* Mon Apr 24 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.1-1
-- Release of version 0.3.1
+* Tue May 22 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-6.alpha0
+- Updates
 
-* Tue Apr 18 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.0-6
-- Update logos
+* Wed May 16 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-5.alpha0
+- Rebuild against latest elastic skin developments
 
-* Wed Apr  3 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.0-5
-- Assorted updates to the Plesk skin
-
-* Tue Mar 14 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.0-3
-- Assorted updates to the Plesk skin
-
-* Mon Feb 13 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.0-1
-- Release of version 0.3.0
+* Tue May  1 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-1.alpha0
+- Initial package

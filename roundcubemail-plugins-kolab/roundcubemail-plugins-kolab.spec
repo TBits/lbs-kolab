@@ -36,14 +36,14 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 %global rc_version 3.4
-%global rc_rel_suffix alpha4
+%global rc_rel_suffix alpha5
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.4
 
-Release:        32%{?dot_rel_suffix}%{?dist}
+Release:        33%{?dot_rel_suffix}%{?dist}
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -2462,6 +2462,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Tue May 22 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4-33.alpha5
+- Ship a pre-release version of the Elastic skin
+
 * Wed May 16 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4-16.alpha4
 - Ship a pre-release version of the Elastic skin
 

@@ -1,3 +1,8 @@
+%if 0%{?opensuse_bs}
+#!BuildIgnore: lighttpd
+#!BuildIgnore: nginx
+%endif
+
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 
 %if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
