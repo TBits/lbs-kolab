@@ -1,0 +1,15 @@
+Source: roundcubemail-plugin-sauserprefs
+Section: web
+Priority: extra
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com
+Build-Depends: debhelper (>= 8), roundcubemail-core (>= 1.4)
+Standards-Version: 3.9.3
+Vcs-Git: git://git.kolabsys.com/git/apt/roundcube-plugin-sauserprefs
+Vcs-Browser: http://git.kolabsys.com/apt/roundcube-plugin-sauserprefs.git
+
+Package: roundcubemail-plugin-sauserprefs
+Architecture: all
+Depends:	roundcubemail-core (>= 1.4)
+Description: skinnable AJAX based webmail solution - SAUserPrefs plugin
+ Adds Spamassassin User Preferences to Roundcube
