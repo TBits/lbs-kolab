@@ -176,6 +176,20 @@
     $config['fileapi_manticore'] = false;
     $config['fileapi_wopi_office'] = false;
 
+    $config['imap_conn_options'] = Array(
+        'ssl' => Array(
+            'verify_peer' => FALSE,
+            'verify_peer_name' => FALSE
+        )
+    );
+
+    $config['smtp_conn_options'] = Array(
+        'ssl' => Array(
+            'verify_peer' => FALSE,
+            'verify_peer_name' => FALSE
+        )
+    );
+
     // Discretionary user-supplied overrides
     if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__))) {
         @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__));
