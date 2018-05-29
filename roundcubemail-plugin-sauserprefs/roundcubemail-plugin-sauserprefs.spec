@@ -4,6 +4,7 @@
 #!BuildIgnore:  nginx
 %endif
 
+%global confdir %{_sysconfdir}/roundcubemail
 %global datadir %{_datadir}/roundcubemail
 %global plugindir %{datadir}/plugins
 
@@ -49,12 +50,16 @@ done
 %install
 rm -rf %{buildroot}
 mkdir -p \
+    %{buildroot}%{confdir}/ \
     %{buildroot}%{plugindir}/sauserprefs
+
 cp -a * %{buildroot}%{plugindir}/sauserprefs
 
-pushd %{buildroot}%{roundcube_plugins}/sauserprefs
-mv config.inc.php.dist %{buildroot}%{roundcube_conf}/sauserprefs.inc.php
-ln -s ../../../../..%{roundcube_conf}/sauserprefs.inc.php config.inc.php
+find %{buildroot}%{plugindir}/sauserprefs | sort
+
+pushd %{buildroot}%{plugindir}/sauserprefs
+mv config.inc.php.dist %{buildroot}%{confdir}/sauserprefs.inc.php
+ln -s ../../../../..%{confdir}/sauserprefs.inc.php config.inc.php
 popd
 
 asset_path="%{buildroot}%{datadir}/public_html/assets"
@@ -133,7 +138,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%config(noreplace) %attr(0640,root,%{httpd_group}) %{roundcube_conf}/sauserprefs.inc.php
+%config(noreplace) %attr(0640,root,%{httpd_group}) %{confdir}/sauserprefs.inc.php
 %dir %{datadir}
 %dir %{plugindir}
 %{plugindir}/sauserprefs

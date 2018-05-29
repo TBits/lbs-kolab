@@ -12,6 +12,7 @@ override_dh_install:
 	cp -av \
 		CHANGELOG \
 		README.md \
+		config.inc.php.dist \
 		sauserprefs.js \
 		sauserprefs.php \
 		lib \
@@ -50,6 +51,8 @@ override_dh_install:
 		install -pm 755 -d $$asset_loc ; \
 		cp -av $$file $$asset_loc/$$(basename $$file); \
 	done
+
+	find $(CURDIR)/debian/roundcubemail-plugin-sauserprefs/ | sort
 
 	mv -v $(CURDIR)/debian/roundcubemail-plugin-sauserprefs/usr/share/roundcubemail/plugins/sauserprefs/config.inc.php.dist \
 		$(CURDIR)/debian/roundcubemail-plugin-sauserprefs/etc/roundcubemail/sauserprefs.inc.php

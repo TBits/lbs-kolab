@@ -34,7 +34,7 @@
 
 Name:               roundcubemail-skin-kolab
 Version:            0.4
-Release:            10%{?dist}
+Release:            11%{?dist}
 Summary:            Kolab skin for Roundcube
 
 Group:              Web/Applications
@@ -182,6 +182,9 @@ cp -av skins/kolab/watermark.html %{buildroot}%{datadir}/public_html/assets/skin
 %{datadir}/public_html/assets/plugins/libkolab/
 
 %changelog
+* Tue May 29 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.4-11
+- Updates
+
 * Wed May 16 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-10
 - Updates to the Kolab version of the responsive Elastic skin for Roundcube
 
