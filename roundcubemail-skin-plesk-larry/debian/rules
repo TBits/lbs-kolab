@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_install:
+	rm -rf skins/plesk/colors.sh
+	mkdir -p $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/plesk/
+	cp -av /usr/share/roundcubemail/skins/chameleon/* \
+		$(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/plesk/.
+	dh_install
+	mkdir -p $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/assets/skins/
+	for file in $$(find $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/plesk -type f -name "*.less" ! -name "colors.less"); do \
+		lessc -x $${file} > $$(dirname $${file})/$$(basename $${file} .less).css ; \
+	done
+	mkdir -p $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/public_html/assets/skins/plesk/
+	cp -av $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/plesk/* \
+		$(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/public_html/assets/skins/plesk/

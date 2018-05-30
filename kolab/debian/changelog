@@ -1,3 +1,9 @@
+kolab (16.0.1-5) unstable; urgency=low
+
+  * Plesk-specific meta-package, bump release to require the old larry version of the Plesk skin
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 30 May 2018 12:56:00 +0100
+
 kolab (16.0.1-4) unstable; urgency=low
 
   * Plesk-specific meta-package, bump release

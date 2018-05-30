@@ -31,7 +31,8 @@ Depends:    chwala,
             roundcubemail-plugin-pdfviewer,
             roundcubemail-plugin-tasklist,
             roundcubemail-plugin-zipdownload,
-            roundcubemail-skin-plesk
+            roundcubemail-skin-plesk,
+            roundcubemail-skin-plesk-larry
 Description: Meta-package for Kolab on Plesk
  This is a metapackage for the installation of Kolab on
  Debian, integrated with Plesk

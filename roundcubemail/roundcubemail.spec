@@ -137,6 +137,7 @@ Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %if 0%{?plesk}
 Requires:       %{name}-skin-plesk
+Requires:       %{name}-skin-plesk-larry
 %else
 %if 0%{?kolab_enterprise}
 Requires:       %{name}-skin-enterprise
@@ -202,6 +203,7 @@ Requires:       php-kolab-net-ldap3
 
 %if 0%{?plesk}
 Requires:       %{name}(skin-plesk)
+Requires:       %{name}(skin-plesk-larry)
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -250,6 +252,7 @@ Requires:       %{name}(plugin-acl-assets) = %{?epoch:%{epoch}:}%{version}-%{rel
 %if 0%{?plesk}
 Requires:       %{name}(plugin-acl-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -373,6 +376,7 @@ Requires:       %{name}(plugin-enigma-assets) = %{?epoch:%{epoch}:}%{version}-%{
 %if 0%{?plesk}
 Requires:       %{name}(plugin-enigma-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -426,6 +430,7 @@ Requires:       %{name}(plugin-help-assets) = %{?epoch:%{epoch}:}%{version}-%{re
 %if 0%{?plesk}
 Requires:       %{name}(plugin-help-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -452,6 +457,7 @@ Requires:       %{name}(plugin-hide_blockquote-assets) = %{?epoch:%{epoch}:}%{ve
 Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -521,6 +527,7 @@ Requires:       %{name}(plugin-jqueryui-assets) = %{?epoch:%{epoch}:}%{version}-
 %if 0%{?plesk}
 Requires:       %{name}(plugin-jqueryui-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -560,6 +567,7 @@ Requires:       %{name}(plugin-managesieve-assets) = %{?epoch:%{epoch}:}%{versio
 %if 0%{?plesk}
 Requires:       %{name}(plugin-managesieve-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -726,6 +734,7 @@ Requires:       %{name}(plugin-vcard_attachments-assets) = %{?epoch:%{epoch}:}%{
 Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -782,6 +791,7 @@ Requires:       %{name}(plugin-zipdownload-assets) = %{?epoch:%{epoch}:}%{versio
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -1522,6 +1532,7 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
                 echo "Obsoletes:      %%{name}-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
             echo "Requires:       %%{name}(skin-plesk) >= 0.4"
+	    echo "Requires:       %%{name}(skin-plesk-larry) >= 0.3"
             echo "%%else"
             echo "%%if 0%%{?kolab_enterprise}"
             echo "%%if 0%%{?bootstrap} < 1"
