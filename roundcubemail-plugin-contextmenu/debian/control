@@ -3,7 +3,7 @@ Section: web
 Priority: extra
 Maintainer: Christoph Wickert <wickert@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
-Build-Depends: debhelper (>= 8)
+Build-Depends: debhelper (>= 8), roundcubemail-core (>= 1.4), node-less (>= 1.7.0)
 Standards-Version: 3.9.3
 Vcs-Git: git://git.kolabsys.com/git/apt/roundcube-plugins-kolab
 Vcs-Browser: http://git.kolabsys.com/apt/roundcube-plugins-kolab.git

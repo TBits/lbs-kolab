@@ -12,8 +12,8 @@
 %endif
 
 Name:           roundcubemail-skin-plesk-larry
-Version:        0.3.3
-Release:	    1%{?dist}
+Version:        0.3.4
+Release:        1%{?dist}
 Summary:        Plesk Premium Email Web Client skin (Larry Edition)
 
 Group:          Web/Applications
@@ -151,5 +151,6 @@ done
 %{_datadir}/roundcubemail/public_html/assets/skins/plesk-larry/
 
 %changelog
-* Wed May 30 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.3.3-1
-- Release of version 0.3.3
+* Thu May 31 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.4-1
+- Release of version 0.3.4
+

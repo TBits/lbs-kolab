@@ -56,7 +56,7 @@
 Name:           roundcubemail
 Version:        1.4
 
-Release:        33%{?dot_rel_suffix}%{?dist}
+Release:        34%{?dot_rel_suffix}%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -202,8 +202,11 @@ Requires:       php-kolab-net-ldap3
 %endif
 
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-plesk)
 Requires:       %{name}(skin-plesk-larry)
+Requires:       %{name}(skin-plesk-larry-assets)
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -250,9 +253,11 @@ Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-acl-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Requires:       %{name}(plugin-acl-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -374,9 +379,11 @@ Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-enigma-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Requires:       %{name}(plugin-enigma-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -428,9 +435,11 @@ Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-help-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Requires:       %{name}(plugin-help-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -454,10 +463,12 @@ Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-hide_blockquote-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -525,9 +536,11 @@ Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-jqueryui-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Requires:       %{name}(plugin-jqueryui-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -565,9 +578,11 @@ Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-managesieve-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Requires:       %{name}(plugin-managesieve-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -731,10 +746,12 @@ Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-vcard_attachments-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -788,10 +805,12 @@ Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-zipdownload-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -1525,6 +1544,7 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
         echo "Requires:       %%{name}(plugin-$(basename ${plugin})-assets) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
         if [ -d "${target_dir}/skins/" ]; then
             echo "%%if 0%%{?plesk}"
+            echo "%%if 0%%{?bootstrap} < 1"
             if [ -d "${target_dir}/skins/elastic/" ]; then
                 echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-elastic) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             else
@@ -1532,7 +1552,8 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
                 echo "Obsoletes:      %%{name}-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
             echo "Requires:       %%{name}(skin-plesk) >= 0.4"
-	    echo "Requires:       %%{name}(skin-plesk-larry) >= 0.3"
+            echo "Requires:       %%{name}(skin-plesk-larry) >= 0.3"
+            echo "%%endif"
             echo "%%else"
             echo "%%if 0%%{?kolab_enterprise}"
             echo "%%if 0%%{?bootstrap} < 1"
@@ -3305,7 +3326,7 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
-* Tue May 29 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-33.alpha6
+* Thu May 31 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-34.alpha6
 - Check in pre-alpha 1.4 release with Elastic skin
 
 * Tue May 22 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-32.alpha5
