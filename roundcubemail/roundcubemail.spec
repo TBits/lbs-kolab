@@ -56,7 +56,7 @@
 Name:           roundcubemail
 Version:        1.4
 
-Release:        34%{?dot_rel_suffix}%{?dist}
+Release:        37%{?dot_rel_suffix}%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -3326,6 +3326,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Jun  5 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-36.alpha6
+- Fix toolbars in Safari desktop browser (T110373)
+
 * Thu May 31 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-34.alpha6
 - Check in pre-alpha 1.4 release with Elastic skin
 

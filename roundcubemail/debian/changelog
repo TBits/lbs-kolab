@@ -1,3 +1,9 @@
+roundcubemail (1.4-0~kolab12) unstable; urgency=low
+
+  * Fix toolbars in Safari desktop browser (T110373)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  5 Jun 2018 11:11:11 +0200
+
 roundcubemail (1.4-0~kolab9) unstable; urgency=low
 
   * Check in a very early release of 1.4 alpha
