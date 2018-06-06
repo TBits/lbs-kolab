@@ -4,12 +4,28 @@
 #!BuildIgnore:  nginx
 %endif
 
+%if 0%{?suse_version}
+%global httpd_group www
+%global httpd_name apache2
+%global httpd_user wwwrun
+%else
+%if 0%{?plesk}
+%global httpd_group roundcube_sysgroup
+%global httpd_name httpd
+%global httpd_user roundcube_sysuser
+%else
+%global httpd_group apache
+%global httpd_name httpd
+%global httpd_user apache
+%endif
+%endif
+
 %global confdir %{_sysconfdir}/roundcubemail
 %global datadir %{_datadir}/roundcubemail
 %global plugindir %{datadir}/plugins
 
 Name:           roundcubemail-plugin-sauserprefs
-Version:        1.17.1.81
+Version:        1.17.1.86
 Release:        1%{?dist}
 Summary:        Sauserprefs plugin for Roundcube Webmail
 
@@ -148,5 +164,5 @@ rm -rf %{buildroot}
 %{datadir}/public_html/assets/plugins/sauserprefs/
 
 %changelog
-* Mon May 28 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.17.1.81-1
-- Release of version 1.17.1.81
+* Wed Jun  6 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.17.1.86-1
+- Release of version 1.17.1.86
