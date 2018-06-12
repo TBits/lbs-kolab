@@ -29,7 +29,7 @@
 
 Name:               roundcubemail-skin-plesk
 Version:            0.4
-Release:            8.alpha0%{?dist}
+Release:            9.alpha0%{?dist}
 Summary:            Kolab skin for Roundcube
 
 Group:              Web/Applications
@@ -202,7 +202,7 @@ cp -av skins/plesk/watermark.html %{buildroot}%{datadir}/public_html/assets/skin
 %{datadir}/public_html/assets/plugins/libkolab/
 
 %changelog
-* Thu May 31 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-8.alpha0
+* Tue Jun  5 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-9.alpha0
 - Updates
 
 * Tue May 29 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-7.alpha0

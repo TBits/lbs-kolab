@@ -10,13 +10,13 @@ Depends:    chwala,
             php-auth-sasl,
             php-http-request2,
             php-mail-mime,
-            roundcubemail-core,
+            roundcubemail-core (>= 1:1.4),
             roundcubemail-plugin-acl,
             roundcubemail-plugin-archive,
             roundcubemail-plugin-calendar,
             roundcubemail-plugin-contextmenu,
             roundcubemail-plugin-jqueryui,
-            roundcubemail-plugin-kolab-activesync,
+            roundcubemail-plugin-kolab-activesync (>= 3.4),
             roundcubemail-plugin-kolab-addressbook,
             roundcubemail-plugin-kolab-config,
             roundcubemail-plugin-kolab-files,
@@ -31,8 +31,8 @@ Depends:    chwala,
             roundcubemail-plugin-pdfviewer,
             roundcubemail-plugin-tasklist,
             roundcubemail-plugin-zipdownload,
-            roundcubemail-skin-plesk,
-            roundcubemail-skin-plesk-larry
+            roundcubemail-skin-plesk (>= 0.4),
+            roundcubemail-skin-plesk-larry (>= 0.3)
 Description: Meta-package for Kolab on Plesk
  This is a metapackage for the installation of Kolab on
  Debian, integrated with Plesk
