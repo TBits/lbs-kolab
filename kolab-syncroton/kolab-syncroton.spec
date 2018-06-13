@@ -36,7 +36,7 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           kolab-syncroton
-Version:        2.3.10
+Version:        2.3.12
 Release:        1%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
@@ -195,6 +195,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Wed Jun 13 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.12-1
+- Release 2.3.12
+
 * Thu Mar  8 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.10-1
 - Release 2.3.10
 

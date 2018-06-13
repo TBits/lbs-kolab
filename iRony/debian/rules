@@ -7,6 +7,14 @@
 	dh $@
 
 override_dh_auto_configure:
+	rm -rvf vendor/sabre
+
+	rm -rf composer.json
+	mv composer.json-dist composer.json
+	mkdir -p $$HOME/.composer/
+	echo '{}' > $$HOME/.composer/composer.json
+	composer -vvv dumpautoload --optimize
+
 	if [ -f "/etc/plesk-release" ]; then \
 		sed -i -e 's/www-data adm/roundcube_sysuser roundcube_sysgroup/g' debian/irony.logrotate ; \
 	fi

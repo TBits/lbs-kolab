@@ -421,8 +421,6 @@ Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-libcalendaring-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
-Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(skin-plesk) >= 0.4
 %else
 %if 0%{?kolab_enterprise}
@@ -430,14 +428,14 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
-Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-libcalendaring-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= 1.4
 %endif
 %endif
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail-plugin-libcalendaring-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail-plugin-libcalendaring-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-libcalendaring) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-libcalendaring

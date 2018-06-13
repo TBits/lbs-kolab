@@ -806,8 +806,6 @@ Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-zipdownload-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 %if 0%{?bootstrap} < 1
-Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
 %endif
@@ -817,14 +815,14 @@ Requires:       %{name}(skin-plesk-larry) >= 0.3
 Requires:       %{name}(skin-enterprise) >= 0.3.7
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
-Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
-Requires:       %{name}(plugin-zipdownload-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
+Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}-plugin-zipdownload-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}-plugin-zipdownload-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       %{name}(plugin-zipdownload) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description plugin-zipdownload
