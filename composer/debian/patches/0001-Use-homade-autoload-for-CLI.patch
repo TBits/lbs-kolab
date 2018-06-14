@@ -1,0 +1,28 @@
+From: =?utf-8?q?David_Pr=C3=A9vot?= <david@tilapin.org>
+Date: Sun, 15 Feb 2015 22:23:46 -0400
+Subject: Use homade autoload for CLI
+
+Forwarded: not-needed
+---
+ bin/composer | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/bin/composer b/bin/composer
+index 57baebc..036c02e 100755
+--- a/bin/composer
++++ b/bin/composer
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env php
++#!/usr/bin/php
+ <?php
+ 
+ if (PHP_SAPI !== 'cli') {
+@@ -6,7 +6,7 @@ if (PHP_SAPI !== 'cli') {
+ }
+ 
+ setlocale(LC_ALL, 'C');
+-require __DIR__.'/../src/bootstrap.php';
++require 'Composer/autoload.php';
+ 
+ use Composer\Factory;
+ use Composer\XdebugHandler;

@@ -1,2 +1,3 @@
-debian/composer.phar /usr/lib/composer
-debian/composer.sh /usr/bin
+bin/composer		usr/bin
+res			usr/share/php/data/Composer
+src/Composer		usr/share/php

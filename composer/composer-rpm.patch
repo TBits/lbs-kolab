@@ -1,64 +1,61 @@
 diff -up ./bin/composer.rpm ./bin/composer
---- ./bin/composer.rpm	2015-02-25 20:44:34.000000000 +0100
-+++ ./bin/composer	2015-02-26 10:25:16.012610034 +0100
-@@ -1,11 +1,11 @@
--#!/usr/bin/env php
-+#!/usr/bin/env php
- <?php
- 
- if (PHP_SAPI !== 'cli') {
-     echo 'Warning: Composer should be invoked via the CLI version of PHP, not the '.PHP_SAPI.' SAPI'.PHP_EOL;
+--- ./bin/composer.rpm	2018-05-04 12:59:13.065292434 +0200
++++ ./bin/composer	2018-05-04 13:00:23.293493373 +0200
+@@ -6,7 +6,7 @@ if (PHP_SAPI !== 'cli') {
  }
  
+ setlocale(LC_ALL, 'C');
 -require __DIR__.'/../src/bootstrap.php';
-+require 'Composer/autoload.php';
++require '/usr/share/php/Composer/autoload.php';
  
- use Composer\Console\Application;
+ use Composer\Factory;
+ use Composer\XdebugHandler;
+diff -up ./src/Composer/Autoload/AutoloadGenerator.php.rpm ./src/Composer/Autoload/AutoloadGenerator.php
+--- ./src/Composer/Autoload/AutoloadGenerator.php.rpm	2018-05-04 12:57:41.000000000 +0200
++++ ./src/Composer/Autoload/AutoloadGenerator.php	2018-05-04 12:59:13.066292451 +0200
+@@ -305,7 +305,7 @@ EOF;
+         file_put_contents($targetDir.'/autoload_real.php', $this->getAutoloadRealFile(true, (bool) $includePathFileContents, $targetDirLoader, (bool) $includeFilesFileContents, $vendorPathCode, $appBaseDirCode, $suffix, $useGlobalIncludePath, $prependAutoloader, $staticPhpVersion));
  
+         $this->safeCopy(__DIR__.'/ClassLoader.php', $targetDir.'/ClassLoader.php');
+-        $this->safeCopy(__DIR__.'/../../../LICENSE', $targetDir.'/LICENSE');
++        $this->safeCopy((getenv('BUILDROOT')?:'') . '/usr/share/composer/LICENSE', $targetDir.'/LICENSE');
+ 
+         if ($this->runScripts) {
+             $this->eventDispatcher->dispatchScript(ScriptEvents::POST_AUTOLOAD_DUMP, $this->devMode, array(), array(
+diff -up ./src/Composer/Compiler.php.rpm ./src/Composer/Compiler.php
+--- ./src/Composer/Compiler.php.rpm	2018-05-04 12:57:41.000000000 +0200
++++ ./src/Composer/Compiler.php	2018-05-04 12:59:13.066292451 +0200
+@@ -97,7 +97,7 @@ class Compiler
+         $finder = new Finder();
+         $finder->files()
+             ->name('*.json')
+-            ->in(__DIR__.'/../../res')
++            ->in((getenv('BUILDROOT')?:'') . '/usr/share/composer/res')
+             ->in(SpdxLicenses::getResourcesDir())
+             ->sort($finderSort)
+         ;
 diff -up ./src/Composer/Json/JsonFile.php.rpm ./src/Composer/Json/JsonFile.php
---- ./src/Composer/Json/JsonFile.php.rpm	2015-02-25 20:44:34.000000000 +0100
-+++ ./src/Composer/Json/JsonFile.php	2015-02-26 10:25:16.012610034 +0100
-@@ -149,7 +149,7 @@ class JsonFile
+--- ./src/Composer/Json/JsonFile.php.rpm	2018-05-04 12:57:41.000000000 +0200
++++ ./src/Composer/Json/JsonFile.php	2018-05-04 12:59:13.066292451 +0200
+@@ -156,7 +156,7 @@ class JsonFile
              self::validateSyntax($content, $this->path);
          }
  
 -        $schemaFile = __DIR__ . '/../../../res/composer-schema.json';
 +        $schemaFile = (getenv('BUILDROOT')?:'') . '/usr/share/composer/res/composer-schema.json';
-         $schemaData = json_decode(file_get_contents($schemaFile));
  
-         if ($schema === self::LAX_SCHEMA) {
-diff -up src/Composer/Util/SpdxLicense.php.old src/Composer/Util/SpdxLicense.php
---- ./src/Composer/Util/SpdxLicense.php.old	2015-04-17 09:57:53.680999733 +0200
-+++ ./src/Composer/Util/SpdxLicense.php	2015-04-17 09:59:50.397498276 +0200
-@@ -38,7 +38,7 @@ class SpdxLicense
-             return $this->licenses;
-         }
-
--        $jsonFile = new JsonFile(__DIR__ . '/../../../res/spdx-licenses.json');
-+        $jsonFile = new JsonFile((getenv('BUILDROOT')?:'') . '/usr/share/composer/res/spdx-licenses.json');
-         $this->licenses = $jsonFile->read();
-
-         return $this->licenses;
-diff -up src/Composer/Util/SpdxLicensesUpdater.php.old src/Composer/Util/SpdxLicensesUpdater.php
---- ./src/Composer/Util/SpdxLicensesUpdater.php.old	2015-04-17 09:58:00.645029479 +0200
-+++ ./src/Composer/Util/SpdxLicensesUpdater.php	2015-04-17 10:00:36.578695534 +0200
-@@ -28,7 +28,7 @@ class SpdxLicensesUpdater
+         // Prepend with file:// only when not using a special schema already (e.g. in the phar)
+         if (false === strpos($schemaFile, '://')) {
+diff -up ./tests/Composer/Test/Json/ComposerSchemaTest.php.rpm ./tests/Composer/Test/Json/ComposerSchemaTest.php
+--- ./tests/Composer/Test/Json/ComposerSchemaTest.php.rpm	2018-05-04 12:57:41.000000000 +0200
++++ ./tests/Composer/Test/Json/ComposerSchemaTest.php	2018-05-04 12:59:13.066292451 +0200
+@@ -97,7 +97,8 @@ class ComposerSchemaTest extends TestCas
+     private function check($json)
      {
-         $json = json_encode($this->getLicenses(), true);
-         $prettyJson = JsonFormatter::format($json, true, true);
--        file_put_contents(__DIR__ . '/../../../res/spdx-licenses.json', $prettyJson);
-+        file_put_contents((getenv('BUILDROOT')?:'') . '/usr/share/composer/res/spdx-licenses.json', $prettyJson);
-     }
-
-     private function getLicenses()
-diff -up ./tests/Composer/Test/Json/JsonFileTest.php.rpm ./tests/Composer/Test/Json/JsonFileTest.php
---- ./tests/Composer/Test/Json/JsonFileTest.php.rpm	2015-02-26 10:26:10.607821640 +0100
-+++ ./tests/Composer/Test/Json/JsonFileTest.php	2015-02-26 10:27:05.430034125 +0100
-@@ -54,6 +54,7 @@ class JsonFileTest extends \PHPUnit_Fram
+         $validator = new Validator();
+-        $validator->check(json_decode($json), (object) array('$ref' => 'file://' . __DIR__ . '/../../../../res/composer-schema.json'));
++        $f = (getenv('BUILDROOT')?:'') . '/usr/share/composer/res/composer-schema.json';
++        $validator->check(json_decode($json), (object) array('$ref' => 'file://' . $f));
  
-     public function testParseErrorDetectSingleQuotes()
-     {
-+        $this->markTestSkipped('jsonc issue');
-         $json = '{
-         \'foo\': "bar"
- }';
+         if (!$validator->isValid()) {
+             $errors = $validator->getErrors();

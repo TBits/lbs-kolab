@@ -13,6 +13,11 @@ override_dh_auto_configure:
 	mv composer.json-dist composer.json
 	mkdir -p $$HOME/.composer/
 	echo '{}' > $$HOME/.composer/composer.json
+	sed -i \
+		-e 's/"\^/"/g' \
+		composer.lock \
+		vendor/composer/installed.json
+
 	composer -vvv dumpautoload --optimize
 
 	if [ -f "/etc/plesk-release" ]; then \

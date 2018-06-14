@@ -1,0 +1,4 @@
+0001-Use-homade-autoload-for-CLI.patch
+0002-Adapt-res-path.patch
+0003-Mimic-distribution-path-for-tests-and-help2man.patch
+0005-Pick-up-copyright-instead-of-LICENSE.patch

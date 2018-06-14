@@ -1,6 +1,5 @@
 <?php
 require 'Composer/autoload.php';
-$loader->registerNamespaces(array(
-    'Composer\\Test'  => __DIR__
-));
+\Fedora\Autoloader\Autoload::addPsr0('Composer\\Test\\', __DIR__ . '/');
 require __DIR__.'/Composer/TestCase.php';
+
