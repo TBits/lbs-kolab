@@ -17,7 +17,7 @@
 %global bonnie_group_id 415
 
 Name:               bonnie
-Version:            0.3.2
+Version:            0.3.4
 Release:            1%{?dist}
 Summary:            Bonnie for Kolab Groupware
 
@@ -302,6 +302,7 @@ fi
 %defattr(-,root,root,-)
 %doc conf/bonnie.conf
 %attr(0640,%{bonnie_user},%{bonnie_group}) %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
+%{_prefix}/lib/tmpfiles.d/bonnie.conf
 %{python_sitelib}/bonnie/__init__.py*
 %{python_sitelib}/bonnie/conf.py*
 %{python_sitelib}/bonnie/daemon.py*
@@ -320,14 +321,22 @@ fi
 %defattr(-,root,root,-)
 %{_sbindir}/bonnie-broker
 %{python_sitelib}/bonnie/broker
+%if 0%{?with_systemd}
+%{_unitdir}/bonnie-broker.service
+%else
 %{_initrddir}/bonnie-broker
+%endif
 %config(noreplace) %{_sysconfdir}/sysconfig/bonnie-broker
 
 %files collector
 %defattr(-,root,root,-)
 %{_sbindir}/bonnie-collector
 %{python_sitelib}/bonnie/collector
+%if 0%{?with_systemd}
+%{_unitdir}/bonnie-collector.service
+%else
 %{_initrddir}/bonnie-collector
+%endif
 %config(noreplace) %{_sysconfdir}/sysconfig/bonnie-collector
 
 %files dealer
@@ -340,13 +349,20 @@ fi
 %defattr(-,root,root,-)
 %{_sbindir}/bonnie-worker
 %{python_sitelib}/bonnie/worker
+%if 0%{?with_systemd}
+%{_unitdir}/bonnie-worker.service
+%else
 %{_initrddir}/bonnie-worker
+%endif
 %config(noreplace) %{_sysconfdir}/sysconfig/bonnie-worker
 
 %files wui
 %defattr(-,root,root,-)
 
 %changelog
+* Sun Jun 17 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.4-1
+- Release of version 0.3.4
+
 * Mon Jan  5 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.2-1
 - Allow the collectors to continue to report state
 
