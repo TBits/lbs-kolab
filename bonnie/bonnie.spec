@@ -17,7 +17,7 @@
 %global bonnie_group_id 415
 
 Name:               bonnie
-Version:            0.3.4
+Version:            0.3.5
 Release:            1%{?dist}
 Summary:            Bonnie for Kolab Groupware
 
@@ -145,7 +145,9 @@ mkdir -p \
     %{buildroot}/%{_sysconfdir}/%{name} \
     %{buildroot}/%{_bindir} \
     %{buildroot}/%{_sbindir} \
-    %{buildroot}/%{python_sitelib}
+    %{buildroot}/%{python_sitelib} \
+    %{buildroot}/%{_var}/lib/%{name} \
+    %{buildroot}/%{_var}/log/%{name}
 
 %{__install} -m640 -p conf/bonnie.conf %{buildroot}/%{_sysconfdir}/%{name}
 
@@ -203,6 +205,8 @@ fi
 %pre -n bonnie-collector
 # And allow cyrus access to bonnie.conf
 gpasswd -a cyrus bonnie >/dev/null 2>&1
+# Allow bonnie access to kolab.conf
+gpasswd -a bonnie kolab >/dev/null 2>&1
 
 %pre -n bonnie-dealer
 # And allow cyrus access to bonnie.conf
@@ -310,6 +314,8 @@ fi
 %{python_sitelib}/bonnie/translate.py*
 %{python_sitelib}/bonnie/utils.py*
 %{python_sitelib}/bonnie/plugins/
+%attr(0750,%{bonnie_user},%{bonnie_group}) %{_var}/lib/%{name}
+%attr(0750,%{bonnie_user},%{bonnie_group}) %{_var}/log/%{name}
 
 %files elasticsearch
 %defattr(-,root,root,-)
