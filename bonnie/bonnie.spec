@@ -182,8 +182,8 @@ mkdir -p %{buildroot}/%{_var}/adm/fillup-templates/
 %{__install} -p -m 644 contrib/bonnie-worker.sysconfig %{buildroot}/%{_var}/adm/fillup-templates/sysconfig.bonnie-worker
 %else
 mkdir -p %{buildroot}/%{_sysconfdir}/sysconfig
-%{__install} -p -m 644 contrib/bonnie-worker.sysconfig %{buildroot}/%{_sysconfdir}/sysconfig/bonnie-broker
-%{__install} -p -m 644 contrib/bonnie-worker.sysconfig %{buildroot}/%{_sysconfdir}/sysconfig/bonnie-collector
+%{__install} -p -m 644 contrib/bonnie-broker.sysconfig %{buildroot}/%{_sysconfdir}/sysconfig/bonnie-broker
+%{__install} -p -m 644 contrib/bonnie-collector.sysconfig %{buildroot}/%{_sysconfdir}/sysconfig/bonnie-collector
 %{__install} -p -m 644 contrib/bonnie-worker.sysconfig %{buildroot}/%{_sysconfdir}/sysconfig/bonnie-worker
 %endif
 

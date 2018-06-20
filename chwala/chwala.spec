@@ -133,7 +133,7 @@ popd
 
 %post
 if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
-    if [ ! -z "`grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini`" ]; then
+    if [ ! -z "`grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null`" ]; then
 %if 0%{?with_systemd}
         /bin/systemctl condrestart %{httpd_name}.service
 %else
@@ -144,9 +144,7 @@ fi
 
 /usr/share/roundcubemail/bin/updatedb.sh \
     --dir /usr/share/doc/%{name}-%{version}/SQL/ \
-    --package %{name} || : \
-    >/dev/null 2>&1
-
+    --package %{name} >/dev/null 2>&1 || :
 
 %files
 %doc README.md LICENSE doc/SQL/

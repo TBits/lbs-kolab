@@ -24,18 +24,14 @@ Name:               php5-Net_LDAP3
 %else
 Name:               php-kolab-net-ldap3
 %endif
-Version:            1.0.6
-Release:            2%{?dist}
+Version:            1.0.7
+Release:            1%{?dist}
 Summary:            Object oriented interface for searching and manipulating LDAP-entries
 Group:              Development/Libraries
 License:            GPLv3+
 URL:                https://kolab.org
 
 Source0:            pear-Net-LDAP3-%{version}.tar.gz
-
-Patch0001:          0001-Improve-setup-of-the-schema-cache-location.patch
-Patch0002:          0002-Fix-regression-in-setting-LDAP-cache-file-path.patch
-Patch0003:          0003-Fix-bug-where-ldapsearch-command-was-failing-when-co.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:          noarch
@@ -52,10 +48,6 @@ Net_LDAP3 is an LDAPv3 compatible enhancement to Net_LDAP2
 
 %prep
 %setup -q -n pear-Net-LDAP3-%{version}
-
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
 
 %build
 
@@ -79,6 +71,9 @@ rm -rf %{buildroot}
 %{_datadir}/%{php}/Net/LDAP3/Result.php
 
 %changelog
+* Wed Jun 20 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.0.7-1
+- Release of version 1.0.7
+
 * Thu May 03 2018 Christoph Erhardt <kolab@sicherha.de> - 1.0.6-2
 - Fix upgrade path
 

@@ -1,3 +1,0 @@
-0001-Improve-setup-of-the-schema-cache-location.patch -p1
-0002-Fix-regression-in-setting-LDAP-cache-file-path.patch -p1
-0003-Fix-bug-where-ldapsearch-command-was-failing-when-co.patch -p1

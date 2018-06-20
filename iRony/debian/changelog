@@ -1,3 +1,9 @@
+irony (0.4.1-2~kolab1) unstable; urgency=low
+
+  * Narrow the requirements on specific sabre packages
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 20 Jun 2018 12:12:13 +0100
+
 irony (0.4.1-1~kolab1) unstable; urgency=low
 
   * Fix autoloader mess, again
