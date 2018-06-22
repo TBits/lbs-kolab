@@ -17,7 +17,7 @@
 %global bonnie_group_id 415
 
 Name:               bonnie
-Version:            0.3.5
+Version:            0.3.7
 Release:            1%{?dist}
 Summary:            Bonnie for Kolab Groupware
 
@@ -366,6 +366,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Jun 22 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.7-1
+- Don't run out of fields
+- Fix storing user data to the side
+
 * Sun Jun 17 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.3.4-1
 - Release of version 0.3.4
 
