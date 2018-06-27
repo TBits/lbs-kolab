@@ -2,12 +2,12 @@ Source: kolab-autoconf
 Maintainer: André Keller <andre.keller@vshn.ch>
 Section: database
 Priority: optional
-Build-Depends: debhelper (>=9.0.0)
+Build-Depends: debhelper (>=9.0.0), psa | bash
 Standards-Version: 3.9.5
 
 Package: kolab-autoconf
 Architecture: all
-Depends: ${misc:Depends}
+Depends: php-kolab-net-ldap3, ${misc:Depends}
 Description: Autodiscovery component for kolab
  Autodiscover service implements automatic account configuration for email
  and ActiveSync clients.
