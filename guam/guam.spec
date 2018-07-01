@@ -5,9 +5,7 @@
 %global debug_package %{nil}
 
 %global realname kolab_guam
-
-%global guam_user guam
-%global guam_group guam
+%global binname guam
 
 %if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
 %global with_systemd 0
@@ -15,11 +13,13 @@
 %global with_systemd 1
 %endif
 
-%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%{VERSION}" %{1})
+%{!?_unitdir: %global _unitdir /usr/lib/systemd/system}
+
+%define lock_version() %{1}%{?_isa} = %(rpm -q --queryformat "%%{VERSION}" %{1})
 
 Name:               guam
-Version:            0.9.2
-Release:            4%{?dist}
+Version:            0.9.4
+Release:            7%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -29,12 +29,9 @@ URL:                https://kolab.org/about/guam
 Source0:            https://mirror.kolabenterprise.com/pub/releases/guam-%{version}.tar.gz
 Source100:          plesk.sys.config
 
-Patch0001:          0001-Avoid-empty-lines-in-the-responses-to-IMAP-clients.patch
-Patch0002:          guam-0.9.2-T25795.patch
-Patch0003:          guam-0.9.2-allow-empty-lines-in-commands.patch
-
-Patch9991:          rebar-remove-deps.patch
-Patch9992:          guam-0.9.2-set-version-number.patch
+Patch9991:          make-it-very-easy-on-rebar3.patch
+Patch9992:          guam-priv-no-delete.patch
+Patch9993:          guam-0.9.2-stalling-client-buffer-and-split-command-handling.patch
 
 BuildRequires:      erlang >= 17.4
 BuildRequires:      erlang-asn1
@@ -42,7 +39,7 @@ BuildRequires:      erlang-common_test
 BuildRequires:      erlang-compiler
 BuildRequires:      erlang-crypto
 BuildRequires:      erlang-debugger
-BuildRequires:      erlang-eimap >= 0.2.4
+BuildRequires:      erlang-eimap >= 0.3.0
 BuildRequires:      erlang-erts
 BuildRequires:      erlang-et
 BuildRequires:      erlang-goldrush >= 0.1.8
@@ -52,7 +49,8 @@ BuildRequires:      erlang-lager_syslog >= 2.0.3
 BuildRequires:      erlang-mnesia
 BuildRequires:      erlang-observer
 BuildRequires:      erlang-public_key
-BuildRequires:      erlang-rebar >= 2.5.1
+BuildRequires:      erlang-rebar3 >= 3.3.2
+BuildRequires:      erlang-rpm-macros
 BuildRequires:      erlang-runtime_tools
 BuildRequires:      erlang-sasl
 BuildRequires:      erlang-snmp
@@ -61,16 +59,9 @@ BuildRequires:      erlang-ssl
 BuildRequires:      erlang-stdlib
 BuildRequires:      erlang-syntax_tools
 BuildRequires:      erlang-syslog >= 1.0.3
-%if 0%{?rhel}
-BuildRequires:      erlang-test_server
-BuildRequires:      erlang-webtool
-%endif
 BuildRequires:      erlang-tools
 BuildRequires:      erlang-wx
 BuildRequires:      erlang-xmerl
-
-Requires(pre):      shadow-utils
-Requires(postun):   shadow-utils
 
 Requires:           %lock_version erlang
 Requires:           %lock_version erlang-eimap
@@ -98,101 +89,103 @@ Requires(preun):    initscripts
 %endif
 
 %description
-Guam is a smart, unjustly outcasted Reverse IMAP Proxy that lives at
+Guam is a smart, unjustly outcast Reverse IMAP Proxy that lives at
 the perimeter of your IMAP environment.
 
 %prep
 %setup -q
 
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
-
 %patch9991 -p1
 %patch9992 -p1
+%patch9993 -p1
+
+sed -i 's/"0\.9\.0"/"%{version}"/' rebar.config
 
 %build
-rebar compile
-mkdir -p deps
 
-pushd rel
-ENABLE_STATIC=no rebar generate
-popd
+DEBUG=1
+export DEBUG
+
+HEX_OFFLINE=true
+export HEX_OFFLINE
+
+rebar3 release \
+    --dev-mode false \
+    --relname %{name} \
+    --relvsn %{version} \
+    --verbose
 
 %install
+
+find -type f | sort
+
 mkdir -p \
-    %{buildroot}/opt \
+    %{buildroot}%{_sysconfdir}/%{name}/ \
     %{buildroot}%{_sbindir} \
-    %{buildroot}%{_sysconfdir}/guam/ \
+    %{buildroot}%{_erldir}/bin/ \
+    %{buildroot}%{_erllibdir}/%{realname}-%{version}/ \
 %if 0%{?with_systemd}
     %{buildroot}%{_unitdir}/ \
 %else
     %{buildroot}%{_initddir}/ \
 %endif
-    %{buildroot}%{_var}/log/
+    %{buildroot}%{_var}/log/%{name}/
 
+# Configuration
+cp _build/default/rel/%{name}/etc/sys.config \
+    %{buildroot}%{_sysconfdir}/%{name}/sys.config
+cp _build/default/rel/%{name}/vm.args \
+    %{buildroot}%{_sysconfdir}/%{name}/vm.args
+
+# Service scripts
 %if 0%{?with_systemd}
-install -p -m 644 contrib/guam.service \
-    %{buildroot}%{_unitdir}/guam.service
+install -p -m 644 contrib/%{name}.service \
+    %{buildroot}%{_unitdir}/%{name}.service
 %else
-install -p -m 755 contrib/guam.sysvinit \
-    %{buildroot}%{_initddir}/guam
+install -p -m 755 contrib/%{name}.sysvinit \
+    %{buildroot}%{_initddir}/%{name}
 %endif
 
-cp -a rel/%{realname} %{buildroot}/opt/.
+pushd %{buildroot}%{_erldir}/bin/
+ln -s ../lib/%{realname}-%{version}/bin/%{binname} %{realname}
+popd
 
-cat > %{buildroot}%{_sbindir}/guam << EOF
-#!/bin/bash
-exec /opt/kolab_guam/bin/kolab_guam \$*
-EOF
-
-mv %{buildroot}/opt/%{realname}/releases/*/sys.config \
-    %{buildroot}%{_sysconfdir}/guam/sys.config
+cp -a _build/default/rel/%{name}/bin %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+cp -a _build/default/rel/%{name}/lib/%{realname}-%{version}/ebin/ %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+cp -a _build/default/rel/%{name}/releases/ %{buildroot}%{_erllibdir}/%{realname}-%{version}/
 
 %if 0%{?plesk}
 install -m 644 -p %{SOURCE100} %{buildroot}%{_sysconfdir}/guam/sys.config
 %endif
 
-ln -s ../../../..%{_sysconfdir}/%{name}/sys.config \
-    $(ls -1d %{buildroot}/opt/%{realname}/releases/*/)/sys.config
-
-mv %{buildroot}/opt/%{realname}/log %{buildroot}%{_var}/log/guam
-ln -s ../..%{_var}/log/guam %{buildroot}/opt/%{realname}/log
-
-pushd %{buildroot}/opt/%{realname}/lib
-for dir in $(ls -d */ | grep -v kolab_guam); do
-    dir=$(basename ${dir})
-    if [ ! -d %{_libdir}/erlang/lib/${dir} ]; then
-        echo "Skipping deletion of ${dir}, no equivalent in %{_libdir}/erlang/lib/"
-    else
-        rm -rvf ${dir}
-        ln -sv ../../..%{_libdir}/erlang/lib/${dir} ${dir}
-    fi
-done
+pushd %{buildroot}%{_erllibdir}/%{realname}-%{version}/releases/%{version}/
+rm sys.config vm.args
+ln -sv ../../../../../../..%{_sysconfdir}/%{name}/sys.config sys.config
+ln -sv ../../../../../../..%{_sysconfdir}/%{name}/vm.args vm.args
 popd
 
-%check
-rebar skip_deps=true eunit -v
+pushd %{buildroot}%{_erllibdir}/%{realname}-%{version}/
+ln -s ../../lib lib
+ln -s ../../../../..%{_var}/log/%{name} log
+popd
 
-%pre
-if [ $1 == 1 ]; then
-    /usr/sbin/groupadd --system %{guam_group} 2> /dev/null || :
-    /usr/sbin/useradd -c "Guam Service" -d /opt/kolab_guam -g %{guam_group} \
-        -s /sbin/nologin --system %{guam_user} 2> /dev/null || :
-fi
+cat > %{buildroot}%{_sbindir}/%{name} << EOF
+#!/bin/bash
+exec %{_erllibdir}/%{realname}-%{version}/bin/%{binname} \$*
+EOF
+
+%check
+# Hopeless on -0.9
+rebar3 eunit -v || :
 
 %postun
 %if 0%{?with_systemd}
 %systemd_postun
 %endif
-if [ $1 == 0 ]; then
-    /usr/sbin/userdel %{guam_user} 2>/dev/null || :
-    /usr/sbin/groupdel %{guam_group} 2>/dev/null || :
-fi
 
 %if 0%{?with_systemd}
 %post
-%systemd_post guam.service
+%systemd_post %{name}.service
 
 if [ ! -f "/etc/guam/dh_2048.pem" ]; then
     openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1 || \
@@ -200,15 +193,15 @@ if [ ! -f "/etc/guam/dh_2048.pem" ]; then
 fi
 
 %preun
-%systemd_preun guam.service
+%systemd_preun %{name}.service
 
 %posttrans
 test -f /etc/sysconfig/guam-disable-posttrans || \
-    systemctl try-restart guam.service 2>&1 || :
+    systemctl try-restart %{name}.service 2>&1 || :
 
 %else
 %post
-chkconfig --add guam >/dev/null 2>&1 || :
+chkconfig --add %{name} >/dev/null 2>&1 || :
 
 if [ ! -f "/etc/guam/dh_2048.pem" ]; then
     openssl gendh -out /etc/guam/dh_2048.pem -2 2048 >/dev/null 2>&1 || \
@@ -217,13 +210,16 @@ fi
 
 %posttrans
 test -f /etc/sysconfig/guam-disable-posttrans || \
-    %{_sbindir}/service restart guam 2>&1 || :
+    %{_sbindir}/service restart %{name} 2>&1 || :
 %endif
 
 %files
-%attr(0750,root,root) %{_sbindir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/sys.config
-%attr(0640,%{guam_user},%{guam_group}) %{_var}/log/%{name}/
+%config(noreplace) %{_sysconfdir}/%{name}/vm.args
+%attr(0750,root,root) %{_sbindir}/%{name}
+%{_libdir}/erlang/bin/%{realname}
+%{_libdir}/erlang/lib/%{realname}-%{version}
+%attr(0640,root,root) %{_var}/log/%{name}/
 
 %if 0%{?with_systemd}
 %{_unitdir}/%{name}.service
@@ -231,11 +227,27 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %{_initddir}/%{name}
 %endif
 
-/opt/%{realname}/
-
 %changelog
-* Sat May 19 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-4
-- Fix generating dh parameters on more recent openssl versions
+* Sat May 19 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.4-7
+- Fix generating dh params file on more recent openssl versions
+
+* Tue May 08 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-6
+- Apply patch that fixes stalling client buffers and handling of split commands
+
+* Fri May 04 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-5
+- Make logs go to /var/log/guam
+
+* Sat Apr 21 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-4
+- Fix packaging, dependencies and more stuff
+
+* Thu Apr 19 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-3
+- Use script rather than symlink
+
+* Thu Apr 19 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-2
+- Ship correct variants of sys.config and vm.args
+
+* Sun Apr 15 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-1
+- Release version 0.9.4
 
 * Tue Feb 27 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.2-3
 - Allow empty lines in commands

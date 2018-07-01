@@ -5,7 +5,7 @@ Build-Depends: debhelper (>= 8.0.0),
 	cmake,
 	qt4-qmake,
 	libqt4-dev,
-	libical-dev,
+	libical2-dev | libical-dev (<< 3.0),
 	libx11-dev,
 	libboost-dev,
 	libsasl2-dev

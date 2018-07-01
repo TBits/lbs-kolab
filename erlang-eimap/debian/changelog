@@ -1,3 +1,9 @@
+erlang-eimap (0.4.0-1) unstable; urgency=medium
+
+  * Package the 0.4.0 release
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 08 Apr 2018 00:44:10 +0200
+
 erlang-eimap (0.2.5-3) unstable; urgency=medium
 
   * Patch untagged commands
