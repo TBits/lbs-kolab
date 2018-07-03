@@ -1,0 +1,12 @@
+diff -ur guam-0.9.2.orig/rel/reltool.config guam-0.9.2/rel/reltool.config
+--- guam-0.9.2.orig/rel/reltool.config	2017-03-21 11:20:48.000000000 +0100
++++ guam-0.9.2/rel/reltool.config	2017-06-19 12:46:05.360010132 +0200
+@@ -4,7 +4,7 @@
+        {lib_dirs, ["../deps"]},
+        {erts, [{mod_cond, derived}, {app_file, strip}]},
+        {app_file, strip},
+-       {rel, "kolab_guam", "0.9",
++       {rel, "kolab_guam", "0.9.2",
+         [
+          kernel,
+          stdlib,

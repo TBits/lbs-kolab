@@ -1,3 +1,5 @@
-make-it-very-easy-on-rebar3.patch -p1
-guam-priv-no-delete.patch -p1
-guam-0.9.2-stalling-client-buffer-and-split-command-handling.patch -p1
+0001-Avoid-empty-lines-in-the-responses-to-IMAP-clients.patch -p1
+guam-0.9.2-T25795.patch -p1
+rebar-remove-deps.patch -p1
+guam-0.9.2-set-version-number.patch -p1
+guam-0.9.2-allow-empty-lines-in-commands.patch -p1

@@ -1,0 +1,25 @@
+commit 20808866e5a213e31cbd92d3c95da4547adadd0b
+Author: Christian Mollekopf <chrigi_1@fastmail.fm>
+Date:   Fri Mar 31 16:25:07 2017 +0200
+
+    Pass through untagged client responses
+    
+    The IDLE command allows for an untagged DONE respose by the client to
+    stop imap idle. This used to crash because we always expected a tagged
+    response. This patch simply passes through the buffer in case of an
+    untagged response.
+
+diff --git a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
+index 4400f31..9d89e92 100644
+--- a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
++++ b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
+@@ -29,6 +29,9 @@ applies(_ConnectionDetails, _Buffer, { _Tag, Command, Data }, State) ->
+     %lager:debug("********** Checking ...~n    Command: ~s ~s, Result ~p", [Command, Data, Applies]),
+     { Applies, State }.
+ 
++apply_to_client_message(_ImapSession, Buffer, undefined, State) ->
++    { Buffer, State };
++
+ apply_to_client_message(ImapSession, Buffer, { Tag, Command, Data }, State) ->
+     { Active, StateTag } =
+     case is_triggering_command(Command, Data, State) of
