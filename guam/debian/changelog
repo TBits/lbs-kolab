@@ -1,3 +1,10 @@
+guam (0.9.4-8) unstable; urgency=medium
+
+  * Fix lib symlink
+  * Add missing dependency on erlang-goldrush
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Wed, 04 Jul 2018 09:04:39 +0200
+
 guam (0.9.4-7) unstable; urgency=medium
 
   * Fix generating DH parameters on openssl >= 1.1.0f with gendh->dhparam

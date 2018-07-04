@@ -7,7 +7,7 @@ Standards-Version: 3.9.5
 
 Package: kolab-autoconf
 Architecture: all
-Depends: php-kolab-net-ldap3, ${misc:Depends}
+Depends: ${misc:Depends}
 Description: Autodiscovery component for kolab
  Autodiscover service implements automatic account configuration for email
  and ActiveSync clients.
