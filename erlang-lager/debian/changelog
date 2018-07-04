@@ -1,3 +1,9 @@
+erlang-lager (3.2.4-1+kolab1) unstable; urgency=medium
+
+  * Bump revision suffix so we count as newer than the Debian upstream package
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Wed, 04 Jul 2018 12:48:55 +0200
+
 erlang-lager (3.2.4-1~kolab1) unstable; urgency=medium
 
   * Fix version number in lager.app

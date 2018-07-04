@@ -3,18 +3,32 @@ Section: mail
 Priority: extra
 Maintainer: Christoph Erhardt <kolab@sicherha.de>
 Standards-Version: 3.9.6
-Build-Depends: debhelper (>= 9), dh-systemd (>= 1.5), erlang (>= 17.4), erlang-eimap (>= 0.2.5), erlang-goldrush, erlang-lager, erlang-lager-syslog, erlang-reltool, psa | bash, rebar (>= 2.5.1)
+Build-Depends: debhelper (>= 9), dh-systemd (>= 1.5), erlang (>= 17.4), erlang-eimap (>= 0.3.0), erlang-goldrush (>= 0.2.0), erlang-lager, erlang-lager-syslog, psa | bash, erlang-rebar3 (>= 3.3.2)
 Homepage: https://kolab.org/about/guam
 
 Package: guam
 Architecture: any
 Section: mail
-Depends: ${misc:Depends},
-	erlang-base (>= 17.4) | erlang-base-hipe (>= 17.4),
-	erlang-eimap (>= 0.2.5),
-	erlang-goldrush,
-	erlang-lager,
-	erlang-lager-syslog
+Depends: ${misc:Depends}, ${dist:GuamDepends}
 Description: Smart Reverse IMAP Proxy
  Guam is a smart, unjustly outcast Reverse IMAP Proxy that lives at
  the perimeter of your IMAP environment.
+
+Package: guam-libs
+Architecture: any
+Section: mail
+Depends: ${misc:Depends}, ${dist:GuamLibDepends}
+Conflicts: guam-bundled-libs
+Description: Dependency meta-package for Guam
+ This package pulls in all the library dependencies required to run Guam.
+ Debian backports users who have a backported Erlang version may need to install
+ guam-bundled-libs instead.
+
+Package: guam-bundled-libs
+Architecture: any
+Section: mail
+Depends: ${misc:Depends}, ${dist:GuamBundleDepends}
+Conflicts: guam-libs
+Description: Bundled runtime environment for Guam
+ This is a support package for Debian backports users who have a backported
+ Erlang version. All others should preferably use guam-libs.

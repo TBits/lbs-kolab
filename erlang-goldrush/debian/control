@@ -2,7 +2,7 @@ Source: erlang-goldrush
 Priority: optional
 Maintainer: Philipp Huebner <debalance@debian.org>
 Uploaders: Christoph Erhardt <kolab@sicherha.de>
-Build-Depends: debhelper (>= 9), dh-rebar
+Build-Depends: debhelper (>= 9), dh-rebar, erlang-crypto
 Standards-Version: 3.9.5
 Section: libs
 Homepage: https://github.com/DeadZen/goldrush
