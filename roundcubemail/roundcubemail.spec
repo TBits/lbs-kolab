@@ -49,14 +49,14 @@
 %global tmpdir /var/lib/roundcubemail
 
 %global rc_version 1.4
-%global rc_rel_suffix alpha6
+%global rc_rel_suffix alpha7
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail
 Version:        1.4
 
-Release:        37%{?dot_rel_suffix}%{?dist}
+Release:        38%{?dot_rel_suffix}%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -3324,6 +3324,12 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Jul 12 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-38.alpha7
+- Fix unread icon
+- Use bold font for folders with unread messages
+- New skin thumbnail image
+- Fix search scope selection
+
 * Tue Jun  5 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-36.alpha6
 - Fix toolbars in Safari desktop browser (T110373)
 

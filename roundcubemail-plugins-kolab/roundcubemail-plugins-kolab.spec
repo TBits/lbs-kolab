@@ -36,14 +36,14 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 %global rc_version 3.4
-%global rc_rel_suffix alpha6
+%global rc_rel_suffix alpha7
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.4
 
-Release:        34%{?dot_rel_suffix}%{?dist}
+Release:        38%{?dot_rel_suffix}%{?dist}
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -250,6 +250,31 @@ Provides:       roundcubemail(plugin-kolab_auth) = %{?epoch:%{epoch}:}%{version}
 
 %description -n roundcubemail-plugin-kolab_auth
 Plugin kolab_auth
+
+%package -n roundcubemail-plugin-kolab_chat
+Summary:        Plugin kolab_chat
+Group:          Applications/Internet
+Requires:       roundcubemail(core) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_chat-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?plesk}
+Requires:       roundcubemail(plugin-kolab_chat-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail(skin-plesk) >= 0.4
+%else
+%if 0%{?kolab_enterprise}
+%if 0%{?bootstrap} < 1
+Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(skin-kolab) >= 0.4
+%endif
+%else
+Requires:       roundcubemail(skin-chameleon) >= 0.3.9
+Requires:       roundcubemail(plugin-kolab_chat-skin-elastic) >= 1.4
+Requires:       roundcubemail(plugin-kolab_chat-skin-larry) >= 1.4
+%endif
+%endif
+Provides:       roundcubemail(plugin-kolab_chat) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_chat
+Plugin kolab_chat
 
 %package -n roundcubemail-plugin-kolab_config
 Summary:        Plugin kolab_config
@@ -641,6 +666,14 @@ Provides:       roundcubemail(plugin-kolab_auth-assets) = %{?epoch:%{epoch}:}%{v
 %description -n roundcubemail-plugin-kolab_auth-assets
 Plugin kolab_auth Assets
 
+%package -n roundcubemail-plugin-kolab_chat-assets
+Summary:        Plugin kolab_chat Assets
+Group:          Applications/Internet
+Provides:       roundcubemail(plugin-kolab_chat-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_chat-assets
+Plugin kolab_chat Assets
+
 %package -n roundcubemail-plugin-kolab_config-assets
 Summary:        Plugin kolab_config Assets
 Group:          Applications/Internet
@@ -881,6 +914,30 @@ Provides:       roundcubemail(plugin-kolab_addressbook-skin-larry) = %{?epoch:%{
 %description -n roundcubemail-plugin-kolab_addressbook-skin-larry
 Plugin kolab_addressbook / Skin larry
 
+%package -n roundcubemail-plugin-kolab_chat-skin-elastic
+Summary:        Plugin kolab_chat / Skin elastic
+Group:          Applications/Internet
+Requires:       roundcubemail(plugin-kolab_chat) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail(skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_chat-skin-elastic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail(plugin-kolab_chat-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail(plugin-kolab_chat-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_chat-skin-elastic
+Plugin kolab_chat / Skin elastic
+
+%package -n roundcubemail-plugin-kolab_chat-skin-larry
+Summary:        Plugin kolab_chat / Skin larry
+Group:          Applications/Internet
+Requires:       roundcubemail(plugin-kolab_chat) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail(skin-larry) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_chat-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail(plugin-kolab_chat-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail(plugin-kolab_chat-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_chat-skin-larry
+Plugin kolab_chat / Skin larry
+
 %package -n roundcubemail-plugin-kolab_delegation-skin-elastic
 Summary:        Plugin kolab_delegation / Skin elastic
 Group:          Applications/Internet
@@ -1101,6 +1158,22 @@ Provides:       roundcubemail(plugin-kolab_addressbook-skin-larry-assets) = %{?e
 %description -n roundcubemail-plugin-kolab_addressbook-skin-larry-assets
 Plugin kolab_addressbook / Skin larry (Assets Package)
 
+%package -n roundcubemail-plugin-kolab_chat-skin-elastic-assets
+Summary:        Plugin kolab_chat / Skin elastic (Assets)
+Group:          Applications/Internet
+Provides:       roundcubemail(plugin-kolab_chat-skin-elastic-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_chat-skin-elastic-assets
+Plugin kolab_chat / Skin elastic (Assets Package)
+
+%package -n roundcubemail-plugin-kolab_chat-skin-larry-assets
+Summary:        Plugin kolab_chat / Skin larry (Assets)
+Group:          Applications/Internet
+Provides:       roundcubemail(plugin-kolab_chat-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_chat-skin-larry-assets
+Plugin kolab_chat / Skin larry (Assets Package)
+
 %package -n roundcubemail-plugin-kolab_delegation-skin-elastic-assets
 Summary:        Plugin kolab_delegation / Skin elastic (Assets)
 Group:          Applications/Internet
@@ -1214,8 +1287,8 @@ ls -l
 mkdir -p skins/elastic/
 rm -rvf skins/elastic/images
 mkdir -p skins/elastic/images/
-cp -av %{datadir}/skins/elastic/images/* skins/elastic/images/.
-cp -av %{datadir}/skins/elastic/styles/ skins/elastic/.
+cp -av %{datadir}/skins/elastic/images/* skins/elastic/images/. || :
+cp -av %{datadir}/skins/elastic/styles/ skins/elastic/. || :
 
 %if 0%{?plesk}
 # Provide defaults for Plesk
@@ -1717,6 +1790,11 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
+%pre -n roundcubemail-plugin-kolab_chat
+if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
+fi
+
 %pre -n roundcubemail-plugin-kolab_config
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
@@ -1884,6 +1962,21 @@ fi
 %posttrans -n roundcubemail-plugin-kolab_auth
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
+%if 0%{?with_systemd}
+            /bin/systemctl condrestart %{httpd_name}.service
+%else
+            /sbin/service %{httpd_name} condrestart
+%endif
+        fi
+    fi
+    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
+    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
+fi
+
+%posttrans -n roundcubemail-plugin-kolab_chat
+if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2207,6 +2300,9 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_auth -f plugin-kolab_auth.files
 %defattr(-,root,root,-)
 
+%files -n roundcubemail-plugin-kolab_chat -f plugin-kolab_chat.files
+%defattr(-,root,root,-)
+
 %files -n roundcubemail-plugin-kolab_config -f plugin-kolab_config.files
 %defattr(-,root,root,-)
 
@@ -2277,6 +2373,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_auth-assets -f plugin-kolab_auth-assets.files
+%defattr(-,root,root,-)
+
+%files -n roundcubemail-plugin-kolab_chat-assets -f plugin-kolab_chat-assets.files
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_config-assets -f plugin-kolab_config-assets.files
@@ -2357,6 +2456,12 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_addressbook-skin-larry -f plugin-kolab_addressbook-skin-larry.files
 %defattr(-,root,root,-)
 
+%files -n roundcubemail-plugin-kolab_chat-skin-elastic -f plugin-kolab_chat-skin-elastic.files
+%defattr(-,root,root,-)
+
+%files -n roundcubemail-plugin-kolab_chat-skin-larry -f plugin-kolab_chat-skin-larry.files
+%defattr(-,root,root,-)
+
 %files -n roundcubemail-plugin-kolab_delegation-skin-elastic -f plugin-kolab_delegation-skin-elastic.files
 %defattr(-,root,root,-)
 
@@ -2418,6 +2523,12 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_addressbook-skin-larry-assets -f plugin-kolab_addressbook-skin-larry-assets.files
+%defattr(-,root,root,-)
+
+%files -n roundcubemail-plugin-kolab_chat-skin-elastic-assets -f plugin-kolab_chat-skin-elastic-assets.files
+%defattr(-,root,root,-)
+
+%files -n roundcubemail-plugin-kolab_chat-skin-larry-assets -f plugin-kolab_chat-skin-larry-assets.files
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_delegation-skin-elastic-assets -f plugin-kolab_delegation-skin-elastic-assets.files

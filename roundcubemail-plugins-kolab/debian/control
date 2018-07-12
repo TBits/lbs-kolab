@@ -103,6 +103,13 @@ Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
 Description: kolab_auth plugin for Roundcube
 
+Package: roundcubemail-plugin-kolab-chat
+Architecture: all
+Depends: roundcubemail-core
+Breaks: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Replaces: roundcubemail-plugins-kolab (<< 1:3.3.0-1~kolab1)
+Description: kolab_chat plugin for Roundcube
+
 Package: roundcubemail-plugin-kolab-config
 Architecture: all
 Depends: roundcubemail-core,
