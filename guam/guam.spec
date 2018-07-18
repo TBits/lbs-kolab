@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.4
-Release:            7%{?dist}
+Release:            8%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -68,6 +68,8 @@ Requires:           %lock_version erlang-eimap
 Requires:           %lock_version erlang-goldrush
 Requires:           %lock_version erlang-lager
 Requires:           %lock_version erlang-lager_syslog
+
+Requires:           which
 
 %if 0%{?with_systemd}
 %if 0%{?suse_version}
@@ -228,6 +230,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Wed Jul 18 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-8
+- Add run-time dependency on which
+
 * Sat May 19 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.4-7
 - Fix generating dh params file on more recent openssl versions
 
