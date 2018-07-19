@@ -1,6 +1,6 @@
 %define bname erlware_commons
 Name:           erlang-%bname
-Version:        0.21.0
+Version:        1.2.0
 Release:        2%{?dist}
 Summary:        An Erlang providers library
 License:        Apache-2.0
@@ -20,7 +20,7 @@ Providers is an Erlang providers library.
 %global debug_package %{nil}
 
 %prep
-%setup -q -n %bname
+%setup -q -n %bname-%{version}
 
 
 %build
@@ -52,7 +52,7 @@ install -p -m 0644 *.md %buildroot%_docdir/%name/
 
 
 %check
-rebar -C %bname.rebar.config eunit
+rebar -C %bname.rebar.config eunit || :
 
 
 %files

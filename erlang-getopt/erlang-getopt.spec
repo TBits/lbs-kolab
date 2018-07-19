@@ -4,8 +4,8 @@
 
 
 Name:		erlang-%{realname}
-Version:	0.8.2
-Release:	2%{?dist}
+Version:	1.0.1
+Release:	1%{?dist}
 Summary:	Erlang module to parse command line arguments using the GNU getopt syntax
 Group:		Development/Libraries
 License:	BSD
@@ -54,6 +54,9 @@ install -D -m 644 ebin/%{realname}.beam %{buildroot}%{_libdir}/erlang/lib/%{real
 
 
 %changelog
+* Thu Jul 19 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.0.1-1
+- Check in version 1.0.1
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 

@@ -1,14 +1,13 @@
 %define bname relx
 Name:           erlang-%bname
-Version:        3.21.1
-Release:        2
+Version:        3.26.0
+Release:        1
 Summary:        A release assembler for Erlang
 License:        Apache-2.0
 Group:          Development/Tools/Other
 URL:            https://github.com/erlware/%bname
 Source:         %bname-%version.tar.gz
 
-Patch0:         %bname-%version-git.patch
 Patch1:         %bname-2.0.0-doc.patch
 
 Provides:       erlang-%bname = %version-%release
@@ -34,7 +33,6 @@ specification information for releases.
 
 %prep
 %setup -q -n %bname-%version
-%patch0 -p1
 %patch1 -p1
 sed -i -r '1s|^.*/env[[:blank:]]+(.*)$|#!%_bindir/\1|' priv/templates/install_upgrade_escript
 erl -noshell -eval '
@@ -98,6 +96,9 @@ rebar -C %bname.rebar.config eunit
 
 
 %changelog
+* Thu Jul 19 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.26.0-1
+- Check in version 3.26.0
+
 * Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> 3.21.1-2
 - fix for Fedora 25, there is no debugging information
 

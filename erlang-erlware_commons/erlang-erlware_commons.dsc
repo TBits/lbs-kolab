@@ -2,7 +2,7 @@ Format: 1.0
 Source: erlang-erlware-commons
 Binary: erlang-erlware-commons
 Architecture: any
-Version: 0.21.0-1
+Version: 1.2.0-1
 Maintainer: Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://github.com/erlware/erlware_commons
 Standards-Version: 3.9.6
