@@ -1,6 +1,6 @@
-diff -Ndur relx-2.0.0/src/relx.erl relx-2.0.0-doc/src/relx.erl
---- relx-2.0.0/src/relx.erl	2015-05-09 04:31:43.000000000 +0300
-+++ relx-2.0.0-doc/src/relx.erl	2015-05-31 04:17:01.000000000 +0300
+diff -ur relx-3.26.0.orig/src/relx.erl relx-3.26.0/src/relx.erl
+--- relx-3.26.0.orig/src/relx.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/relx.erl	2018-07-19 20:01:31.042570725 +0200
 @@ -79,8 +79,8 @@
  
  %% @doc provides an API to run the Relx process from erlang applications
@@ -34,9 +34,9 @@ diff -Ndur relx-2.0.0/src/relx.erl relx-2.0.0-doc/src/relx.erl
  %% @param Goals - The release goals for the system in depsolver or Relx goal
  %% format
  %% @param LibDirs - The library dirs that should be used for the system
-diff -Ndur relx-2.0.0/src/rlx_app_info.erl relx-2.0.0-doc/src/rlx_app_info.erl
---- relx-2.0.0/src/rlx_app_info.erl	2015-05-09 04:31:43.000000000 +0300
-+++ relx-2.0.0-doc/src/rlx_app_info.erl	2015-05-31 04:15:21.000000000 +0300
+diff -ur relx-3.26.0.orig/src/rlx_app_info.erl relx-3.26.0/src/rlx_app_info.erl
+--- relx-3.26.0.orig/src/rlx_app_info.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/rlx_app_info.erl	2018-07-19 20:01:31.112571436 +0200
 @@ -21,18 +21,18 @@
  %%% @doc This module represents useful, relevant information about an
  %%% application. The relevant information is.
@@ -65,15 +65,15 @@ diff -Ndur relx-2.0.0/src/rlx_app_info.erl relx-2.0.0-doc/src/rlx_app_info.erl
  %%%
  -module(rlx_app_info).
  
-diff -Ndur relx-2.0.0/src/rlx_depsolver.erl relx-2.0.0-doc/src/rlx_depsolver.erl
---- relx-2.0.0/src/rlx_depsolver.erl	2015-05-09 04:31:43.000000000 +0300
-+++ relx-2.0.0-doc/src/rlx_depsolver.erl	2015-05-31 04:32:40.437766702 +0300
+diff -ur relx-3.26.0.orig/src/rlx_depsolver.erl relx-3.26.0/src/rlx_depsolver.erl
+--- relx-3.26.0.orig/src/rlx_depsolver.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/rlx_depsolver.erl	2018-07-19 20:02:30.596175731 +0200
 @@ -112,11 +112,7 @@
  %%============================================================================
  %% type
  %%============================================================================
 --ifdef(namespaced_types).
- -type dep_graph() :: gb_tree:tree().
+ -type dep_graph() :: gb_trees:tree().
 --else.
 --type dep_graph() :: gb_tree().
 --endif.
@@ -98,15 +98,18 @@ diff -Ndur relx-2.0.0/src/rlx_depsolver.erl relx-2.0.0-doc/src/rlx_depsolver.erl
  -spec format_culprits([{[constraint()], [constraint()]}]) -> iolist().
  format_culprits(Culprits) ->
      rlx_depsolver_culprit:format_culprits(Culprits).
-diff -Ndur relx-2.0.0/src/rlx_release.erl relx-2.0.0-doc/src/rlx_release.erl
---- relx-2.0.0/src/rlx_release.erl	2015-05-09 04:31:43.000000000 +0300
-+++ relx-2.0.0-doc/src/rlx_release.erl	2015-05-31 04:13:48.000000000 +0300
-@@ -181,7 +181,7 @@
-             ?RLX_ERROR({not_realized, Name, Vsn})
-     end.
+Only in relx-3.26.0/src: rlx_depsolver.erl.orig
+Only in relx-3.26.0/src: rlx_depsolver.erl.rej
+diff -ur relx-3.26.0.orig/src/rlx_release.erl relx-3.26.0/src/rlx_release.erl
+--- relx-3.26.0.orig/src/rlx_release.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/rlx_release.erl	2018-07-19 20:01:31.113571446 +0200
+@@ -205,7 +205,7 @@
+ no_dot_erlang_metadata(T) ->
+     start_clean_metadata(T).
  
 -%% @doc produce the canonical name (<name>-<vsn>) for this release
 +%% @doc produce the canonical name (&lt;name&gt;-&lt;vsn&gt;) for this release
  -spec canonical_name(t()) -> string().
  canonical_name(#release_t{name=Name, vsn=Vsn}) ->
      erlang:binary_to_list(erlang:iolist_to_binary([erlang:atom_to_list(Name), "-",
+Only in relx-3.26.0/src: rlx_release.erl.orig

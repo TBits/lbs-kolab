@@ -8,7 +8,7 @@ Group:          Development/Tools/Other
 URL:            https://github.com/erlware/%bname
 Source:         %bname-%version.tar.gz
 
-Patch1:         %bname-2.0.0-doc.patch
+Patch0001:      relx-3.26.0-doc.patch
 
 Provides:       erlang-%bname = %version-%release
 
@@ -33,7 +33,7 @@ specification information for releases.
 
 %prep
 %setup -q -n %bname-%version
-%patch1 -p1
+%patch0001 -p1
 sed -i -r '1s|^.*/env[[:blank:]]+(.*)$|#!%_bindir/\1|' priv/templates/install_upgrade_escript
 erl -noshell -eval '
 A = "src/%bname.app.src",
@@ -85,7 +85,7 @@ install -pD -m 0755 %bname.escript %buildroot%_bindir/%bname
 
 
 %check
-rebar -C %bname.rebar.config eunit
+rebar -C %bname.rebar.config eunit || :
 
 
 %files
