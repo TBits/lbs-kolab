@@ -37,7 +37,7 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           chwala
-Version:        0.5.2
+Version:        0.5.3
 Release:        1%{?dist}
 Summary:        Glorified WebDAV, done right
 
@@ -47,7 +47,7 @@ URL:            http://chwala.org
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source2:        chwala.logrotate
 
-Patch1:         chwala-0.2-suhosin.session.encrypt-php_flag.patch
+Patch1:         chwala-0.5.3-suhosin.session.encrypt-php_flag.patch
 
 BuildArch:      noarch
 
@@ -158,6 +158,9 @@ fi
 %attr(0750,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Fri Aug 10 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5.3-1
+- Release 0.5.3
+
 * Wed Dec 20 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5.2-1
 - Release 0.5.2
 
