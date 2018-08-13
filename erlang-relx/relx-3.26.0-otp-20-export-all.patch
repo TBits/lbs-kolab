@@ -1,0 +1,24 @@
+diff -ur relx-3.26.0.orig/src/rlx_goal.peg relx-3.26.0/src/rlx_goal.peg
+--- relx-3.26.0.orig/src/rlx_goal.peg	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/rlx_goal.peg	2018-08-13 15:02:36.494601304 +0200
+@@ -49,7 +49,3 @@
+ 
+ version <- [0-9a-zA-Z-+.]+ ;
+ 
+-%% This only exists to get around a bug in erlang where if
+-%% warnings_as_errors is specified `nowarn` directives are ignored
+-
+- `-compile(export_all).`
+\ No newline at end of file
+diff -ur relx-3.26.0.orig/test/rlx_test_utils.erl relx-3.26.0/test/rlx_test_utils.erl
+--- relx-3.26.0.orig/test/rlx_test_utils.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/test/rlx_test_utils.erl	2018-08-13 15:02:40.062612274 +0200
+@@ -2,8 +2,6 @@
+ %%% @copyright (C) 2015, Tristan Sloughter
+ -module(rlx_test_utils).
+ 
+--compile(export_all).
+-
+ create_app(Dir, Name, Vsn, Deps, LibDeps) ->
+     AppDir = filename:join([Dir, Name ++ "-" ++ Vsn]),
+     write_app_file(AppDir, Name, Vsn, app_modules(Name), Deps, LibDeps),

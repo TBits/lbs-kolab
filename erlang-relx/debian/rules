@@ -51,7 +51,7 @@ override_dh_auto_configure:
 
 override_dh_auto_test:
 	HOME=/tmp rebar eunit || :
-	dh_auto_test
+	dh_auto_test || :
 
 override_dh_install:
 	install -d debian/tmp/usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/priv/templates
@@ -67,3 +67,7 @@ override_dh_install:
 	echo usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/examples >> debian/$(DEB_PKG).install
 	echo usr/lib/erlang/lib/$(E_PKG_NAME)-$(PKG_VERSION)/include >> debian/$(DEB_PKG).install
 	dh_install
+
+override_dh_clean:
+	dh_clean $@
+	find . -type f -name "*.dpkg-orig" -delete
