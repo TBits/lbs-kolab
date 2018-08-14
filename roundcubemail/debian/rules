@@ -6,6 +6,9 @@ DH_VERBOSE=1
 	dh $@
 
 override_dh_auto_build:
+	echo $(CURDIR)
+	find debian/ -type f | sort
+
 	mkdir -p $(CURDIR)/debian/home/.composer/
 	echo '{}' > $(CURDIR)/debian/home/.composer/composer.json
 	patch -p1 < debian/patches/add-composer-autoloader.diff || :
@@ -53,7 +56,7 @@ override_dh_auto_build:
 	done
 
 	# The already minied JS can just be copied over to the assets location
-	for file in `find $(CURDIR)/ -type f -name "*.min.js"`; do \
+	for file in `find $(CURDIR)/ ! -path $(CURDIR)/public_html/ -type f -name "*.min.js"`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
 				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
 				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
@@ -91,8 +94,11 @@ override_dh_auto_build:
 		cp -avf $${file} $${asset_loc}/$$(basename $${file}); \
 	done
 
-	for plugin in `find $(CURDIR)/plugins/ -type d -mindepth 1 -maxdepth 1 -exec basename {} \;)`; do \
+	for plugin in `find $(CURDIR)/plugins/ -type d -mindepth 1 -maxdepth 1 -exec basename {} \;) | sort -u`; do \
 		pkgname=$$(echo $${plugin} | sed -e 's/_/-/g') ; \
+		if [ -f "$(CURDIR)/debian/roundcubemail-plugin-$${pkgname}.install" ]; then \
+			continue ; \
+		fi ; \
 		if [ -f "$(CURDIR)/plugins/$${plugin}/config.inc.php.dist" ]; then \
 			mv $(CURDIR)/plugins/$${plugin}/config.inc.php.dist $(CURDIR)/config/$${plugin}.inc.php ; \
 			echo "etc/roundcubemail/$${plugin}.inc.php usr/share/roundcubemail/plugins/$${plugin}/config.inc.php" >> debian/roundcubemail-plugin-$${pkgname}.links ; \
@@ -127,10 +133,11 @@ override_dh_auto_build:
 		cp -v ../SOURCES/plesk.password.inc.php config/password.inc.php ; \
 		sed -i -e 's/www-data adm/roundcube_sysuser roundcube_sysgroup/g' debian/logrotate ; \
 	else \
-		mv config/config.inc.php.sample config/config.inc.php ; \
+		find config/ -type f | sort ; \
+		if [ -f "config/config.inc.php.sample" ]; then \
+			mv config/config.inc.php.sample config/config.inc.php ; \
+		fi ; \
 	fi
-
-	dh_auto_build
 
 override_dh_install:
 	if [ ! -f "/etc/plesk-release" ]; then \
