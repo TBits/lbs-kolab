@@ -30,7 +30,7 @@ override_dh_auto_build:
 	lessc -x ./skins/elastic/styles/embed.less > ./skins/elastic/styles/embed.css
 
 	# Compress the CSS
-	for file in `find $(CURDIR) -type f -name "*.css"`; do \
+	for file in `find $(CURDIR)/ ! -path $(CURDIR)/public_html/assets/ -type f -name "*.css"`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
 				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
 				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
@@ -43,7 +43,7 @@ override_dh_auto_build:
 	done
 
 	# Compress the JS, but not the already minified
-	for file in `find $(CURDIR)/ -type f -name "*.js" ! -name "*.min.js"`; do \
+	for file in `find $(CURDIR)/ ! -path $(CURDIR)/public_html/assets/ -type f -name "*.js" ! -name "*.min.js"`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
 				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
 				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
@@ -56,7 +56,7 @@ override_dh_auto_build:
 	done
 
 	# The already minied JS can just be copied over to the assets location
-	for file in `find $(CURDIR)/ ! -path $(CURDIR)/public_html/ -type f -name "*.min.js"`; do \
+	for file in `find $(CURDIR)/ ! -path $(CURDIR)/public_html/assets/ -type f -name "*.min.js"`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
 				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
 				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
@@ -68,6 +68,7 @@ override_dh_auto_build:
 
 	# Other assets
 	for file in $$(find $(CURDIR)/plugins/ $(CURDIR)/program/ $(CURDIR)/skins/ -type f \
+			! -path $(CURDIR)/public_html/assets/ \
 			-name "*.eot" -o \
 			-name "*.gif" -o \
 			-name "*.ico" -o \
