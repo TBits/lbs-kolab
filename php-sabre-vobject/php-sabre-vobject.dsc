@@ -3,8 +3,8 @@ Source: php-sabre-vobject-3
 Binary: php-sabre-vobject-3
 Architecture: all
 Version: 3.5.3-3
-Maintainer: ownCloud for Debian maintainers <pkg-owncloud-maintainers@lists.alioth.debian.org>
-Uploaders: David Prévot <taffit@debian.org>
+Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Homepage: http://sabre.io/vobject/
 Standards-Version: 3.9.3
 Vcs-Git: git://anonscm.debian.org/pkg-owncloud/php-sabre-vobject.git -b 3

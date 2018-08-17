@@ -2,7 +2,7 @@ Format: 1.0
 Source: php-sabre-http-3
 Binary: php-sabre-http-3
 Architecture: all
-Version: 3.0.5-5
+Version: 3.0.5-6
 Maintainer: Kolab for Debian <devel@lists.kolab.org>
 Uploaders: Daniel Hoffend <dh@dotlan.net>
 Homepage: https://github.com/fruux/sabre-http
