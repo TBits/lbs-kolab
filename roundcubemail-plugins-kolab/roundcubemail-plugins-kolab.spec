@@ -36,14 +36,14 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 %global rc_version 3.4
-%global rc_rel_suffix alpha7
+%global rc_rel_suffix alpha8
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail-plugins-kolab
 Version:        3.4
 
-Release:        38%{?dot_rel_suffix}%{?dist}
+Release:        39%{?dot_rel_suffix}%{?dist}
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -1528,11 +1528,15 @@ find | sort | tee files.find >/dev/null
 
 %build
 
+ls -l
+
 pushd %{name}-%{version}%{?dash_rel_suffix}
 
 # Compile and compress the CSS
-for file in `find . -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"`; do
+for file in `find plugins/ -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"`; do
     %{_bindir}/lessc --relative-urls ${file} > $(dirname ${file})/$(basename ${file} .less).css
+
+    cp $(dirname ${file})/$(basename ${file} .less).css ../$(echo $(dirname ${file})/$(basename ${file} .less).css | sed -r -e 's|plugins/([a-z0-9_]+)/|roundcubemail-plugins-kolab-plugin-\1-skin-elastic-%{version}%{?dash_rel_suffix}/plugins/\1/|g')
 done
 
 %install
@@ -2571,6 +2575,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Sat Aug 18 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4-39.alpha8
+- New snapshot
+- Fix per_user_logging
+
 * Tue May 29 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4-34.alpha6
 - Ship a pre-release version of the Elastic skin
 

@@ -1,3 +1,10 @@
+roundcubemail (1.4-0~kolab39) unstable; urgency=low
+
+  * New snapshot
+  * Set create_default_folders on Plesk
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat, 18 Aug 2018 11:11:11 +0200
+
 roundcubemail (1.4-0~kolab38) unstable; urgency=low
 
   * Fix unread icon

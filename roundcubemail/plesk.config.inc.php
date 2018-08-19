@@ -140,10 +140,15 @@
 
     $config['performance_stats'] = true;
 
+    $config['archive_mbox'] = 'Archive';
     $config['drafts_mbox'] = 'Drafts';
     $config['junk_mbox'] = 'Spam';
     $config['sent_mbox'] = 'Sent';
     $config['trash_mbox'] = 'Trash';
+
+    $config['create_default_folders'] = true;
+
+    $config['default_folders'] = array('INBOX', 'Archive', 'Drafts', 'Sent', 'Spam', 'Trash');
 
     $config['skin_include_php'] = false;
     $config['mime_magic'] = null;
@@ -151,10 +156,6 @@
     $config['im_convert_path'] = '/usr/bin/convert';
     $config['log_dir'] = 'logs/';
     $config['temp_dir'] = '/tmp';
-
-    $config['archive_mbox'] = 'Archive';
-    $config['junk_mbox'] = 'Spam';
-    $config['default_folders'] = array('INBOX', 'Archive', 'Drafts', 'Sent', 'Spam', 'Trash');
 
     $config['log_driver'] = 'file';
     $config['log_date_format'] = 'Y-M-d H:i:s O';

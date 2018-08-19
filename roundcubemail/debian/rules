@@ -68,7 +68,6 @@ override_dh_auto_build:
 
 	# Other assets
 	for file in $$(find $(CURDIR)/plugins/ $(CURDIR)/program/ $(CURDIR)/skins/ -type f \
-			! -path $(CURDIR)/public_html/assets/ \
 			-name "*.eot" -o \
 			-name "*.gif" -o \
 			-name "*.ico" -o \

@@ -49,14 +49,14 @@
 %global tmpdir /var/lib/roundcubemail
 
 %global rc_version 1.4
-%global rc_rel_suffix alpha7
+%global rc_rel_suffix alpha8
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail
 Version:        1.4
 
-Release:        38%{?dot_rel_suffix}%{?dist}
+Release:        39%{?dot_rel_suffix}%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -3324,6 +3324,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Sat Aug 18 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-39.alpha8
+- New snapshot
+- Set create_default_folders to true on Plesk
+
 * Thu Jul 12 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-38.alpha7
 - Fix unread icon
 - Use bold font for folders with unread messages
