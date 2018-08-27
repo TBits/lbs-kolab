@@ -7,6 +7,7 @@ export DH_VERBOSE=1
 
 override_dh_install:
 	rm -rvf kolab/
+	rm -rvf kolab-now/
 
 	find . | sort
 

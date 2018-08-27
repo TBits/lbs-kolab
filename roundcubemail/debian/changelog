@@ -1,3 +1,9 @@
+roundcubemail (1.4-0~kolab47) unstable; urgency=low
+
+  * 3 fixes ahead of beta release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 27 Aug 2018 11:11:11 +0200
+
 roundcubemail (1.4-0~kolab39) unstable; urgency=low
 
   * New snapshot

@@ -1,3 +1,8 @@
+%if 0%{?opensuse_bs}
+#!BuildIgnore: lighttpd
+#!BuildIgnore: nginx
+%endif
+
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 
 %if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
@@ -29,14 +34,14 @@
 
 Name:               roundcubemail-skin-plesk
 Version:            0.4
-Release:            10.alpha0%{?dist}
+Release:            12.beta1%{?dist}
 Summary:            Kolab skin for Roundcube
 
 Group:              Web/Applications
 License:            CC-BY-SA
 URL:                https://kolabsystems.com
 
-Source0:            %{name}-%{version}.tar.gz
+Source0:            %{name}-%{version}-beta1.tar.gz
 Source1:            comm.py
 
 BuildArch:          noarch
@@ -74,9 +79,10 @@ Provides:           roundcubemail(skin-plesk-assets) = %{?epoch:%%{epoch}:}%{ver
 Assets for the Plesk Premium Email skin
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-beta1
 
 rm -rvf kolab/
+rm -rvf kolab-now/
 
 find . | sort
 
@@ -202,6 +208,9 @@ cp -av skins/plesk/watermark.html %{buildroot}%{datadir}/public_html/assets/skin
 %{datadir}/public_html/assets/plugins/libkolab/
 
 %changelog
+* Mon Aug 27 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-11.beta1
+- Update to beta release, rebuild against core Elastic skin updates
+
 * Thu Jul 12 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-10.alpha0
 - Rebuild against core Elastic skin updates
 
