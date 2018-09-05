@@ -57,8 +57,9 @@ Source1:        comm.py
 
 Source100:      plesk.calendar.inc.php
 Source101:      plesk.kolab_addressbook.inc.php
-Source102:      plesk.kolab_folders.inc.php
-Source103:      plesk.libkolab.inc.php
+Source102:      plesk.kolab_chat.inc.php
+Source103:      plesk.kolab_folders.inc.php
+Source104:      plesk.libkolab.inc.php
 
 Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
@@ -1294,8 +1295,9 @@ cp -av %{datadir}/skins/elastic/styles/ skins/elastic/. || :
 # Provide defaults for Plesk
 cp -afv %{SOURCE100} plugins/calendar/config.inc.php.dist
 cp -afv %{SOURCE101} plugins/kolab_addressbook/config.inc.php.dist
-cp -afv %{SOURCE102} plugins/kolab_folders/config.inc.php.dist
-cp -afv %{SOURCE103} plugins/libkolab/config.inc.php.dist
+cp -afv %{SOURCE102} plugins/kolab_chat/config.inc.php.dist
+cp -afv %{SOURCE103} plugins/kolab_folders/config.inc.php.dist
+cp -afv %{SOURCE104} plugins/libkolab/config.inc.php.dist
 %endif
 
 %patch1001 -p1

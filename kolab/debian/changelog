@@ -1,3 +1,9 @@
+kolab (16.0.1-10) unstable; urgency=low
+
+  * Require kolab-chat webmail plugin on Plesk installations
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  5 Sep 2018 12:56:00 +0100
+
 kolab (16.0.1-9) unstable; urgency=low
 
   * Require kolab-autoconf on Plesk installations

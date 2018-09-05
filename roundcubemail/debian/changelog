@@ -1,3 +1,9 @@
+roundcubemail (1.4-0~kolab48) unstable; urgency=low
+
+  * Conditionally include mattermost.inc.php per vhost on Plesk
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  5 Sep 2018 11:11:11 +0200
+
 roundcubemail (1.4-0~kolab47) unstable; urgency=low
 
   * 3 fixes ahead of beta release

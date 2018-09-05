@@ -108,6 +108,7 @@ Requires:       roundcubemail-plugin-contextmenu
 Requires:       roundcubemail-plugin-jqueryui
 Requires:       roundcubemail-plugin-kolab_activesync
 Requires:       roundcubemail-plugin-kolab_addressbook
+Requires:       roundcubemail-plugin-kolab_chat
 Requires:       roundcubemail-plugin-kolab_config
 Requires:       roundcubemail-plugin-kolab_files
 Requires:       roundcubemail-plugin-kolab_folders
