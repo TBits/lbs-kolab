@@ -34,13 +34,13 @@
 
 Name:               roundcubemail-skin-kolab
 Version:            0.4
-Release:            13%{?dist}
+Release:            14.beta1%{?dist}
 Summary:            Kolab skin for Roundcube
 
 Group:              Web/Applications
 License:            CC-BY-SA
 URL:                https://kolabsystems.com
-Source0:            %{name}-%{version}.tar.gz
+Source0:            %{name}-%{version}-beta1.tar.gz
 Source1:            comm.py
 
 BuildArch:          noarch
@@ -59,8 +59,9 @@ Provides:           roundcubemail(skin-kolab) = %{version}-%{release}
 This package contains the Kolab Groupware skin for Roundcube
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-beta1/
 
+rm -rvf kolab-now/
 rm -rvf plesk/
 
 find . | sort
@@ -104,6 +105,11 @@ find . | sort
 # Compile and compress the CSS
 for file in `find . -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"`; do
     %{_bindir}/lessc --relative-urls ${file} > $(dirname ${file})/$(basename ${file} .less).css
+
+    sed -i \
+        -e "s|../../../skins/kolab/images/contactpic.png|../../../../skins/kolab/images/contactpic.png|" \
+        -e "s|../../../skins/kolab/images/watermark.jpg|../../../../skins/kolab/images/watermark.jpg|" \
+        $(dirname ${file})/$(basename ${file} .less).css
 done
 
 for orig_dir in "skins/kolab/" "plugins/libkolab/skins/kolab/"; do
@@ -182,6 +188,9 @@ cp -av skins/kolab/watermark.html %{buildroot}%{datadir}/public_html/assets/skin
 %{datadir}/public_html/assets/plugins/libkolab/
 
 %changelog
+* Tue Sep 18 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.4-14.beta1
+- Check in beta release
+
 * Thu Jul 12 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.4-13
 - Small alignment fixes
 

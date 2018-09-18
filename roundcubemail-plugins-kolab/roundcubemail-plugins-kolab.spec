@@ -1538,7 +1538,19 @@ pushd %{name}-%{version}%{?dash_rel_suffix}
 for file in `find plugins/ -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"`; do
     %{_bindir}/lessc --relative-urls ${file} > $(dirname ${file})/$(basename ${file} .less).css
 
-    cp $(dirname ${file})/$(basename ${file} .less).css ../$(echo $(dirname ${file})/$(basename ${file} .less).css | sed -r -e 's|plugins/([a-z0-9_]+)/|roundcubemail-plugins-kolab-plugin-\1-skin-elastic-%{version}%{?dash_rel_suffix}/plugins/\1/|g')
+    source="$(dirname ${file})/$(basename ${file} .less).css"
+    target="../$(
+        echo ${source} | \
+        sed -r \
+            -e 's|plugins/([a-z0-9_]+)/|roundcubemail-plugins-kolab-plugin-\1-skin-elastic-%{version}%{?dash_rel_suffix}/plugins/\1/|g'
+    )"
+
+    sed -i \
+        -e "s|../../../skins/elastic/images/contactpic.png|../../../../skins/elastic/images/contactpic.png|" \
+        -e "s|../../../skins/elastic/images/watermark.jpg|../../../../skins/elastic/images/watermark.jpg|" \
+        ${source}
+
+    cp -av ${source} ${target}
 done
 
 %install

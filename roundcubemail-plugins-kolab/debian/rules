@@ -15,10 +15,15 @@ override_dh_auto_build:
 	mkdir -p $(CURDIR)/skins
 	cp -avf /usr/share/roundcubemail/skins/elastic/ $(CURDIR)/skins/.
 
-        # Compile and compress the CSS
+        # Compile the CSS
 	for file in `find $(CURDIR) -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"`; do \
 		lessc --relative-urls $${file} > $$(dirname $${file})/$$(basename $${file} .less).css ; \
+		sed -i \
+			-e "s|../../../skins/elastic/images/contactpic.png|../../../../skins/elastic/images/contactpic.png|" \
+			-e "s|../../../skins/elastic/images/watermark.jpg|../../../../skins/elastic/images/watermark.jpg|" \
+			$$(dirname $${file})/$$(basename $${file} .less).css ; \
 	done
+
 
 	# Compress the CSS
 	for file in `find $(CURDIR) -type f -name "*.css"`; do \

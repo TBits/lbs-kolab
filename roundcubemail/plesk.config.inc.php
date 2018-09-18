@@ -195,12 +195,19 @@
         @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__));
     }
 
-    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/seafile.inc.php')) {
-        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/seafile.inc.php');
+    // Integration between Plesk Premium Email and Collabora Online extensions
+    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/collabora.inc.php')) {
+        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/collabora.inc.php');
     }
 
+    // Integration between Plesk Premium Email and Mattermost extensions
     if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/mattermost.inc.php')) {
         @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/mattermost.inc.php');
+    }
+
+    // Integration between Plesk Premium Email and Seafile extensions
+    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/seafile.inc.php')) {
+        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/seafile.inc.php');
     }
 
     @include('/etc/roundcubemail/licensing.inc.php');

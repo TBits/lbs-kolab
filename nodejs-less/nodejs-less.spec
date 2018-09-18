@@ -27,6 +27,7 @@ BuildArch:      noarch
 BuildRequires:  nodejs-devel
 BuildRequires:  nodejs-packaging
 BuildRequires:  nodejs-grunt-cli
+BuildRequires:  python
 Requires:       nodejs
 ExclusiveArch: %{nodejs_arches} noarch
 

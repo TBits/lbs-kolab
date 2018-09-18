@@ -6,6 +6,7 @@ export DH_VERBOSE=1
 	dh $@
 
 override_dh_install:
+	rm -rvf kolab-now/
 	rm -rvf plesk/
 
 	find . | sort
@@ -44,6 +45,10 @@ override_dh_install:
 
 	for file in $$(find . -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"); do \
 		lessc --relative-urls $${file} > $$(dirname $${file})/$$(basename $${file} .less).css ; \
+		sed -i \
+			-e "s|../../../skins/kolab/images/contactpic.png|../../../../skins/kolab/images/contactpic.png|" \
+			-e "s|../../../skins/kolab/images/watermark.jpg|../../../../skins/kolab/images/watermark.jpg|" \
+			$$(dirname $${file})/$$(basename $${file} .less).css ; \
 	done
 
 	for orig_dir in "skins/kolab/" "plugins/libkolab/skins/kolab/"; do \

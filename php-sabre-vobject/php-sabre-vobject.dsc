@@ -2,7 +2,7 @@ Format: 1.0
 Source: php-sabre-vobject-3
 Binary: php-sabre-vobject-3
 Architecture: all
-Version: 3.5.3-3
+Version: 3.5.3-4
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Homepage: http://sabre.io/vobject/

@@ -45,6 +45,10 @@ override_dh_install:
 
 	for file in $$(find . -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"); do \
 		lessc --relative-urls $${file} > $$(dirname $${file})/$$(basename $${file} .less).css ; \
+		sed -i \
+			-e "s|../../../skins/plesk/images/contactpic.png|../../../../skins/plesk/images/contactpic.png|" \
+			-e "s|../../../skins/plesk/images/watermark.jpg|../../../../skins/plesk/images/watermark.jpg|" \
+			$$(dirname $${file})/$$(basename $${file} .less).css ; \
 	done
 
 	for orig_dir in "skins/plesk/" "plugins/libkolab/skins/plesk/"; do \

@@ -34,7 +34,7 @@
 
 Name:               roundcubemail-skin-plesk
 Version:            0.4
-Release:            12.beta1%{?dist}
+Release:            14.beta1%{?dist}
 Summary:            Kolab skin for Roundcube
 
 Group:              Web/Applications
@@ -100,6 +100,8 @@ find \
     cp -av ${file} ${target_dir}
 done
 
+cat ./plugins/libkolab/skins/plesk/libkolab.less
+
 find . | sort
 
 sed -i -e 's/"elastic"/"plesk"/g' \
@@ -124,6 +126,13 @@ find . | sort
 # Compile and compress the CSS
 for file in `find . -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"`; do
     %{_bindir}/lessc --relative-urls ${file} > $(dirname ${file})/$(basename ${file} .less).css
+
+    sed -i \
+        -e "s|../../../skins/plesk/images/contactpic.png|../../../../skins/plesk/images/contactpic.png|" \
+        -e "s|../../../skins/plesk/images/watermark.jpg|../../../../skins/plesk/images/watermark.jpg|" \
+        $(dirname ${file})/$(basename ${file} .less).css
+
+    cat $(dirname ${file})/$(basename ${file} .less).css
 done
 
 for orig_dir in "skins/plesk/" "plugins/libkolab/skins/plesk/"; do
@@ -208,6 +217,9 @@ cp -av skins/plesk/watermark.html %{buildroot}%{datadir}/public_html/assets/skin
 %{datadir}/public_html/assets/plugins/libkolab/
 
 %changelog
+* Tue Sep 18 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.4-14.beta1
+- Improvements to moving the about button to settings
+
 * Mon Aug 27 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4-11.beta1
 - Update to beta release, rebuild against core Elastic skin updates
 

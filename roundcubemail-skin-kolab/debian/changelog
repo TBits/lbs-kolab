@@ -1,3 +1,9 @@
+roundcubemail-skin-kolab (0.4-0~kolab7) unstable; urgency=low
+
+  * Beta release of version 0.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 18 Sep 2018 18:41:13 +0200
+
 roundcubemail-skin-kolab (0.4-0~kolab6) unstable; urgency=low
 
   * Alpha release of version 0.4

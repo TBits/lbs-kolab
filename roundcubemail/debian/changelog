@@ -1,3 +1,10 @@
+roundcubemail (1.4-0~kolab49) unstable; urgency=low
+
+  * Check in 36 revisions ahead of beta release
+  * Conditionally include collabora.inc.php per vhost on Plesk
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 18 Sep 2018 11:11:11 +0200
+
 roundcubemail (1.4-0~kolab48) unstable; urgency=low
 
   * Conditionally include mattermost.inc.php per vhost on Plesk
