@@ -1,3 +1,9 @@
+erlang-lager-syslog (2.0.3-1~kolab2) unstable; urgency=low
+
+  * Require erlang-syslog
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 25 Sep 2018 12:00:00 +0200
+
 erlang-lager-syslog (2.0.3-1~kolab1) unstable; urgency=low
 
   * Fix revision number (must start at 1)
