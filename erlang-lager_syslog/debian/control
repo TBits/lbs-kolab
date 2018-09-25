@@ -10,6 +10,6 @@ Homepage: https://github.com/basho/lager_syslog
 Package: erlang-lager-syslog
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, erlang-base | ${erlang-abi:Depends},
-         ${erlang:Depends}, erlang-goldrush
+         ${erlang:Depends}, erlang-goldrush, erlang-syslog
 Description: Distributed systems infrastructure used by Riak.
 
