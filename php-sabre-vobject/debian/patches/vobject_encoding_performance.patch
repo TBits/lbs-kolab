@@ -1,8 +1,8 @@
 diff --git a/lib/Property.php b/lib/Property.php
-index 73686bc..ccb5e5c 100644
+index 73686bc..efa17bc 100644
 --- a/lib/Property.php
 +++ b/lib/Property.php
-@@ -241,17 +241,15 @@ abstract class Property extends Node {
+@@ -241,19 +241,18 @@ abstract class Property extends Node {
  
          $str.=':' . $this->getRawMimeDirValue();
  
@@ -27,7 +27,11 @@ index 73686bc..ccb5e5c 100644
 +            $str
 +        );
  
-         return $out;
+-        return $out;
++        // remove single space after last CRLF
++        return \substr($str, 0, -1);
+ 
+     }
  
 diff --git a/lib/Property/Text.php b/lib/Property/Text.php
 index ffd4c4b..30f5e38 100644

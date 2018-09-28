@@ -1,4 +1,4 @@
-php-sabre-vobject-3 (3.5.3-4) unstable; urgency=low
+php-sabre-vobject-3 (3.5.3-6) unstable; urgency=low
 
   * Improve encoding performance
 
