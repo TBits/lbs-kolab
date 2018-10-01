@@ -6,15 +6,110 @@ export DH_VERBOSE=1
 	dh $@
 
 override_dh_install:
-	rm -rf skins/plesk/colors.sh
-	mkdir -p $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/plesk/
-	cp -av /usr/share/roundcubemail/skins/chameleon/* \
-		$(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/plesk/.
-	dh_install
-	mkdir -p $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/assets/skins/
-	for file in $$(find $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/plesk -type f -name "*.less" ! -name "colors.less"); do \
-		lessc -x $${file} > $$(dirname $${file})/$$(basename $${file} .less).css ; \
+	rm -rvf kolab/
+	rm -rvf kolab-now/
+
+	find . | sort
+
+	find \
+		/usr/share/roundcubemail/skins/elastic/ \
+		/usr/share/roundcubemail/public_html/assets/skins/elastic/ \
+		/usr/share/roundcubemail/plugins/libkolab/skins/elastic/ \
+		/usr/share/roundcubemail/public_html/assets/plugins/libkolab/skins/elastic/ \
+		-type f | sort | while read file; do \
+			target_dir=$$(dirname $${file} | sed -e 's|/usr/share/roundcubemail|.|g' -e 's|/public_html/assets/|/|g' -e 's|/public_html/assets/plugins/libkolab/|/|g' -e 's/elastic/plesk/g') ; \
+			file_name=$$(basename $${file}) ; \
+			if [ ! -d i$${target_dir} ]; then \
+				mkdir -p $${target_dir} ; \
+			fi ; \
+			cp -av $${file} $${target_dir} ; \
+		done
+
+	find . | sort
+
+	sed -i -e 's/"elastic"/"plesk"/g' \
+		$$(find skins/plesk/ plugins/libkolab/skins/plesk/ -type f)
+
+	find plesk/ -type f | sort | while read file; do \
+		target_dir="./skins/$$(dirname $${file})" ; \
+		file_name=$$(basename $${file}) ; \
+		if [ ! -d $${target_dir} ]; then \
+			mkdir -p $${target_dir} ; \
+		fi ; \
+		cp -av $${file} $${target_dir} ; \
 	done
-	mkdir -p $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/public_html/assets/skins/plesk/
-	cp -av $(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/plesk/* \
-		$(CURDIR)/debian/roundcubemail-skin-plesk/usr/share/roundcubemail/public_html/assets/skins/plesk/
+
+	rm -rvf plesk/
+
+	sed -i -e 's/"elastic"/"plesk"/g' plugins/libkolab/skins/plesk/libkolab.less
+
+	for file in $$(find . -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"); do \
+		lessc --relative-urls $${file} > $$(dirname $${file})/$$(basename $${file} .less).css ; \
+		sed -i \
+			-e "s|../../../skins/plesk/images/contactpic.png|../../../../skins/plesk/images/contactpic.png|" \
+			-e "s|../../../skins/plesk/images/watermark.jpg|../../../../skins/plesk/images/watermark.jpg|" \
+			$$(dirname $${file})/$$(basename $${file} .less).css ; \
+	done
+
+	for orig_dir in "skins/plesk/" "plugins/libkolab/skins/plesk/"; do \
+		asset_dir="public_html/assets/$${orig_dir}" ; \
+		\
+		# Compress the CSS ; \
+		for file in `find $${orig_dir} -type f -name "*.css"`; do \
+			asset_loc=$$(dirname $$(echo $${file} | sed -e "s|$${orig_dir}|$${asset_dir}|g")) ; \
+			mkdir -p $${asset_loc} ; \
+			cat $${file} | cssmin > $${asset_loc}/$$(basename $${file}) ; \
+		done || : \
+		\
+		# Compress the JS, but not the already minified ; \
+		for file in `find $${orig_dir} -type f -name "*.js" ! -name "*.min.js"`; do \
+			asset_loc=$$(dirname $$(echo $${file} | sed -e "s|$${orig_dir}|$${asset_dir}|g")) ; \
+			mkdir -p $${asset_loc} ; \
+			uglifyjs $${file} > $${asset_loc}/$$(basename $${file}) ; \
+		done || : \
+		\
+		# The already minified JS can just be copied over to the assets location ; \
+		for file in `find $${orig_dir} -type f -name "*.min.js"`; do \
+			asset_loc=$$(dirname $$(echo $${file} | sed -e "s|$${orig_dir}|$${asset_dir}|g")) ; \
+			mkdir -p $${asset_loc} ; \
+			cp -av $${file} $${asset_loc}/$$(basename $${file}) ; \
+		done || : \
+		\
+		# Other assets ; \
+		for file in $$(find $${orig_dir} -type f \
+			-name "*.eot" -o \
+			-name "*.gif" -o \
+			-name "*.ico" -o \
+			-name "*.jpg" -o \
+			-name "*.mp3" -o \
+			-name "*.png" -o \
+			-name "*.svg" -o \
+			-name "*.swf" -o \
+			-name "*.tif" -o \
+			-name "*.ttf" -o \
+			-name "*.woff" -o \
+			-name "*.woff2" \
+		); do \
+			asset_loc=$$(dirname $$(echo $${file} | sed -e "s|$${orig_dir}|$${asset_dir}|g")) ; \
+			mkdir -p $${asset_loc} ; \
+			cp -avf $${file} $${asset_loc}/$$(basename $${file}) ; \
+		done || : \
+		\
+		# Purge empty directories ; \
+		find $${orig_dir} -type d -empty -delete || : ; \
+	done
+
+	cp -av skins/plesk/watermark.html public_html/assets/skins/plesk/watermark.html
+
+	find . | sort
+
+	rm -rvf skins/elastic/
+	rm -rvf plugins/libkolab/skins/elastic/
+	rm -rvf public_html/assets/plugins/libkolab/skins/elastic/
+	rm -rvf public_html/assets/skins/elastic/
+
+	cp -av skins/plesk/ debian/roundcubemail-skin-plesk/usr/share/roundcubemail/skins/.
+	cp -av plugins/libkolab/skins/plesk/ debian/roundcubemail-skin-plesk/usr/share/roundcubemail/plugins/libkolab/skins/.
+	cp -av public_html/assets/plugins/libkolab/skins/plesk/ debian/roundcubemail-skin-plesk/usr/share/roundcubemail/public_html/assets/plugins/libkolab/skins/.
+	cp -av public_html/assets/skins/plesk/ debian/roundcubemail-skin-plesk/usr/share/roundcubemail/public_html/assets/skins/.
+

@@ -11,6 +11,20 @@ override_dh_auto_build:
 	find plugins -type d -name helpdocs -exec rm -rvf {} \; 2>/dev/null || :
 	find plugins -type d -name tests -exec rm -rvf {} \; 2>/dev/null || :
 
+	ls -l $(CURDIR)
+	mkdir -p $(CURDIR)/skins
+	cp -avf /usr/share/roundcubemail/skins/elastic/ $(CURDIR)/skins/.
+
+        # Compile the CSS
+	for file in `find $(CURDIR) -type f -name "styles.less" -o -name "print.less" -o -name "embed.less" -o -name "libkolab.less"`; do \
+		lessc --relative-urls $${file} > $$(dirname $${file})/$$(basename $${file} .less).css ; \
+		sed -i \
+			-e "s|../../../skins/elastic/images/contactpic.png|../../../../skins/elastic/images/contactpic.png|" \
+			-e "s|../../../skins/elastic/images/watermark.jpg|../../../../skins/elastic/images/watermark.jpg|" \
+			$$(dirname $${file})/$$(basename $${file} .less).css ; \
+	done
+
+
 	# Compress the CSS
 	for file in `find $(CURDIR) -type f -name "*.css"`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
@@ -19,9 +33,7 @@ override_dh_auto_build:
 			) ; \
 		echo "$${file} -> $${asset_loc}/$$(basename $${file})" ; \
 		mkdir -p $${asset_loc} ; \
-		cat $${file} | cssmin > $${asset_loc}/$$(basename $${file}) && \
-			rm -rvf $${file} || \
-			mv -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
+		cat $${file} | cssmin > $${asset_loc}/$$(basename $${file}) ; \
 	done
 
 	# Compress the JS, but not the already minified
@@ -32,9 +44,7 @@ override_dh_auto_build:
 			) ; \
 		echo "$${file} -> $${asset_loc}/$$(basename $${file})" ; \
 		mkdir -p $${asset_loc} ; \
-		uglifyjs $${file} > $${asset_loc}/$$(basename $${file}) && \
-			rm -rvf $${file} || \
-			mv -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
+		uglifyjs $${file} > $${asset_loc}/$$(basename $${file}) ; \
 	done
 
 	# The already minied JS can just be copied over to the assets location
@@ -44,7 +54,7 @@ override_dh_auto_build:
 				-e "s|$(CURDIR)/plugins/$${plugin}/skins/|$(CURDIR)/public_html/assets/plugins/$${plugin}/skins/|g") ; \
 			) ; \
 		mkdir -p $${asset_loc} ; \
-		mv -vf $${file} $${asset_loc}/$$(basename $${file}) ; \
+		cp -avf $${file} $${asset_loc}/$$(basename $${file}) ; \
 	done
 
 	# Other assets
@@ -89,6 +99,7 @@ override_dh_auto_build:
 	if [ -f "/etc/plesk-release" ]; then \
 		cp -v ../SOURCES/plesk.calendar.inc.php config/calendar.inc.php ; \
 		cp -v ../SOURCES/plesk.kolab_addressbook.inc.php config/kolab_addressbook.inc.php ; \
+		cp -v ../SOURCES/plesk.kolab_chat.inc.php config/kolab_chat.inc.php ; \
 		cp -v ../SOURCES/plesk.kolab_folders.inc.php config/kolab_folders.inc.php ; \
 		cp -v ../SOURCES/plesk.libkolab.inc.php config/libkolab.inc.php ; \
 	fi

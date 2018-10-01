@@ -1,2 +1,2 @@
-chwala-0.2-suhosin.session.encrypt-php_flag.patch -p1
+chwala-0.5.3-suhosin.session.encrypt-php_flag.patch -p1
 fix-autoload-path-debian.patch -p1

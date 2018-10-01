@@ -1,3 +1,52 @@
+roundcubemail-skin-plesk (0.4-0~kolab12) unstable; urgency=low
+
+  * Update with about button improvements
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 18 Sep 2018 18:41:13 +0200
+
+roundcubemail-skin-plesk (0.4-0~kolab11) unstable; urgency=low
+
+  * Update to beta release
+  * Rebuild against core Elastic skin updates
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 27 Aug 2018 18:41:13 +0200
+
+roundcubemail-skin-plesk (0.4-0~kolab10) unstable; urgency=low
+
+  * Rebuild against core Elastic skin updates
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 12 Jul 2018 18:41:13 +0200
+
+roundcubemail-skin-plesk (0.4-0~kolab9) unstable; urgency=low
+
+  * Tighten requirements for Plesk installations with safe updates enabled
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 12 Jun 2018 18:41:13 +0200
+
+roundcubemail-skin-plesk (0.4-0~kolab7) unstable; urgency=low
+
+  * Rebuild against core elastic skin update
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  5 Jun 2018 18:41:13 +0200
+
+roundcubemail-skin-plesk (0.4-0~kolab6) unstable; urgency=low
+
+  * Alpha release of version 0.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 31 May 2018 18:41:13 +0200
+
+roundcubemail-skin-plesk (0.4-0~kolab5) unstable; urgency=low
+
+  * Alpha release of version 0.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 29 May 2018 18:41:13 +0200
+
+roundcubemail-skin-plesk (0.4-0~kolab4) unstable; urgency=low
+
+  * Alpha release of version 0.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 22 May 2018 18:41:13 +0200
+
 roundcubemail-skin-plesk (0.3.1-0~kolab1) unstable; urgency=low
 
   * Release of version 0.3.1

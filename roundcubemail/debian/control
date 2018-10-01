@@ -3,7 +3,7 @@ Section: web
 Priority: extra
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
-Build-Depends: composer, cssmin, node-uglify, debhelper (>= 8), psa | bash
+Build-Depends: composer, cssmin, node-uglify, debhelper (>= 8), node-less (>= 1.7.0), psa | bash
 Homepage: http://www.roundcube.net/
 Standards-Version: 3.9.3
 Vcs-Git: git://git.kolabsys.com/git/apt/roundcubemail/
@@ -41,7 +41,7 @@ Depends:    apache2 | httpd,
             php-gd | php5-gd,
             php-intl | php5-intl,
             php-ldap | php5-ldap,
-            php-mcrypt | php5-mcrypt,
+            php-mcrypt | php5-mcrypt | php7.2,
             php-pspell | php5-pspell,
             roundcubemail-plugin-acl,
             roundcubemail-plugin-archive,

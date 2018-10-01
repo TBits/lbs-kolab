@@ -6,6 +6,9 @@ DH_VERBOSE=1
 	dh $@
 
 override_dh_auto_build:
+	echo $(CURDIR)
+	find debian/ -type f | sort
+
 	mkdir -p $(CURDIR)/debian/home/.composer/
 	echo '{}' > $(CURDIR)/debian/home/.composer/composer.json
 	patch -p1 < debian/patches/add-composer-autoloader.diff || :
@@ -21,8 +24,13 @@ override_dh_auto_build:
 
 	rm -rvf temp/js_cache/ tests/
 
+	# Parse .less
+	lessc -x ./skins/elastic/styles/styles.less > ./skins/elastic/styles/styles.css
+	lessc -x ./skins/elastic/styles/print.less > ./skins/elastic/styles/print.css
+	lessc -x ./skins/elastic/styles/embed.less > ./skins/elastic/styles/embed.css
+
 	# Compress the CSS
-	for file in `find $(CURDIR) -type f -name "*.css"`; do \
+	for file in `find $(CURDIR)/ -type f -name "*.css" | grep -v /public_html/assets/`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
 				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
 				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
@@ -35,7 +43,7 @@ override_dh_auto_build:
 	done
 
 	# Compress the JS, but not the already minified
-	for file in `find $(CURDIR)/ -type f -name "*.js" ! -name "*.min.js"`; do \
+	for file in `find $(CURDIR)/ -type f -name "*.js" ! -name "*.min.js" | grep -v /public_html/assets/`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
 				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
 				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
@@ -48,7 +56,7 @@ override_dh_auto_build:
 	done
 
 	# The already minied JS can just be copied over to the assets location
-	for file in `find $(CURDIR)/ -type f -name "*.min.js"`; do \
+	for file in `find $(CURDIR)/ -type f -name "*.min.js" | grep -v /public_html/assets/`; do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
 				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
 				-e "s|$(CURDIR)/program/|$(CURDIR)/public_html/assets/program/|g" \
@@ -74,7 +82,8 @@ override_dh_auto_build:
 			-name "*.ttf" -o \
 			-name "*.wav" -o \
 			-name "*.webp" -o \
-			-name "*.woff" \
+			-name "*.woff" -o \
+			-name "*.woff2" \
 		); do \
 		asset_loc=$$(dirname $$(echo $${file} | sed \
 				-e "s|$(CURDIR)/plugins/|$(CURDIR)/public_html/assets/plugins/|g" \
@@ -82,11 +91,14 @@ override_dh_auto_build:
 				-e "s|$(CURDIR)/skins/|$(CURDIR)/public_html/assets/skins/|g") ; \
 			) ; \
 		mkdir -p $${asset_loc} ; \
-		mv -vf $${file} $${asset_loc}/$$(basename $${file}); \
+		cp -avf $${file} $${asset_loc}/$$(basename $${file}); \
 	done
 
-	for plugin in `find $(CURDIR)/plugins/ -type d -mindepth 1 -maxdepth 1 -exec basename {} \;)`; do \
+	for plugin in `find $(CURDIR)/plugins/ -type d -mindepth 1 -maxdepth 1 -exec basename {} \;) | sort -u`; do \
 		pkgname=$$(echo $${plugin} | sed -e 's/_/-/g') ; \
+		if [ -f "$(CURDIR)/debian/roundcubemail-plugin-$${pkgname}.install" ]; then \
+			continue ; \
+		fi ; \
 		if [ -f "$(CURDIR)/plugins/$${plugin}/config.inc.php.dist" ]; then \
 			mv $(CURDIR)/plugins/$${plugin}/config.inc.php.dist $(CURDIR)/config/$${plugin}.inc.php ; \
 			echo "etc/roundcubemail/$${plugin}.inc.php usr/share/roundcubemail/plugins/$${plugin}/config.inc.php" >> debian/roundcubemail-plugin-$${pkgname}.links ; \
@@ -120,11 +132,14 @@ override_dh_auto_build:
 		cp -v ../SOURCES/plesk.managesieve.inc.php config/managesieve.inc.php ; \
 		cp -v ../SOURCES/plesk.password.inc.php config/password.inc.php ; \
 		sed -i -e 's/www-data adm/roundcube_sysuser roundcube_sysgroup/g' debian/logrotate ; \
+		echo "misc:Depends:roundcubemail-skin-plesk" >> debian/roundcubemail-core.substvars ; \
 	else \
-		mv config/config.inc.php.sample config/config.inc.php ; \
+		find config/ -type f | sort ; \
+		if [ -f "config/config.inc.php.sample" ]; then \
+			mv config/config.inc.php.sample config/config.inc.php ; \
+		fi ; \
+		echo "misc:Depends:roundcubemail-skin-chameleon | roundcubemail-skin-kolab | roundcubemail-skin-enterprise" >> debian/roundcubemail-core.substvars ; \
 	fi
-
-	dh_auto_build
 
 override_dh_install:
 	if [ ! -f "/etc/plesk-release" ]; then \

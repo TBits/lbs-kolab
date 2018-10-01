@@ -1,3 +1,9 @@
+kolab-syncroton (2.3.13-0~kolab1) unstable; urgency=low
+
+  * Release 2.3.13
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 17 Aug 2018 15:13:40 +0200
+
 kolab-syncroton (2.3.12-0~kolab1) unstable; urgency=low
 
   * Release 2.3.12

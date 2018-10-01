@@ -6,8 +6,15 @@ export DH_VERBOSE=1
 	dh $@
 
 override_dh_install:
-	mkdir -p $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/plugins/contextmenu/
-	cp -a \
+	mkdir -p \
+		$(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/skins/ \
+		$(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/plugins/contextmenu/
+
+	cp -av \
+		/usr/share/roundcubemail/skins/elastic/ \
+		$(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/skins/
+
+	cp -av \
 		CHANGELOG \
 		README.md \
 		contextmenu.js \
@@ -16,18 +23,22 @@ override_dh_install:
 		skins \
 		$(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/plugins/contextmenu/
 
+	lessc --relative-urls $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/plugins/contextmenu/skins/elastic/contextmenu.less
+
+	rm -rvf $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/skins/
+
 	# Compress the CSS
 	for file in `find $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/ -type f -name "*.css"`; do \
 		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
 		install -pm 755 -d $$asset_loc ; \
-		mv -f $$file $$asset_loc/$$(basename $$file) ; \
+		cp -av $$file $$asset_loc/$$(basename $$file) ; \
 	done
-	
+
 	# Compress the JS
 	for file in `find $(CURDIR)/debian/roundcubemail-plugin-contextmenu/usr/share/roundcubemail/ -type f -name "*.js"`; do \
 		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
 		install -pm 755 -d $$asset_loc ; \
-		mv -f $$file $$asset_loc/$$(basename $$file) ; \
+		cp -av $$file $$asset_loc/$$(basename $$file) ; \
 	done
 
 	# Other assets
@@ -45,6 +56,6 @@ override_dh_install:
 		); do \
 		asset_loc=$$(dirname $$(echo $$file | sed -e "s|/usr/share/roundcubemail/|/usr/share/roundcubemail/public_html/assets/|g")) ; \
 		install -pm 755 -d $$asset_loc ; \
-		mv -f $$file $$asset_loc/$$(basename $$file); \
+		cp -av $$file $$asset_loc/$$(basename $$file); \
 	done
 

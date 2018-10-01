@@ -1,3 +1,9 @@
+kolab-freebusy (1.1.1-0~kolab1) unstable; urgency=low
+
+  * Release of version 1.1.1
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Wed,  1 Aug 2018 12:00:22 +0200
+
 kolab-freebusy (1.1.0-0~kolab3) unstable; urgency=low
 
   * Fix autoloader configuration
