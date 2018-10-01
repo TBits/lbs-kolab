@@ -2,9 +2,9 @@ Format: 1.0
 Source: roundcubemail
 Binary: roundcubemail
 Architecture: all
-Version: 1:1.4-0~kolab49
+Version: 1:1.4-0~kolab50
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
-Uploaders: Paul Klos <kolab@klos2day.nl>
+Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Homepage: http://www.roundcube.net/
 Standards-Version: 3.9.3
 Vcs-Browser: http://git.kolabsys.com/apt/roundcubemail/
