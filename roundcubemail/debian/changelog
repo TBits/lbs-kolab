@@ -1,3 +1,9 @@
+roundcubemail (1.4.0~kolab51) unstable; urgency=low
+
+  * Add missing watermark.html assets
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Tue, 02 Oct 2018 08:41:25 +0200
+
 roundcubemail (1.4-0~kolab50) unstable; urgency=low
 
   * Require -skin-plesk on Plesk, -skin-chameleon on community, -kolab or -enterprise on Enterprise

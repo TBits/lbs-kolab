@@ -94,6 +94,14 @@ override_dh_auto_build:
 		cp -avf $${file} $${asset_loc}/$$(basename $${file}); \
 	done
 
+	# The watermark.html is an asset, too
+	for skin in classic elastic larry; do \
+		if [ -f "$(CURDIR)/skins/$${skin}/watermark.html" ]; then \
+			cp -av $(CURDIR)/skins/$${skin}/watermark.html \
+				$(CURDIR)/public_html/assets/skins/$${skin}/watermark.html ; \
+		fi ; \
+	done
+
 	for plugin in `find $(CURDIR)/plugins/ -type d -mindepth 1 -maxdepth 1 -exec basename {} \;) | sort -u`; do \
 		pkgname=$$(echo $${plugin} | sed -e 's/_/-/g') ; \
 		if [ -f "$(CURDIR)/debian/roundcubemail-plugin-$${pkgname}.install" ]; then \
