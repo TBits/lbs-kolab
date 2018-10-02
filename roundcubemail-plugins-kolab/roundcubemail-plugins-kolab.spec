@@ -121,7 +121,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-calendar-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-calendar-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -164,7 +166,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_2fa-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-kolab_2fa-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -192,7 +196,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_activesync-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-kolab_activesync-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -219,7 +225,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_addressbook-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-kolab_addressbook-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -259,7 +267,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_chat-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-kolab_chat-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -299,7 +309,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_delegation-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-kolab_delegation-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -326,7 +338,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_files-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-kolab_files-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -368,7 +382,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_notes-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-kolab_notes-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -408,7 +424,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_tags-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-kolab_tags-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -447,7 +465,9 @@ Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-libcalendaring-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -474,7 +494,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-libkolab-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-libkolab-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -569,7 +591,9 @@ Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-tasklist-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 Requires:       roundcubemail(plugin-tasklist-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-plesk) >= 0.4
+%endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
@@ -1350,7 +1374,9 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
+            echo "%%if 0%%{?bootstrap} < 1"
             echo "Requires:       roundcubemail(skin-plesk) >= 0.4"
+            echo "%%endif"
             echo "%%else"
             echo "%%if 0%%{?kolab_enterprise}"
             echo "%%if 0%%{?bootstrap} < 1"

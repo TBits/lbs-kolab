@@ -136,13 +136,17 @@ BuildRequires:  python-nose
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Requires:       %{name}-skin-plesk
 Requires:       %{name}-skin-plesk-larry
+%endif
 %else
 %if 0%{?kolab_enterprise}
+%if 0%{?bootstrap} < 1
 Requires:       %{name}-skin-enterprise
 %else
 Requires:       %{name}-skin-chameleon
+%endif
 %endif
 %endif
 
