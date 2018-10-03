@@ -14,6 +14,7 @@ URL:            https://github.com/rebar/rebar3
 Source:         https://github.com/erlang/rebar3/archive/rebar3-%{version}/rebar3-%{version}.tar.gz
 
 Patch1:         rebar3-3.1.0-doc.patch
+Patch2:         rebar3-3.3.2-deps.patch
 
 BuildArch:      noarch
 Requires:       erlang
@@ -45,6 +46,7 @@ libraries from a variety of locations (git, hg, etc).
 %prep
 %setup -q -n rebar3-%version
 %patch1 -p1
+%patch2 -p1
 sed -i 's/ @\(equiv \)/ \1/g' src/rebar_erlc_compiler.erl
 
 sed -i -r \

@@ -1,0 +1,21 @@
+diff -rupN old/rebar.config new/rebar.config
+--- old/rebar.config	2017-06-08 20:55:26.036828240 +0000
++++ new/rebar.config	2017-06-08 20:55:49.447470761 +0000
+@@ -1,11 +1,11 @@
+ %% -*- mode: Erlang; fill-column: 80; comment-column: 75; -*-
+ %% Dependencies ================================================================
+-{deps, [{erlware_commons, "0.21.0"},
+-        {providers, "1.6.0"},
+-        {getopt, "0.8.2"},
+-        {cf, "0.2.1"},
+-        {bbmustache, "1.0.4"}
+-       ]}.
++%%{deps, [{erlware_commons, "0.21.0"},
++%%        {providers, "1.6.0"},
++%%        {getopt, "0.8.2"},
++%%        {cf, "0.2.1"},
++%%        {bbmustache, "1.0.4"}
++%%       ]}.
+ 
+ {escript_incl_extra, [{"priv/templates/*", "."}]}.
+ {escript_emu_args, "%%! +sbtu +A0 -noinput\n"}.

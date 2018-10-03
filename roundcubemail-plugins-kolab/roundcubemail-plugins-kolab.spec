@@ -3,7 +3,7 @@
 #!BuildIgnore: nginx
 %endif
 
-%global bootstrap 0
+%global bootstrap 1
 
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 

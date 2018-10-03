@@ -43,14 +43,14 @@ override_dh_auto_build:
 	       -e 's/include_erts,\s*false/include_erts, true/' rebar.config
 	export DEBUG=1
 	export HEX_OFFLINE=1
-	rebar3 release \
+	./rebar3 release \
 		--dev-mode false \
 		--relname guam \
 		--relvsn $(DEB_VERSION_UPSTREAM) \
 		--verbose
 
 override_dh_auto_test:
-	rebar3 eunit -v || :
+	./rebar3 eunit -v || :
 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/sbin $(DESTDIR)/etc/guam \

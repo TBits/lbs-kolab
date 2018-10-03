@@ -1,0 +1,13 @@
+diff -ur eimap-0.4.0.orig/rebar.config eimap-0.4.0/rebar.config
+--- eimap-0.4.0.orig/rebar.config	2016-11-11 15:49:11.000000000 +0100
++++ eimap-0.4.0/rebar.config	2018-08-13 16:19:45.864891814 +0200
+@@ -1,8 +1,7 @@
+ %% -*- tab-width: 4;erlang-indent-level: 4;indent-tabs-mode: nil -*-
+ %% ex: ft=erlang ts=4 sw=4 et
+ 
+-{erl_opts, [warnings_as_errors, {parse_transform, lager_transform}]}.
+-{deps, [ lager ]}.
++{erl_opts, [{parse_transform, lager_transform}]}.
+ 
+ { erl_first_files, ["src/eimap_command.erl"] }.
+ {sub_dirs, [

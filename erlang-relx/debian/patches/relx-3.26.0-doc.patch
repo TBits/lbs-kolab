@@ -1,0 +1,115 @@
+diff -ur relx-3.26.0.orig/src/relx.erl relx-3.26.0/src/relx.erl
+--- relx-3.26.0.orig/src/relx.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/relx.erl	2018-07-19 20:01:31.042570725 +0200
+@@ -79,8 +79,8 @@
+ 
+ %% @doc provides an API to run the Relx process from erlang applications
+ %%
+-%% @param RelName - The release name to build (maybe `undefined`)
+-%% @param RelVsn - The release version to build (maybe `undefined`)
++%% @param RelName - The release name to build (maybe `undefined')
++%% @param RelVsn - The release version to build (maybe `undefined')
+ %% @param Goals - The release goals for the system in depsolver or Relx goal
+ %% format
+ %% @param LibDirs - The library dirs that should be used for the system
+@@ -96,8 +96,8 @@
+ %% @doc provides an API to run the Relx process from erlang applications
+ %%
+ %% @param RootDir - The root directory for the project
+-%% @param RelName - The release name to build (maybe `undefined`)
+-%% @param RelVsn - The release version to build (maybe `undefined`)
++%% @param RelName - The release name to build (maybe `undefined')
++%% @param RelVsn - The release version to build (maybe `undefined')
+ %% @param Goals - The release goals for the system in depsolver or Relx goal
+ %% format
+ %% @param LibDirs - The library dirs that should be used for the system
+@@ -112,8 +112,8 @@
+ %% @doc provides an API to run the Relx process from erlang applications
+ %%
+ %% @param RootDir - The root directory for the system
+-%% @param RelName - The release name to build (maybe `undefined`)
+-%% @param RelVsn - The release version to build (maybe `undefined`)
++%% @param RelName - The release name to build (maybe `undefined')
++%% @param RelVsn - The release version to build (maybe `undefined')
+ %% @param Goals - The release goals for the system in depsolver or Relx goal
+ %% format
+ %% @param LibDirs - The library dirs that should be used for the system
+diff -ur relx-3.26.0.orig/src/rlx_app_info.erl relx-3.26.0/src/rlx_app_info.erl
+--- relx-3.26.0.orig/src/rlx_app_info.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/rlx_app_info.erl	2018-07-19 20:01:31.112571436 +0200
+@@ -21,18 +21,18 @@
+ %%% @doc This module represents useful, relevant information about an
+ %%% application. The relevant information is.
+ %%%
+-%%% <ul>
+-%%%  <li> Name - The application name as an atom </li>
+-%%%  <li> Vsn - The application version as a list </li>
+-%%%  <li> The root directory of the application. The directory that contains the
+-%%%  ebin/src/priv etc </li>
+-%%%  <li> Active Deps - The Active or 'application' dependencies of the OTP
++%%% &lt;ul&gt;
++%%%  &lt;li&gt; Name - The application name as an atom &lt;/li&gt;
++%%%  &lt;li&gt; Vsn - The application version as a list &lt;/li&gt;
++%%%  &lt;li&gt; The root directory of the application. The directory that contains the
++%%%  ebin/src/priv etc &lt;/li&gt;
++%%%  &lt;li&gt; Active Deps - The Active or 'application' dependencies of the OTP
+ %%%  App. That is the things in the 'applications' property of the application
+-%%%  metadata </li>
+-%%%  <li> Library Deps - The Inactive or Library dependencies of the ATP
++%%%  metadata &lt;/li&gt;
++%%%  &lt;li&gt; Library Deps - The Inactive or Library dependencies of the ATP
+ %%%  app. That is the things in the 'included_applications property of the
+ %%%  application metadata.
+-%%%  </ul>
++%%%  &lt;/ul&gt;
+ %%%
+ -module(rlx_app_info).
+ 
+diff -ur relx-3.26.0.orig/src/rlx_depsolver.erl relx-3.26.0/src/rlx_depsolver.erl
+--- relx-3.26.0.orig/src/rlx_depsolver.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/rlx_depsolver.erl	2018-07-19 20:02:30.596175731 +0200
+@@ -112,11 +112,7 @@
+ %%============================================================================
+ %% type
+ %%============================================================================
+--ifdef(namespaced_types).
+ -type dep_graph() :: gb_trees:tree().
+--else.
+--type dep_graph() :: gb_tree().
+--endif.
+ -opaque t() :: {?MODULE, dep_graph()}.
+ -type pkg() :: {pkg_name(), vsn()}.
+ -type pkg_name() :: string() | binary() | atom().
+@@ -334,7 +330,7 @@
+ %% could not be satisified. These may also have versions attached.
+ %% Example:
+ %%
+-%%    ```(foo = 1.2.0), bar```
++%%    ```(foo = 1.2.0), bar'''
+ %%
+ -spec format_roots([constraints()]) -> iolist().
+ format_roots(Roots) ->
+@@ -344,7 +340,7 @@
+ %% @doc Return a formatted list of the culprit depenedencies which led to
+ %% the dependencies not being satisfied. Example:
+ %%
+-%%     ```(foo = 1.2.0) -> (bar > 2.0.0)```
++%%     ```(foo = 1.2.0) -> (bar > 2.0.0)'''
+ -spec format_culprits([{[constraint()], [constraint()]}]) -> iolist().
+ format_culprits(Culprits) ->
+     rlx_depsolver_culprit:format_culprits(Culprits).
+Only in relx-3.26.0/src: rlx_depsolver.erl.orig
+Only in relx-3.26.0/src: rlx_depsolver.erl.rej
+diff -ur relx-3.26.0.orig/src/rlx_release.erl relx-3.26.0/src/rlx_release.erl
+--- relx-3.26.0.orig/src/rlx_release.erl	2018-06-24 01:25:10.000000000 +0200
++++ relx-3.26.0/src/rlx_release.erl	2018-07-19 20:01:31.113571446 +0200
+@@ -205,7 +205,7 @@
+ no_dot_erlang_metadata(T) ->
+     start_clean_metadata(T).
+ 
+-%% @doc produce the canonical name (<name>-<vsn>) for this release
++%% @doc produce the canonical name (&lt;name&gt;-&lt;vsn&gt;) for this release
+ -spec canonical_name(t()) -> string().
+ canonical_name(#release_t{name=Name, vsn=Vsn}) ->
+     erlang:binary_to_list(erlang:iolist_to_binary([erlang:atom_to_list(Name), "-",
+Only in relx-3.26.0/src: rlx_release.erl.orig

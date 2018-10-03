@@ -1,0 +1,4 @@
+relx-3.26.0-doc.patch -p1
+relx-remove-rebar-deps.patch -p1
+relx-bin.patch -p1
+relx-3.26.0-otp-20-export-all.patch -p1

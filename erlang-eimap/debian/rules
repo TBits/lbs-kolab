@@ -8,7 +8,7 @@ DESTDIR = $(CURDIR)/debian/erlang-eimap
 	dh $@
 
 override_dh_auto_build:
-	rebar3 compile -v
+	./rebar3 compile -v
 	#rebar3 release --dev-mode false --relname eimap --relvsn 0.4.0 --verbose
 
 override_dh_auto_install:

@@ -1,7 +1,7 @@
 %define bname providers
 Name:           erlang-%bname
-Version:        1.6.0
-Release:        3
+Version:        1.7.0
+Release:        1%{?dist}
 Summary:        An Erlang providers library
 License:        LGPL-3.0
 Group:          Development/Tools/Other
@@ -60,20 +60,23 @@ rebar -C %bname.rebar.config ct
 
 
 %changelog
-* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> 1.6.0-3
+* Thu Jul 19 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.7.0-1
+- Check in version 1.7.0
+
+* Thu May 25 2017 Timotheus Pokorra <tp@tbits.net> - 1.6.0-3
 - fix for Fedora 25, there is no debugging information
 
-* Sun Jan 31 2016 Led <ledest@gmail.com> 1.6.0-2
+* Sun Jan 31 2016 Led <ledest@gmail.com> - 1.6.0-2
 - add epmd to BuildRequires
 
-* Mon Nov 30 2015 Led <ledest@gmail.com> 1.6.0-1
+* Mon Nov 30 2015 Led <ledest@gmail.com> - 1.6.0-1
 - 1.6.0
 
-* Sat Jul 04 2015 Led <ledest@gmail.com> 1.4.1-1
+* Sat Jul 04 2015 Led <ledest@gmail.com> - 1.4.1-1
 - 1.4.1
 
-* Sun May 31 2015 Led <ledest@gmail.com> 1.3.0-2
+* Sun May 31 2015 Led <ledest@gmail.com> - 1.3.0-2
 - fix URL
 
-* Sat May 30 2015 Led <ledest@gmail.com> 1.3.0-1
+* Sat May 30 2015 Led <ledest@gmail.com> - 1.3.0-1
 - initial build
