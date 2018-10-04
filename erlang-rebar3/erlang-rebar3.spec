@@ -3,6 +3,9 @@
 %global cf_version %(rpm -q --queryformat='%%{VERSION}' erlang-cf)
 %global getopt_version %(rpm -q --queryformat='%%{VERSION}' erlang-getopt)
 
+# Technically we're noarch, but our install path is not.
+%global debug_package %{nil}
+
 Name:           erlang-rebar3
 Version:        3.3.2
 Release:        1%{?dist}
@@ -16,7 +19,6 @@ Source:         https://github.com/erlang/rebar3/archive/rebar3-%{version}/rebar
 Patch1:         rebar3-3.1.0-doc.patch
 Patch2:         rebar3-3.3.2-deps.patch
 
-BuildArch:      noarch
 Requires:       erlang
 
 BuildRequires:  erlang-rpm-macros
