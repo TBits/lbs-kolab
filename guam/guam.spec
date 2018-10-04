@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.4
-Release:            8%{?dist}
+Release:            9%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -230,6 +230,9 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Thu Oct  4 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.9.4-9
+- Add cacertfile setting for Plesk (Bifrost T143291)
+
 * Wed Jul 18 2018 Christoph Erhardt <kolab@sicherha.de> - 0.9.4-8
 - Add run-time dependency on which
 

@@ -1,5 +1,11 @@
 libkolabxml (1.2~dev20160909-0~kolab7) unstable; urgency=low
 
+  * Ubuntu 18.04 support
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu,  4 Oct 2018 16:38:05 +0200
+
+libkolabxml (1.2~dev20160909-0~kolab7) unstable; urgency=low
+
   * Fix warnings caused by duplicate configuration-file symlinks
 
  -- Christoph Erhardt <kolab@sicherha.de>  Sun, 04 Jun 2017 12:02:01 +0200

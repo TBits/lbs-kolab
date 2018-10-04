@@ -45,7 +45,9 @@ override_dh_install:
 	mv debian/tmp/$(PHPEXT)/kolabshared.php debian/tmp/usr/share/php/kolabshared.php
 	echo "$(PHPEXT)" >> debian/php-kolab.install
 	# Put kolab.ini into place
-	if [ -d "/etc/php/7.0/mods-available" ]; then \
+	if [ -d "/etc/php/7.2/mods-available" ]; then \
+		echo "debian/kolab.ini etc/php/7.2/mods-available" >> debian/php-kolab.install ; \
+	elif [ -d "/etc/php/7.0/mods-available" ]; then \
 		echo "debian/kolab.ini etc/php/7.0/mods-available" >> debian/php-kolab.install ; \
 	elif [ -d "/etc/php/mods-available" ]; then \
 		echo "debian/kolab.ini etc/php/mods-available" >> debian/php-kolab.install ; \
