@@ -89,7 +89,7 @@ Depends:    chwala,
             roundcubemail (>= 0.9),
             roundcubemail-plugin-contextmenu,
             roundcubemail-plugins-kolab (>= 3.0),
-            roundcubemail-skin-chameleon (>= 0.3),
+            roundcubemail-skin-enterprise | roundcubemail-skin-chameleon (>= 0.3),
             ${misc:Depends},
             ${ucs:Depends}
 Description: Webmail client for Kolab Groupware server

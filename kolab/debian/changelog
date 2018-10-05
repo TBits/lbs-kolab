@@ -1,3 +1,9 @@
+kolab (16.0.1-12) unstable; urgency=low
+
+  * Conditionally depend on the correct type of skin for various deployments
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri,  5 Oct 2018 12:56:00 +0100
+
 kolab (16.0.1-10) unstable; urgency=low
 
   * Require kolab-chat webmail plugin on Plesk installations
