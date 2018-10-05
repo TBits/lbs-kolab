@@ -4,6 +4,7 @@ Architecture: all
 Depends:    chwala,
             guam,
             irony,
+            kolab-autoconf,
             kolab-syncroton,
             php-kolabformat,
             php-kolab,
@@ -18,6 +19,7 @@ Depends:    chwala,
             roundcubemail-plugin-jqueryui,
             roundcubemail-plugin-kolab-activesync,
             roundcubemail-plugin-kolab-addressbook,
+            roundcubemail-plugin-kolab-chat,
             roundcubemail-plugin-kolab-config,
             roundcubemail-plugin-kolab-files,
             roundcubemail-plugin-kolab-folders,
@@ -31,7 +33,8 @@ Depends:    chwala,
             roundcubemail-plugin-pdfviewer,
             roundcubemail-plugin-tasklist,
             roundcubemail-plugin-zipdownload,
-            roundcubemail-skin-plesk
+            roundcubemail-skin-plesk,
+            roundcubemail-skin-plesk-larry
 Description: Meta-package for Kolab on Plesk
  This is a metapackage for the installation of Kolab on
  Debian, integrated with Plesk
