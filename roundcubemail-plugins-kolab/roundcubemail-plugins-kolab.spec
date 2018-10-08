@@ -43,7 +43,7 @@
 Name:           roundcubemail-plugins-kolab
 Version:        3.4
 
-Release:        39%{?dot_rel_suffix}%{?dist}
+Release:        46%{?dot_rel_suffix}%{?dist}
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -126,6 +126,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-calendar-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -169,6 +170,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-kolab_2fa-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -197,6 +199,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-kolab_activesync-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -224,6 +227,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-kolab_addressbook-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -264,6 +268,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-kolab_chat-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -304,6 +309,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-kolab_delegation-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -331,6 +337,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-kolab_files-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -373,6 +380,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-kolab_notes-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -413,6 +421,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-kolab_tags-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -447,21 +456,24 @@ Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-libcalendaring-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(skin-plesk) >= 0.4
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
-%endif
-%else
-Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-%endif
 %endif
 Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail-plugin-libcalendaring-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       roundcubemail-plugin-libcalendaring-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+%else
+Requires:       roundcubemail(skin-chameleon) >= 0.3.9
+Requires:       roundcubemail(plugin-libcalendaring-skin-elastic) >= 1.4
+Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= 1.4
+%endif
+%endif
 Provides:       roundcubemail(plugin-libcalendaring) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-libcalendaring
@@ -479,6 +491,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-libkolab-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -574,6 +587,7 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
+Requires:       roundcubemail(plugin-tasklist-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
 %endif
 %else
@@ -1355,6 +1369,7 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             echo "%%if 0%%{?kolab_enterprise}"
             echo "%%if 0%%{?bootstrap} < 1"
             echo "Requires:       roundcubemail(skin-enterprise) >= 0.3.7"
+            echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-larry) >= %%{roundcube_version}"
             echo "Requires:       roundcubemail(skin-kolab) >= 0.4"
             echo "%%endif"
             if [ ! -d "${target_dir}/skins/elastic/" ]; then
@@ -1739,7 +1754,7 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins/ -mindepth 1 
     for skin in elastic larry; do
         touch plugin-${plugin}-skin-${skin}.files
         touch plugin-${plugin}-skin-${skin}-assets.files
-        
+
         if [ ! -d "%{name}-plugin-${plugin}-skin-${skin}-%{version}%{?dash_rel_suffix}/plugins/${plugin}/skins" ]; then
             rm -vf plugin-${plugin}-skin-${skin}.files
             rm -vf plugin-${plugin}-skin-${skin}-assets.files

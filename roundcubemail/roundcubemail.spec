@@ -56,7 +56,7 @@
 Name:           roundcubemail
 Version:        1.4
 
-Release:        49%{?dot_rel_suffix}%{?dist}
+Release:        65%{?dot_rel_suffix}%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -257,11 +257,13 @@ Requires:       %{name}(plugin-acl-assets) = %{?epoch:%{epoch}:}%{version}-%{rel
 Requires:       %{name}(plugin-acl-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-acl-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-acl-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 %else
@@ -383,11 +385,13 @@ Requires:       %{name}(plugin-enigma-assets) = %{?epoch:%{epoch}:}%{version}-%{
 Requires:       %{name}(plugin-enigma-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-enigma-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-enigma-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 %else
@@ -439,11 +443,13 @@ Requires:       %{name}(plugin-help-assets) = %{?epoch:%{epoch}:}%{version}-%{re
 Requires:       %{name}(plugin-help-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-help-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-help-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 %else
@@ -468,11 +474,13 @@ Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic < %{?epoch:%{epoch}:
 Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-hide_blockquote-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-hide_blockquote-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
@@ -540,11 +548,13 @@ Requires:       %{name}(plugin-jqueryui-assets) = %{?epoch:%{epoch}:}%{version}-
 Requires:       %{name}(plugin-jqueryui-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 %else
@@ -582,11 +592,13 @@ Requires:       %{name}(plugin-managesieve-assets) = %{?epoch:%{epoch}:}%{versio
 Requires:       %{name}(plugin-managesieve-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-managesieve-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-managesieve-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 %else
@@ -751,11 +763,13 @@ Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic < %{?epoch:%{epoch
 Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-vcard_attachments-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-vcard_attachments-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
@@ -806,23 +820,27 @@ Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-zipdownload-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?plesk}
 %if 0%{?bootstrap} < 1
+Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-plesk) >= 0.4
 Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %else
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
-%endif
-%else
-Requires:       %{name}(skin-chameleon) >= 0.3.9
-%endif
 %endif
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}-plugin-zipdownload-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       %{name}-plugin-zipdownload-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+%else
+Requires:       %{name}(skin-chameleon) >= 0.3.9
+Requires:       %{name}(plugin-zipdownload-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
+%endif
+%endif
 Provides:       %{name}(plugin-zipdownload) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description plugin-zipdownload
@@ -1551,11 +1569,13 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             fi
             echo "Requires:       %%{name}(skin-plesk) >= 0.4"
             echo "Requires:       %%{name}(skin-plesk-larry) >= 0.3"
+            echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-larry) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             echo "%%endif"
             echo "%%else"
             echo "%%if 0%%{?kolab_enterprise}"
             echo "%%if 0%%{?bootstrap} < 1"
             echo "Requires:       %%{name}(skin-enterprise) >= 0.3.7"
+            echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-larry) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             echo "Requires:       %%{name}(skin-kolab) >= 0.4"
             echo "%%endif"
             if [ ! -d "${target_dir}/skins/elastic/" ]; then
