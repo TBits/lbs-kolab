@@ -2,7 +2,7 @@ Format: 1.0
 Source: php-sabre-event
 Binary: php-sabre-event
 Architecture: all
-Version: 2.0.2-3
+Version: 2.0.2-4
 Maintainer: Kolab for Debian <devel@lists.kolab.org>
 Uploaders: hede <kolab983@der-he.de>
 Build-Depends: debhelper (>= 9),

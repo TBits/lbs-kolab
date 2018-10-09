@@ -1,3 +1,9 @@
+php-sabre-event (2.0.2-4) unstable; urgency=low
+
+  * Rebuild for Jessie
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  9 Oct 2018 21:02:01 +0100
+
 php-sabre-event (2.0.2-3) unstable; urgency=low
 
   * Updated Packaging for Kolab Winterfell
