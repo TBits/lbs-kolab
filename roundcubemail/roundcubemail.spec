@@ -837,7 +837,6 @@ Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{v
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
-Requires:       %{name}(plugin-zipdownload-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif

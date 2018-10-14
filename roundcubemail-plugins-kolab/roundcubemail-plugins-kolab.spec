@@ -470,7 +470,6 @@ Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{ep
 Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-libcalendaring-skin-elastic) >= 1.4
 Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= 1.4
 %endif
 %endif
