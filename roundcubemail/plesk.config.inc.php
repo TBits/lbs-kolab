@@ -140,15 +140,23 @@
 
     $config['performance_stats'] = true;
 
-    $config['archive_mbox'] = 'Archive';
-    $config['drafts_mbox'] = 'Drafts';
-    $config['junk_mbox'] = 'Spam';
-    $config['sent_mbox'] = 'Sent';
-    $config['trash_mbox'] = 'Trash';
+    $config['archive_mbox'] = 'INBOX.Archive';
+    $config['drafts_mbox'] = 'INBOX.Drafts';
+    $config['junk_mbox'] = 'INBOX.Spam';
+    $config['sent_mbox'] = 'INBOX.Sent';
+    $config['trash_mbox'] = 'INBOX.Trash';
 
     $config['create_default_folders'] = true;
+    $config['protect_default_folders'] = true;
 
-    $config['default_folders'] = array('INBOX', 'Archive', 'Drafts', 'Sent', 'Spam', 'Trash');
+    $config['default_folders'] = Array(
+        'INBOX',
+        'INBOX.Archive',
+        'INBOX.Drafts',
+        'INBOX.Sent',
+        'INBOX.Spam',
+        'INBOX.Trash'
+    );
 
     $config['skin_include_php'] = false;
     $config['mime_magic'] = null;

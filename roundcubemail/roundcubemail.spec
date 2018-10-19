@@ -77,6 +77,7 @@ Source102:      plesk.password.inc.php
 Source200:      2017111400.sql
 
 Patch201:       default-configuration.patch
+Patch202:       roundcubemail-1.4-beta36-plugin-enigma-homedir.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1456,6 +1457,9 @@ cp -vf %{SOURCE102} plugins/password/config.inc.php.dist
 %endif
 
 %patch201 -p1
+%if 0%{?plesk} < 1
+%patch202 -p1
+%endif
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" | while read file; do
@@ -3027,7 +3031,7 @@ fi
 %config(noreplace) %{_ap_sysconfdir}/conf.d/%{name}.conf
 %endif
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/config.inc.php
-%attr(0640,root,%{httpd_group}) %{confdir}/defaults.inc.php
+%attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/defaults.inc.php
 %attr(0640,root,%{httpd_group}) %{confdir}/mimetypes.php
 %attr(0770,root,%{httpd_group}) %dir %{logdir}
 %attr(0770,root,%{httpd_group}) %dir %{tmpdir}
