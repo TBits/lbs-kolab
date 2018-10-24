@@ -29,14 +29,14 @@
 %endif
 %endif
 
-%global roundcube_version 1.2
+%global roundcube_version 1.4
 %global datadir %{_datadir}/roundcubemail
 %global plugindir %{datadir}/plugins
 %global confdir %{_sysconfdir}/roundcubemail
 %global tmpdir %{_var}/lib/roundcubemail
 
 %global rc_version 3.4
-%global rc_rel_suffix alpha8
+%global rc_rel_suffix beta1
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
@@ -1377,7 +1377,11 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             fi
             echo "%%else"
             echo "Requires:       roundcubemail(skin-chameleon) >= 0.3.9"
-            echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-elastic) >= 1.4"
+            if [ -d "${target_dir}/skins/elastic/" ]; then
+                echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-elastic) >= 1.4"
+            else
+                echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            fi
             echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-larry) >= 1.4"
             echo "%%endif"
             echo "%%endif"
@@ -2603,6 +2607,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Oct 24 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4-54.beta1
+- New snapshot
+
 * Sat Aug 18 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4-39.alpha8
 - New snapshot
 - Fix per_user_logging
