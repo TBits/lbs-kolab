@@ -49,7 +49,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 %global rc_version 1.4
-%global rc_rel_suffix beta36
+%global rc_rel_suffix beta86
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
@@ -77,7 +77,7 @@ Source102:      plesk.password.inc.php
 Source200:      2017111400.sql
 
 Patch201:       default-configuration.patch
-Patch202:       roundcubemail-1.4-beta36-plugin-enigma-homedir.patch
+Patch202:       roundcubemail-1.4-beta86-plugin-enigma-homedir.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -3347,6 +3347,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Oct 26 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-50.beta86
+- Check in 86 revisions ahead of the beta release
+
 * Tue Sep 18 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-49.beta36
 - Check in 36 revisions ahead of beta release
 - Conditionally include collabora.inc.php per vhost on Plesk
