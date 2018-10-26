@@ -1,3 +1,9 @@
+chwala (0.5.4-0~kolab1) unsable; urgency=low
+
+  * Release version 0.5.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabys.com>  Fri, 26 Oct 2018 12:12:12 +0100
+
 chwala (0.5.3-0~kolab1) unsable; urgency=low
 
   * Release version 0.5.3
