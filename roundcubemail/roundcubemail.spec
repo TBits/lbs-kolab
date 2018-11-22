@@ -49,14 +49,14 @@
 %global tmpdir /var/lib/roundcubemail
 
 %global rc_version 1.4
-%global rc_rel_suffix beta95
+%global rc_rel_suffix beta136
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail
 Version:        1.4
 
-Release:        65%{?dot_rel_suffix}%{?dist}
+Release:        66%{?dot_rel_suffix}%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -618,10 +618,29 @@ Summary:        Plugin markasjunk
 Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-markasjunk-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?plesk}
+%if 0%{?bootstrap} < 1
 Obsoletes:      %{name}-plugin-markasjunk-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-markasjunk-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      %{name}-plugin-markasjunk-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      %{name}-plugin-markasjunk-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}(skin-plesk) >= 0.4
+Requires:       %{name}(skin-plesk-larry) >= 0.3
+Requires:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
+%endif
+%else
+%if 0%{?kolab_enterprise}
+%if 0%{?bootstrap} < 1
+Requires:       %{name}(skin-enterprise) >= 0.3.7
+Requires:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}(skin-kolab) >= 0.4
+%endif
+Obsoletes:      %{name}-plugin-markasjunk-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-plugin-markasjunk-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+%else
+Requires:       %{name}(skin-chameleon) >= 0.3.9
+Requires:       %{name}(plugin-markasjunk-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
+%endif
+%endif
 Provides:       %{name}(plugin-markasjunk) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description plugin-markasjunk
@@ -838,6 +857,7 @@ Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{v
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
+Requires:       %{name}(plugin-zipdownload-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -1242,6 +1262,18 @@ Provides:       %{name}(plugin-managesieve-skin-larry) = %{?epoch:%{epoch}:}%{ve
 %description plugin-managesieve-skin-larry
 Plugin managesieve / Skin larry
 
+%package plugin-markasjunk-skin-larry
+Summary:        Plugin markasjunk / Skin larry
+Group:          Applications/Internet
+Requires:       %{name}(plugin-markasjunk) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}(skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}(plugin-markasjunk-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}(plugin-markasjunk-skin) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description plugin-markasjunk-skin-larry
+Plugin markasjunk / Skin larry
+
 %package plugin-vcard_attachments-skin-larry
 Summary:        Plugin vcard_attachments / Skin larry
 Group:          Applications/Internet
@@ -1375,6 +1407,16 @@ Provides:       %{name}(plugin-managesieve-skin-larry-assets) = %{?epoch:%{epoch
 
 %description plugin-managesieve-skin-larry-assets
 Plugin managesieve / Skin larry (Assets Package)
+
+%package plugin-markasjunk-skin-larry-assets
+Summary:        Plugin markasjunk / Skin larry (Assets)
+Group:          Applications/Internet
+Requires:       %{name}(plugin-markasjunk-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}(skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}(plugin-markasjunk-skin-larry-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description plugin-markasjunk-skin-larry-assets
+Plugin markasjunk / Skin larry (Assets Package)
 
 %package plugin-vcard_attachments-skin-larry-assets
 Summary:        Plugin vcard_attachments / Skin larry (Assets)
@@ -3111,6 +3153,7 @@ fi
 
 %files plugin-markasjunk -f plugin-markasjunk.files
 %defattr(-,root,root,-)
+%attr(0640,root,%{httpd_group}) %config(noreplace) %{_sysconfdir}/%{name}/markasjunk.inc.php
 
 %files plugin-new_user_dialog -f plugin-new_user_dialog.files
 %defattr(-,root,root,-)
@@ -3289,6 +3332,9 @@ fi
 %files plugin-managesieve-skin-larry -f plugin-managesieve-skin-larry.files
 %defattr(-,root,root,-)
 
+%files plugin-markasjunk-skin-larry -f plugin-markasjunk-skin-larry.files
+%defattr(-,root,root,-)
+
 %files plugin-vcard_attachments-skin-larry -f plugin-vcard_attachments-skin-larry.files
 %defattr(-,root,root,-)
 
@@ -3328,6 +3374,9 @@ fi
 %files plugin-managesieve-skin-larry-assets -f plugin-managesieve-skin-larry-assets.files
 %defattr(-,root,root,-)
 
+%files plugin-markasjunk-skin-larry-assets -f plugin-markasjunk-skin-larry-assets.files
+%defattr(-,root,root,-)
+
 %files plugin-vcard_attachments-skin-larry-assets -f plugin-vcard_attachments-skin-larry-assets.files
 %defattr(-,root,root,-)
 
@@ -3347,6 +3396,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Nov 22 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-66.beta136
+- Check in 136 revisions ahead of the beta release
+
 * Mon Oct 29 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-50.beta95
 - Check in 95 revisions ahead of the beta release
 

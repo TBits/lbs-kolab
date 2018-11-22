@@ -1,3 +1,9 @@
+roundcubemail (1.4-0~kolab136) unstable; urgency=low
+
+  * Check in 136 revisions ahead of upstream 1.4-beta release
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 22 Nov 2018 11:11:11 +0200
+
 roundcubemail (1.4-0~kolab53) unstable; urgency=low
 
   * Check in 95 revisions ahead of upstream 1.4-beta release
