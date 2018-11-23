@@ -8,7 +8,7 @@
 %global plugindir %{datadir}/plugins
 
 %global rc_version 3.0
-%global rc_rel_suffix alpha1
+%global rc_rel_suffix beta1
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
@@ -21,7 +21,7 @@ Group:          Applications/Internet
 License:        AGPLv3+ and GPLv3+
 URL:            http://www.kolab.org
 
-# From f3458e5a74372a64ad2387f90ceca33373e259ec
+# From 89554367bc1d02526ebfbfb9be73267b995a7c74
 Source0:        %{name}-%{version}%{?dash_rel_suffix}.tar.gz
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -144,6 +144,9 @@ rm -rf %{buildroot}
 %{datadir}/public_html/assets/plugins/contextmenu/
 
 %changelog
+* Fri Nov 23 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.0-2.beta1
+- Another pre-release of version 3.0
+
 * Thu Apr 12 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.0-1.alpha0
 - Pre-release of version 3.0
 
