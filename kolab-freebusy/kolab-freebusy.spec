@@ -24,7 +24,7 @@
 
 Name:           kolab-freebusy
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Kolab Free/Busy Web Presentation Layer
 
 Group:          Applications/Internet
@@ -60,7 +60,7 @@ Requires:       kolab-utils
 Requires:       logrotate
 Requires:       php-ldap
 Requires:       php-Monolog
-Requires:       php-pear(Net_LDAP3)
+Requires:       php-kolab-net-ldap3
 Requires:       php-sabre-dav >= 2.1.3
 Requires:       roundcubemail(core)
 Requires:       roundcubemail-plugins-kolab
@@ -163,6 +163,9 @@ fi
 %attr(0770,root,%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Sat Dec  1 2018 Timotheus Pokorra <tp@tbits.net> - 1.1.1-2
+- require php-kolab-net-ldap3 because it was upgraded in EPEL
+
 * Wed Aug  1 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.1.1-1
 - Release of version 1.1.1
 
