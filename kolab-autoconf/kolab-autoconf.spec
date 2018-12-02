@@ -24,7 +24,7 @@
 
 Name:       kolab-autoconf
 Version:    1.3
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Autodiscovery for clients of Kolab Groupware
 
 Group:      Applications/Internet
@@ -32,7 +32,7 @@ License:    GPLv3+
 URL:        https://kolab.org
 Source0:    http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
 
-Requires:   php-pear(Net_LDAP3)
+Requires:   php-kolab-net-ldap3
 Obsoletes:  kolab-autodiscover < %{version}-%{release}
 Provides:   kolab-autodiscover = %{version}-%{release}
 BuildArch:  noarch
@@ -69,6 +69,9 @@ popd
 %attr(0750,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Sat Dec  1 2018 Timotheus Pokorra <tp@tbits.net> - 1.3-2
+- require php-kolab-net-ldap3 because it was upgraded in EPEL
+
 * Mon Oct  9 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.3-1
 - Release version 1.3
 
