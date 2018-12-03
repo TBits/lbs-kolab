@@ -26,11 +26,11 @@ $config['kolab_folders_freebusy_default'] = 'Freebusy';
 // INBOX folder
 $config['kolab_folders_mail_inbox'] = 'INBOX';
 // Drafts folder
-$config['kolab_folders_mail_drafts'] = 'Drafts';
+$config['kolab_folders_mail_drafts'] = 'INBOX.Drafts';
 // Sent folder
-$config['kolab_folders_mail_sentitems'] = 'Sent';
+$config['kolab_folders_mail_sentitems'] = 'INBOX.Sent';
 // Trash folder
-$config['kolab_folders_mail_wastebasket'] = 'Trash';
+$config['kolab_folders_mail_wastebasket'] = 'INBOX.Trash';
 // Others folders
 $config['kolab_folders_mail_outbox'] = '';
-$config['kolab_folders_mail_junkemail'] = 'Spam';
+$config['kolab_folders_mail_junkemail'] = 'INBOX.Spam';
