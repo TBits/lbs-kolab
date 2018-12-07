@@ -41,9 +41,9 @@
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.4.0
+Version:        3.4.1
 
-Release:        2%{?dot_rel_suffix}%{?dist}
+Release:        1%{?dot_rel_suffix}%{?dist}
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -126,13 +126,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-calendar-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-calendar-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-calendar-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-calendar-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-calendar-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-calendar-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-calendar-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-calendar-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-calendar-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-calendar-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       roundcubemail(plugin-libcalendaring) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -148,10 +152,10 @@ Summary:        Plugin html_converter
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-html_converter-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-html_converter-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-html_converter-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-html_converter-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-html_converter-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-html_converter-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-html_converter-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-html_converter-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-html_converter-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       lynx
 Provides:       roundcubemail(plugin-html_converter) = %{?epoch:%{epoch}:}%{version}-%{release}
 
@@ -170,13 +174,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-kolab_2fa-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-kolab_2fa-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-kolab_2fa-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_2fa-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_2fa-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_2fa-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-kolab_2fa-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-kolab_2fa-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-kolab_2fa-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_2fa-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       php-endroid-qrcode
@@ -199,13 +207,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-kolab_activesync-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-kolab_activesync-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-kolab_activesync-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_activesync-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_activesync-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_activesync-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-kolab_activesync-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-kolab_activesync-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-kolab_activesync-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_activesync-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       roundcubemail(plugin-jqueryui) >= %{roundcube_version}
@@ -227,13 +239,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-kolab_addressbook-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-kolab_addressbook-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-kolab_addressbook-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_addressbook-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_addressbook-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_addressbook-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-kolab_addressbook-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-kolab_addressbook-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-kolab_addressbook-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_addressbook-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -247,10 +263,10 @@ Summary:        Plugin kolab_auth
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_auth-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_auth-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_auth-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_auth-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_auth-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-kolab_auth-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_auth-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_auth-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_auth-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-kolab_auth) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-kolab_auth
@@ -268,13 +284,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-kolab_chat-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-kolab_chat-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-kolab_chat-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_chat-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_chat-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_chat-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-kolab_chat-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-kolab_chat-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-kolab_chat-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_chat-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Provides:       roundcubemail(plugin-kolab_chat) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -287,10 +307,10 @@ Summary:        Plugin kolab_config
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_config-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_config-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_config-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_config-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_config-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-kolab_config-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_config-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_config-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_config-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-kolab_config) = %{?epoch:%{epoch}:}%{version}-%{release}
 
@@ -309,13 +329,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-kolab_delegation-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-kolab_delegation-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-kolab_delegation-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_delegation-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_delegation-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_delegation-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-kolab_delegation-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-kolab_delegation-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-kolab_delegation-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_delegation-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       roundcubemail(plugin-kolab_auth) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -337,13 +361,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-kolab_files-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-kolab_files-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-kolab_files-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_files-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_files-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_files-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-kolab_files-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-kolab_files-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-kolab_files-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_files-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -358,10 +386,10 @@ Summary:        Plugin kolab_folders
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_folders-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_folders-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_folders-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_folders-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_folders-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-kolab_folders-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_folders-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_folders-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_folders-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-kolab_folders) = %{?epoch:%{epoch}:}%{version}-%{release}
 
@@ -380,13 +408,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-kolab_notes-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-kolab_notes-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-kolab_notes-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_notes-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_notes-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_notes-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-kolab_notes-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-kolab_notes-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-kolab_notes-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_notes-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -400,10 +432,10 @@ Summary:        Plugin kolab_shortcuts
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-kolab_shortcuts-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_shortcuts-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_shortcuts-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_shortcuts-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-kolab_shortcuts-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-kolab_shortcuts-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_shortcuts-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_shortcuts-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_shortcuts-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-kolab_shortcuts) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-kolab_shortcuts
@@ -421,13 +453,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-kolab_tags-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-kolab_tags-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-kolab_tags-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_tags-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_tags-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_tags-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-kolab_tags-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-kolab_tags-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-kolab_tags-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_tags-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -441,10 +477,10 @@ Summary:        Plugin ldap_authentication
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-ldap_authentication-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-ldap_authentication-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-ldap_authentication-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-ldap_authentication-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-ldap_authentication-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-ldap_authentication-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-ldap_authentication-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-ldap_authentication-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-ldap_authentication-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-ldap_authentication) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-ldap_authentication
@@ -463,14 +499,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= 1.4
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Provides:       roundcubemail(plugin-libcalendaring) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -490,13 +529,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-libkolab-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-libkolab-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-libkolab-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libkolab-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libkolab-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libkolab-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-libkolab-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-libkolab-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-libkolab-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-libkolab-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Provides:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -509,10 +552,10 @@ Summary:        Plugin loginfail
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-loginfail-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-loginfail-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-loginfail-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-loginfail-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-loginfail-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-loginfail-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-loginfail-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-loginfail-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-loginfail-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-loginfail) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-loginfail
@@ -523,10 +566,10 @@ Summary:        Plugin logon_page
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-logon_page-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-logon_page-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-logon_page-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-logon_page-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-logon_page-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-logon_page-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-logon_page-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-logon_page-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-logon_page-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-logon_page) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-logon_page
@@ -537,10 +580,10 @@ Summary:        Plugin odfviewer
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-odfviewer-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-odfviewer-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-odfviewer-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-odfviewer-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-odfviewer-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-odfviewer-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-odfviewer-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-odfviewer-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-odfviewer-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-odfviewer) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-odfviewer
@@ -551,10 +594,10 @@ Summary:        Plugin pdfviewer
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-pdfviewer-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-pdfviewer-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-pdfviewer-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-pdfviewer-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-pdfviewer-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-pdfviewer-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-pdfviewer-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-pdfviewer-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-pdfviewer-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-pdfviewer) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-pdfviewer
@@ -565,10 +608,10 @@ Summary:        Plugin piwik_analytics
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-piwik_analytics-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-piwik_analytics-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-piwik_analytics-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-piwik_analytics-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-piwik_analytics-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-piwik_analytics-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-piwik_analytics-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-piwik_analytics-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-piwik_analytics-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-piwik_analytics) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-piwik_analytics
@@ -586,13 +629,17 @@ Requires:       roundcubemail(skin-plesk) >= 0.4
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       roundcubemail(skin-enterprise) >= 0.3.7
-Requires:       roundcubemail(plugin-tasklist-skin-larry) >= %{roundcube_version}
 Requires:       roundcubemail(skin-kolab) >= 0.4
+Requires:       roundcubemail(plugin-tasklist-skin-larry) >= %{roundcube_version}
 %endif
+Obsoletes:      roundcubemail-plugin-tasklist-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-tasklist-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-tasklist-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-tasklist-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
-Requires:       roundcubemail(plugin-tasklist-skin-elastic) >= 1.4
-Requires:       roundcubemail(plugin-tasklist-skin-larry) >= 1.4
+Requires:       roundcubemail(plugin-tasklist-skin-elastic) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-tasklist-skin-larry) >= %{roundcube_version}
 %endif
 %endif
 Requires:       roundcubemail(plugin-jqueryui) >= %{roundcube_version}
@@ -608,10 +655,10 @@ Summary:        Plugin tinymce_config
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-tinymce_config-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-tinymce_config-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-tinymce_config-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-tinymce_config-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-tinymce_config-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-tinymce_config-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-tinymce_config-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-tinymce_config-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-tinymce_config-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-tinymce_config) = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description -n roundcubemail-plugin-tinymce_config
@@ -622,10 +669,10 @@ Summary:        Plugin wap_client
 Group:          Applications/Internet
 Requires:       roundcubemail(core) >= %{roundcube_version}
 Requires:       roundcubemail(plugin-wap_client-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-wap_client-skin-elastic < 1.4.0
-Obsoletes:      roundcubemail-plugin-wap_client-skin-elastic-assets < 1.4.0
-Obsoletes:      roundcubemail-plugin-wap_client-skin-larry < 1.4.0
-Obsoletes:      roundcubemail-plugin-wap_client-skin-larry-assets < 1.4.0
+Obsoletes:      roundcubemail-plugin-wap_client-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-wap_client-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-wap_client-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-wap_client-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       roundcubemail(plugin-wap_client) = %{?epoch:%{epoch}:}%{version}-%{release}
 
@@ -1317,6 +1364,7 @@ cp -afv %{SOURCE104} plugins/libkolab/config.inc.php.dist
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
 
+rm -rf plugins/kolab_sso
 rm -rf plugins/kolab_zpush
 rm -rf plugins/owncloud
 
@@ -1368,28 +1416,38 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             echo "%%if 0%%{?kolab_enterprise}"
             echo "%%if 0%%{?bootstrap} < 1"
             echo "Requires:       roundcubemail(skin-enterprise) >= 0.3.7"
-            echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-larry) >= %%{roundcube_version}"
             echo "Requires:       roundcubemail(skin-kolab) >= 0.4"
+            echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-larry) >= %%{roundcube_version}"
             echo "%%endif"
             if [ ! -d "${target_dir}/skins/elastic/" ]; then
+                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            else
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            fi
+            if [ ! -d "${target_dir}/skins/larry/" ]; then
+                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-larry < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-larry-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            else
+                echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-larry < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-larry-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
             echo "%%else"
             echo "Requires:       roundcubemail(skin-chameleon) >= 0.3.9"
             if [ -d "${target_dir}/skins/elastic/" ]; then
-                echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-elastic) >= 1.4"
+                echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-elastic) >= %%{roundcube_version}"
             else
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
-            echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-larry) >= 1.4"
+            echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-larry) >= %%{roundcube_version}"
             echo "%%endif"
             echo "%%endif"
         else
-            echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic < 1.4.0"
-            echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic-assets < 1.4.0"
-            echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-larry < 1.4.0"
-            echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-larry-assets < 1.4.0"
+            echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-larry < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-larry-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
         fi
 
         for rplugin in $(grep -rn "require_plugin" ${plugin}/ | cut -d"'" -f2 | sort); do
@@ -2607,6 +2665,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Dec  6 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.1-1
+- Release of version 3.4.1
+
 * Mon Dec  3 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.0-2
 - Fix default folder configuration on Plesk to align with the core default folder configuration.
 
