@@ -49,14 +49,14 @@
 %global tmpdir /var/lib/roundcubemail
 
 %global rc_version 1.4
-%global rc_rel_suffix beta136
+%global rc_rel_suffix beta151
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail
 Version:        1.4
 
-Release:        66%{?dot_rel_suffix}%{?dist}
+Release:        151%{?dot_rel_suffix}%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -3394,6 +3394,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Dec  6 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-151.beta151
+- Check in 151 revisions ahead of the beta release
+
 * Thu Nov 22 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-66.beta136
 - Check in 136 revisions ahead of the beta release
 
