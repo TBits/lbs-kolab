@@ -12,7 +12,7 @@
 
 Name:           kolab
 Version:        16.0.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
@@ -183,6 +183,7 @@ Requires:       roundcubemail(plugin-redundant_attachments)
 
 Requires:       roundcubemail-plugin-contextmenu
 Requires:       roundcubemail-plugins-kolab
+Requires:       roundcubemail-skin-kolab
 
 %description webclient
 This is the Kolab Groupware web client meta-package
@@ -227,7 +228,10 @@ This is the Kolab Groupware web client meta-package
 %doc README
 
 %changelog
-* Wed Jul  4 2019 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-7
+* Thu Dec 13 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-8
+- Require roundcubemail-skin-kolab
+
+* Wed Jul  4 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-7
 - Require kolab-autoconf for kolab-plesk
 
 * Mon May 07 2018 Christoph Erhardt <kolab@sicherha.de> - 16.0.1-6

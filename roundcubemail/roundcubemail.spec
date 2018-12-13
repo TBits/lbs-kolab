@@ -264,9 +264,12 @@ Requires:       %{name}(plugin-acl-skin-larry) = %{?epoch:%{epoch}:}%{version}-%
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-acl-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
+Requires:       %{name}-plugin-acl-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-acl-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-acl-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-acl-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
 Requires:       %{name}(plugin-acl-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -392,9 +395,12 @@ Requires:       %{name}(plugin-enigma-skin-larry) = %{?epoch:%{epoch}:}%{version
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-enigma-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
+Requires:       %{name}-plugin-enigma-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-enigma-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-enigma-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-enigma-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
 Requires:       %{name}(plugin-enigma-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -450,9 +456,12 @@ Requires:       %{name}(plugin-help-skin-larry) = %{?epoch:%{epoch}:}%{version}-
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-help-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
+Requires:       %{name}-plugin-help-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-help-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-help-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-help-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
 Requires:       %{name}(plugin-help-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -481,13 +490,15 @@ Requires:       %{name}(plugin-hide_blockquote-skin-larry) = %{?epoch:%{epoch}:}
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-hide_blockquote-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-hide_blockquote-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-hide_blockquote-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
+Obsoletes:      %{name}(plugin-hide_blockquote-skin-elastic) < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-hide_blockquote-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -554,9 +565,12 @@ Requires:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{versi
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-jqueryui-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
+Requires:       %{name}-plugin-jqueryui-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-jqueryui-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-jqueryui-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-jqueryui-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
 Requires:       %{name}(plugin-jqueryui-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -598,9 +612,12 @@ Requires:       %{name}(plugin-managesieve-skin-larry) = %{?epoch:%{epoch}:}%{ve
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-managesieve-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
+Requires:       %{name}-plugin-managesieve-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-managesieve-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-managesieve-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-managesieve-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
 Requires:       %{name}(plugin-managesieve-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -629,13 +646,15 @@ Requires:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{ver
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 Obsoletes:      %{name}-plugin-markasjunk-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-markasjunk-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-markasjunk-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-markasjunk-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
+Obsoletes:      %{name}(plugin-markasjunk-skin-elastic) < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -787,13 +806,15 @@ Requires:       %{name}(plugin-vcard_attachments-skin-larry) = %{?epoch:%{epoch}
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-vcard_attachments-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-vcard_attachments-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-vcard_attachments-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
+Obsoletes:      %{name}(plugin-vcard_attachments-skin-elastic) < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-vcard_attachments-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -847,13 +868,15 @@ Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{ve
 %if 0%{?kolab_enterprise}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(skin-enterprise) >= 0.3.7
-Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(skin-kolab) >= 0.4
 %endif
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes:      %{name}-plugin-zipdownload-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-zipdownload-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-plugin-zipdownload-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
+Obsoletes:      %{name}(plugin-zipdownload-skin-elastic) < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -1616,19 +1639,34 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             echo "%%if 0%%{?kolab_enterprise}"
             echo "%%if 0%%{?bootstrap} < 1"
             echo "Requires:       %%{name}(skin-enterprise) >= 0.3.7"
-            echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-larry) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             echo "Requires:       %%{name}(skin-kolab) >= 0.4"
             echo "%%endif"
-            if [ ! -d "${target_dir}/skins/elastic/" ]; then
+            if [ -d "${target_dir}/skins/elastic/" ]; then
+                echo "Requires:       %%{name}-plugin-$(basename ${plugin})-skin-elastic = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Requires:       %%{name}-plugin-$(basename ${plugin})-skin-elastic-assets = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            else
                 echo "Obsoletes:      %%{name}-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
                 echo "Obsoletes:      %%{name}-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            fi
+            if [ -d "${target_dir}/skins/larry/" ]; then
+                echo "Requires:       %%{name}-plugin-$(basename ${plugin})-skin-larry = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Requires:       %%{name}-plugin-$(basename ${plugin})-skin-larry-assets = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            else
+                echo "Obsoletes:      %%{name}-plugin-$(basename ${plugin})-skin-larry < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Obsoletes:      %%{name}-plugin-$(basename ${plugin})-skin-larry-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
             echo "%%else"
             echo "Requires:       %%{name}(skin-chameleon) >= 0.3.9"
             if [ -d "${target_dir}/skins/elastic/" ]; then
                 echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-elastic) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            else
+                echo "Obsoletes:      %%{name}(plugin-$(basename ${plugin})-skin-elastic) < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
-            echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-larry) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            if [ -d "${target_dir}/skins/larry/" ]; then
+                echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-larry) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            else
+                echo "Obsoletes:      %%{name}(plugin-$(basename ${plugin})-skin-larry) < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            fi
             echo "%%endif"
             echo "%%endif"
         else
