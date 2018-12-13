@@ -129,10 +129,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-calendar-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-calendar-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-calendar-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-calendar-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-calendar-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-calendar-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-calendar-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-calendar-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-calendar-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-calendar-skin-elastic) >= %{roundcube_version}
@@ -177,10 +177,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-kolab_2fa-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-kolab_2fa-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_2fa-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_2fa-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_2fa-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_2fa-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_2fa-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_2fa-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_2fa-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-kolab_2fa-skin-elastic) >= %{roundcube_version}
@@ -210,10 +210,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-kolab_activesync-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-kolab_activesync-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_activesync-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_activesync-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_activesync-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_activesync-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_activesync-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_activesync-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_activesync-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-kolab_activesync-skin-elastic) >= %{roundcube_version}
@@ -242,10 +242,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-kolab_addressbook-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-kolab_addressbook-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_addressbook-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_addressbook-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_addressbook-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_addressbook-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_addressbook-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_addressbook-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_addressbook-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-kolab_addressbook-skin-elastic) >= %{roundcube_version}
@@ -287,10 +287,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-kolab_chat-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-kolab_chat-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_chat-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_chat-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_chat-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_chat-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_chat-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_chat-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_chat-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-kolab_chat-skin-elastic) >= %{roundcube_version}
@@ -332,10 +332,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-kolab_delegation-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-kolab_delegation-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_delegation-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_delegation-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_delegation-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_delegation-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_delegation-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_delegation-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_delegation-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-kolab_delegation-skin-elastic) >= %{roundcube_version}
@@ -364,10 +364,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-kolab_files-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-kolab_files-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_files-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_files-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_files-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_files-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_files-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_files-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_files-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-kolab_files-skin-elastic) >= %{roundcube_version}
@@ -411,10 +411,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-kolab_notes-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-kolab_notes-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_notes-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_notes-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_notes-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_notes-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_notes-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_notes-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_notes-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-kolab_notes-skin-elastic) >= %{roundcube_version}
@@ -456,10 +456,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-kolab_tags-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-kolab_tags-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_tags-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_tags-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-kolab_tags-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_tags-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_tags-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_tags-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-kolab_tags-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-kolab_tags-skin-elastic) >= %{roundcube_version}
@@ -502,10 +502,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-libcalendaring-skin-larry) >= %{roundcube_version}
 %endif
-Requires:       roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-libcalendaring-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-libcalendaring-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-libcalendaring-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-libcalendaring-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Obsoletes:      roundcubemail-plugin-libcalendaring-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
@@ -532,10 +532,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-libkolab-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-libkolab-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-libkolab-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-libkolab-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-libkolab-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-libkolab-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-libkolab-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-libkolab-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-libkolab-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-libkolab-skin-elastic) >= %{roundcube_version}
@@ -632,10 +632,10 @@ Requires:       roundcubemail(skin-enterprise) >= 0.3.7
 Requires:       roundcubemail(skin-kolab) >= 0.4
 Requires:       roundcubemail(plugin-tasklist-skin-larry) >= %{roundcube_version}
 %endif
-Obsoletes:      roundcubemail-plugin-tasklist-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-tasklist-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-tasklist-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      roundcubemail-plugin-tasklist-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-tasklist-skin-elastic = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-tasklist-skin-elastic-assets = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-tasklist-skin-larry = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail-plugin-tasklist-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       roundcubemail(skin-chameleon) >= 0.3.9
 Requires:       roundcubemail(plugin-tasklist-skin-elastic) >= %{roundcube_version}
@@ -1419,16 +1419,16 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             echo "Requires:       roundcubemail(skin-kolab) >= 0.4"
             echo "Requires:       roundcubemail(plugin-$(basename ${plugin})-skin-larry) >= %%{roundcube_version}"
             echo "%%endif"
-            if [ ! -d "${target_dir}/skins/elastic/" ]; then
-                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
-                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            if [ -d "${target_dir}/skins/elastic/" ]; then
+                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-elastic = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-elastic-assets = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             else
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-elastic-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
-            if [ ! -d "${target_dir}/skins/larry/" ]; then
-                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-larry < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
-                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-larry-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+            if [ -d "${target_dir}/skins/larry/" ]; then
+                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-larry = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Requires:       roundcubemail-plugin-$(basename ${plugin})-skin-larry-assets = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             else
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-larry < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
                 echo "Obsoletes:      roundcubemail-plugin-$(basename ${plugin})-skin-larry-assets < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"

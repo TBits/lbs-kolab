@@ -1,3 +1,9 @@
+guam (0.9.4-12) unstable; urgency=medium
+
+  * Rebuild
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 13 Dec 2018 09:31:31 +0200
+
 guam (0.9.4-9) unstable; urgency=medium
 
   * Add setting cacertfile for Plesk (Bifrost T143291)

@@ -1,3 +1,9 @@
+kolab (16.0.1-13) unstable; urgency=low
+
+  * Pull in roundcubemail-skin-kolab
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 13 Dec 2018 12:56:00 +0100
+
 kolab (16.0.1-12) unstable; urgency=low
 
   * Conditionally depend on the correct type of skin for various deployments
