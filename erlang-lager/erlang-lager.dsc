@@ -2,7 +2,7 @@ Format: 1.0
 Source: erlang-lager
 Binary: erlang-lager
 Architecture: any
-Version: 3.2.4-1+kolab1
+Version: 3.2.4-1+kolab2
 Maintainer: Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>
 Uploaders: Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://github.com/basho/lager

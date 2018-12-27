@@ -2,7 +2,7 @@ Format: 1.0
 Source: erlang-goldrush
 Binary: erlang-goldrush
 Architecture: any
-Version: 0.2.0-1~kolab1
+Version: 0.2.0-1~kolab2
 Maintainer: Philipp Huebner <debalance@debian.org>
 Uploaders: Christoph Erhardt <kolab@sicherha.de>
 Homepage: https://github.com/DeadZen/goldrush
