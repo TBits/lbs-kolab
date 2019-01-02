@@ -1,0 +1,167 @@
+commit 4e175395367d60e25153c924f0f401718e2c9062
+Author: Aleksander Machniak <machniak@kolabsys.com>
+Date:   Wed Jan 2 12:59:44 2019 +0100
+
+    LIST-EXTENDED/LIST-STATUS support
+    
+    Summary:
+    LIST-EXTENDED/LIST-STATUS support needed for Evolution client.
+    
+    The change is quite big because it adds a simple tokenizer and makes
+    folder extraction from command string more robust (probably also slower).
+    
+    It is possible that get_token function(s) should go to eimap.
+    
+    Bifrost#T160184
+    
+    Reviewers: #guam_developers
+    
+    Differential Revision: https://git.kolab.org/D714
+
+diff --git a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
+index decbd9a..92d9f96 100644
+--- a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
++++ b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
+@@ -102,6 +102,7 @@ filter_folder(_State, <<>>, Acc) -> { Acc, true };
+ filter_folder(State, <<"* LIST ", Details/binary>> = Response, Acc) -> { filter_on_details(State, Response, Acc, Details), true };
+ filter_folder(State, <<"* XLIST ", Details/binary>> = Response, Acc) -> { filter_on_details(State, Response, Acc, Details), true };
+ filter_folder(State, <<"* LSUB ", Details/binary>> = Response, Acc) -> { filter_on_details(State, Response, Acc, Details), true };
++filter_folder(State, <<"* STATUS ", Details/binary>> = Response, Acc) -> { filter_on_details(State, Response, Acc, Details), true };
+ filter_folder(#state{ tag = Tag }, Response, Acc) ->
+     HasMore =
+     case byte_size(Tag) =< byte_size(Response) of
+@@ -115,25 +116,28 @@ filter_folder(#state{ tag = Tag }, Response, Acc) ->
+     { add_response(Response, Acc), HasMore }.
+ 
+ filter_on_details(#state{ blacklist = Blacklist }, Response, Acc, Details) ->
+-    %% first determine if we have a quoted item or a non-quoted item and start from there
+-    DetailsSize = byte_size(Details),
+-    { Quoted, Start } = case binary:at(Details, DetailsSize - 1) of $" -> { quoted, DetailsSize - 2 }; _ -> { unquoted, DetailsSize - 1 } end,
+-    Folder = find_folder_name(Details, Quoted, Start, Start, binary:at(Details, Start)),
+-    %io:format("COMPARING ~p ??? ~p~n", [Folder, in_blacklist(Folder, Blacklist)]),
++    %% Remove "*" and extract response command name
++    { _, Start, _ } = pop_token(Response), %% asterisk
++    { Cmd, _, _ } = pop_token(Start), %% command
++
++    %% Extract folder name
++    Suffix =
++    case Cmd =:= <<"STATUS">> of
++        true -> Details;
++        _ ->
++            { Pos, _Length } = binary:match(Details, [<<")">>], []),
++            { _Delimiter, Rest, _} = pop_token(binary:part(Details, Pos + 2, byte_size(Details) - Pos - 2)),
++            Rest
++    end,
++    { Folder, _, _ } = pop_token(list_to_binary([Suffix, <<"\r\n">>])),
++
++    %% Check the folder in blacklist
++    %% io:format("COMPARING ~p ??? ~p~n", [Folder, in_blacklist(Folder, Blacklist)]),
+     case in_blacklist(Folder, Blacklist) of
+         true -> Acc;
+         _ -> add_response(Response, Acc)
+     end.
+ 
+-find_folder_name(Details, quoted, End, Start, $") ->
+-    binary:part(Details, Start + 1, End - Start);
+-find_folder_name(Details, unquoted, End, Start, $ ) ->
+-    binary:part(Details, Start + 1, End - Start);
+-find_folder_name(Details, _Quoted, _End, 0, _) ->
+-    Details;
+-find_folder_name(Details, Quoted, End, Start, _) ->
+-    find_folder_name(Details, Quoted, End, Start - 1, binary:at(Details, Start - 1)).
+-
+ add_response(Response, <<>>) -> Response;
+ add_response(Response, Acc) -> <<Acc/binary, "\r\n", Response/binary>>.
+ 
+@@ -147,3 +151,91 @@ in_blacklist(Folder, [{ Literal, Prefix }|List]) ->
+                  _ -> in_blacklist(Folder, List)
+              end
+     end.
++
++%% pop_token from https://github.com/MainframeHQ/switchboard/blob/master/src/imap.erl (BSD Lic.)
++%% with some small changes by Aleksander Machniak <machniak@kolabsys.com>
++pop_token(Data) ->
++    pop_token(Data, none).
++
++pop_token(<<>>, State) ->
++    {none, <<>>, State};
++
++%% Consume hanging spaces
++pop_token(<<" ", Rest/binary>>, none) ->
++    pop_token(Rest, none);
++
++%% \r\n
++pop_token(<<$\r, $\n, Rest/binary>>, none) ->
++    {crlf, Rest, none};
++
++%% NIL
++pop_token(<<"NIL", Rest/binary>>, none) ->
++    {nil, Rest, none};
++
++%% ( | ) | [ | ]
++pop_token(<<$(, Rest/binary>>, none) ->
++    {'(', Rest, none};
++pop_token(<<$), Rest/binary>>, none) ->
++    {')', Rest, none};
++
++pop_token(<<$[, Rest/binary>>, none) ->
++    {'[', Rest, none};
++pop_token(<<$], Rest/binary>>, none) ->
++    {']', Rest, none};
++
++%% Numbers
++pop_token(<<C, _/binary>> = Data, {number, NumberAcc}) when
++  C =:= 32; C =:= 40; C =:= 41; C =:= $(; C =:= $); C =:= 91; C =:= 93 ->
++    {binary_to_integer(NumberAcc), Data, none};
++pop_token(<<$\r, $\n, _/binary>> = Data, {number, NumberAcc}) ->
++    {binary_to_integer(NumberAcc), Data, none};
++pop_token(<<" ", Rest/binary>>, {number, NumberAcc}) ->
++    {binary_to_integer(NumberAcc), Rest, none};
++pop_token(<<D, Rest/binary>>, {number, NumberAcc}) when D >= 48, D < 58 ->
++    pop_token(Rest, {number, <<NumberAcc/binary, D>>});
++pop_token(<<D, Rest/binary>>, none) when D >= 48, D < 58 ->
++    pop_token(Rest, {number, <<D>>});
++pop_token(<<C, Rest/binary>>, {number, NumberAcc}) when C >= 35, C < 123 ->
++    pop_token(Rest, {atom, <<NumberAcc/binary, C>>});
++
++%% Atom
++pop_token(<<C, _/binary>> = Data, {atom, AtomAcc}) when
++  C =:= 32; C =:= 40; C =:= 41; C =:= $(; C =:= $); C =:= 91; C =:= 93 ->
++    {AtomAcc, Data, none};
++pop_token(<<$\r, $\n, _/binary>> = Data, {atom, AtomAcc}) ->
++    {AtomAcc, Data, none};
++pop_token(<<C, Rest/binary>>, none) when C >= 35, C < 123 ->
++    pop_token(Rest, {atom, <<C>>});
++pop_token(<<C, Rest/binary>>, {atom, AtomAcc}) when C >= 35, C < 123 ->
++    pop_token(Rest, {atom, <<AtomAcc/binary, C>>});
++
++%% Literal Strings
++pop_token(<<${, Rest/binary>>, none) ->
++    pop_token(Rest, {literal, <<>>});
++pop_token(<<$}, $\r, $\n, Rest/binary>>, {literal, ByteAcc}) ->
++    pop_token(Rest, {literal, binary_to_integer(ByteAcc), <<>>});
++pop_token(<<D, Rest/binary>>, {literal, ByteAcc}) when D >= 48, D < 58 ->
++    pop_token(Rest, {literal, <<ByteAcc/binary, D>>});
++pop_token(Binary, {literal, Bytes, LiteralAcc}) when is_integer(Bytes) ->
++    case Binary of
++        <<Literal:Bytes/binary, Rest/binary>> ->
++            {<<LiteralAcc/binary, Literal/binary>>, Rest, none};
++        _ ->
++            %% If the binary is too short, accumulate it in the state
++            pop_token(<<>>, {literal, Bytes - size(Binary), <<LiteralAcc/binary, Binary/binary>>})
++    end;
++
++%% Quoted Strings
++pop_token(<<$", Rest/binary>>, none) ->
++    pop_token(Rest, {quoted, <<>>});
++pop_token(<<$\\, C, Rest/binary>>, {quoted, Acc}) ->
++    pop_token(Rest, {quoted, <<Acc/binary, C>>});
++pop_token(<<$", Rest/binary>>, {quoted, Acc}) ->
++    {Acc, Rest, none};
++pop_token(<<$\r, $\n, _>>, {quoted, _}) ->
++    throw({error, crlf_in_quoted});
++pop_token(<<C, Rest/binary>>, {quoted, Acc}) ->
++    pop_token(Rest, {quoted, <<Acc/binary, C>>});
++
++pop_token(Binary, _) ->
++    {none, Binary, none}.

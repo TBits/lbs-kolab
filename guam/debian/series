@@ -2,3 +2,4 @@ make-it-very-easy-on-rebar3.patch -p1
 guam-priv-no-delete.patch -p1
 guam-0.9.2-stalling-client-buffer-and-split-command-handling.patch -p1
 use-vendorized-rebar3.patch -p1
+guam-0.9.4-D714-for-T160184.patch -p1
