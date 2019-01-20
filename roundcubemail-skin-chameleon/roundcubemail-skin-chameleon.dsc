@@ -2,7 +2,7 @@ Format: 1.0
 Source: roundcubemail-skin-chameleon
 Binary: roundcubemail-skin-chameleon
 Architecture: all
-Version: 0.3.10-0~kolab1
+Version: 0.3.10-0~kolab2
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Standards-Version: 3.9.3
