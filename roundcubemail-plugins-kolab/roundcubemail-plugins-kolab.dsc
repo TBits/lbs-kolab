@@ -2,7 +2,7 @@ Format: 1.0
 Source: roundcubemail-plugins-kolab
 Binary: roundcubemail-plugins-kolab
 Architecture: all
-Version: 1:3.4.2-0~kolab1
+Version: 1:3.4.2-0~kolab2
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Standards-Version: 3.9.3
