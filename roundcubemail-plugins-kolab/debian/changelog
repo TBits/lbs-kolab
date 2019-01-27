@@ -1,3 +1,9 @@
+roundcubemail-plugins-kolab (1:3.4.2-0~kolab2) unstable; urgency=low
+
+  * Fix de_DE, save button
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 27 Jan 2019 11:11:11 +0200
+
 roundcubemail-plugins-kolab (1:3.4.2-0~kolab1) unstable; urgency=low
 
   * Release of version 3.4.2

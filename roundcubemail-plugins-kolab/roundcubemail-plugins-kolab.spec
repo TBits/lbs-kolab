@@ -61,6 +61,9 @@ Source102:      plesk.kolab_chat.inc.php
 Source103:      plesk.kolab_folders.inc.php
 Source104:      plesk.libkolab.inc.php
 
+Patch0001:      0001-Unbreak-de_DE-localization-file.patch
+Patch0002:      0002-Elastic-Fix-Save-Edit-buttons-on-plain-text-editor-B.patch
+
 Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -1360,6 +1363,8 @@ cp -afv %{SOURCE103} plugins/kolab_folders/config.inc.php.dist
 cp -afv %{SOURCE104} plugins/libkolab/config.inc.php.dist
 %endif
 
+%patch0001 -p1
+%patch0002 -p1
 %patch1001 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
@@ -2665,6 +2670,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Sun Jan 27 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.2-2
+- Fix de_DE, save buttons
+
 * Sat Jan 19 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.2-1
 - Release of version 3.4.2
 
