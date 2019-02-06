@@ -1,3 +1,9 @@
+kolab (16.0.1-15) unstable; urgency=low
+
+  * Pull in aspell dictionaries and PHP's pspell module
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  6 Feb 2018 12:56:00 +0100
+
 kolab (16.0.1-13) unstable; urgency=low
 
   * Pull in roundcubemail-skin-kolab

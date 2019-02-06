@@ -12,7 +12,7 @@
 
 Name:           kolab
 Version:        16.0.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
@@ -160,6 +160,21 @@ This is the Kolab Groupware Mail Transfer Agent (MTA) meta-package
 %package webclient
 Summary:        Kolab Groupware Server Web Mail Interface
 Group:          Productivity/Office/Organizers
+Requires:       aspell
+Requires:       aspell-en
+%if 0%{?kolab_enterprise}
+Requires:       aspell-da
+Requires:       aspell-de
+Requires:       aspell-es
+Requires:       aspell-fi
+Requires:       aspell-fr
+Requires:       aspell-it
+Requires:       aspell-nl
+Requires:       aspell-pl
+Requires:       aspell-pt
+Requires:       aspell-ru
+Requires:       aspell-sv
+%endif
 Requires:       chwala
 Requires:       iRony
 Requires:       kolab-autoconf
@@ -167,6 +182,7 @@ Requires:       kolab-freebusy
 Requires:       kolab-syncroton
 # Install or /usr/bin/mysql isn't available
 Requires:       mysql
+Requires:       php-pspell
 
 %if 0%{?rhel} > 6
 # Require httpd or lighttpd gets installed
@@ -228,6 +244,9 @@ This is the Kolab Groupware web client meta-package
 %doc README
 
 %changelog
+* Wed Feb  6 2019 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-9
+- Pull in aspell dictionaries and PHP's pspell module
+
 * Thu Dec 13 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.0.1-8
 - Require roundcubemail-skin-kolab
 
