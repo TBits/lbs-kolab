@@ -81,6 +81,9 @@ BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires:  boost-devel
 BuildRequires:  cmake >= 2.6
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+BuildRequires:  extra-cmake-modules
+%endif
 BuildRequires:  e2fsprogs-devel
 BuildRequires:  gcc-c++
 BuildRequires:  libcurl-devel
@@ -88,7 +91,11 @@ BuildRequires:  make
 %if 0%{?suse_version}
 BuildRequires:  qt-devel
 %else
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+BuildRequires:  qt5-qtbase-devel
+%else
 BuildRequires:  qt4-devel
+%endif
 %endif
 BuildRequires:  swig
 BuildRequires:  uuid-devel
@@ -137,6 +144,9 @@ Group:          Development/Libraries
 Requires:       libkolabxml%{?_isa} = %{version}
 Requires:       boost-devel
 Requires:       cmake >= 2.6
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+Requires:       extra-cmake-modules
+%endif
 Requires:       e2fsprogs-devel
 Requires:       gcc-c++
 Requires:       libcurl-devel
@@ -144,12 +154,20 @@ Requires:       libcurl-devel
 Requires:       php-devel >= 5.3
 %endif
 %if 0%{?with_python} > 0
+%if 0%{?rhel} >= 8
+Requires:       python2-devel
+%else
 Requires:       python-devel
+%endif
 %endif
 %if 0%{?suse_version}
 Requires:       qt-devel
 %else
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:       qt5-qtbase-devel
+%else
 Requires:       qt4-devel
+%endif
 %endif
 Requires:       swig
 Requires:       uuid-devel
@@ -230,7 +248,11 @@ Requires:       libkolabxml%{?_isa} = %{version}
 Obsoletes:      python-%{name} < %{version}
 Provides:       python-%{name} = %{version}
 %endif
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+BuildRequires:  python2-devel
+%else
 BuildRequires:  python-devel
+%endif
 
 %description -n python-kolabformat
 The PyKolab format package offers a comprehensive Python library using the
@@ -285,6 +307,9 @@ cmake \
     -DBOOST_LIBRARYDIR=%{_libdir}/boost141 \
     -DBOOST_INCLUDEDIR=%{_includedir}/boost141 \
     -DBoost_ADDITIONAL_VERSIONS="1.41;1.41.0" \
+%endif
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+    -DQT5_BUILD=ON \
 %endif
     -DINCLUDE_INSTALL_DIR=%{_includedir} \
 %if 0%{?with_csharp} > 0
