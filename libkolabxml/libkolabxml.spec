@@ -30,8 +30,8 @@
 %endif
 
 %if 0%{?with_python} > 0
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python2_sitelib: %global python2_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python2_sitearch: %global python2_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %endif
 
 # Filter out private python and php libs. Does not work on EPEL5,
@@ -39,7 +39,7 @@
 %if 0%{?with_php} > 0
 %if 0%{?with_python} > 0
 %{?filter_setup:
-%filter_provides_in %{python_sitearch}/.*\.so$
+%filter_provides_in %{python2_sitearch}/.*\.so$
 %filter_provides_in %{php_extdir}/.*\.so$
 %filter_setup
 }
@@ -52,7 +52,7 @@
 %else
 %if 0%{?with_python} > 0
 %{?filter_setup:
-%filter_provides_in %{python_sitearch}/.*\.so$
+%filter_provides_in %{python2_sitearch}/.*\.so$
 %filter_setup
 }
 %endif
@@ -326,8 +326,8 @@ cmake \
 %endif
 %if 0%{?with_python} > 0
     -DPYTHON_BINDINGS=ON \
-    -DPYTHON_INCLUDE_DIRS=%{python_include} \
-    -DPYTHON_INSTALL_DIR=%{python_sitearch} \
+    -DPYTHON_INCLUDE_DIRS=%{python2_include} \
+    -DPYTHON_INSTALL_DIR=%{python2_sitearch} \
 %endif
     ..
 make
@@ -413,8 +413,8 @@ rm -rf %{buildroot}
 %if 0%{?with_python} > 0
 %files -n python-kolabformat
 %defattr(-,root,root,-)
-%{python_sitearch}/kolabformat.py*
-%{python_sitearch}/_kolabformat.so
+%{python2_sitearch}/kolabformat.py*
+%{python2_sitearch}/_kolabformat.so
 %endif
 
 %changelog
