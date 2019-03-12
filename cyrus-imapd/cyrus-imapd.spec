@@ -37,7 +37,7 @@
 Name:               cyrus-imapd
 Summary:            A high-performance mail server with IMAP, POP3, NNTP and SIEVE support
 Version:            %{tag_version}
-Release:            1%{?dist}
+Release:            2%{?dist}
 License:            BSD
 Group:              System Environment/Daemons
 URL:                http://www.cyrusimap.org
@@ -65,6 +65,7 @@ Source32:           cyr_systemd_helper
 ##
 Patch0001:          0001-dlist-Use-int8_t-in-dlist_parsemap.patch
 Patch0002:          0002-Avoid-returning-1-as-255.patch
+Patch0003:          0003-Canonification-for-multiple-domains.patch
 
 BuildRoot:          %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
@@ -269,6 +270,8 @@ sed -r -i -e 's/"berkeley(|-[a-z-]+)", //g' lib/imapoptions
 %patch0001 -p1
 %patch0002 -p1
 %endif
+
+%patch0003 -p1
 
 # only to update config.* files
 autoreconf -vi || (libtoolize --force && autoreconf -vi)
@@ -757,6 +760,9 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Tue Mar 12 2019 Timotheus Pokorra <tp@tbits.net> - 2.5.12.25-2
+- Backport patch from upstream for canonification for multiple domains
+
 * Wed Jan  2 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.5.12.25-1
 - Rebase on to upstream 2.5.12
 
