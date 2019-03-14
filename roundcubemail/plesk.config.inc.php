@@ -1,8 +1,6 @@
 <?php
     include_once("/usr/share/psa-roundcube/config/config.inc.php");
 
-/*  Incompatible with the stock installation
-
     $components = explode('.', $_SERVER["HTTP_HOST"]);
 
     if (count($components) > 2) {
@@ -10,8 +8,10 @@
     }
 
     $domain = implode('.', $components);
-    $config['session_domain'] = $domain;
-*/
+
+    $config['session_domain'] = $_SERVER["HTTP_HOST"];
+    $config['username_domain'] = $domain;
+
     $config['support_url'] = "https://www.plesk.com/support/";
 
     $config['product_name'] = "Plesk Premium Mail, powered by Kolab";
@@ -45,28 +45,13 @@
     $config['enable_installer'] = false;
 
     $config['plugins'] = Array(
-            'acl',
-            'archive',
-            'calendar',
             'jqueryui',
-            'kolab_activesync',
-            'kolab_addressbook',
             'kolab_config',
-            //'kolab_delegation',
-            'kolab_files',
             'kolab_folders',
-            'kolab_notes',
-            'kolab_tags',
             'libkolab',
             'libcalendaring',
-            'managesieve',
-            'markasjunk',
-            'newmail_notifier',
-            'odfviewer',
             'password',
-            'pdfviewer',
-            'tasklist',
-            'contextmenu',
+            'contextmenu'
         );
 
     $config['activesync_plugins'] = Array(
@@ -117,10 +102,8 @@
             'fr' => 'Français',
             'it' => 'Italiano',
             'nl' => 'Nederlands',
-            'pl' => 'Polski',
             'pt' => 'Português',
             'ru' => 'Русский',
-            'fi' => 'Suomi',
             'sv' => 'Svenska'
         );
 
@@ -201,6 +184,11 @@
 
     if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__))) {
         @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__));
+    }
+
+    // Additional options for Plesk Premium Email "Gold"
+    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/premium.inc.php')) {
+        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/premium.inc.php');
     }
 
     // Integration between Plesk Premium Email and Collabora Online extensions

@@ -1,3 +1,9 @@
+irony (0.4.2-1~kolab1) unstable; urgency=low
+
+  * Release of version 0.4.2
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 14 Mar 2019 12:12:13 +0100
+
 irony (0.4.1-2~kolab1) unstable; urgency=low
 
   * Narrow the requirements on specific sabre packages

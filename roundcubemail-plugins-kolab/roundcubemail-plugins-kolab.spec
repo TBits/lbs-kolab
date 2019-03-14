@@ -41,7 +41,7 @@
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.4.2
+Version:        3.4.3
 
 Release:        1%{?dot_rel_suffix}%{?dist}
 
@@ -61,10 +61,7 @@ Source102:      plesk.kolab_chat.inc.php
 Source103:      plesk.kolab_folders.inc.php
 Source104:      plesk.libkolab.inc.php
 
-Patch0001:      0001-Unbreak-de_DE-localization-file.patch
-Patch0002:      0002-Elastic-Fix-Save-Edit-buttons-on-plain-text-editor-B.patch
-
-Patch1001:      roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch
+Patch1001:      roundcubemail-plugins-kolab-3.4-kolab-files-manticore-api.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:      noarch
@@ -275,6 +272,20 @@ Provides:       roundcubemail(plugin-kolab_auth) = %{?epoch:%{epoch}:}%{version}
 %description -n roundcubemail-plugin-kolab_auth
 Plugin kolab_auth
 
+%package -n roundcubemail-plugin-kolab_auth_proxy
+Summary:        Plugin kolab_auth_proxy
+Group:          Applications/Internet
+Requires:       roundcubemail(core) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_auth_proxy-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_auth_proxy-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_auth_proxy-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_auth_proxy-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_auth_proxy-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail(plugin-kolab_auth_proxy) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_auth_proxy
+Plugin kolab_auth_proxy
+
 %package -n roundcubemail-plugin-kolab_chat
 Summary:        Plugin kolab_chat
 Group:          Applications/Internet
@@ -443,6 +454,21 @@ Provides:       roundcubemail(plugin-kolab_shortcuts) = %{?epoch:%{epoch}:}%{ver
 
 %description -n roundcubemail-plugin-kolab_shortcuts
 Plugin kolab_shortcuts
+
+%package -n roundcubemail-plugin-kolab_sso
+Summary:        Plugin kolab_sso
+Group:          Applications/Internet
+Requires:       roundcubemail(core) >= %{roundcube_version}
+Requires:       roundcubemail(plugin-kolab_sso-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_sso-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_sso-skin-elastic-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_sso-skin-larry < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      roundcubemail-plugin-kolab_sso-skin-larry-assets < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       roundcubemail(plugin-libkolab) = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       roundcubemail(plugin-kolab_sso) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_sso
+Plugin kolab_sso
 
 %package -n roundcubemail-plugin-kolab_tags
 Summary:        Plugin kolab_tags
@@ -730,6 +756,14 @@ Provides:       roundcubemail(plugin-kolab_auth-assets) = %{?epoch:%{epoch}:}%{v
 %description -n roundcubemail-plugin-kolab_auth-assets
 Plugin kolab_auth Assets
 
+%package -n roundcubemail-plugin-kolab_auth_proxy-assets
+Summary:        Plugin kolab_auth_proxy Assets
+Group:          Applications/Internet
+Provides:       roundcubemail(plugin-kolab_auth_proxy-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_auth_proxy-assets
+Plugin kolab_auth_proxy Assets
+
 %package -n roundcubemail-plugin-kolab_chat-assets
 Summary:        Plugin kolab_chat Assets
 Group:          Applications/Internet
@@ -785,6 +819,14 @@ Provides:       roundcubemail(plugin-kolab_shortcuts-assets) = %{?epoch:%{epoch}
 
 %description -n roundcubemail-plugin-kolab_shortcuts-assets
 Plugin kolab_shortcuts Assets
+
+%package -n roundcubemail-plugin-kolab_sso-assets
+Summary:        Plugin kolab_sso Assets
+Group:          Applications/Internet
+Provides:       roundcubemail(plugin-kolab_sso-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+
+%description -n roundcubemail-plugin-kolab_sso-assets
+Plugin kolab_sso Assets
 
 %package -n roundcubemail-plugin-kolab_tags-assets
 Summary:        Plugin kolab_tags Assets
@@ -1363,13 +1405,10 @@ cp -afv %{SOURCE103} plugins/kolab_folders/config.inc.php.dist
 cp -afv %{SOURCE104} plugins/libkolab/config.inc.php.dist
 %endif
 
-%patch0001 -p1
-%patch0002 -p1
 %patch1001 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
 
-rm -rf plugins/kolab_sso
 rm -rf plugins/kolab_zpush
 rm -rf plugins/owncloud
 
@@ -1889,6 +1928,11 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
+%pre -n roundcubemail-plugin-kolab_auth_proxy
+if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
+fi
+
 %pre -n roundcubemail-plugin-kolab_chat
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
@@ -1924,6 +1968,11 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
+%pre -n roundcubemail-plugin-kolab_sso
+if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
+fi
+
 %pre -n roundcubemail-plugin-kolab_tags
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
@@ -1944,11 +1993,12 @@ if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
-%pre -n roundcubemail-plugin-logon_page
-if [ -f "%{plugindir}/logon_page/logon_page.html" ]; then
-    mv -vf %{plugindir}/logon_page/logon_page.html %{confdir}/logon_page.html
+%pre -n roundcubemail-plugin-loginfail
+if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
 
+%pre -n roundcubemail-plugin-logon_page
 if [ -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
     %{__rm} -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted"
 fi
@@ -2013,9 +2063,24 @@ for dir in $(find /usr/share/roundcubemail/plugins/calendar/ -type d -name SQL);
 
 done
 
+%posttrans -n roundcubemail-plugin-html_converter
+if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
+%if 0%{?with_systemd}
+            /bin/systemctl condrestart %{httpd_name}.service
+%else
+            /sbin/service %{httpd_name} condrestart
+%endif
+        fi
+    fi
+    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
+    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
+fi
+
 %posttrans -n roundcubemail-plugin-kolab_2fa
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2030,7 +2095,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_activesync
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2045,7 +2110,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_addressbook
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2060,7 +2125,22 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_auth
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
+%if 0%{?with_systemd}
+            /bin/systemctl condrestart %{httpd_name}.service
+%else
+            /sbin/service %{httpd_name} condrestart
+%endif
+        fi
+    fi
+    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
+    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
+fi
+
+%posttrans -n roundcubemail-plugin-kolab_auth_proxy
+if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2090,7 +2170,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_config
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2105,7 +2185,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_delegation
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2120,7 +2200,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_files
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2135,7 +2215,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_folders
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2150,7 +2230,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_notes
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2165,7 +2245,22 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_shortcuts
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
+%if 0%{?with_systemd}
+            /bin/systemctl condrestart %{httpd_name}.service
+%else
+            /sbin/service %{httpd_name} condrestart
+%endif
+        fi
+    fi
+    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
+    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
+fi
+
+%posttrans -n roundcubemail-plugin-kolab_sso
+if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2180,7 +2275,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-kolab_tags
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2195,7 +2290,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-ldap_authentication
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2210,7 +2305,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-libcalendaring
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2225,7 +2320,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-libkolab
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2253,9 +2348,24 @@ for dir in $(find /usr/share/roundcubemail/plugins/libkolab/ -type d -name SQL);
 
 done
 
+%posttrans -n roundcubemail-plugin-loginfail
+if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
+        if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
+%if 0%{?with_systemd}
+            /bin/systemctl condrestart %{httpd_name}.service
+%else
+            /sbin/service %{httpd_name} condrestart
+%endif
+        fi
+    fi
+    %{__mkdir_p} %{_localstatedir}/lib/rpm-state/roundcubemail/
+    touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
+fi
+
 %posttrans -n roundcubemail-plugin-logon_page
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2270,7 +2380,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-odfviewer
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2285,7 +2395,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-pdfviewer
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2300,7 +2410,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-piwik_analytics
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2315,7 +2425,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-tasklist
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2345,7 +2455,7 @@ done
 
 %posttrans -n roundcubemail-plugin-tinymce_config
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2360,7 +2470,7 @@ fi
 
 %posttrans -n roundcubemail-plugin-wap_client
 if [ ! -f "%{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted" ]; then
-    if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
+    if [ -f "%{php_inidir}/apc.ini"  -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
 %if 0%{?with_systemd}
             /bin/systemctl condrestart %{httpd_name}.service
@@ -2399,6 +2509,9 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_auth -f plugin-kolab_auth.files
 %defattr(-,root,root,-)
 
+%files -n roundcubemail-plugin-kolab_auth_proxy -f plugin-kolab_auth_proxy.files
+%defattr(-,root,root,-)
+
 %files -n roundcubemail-plugin-kolab_chat -f plugin-kolab_chat.files
 %defattr(-,root,root,-)
 
@@ -2418,6 +2531,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_shortcuts -f plugin-kolab_shortcuts.files
+%defattr(-,root,root,-)
+
+%files -n roundcubemail-plugin-kolab_sso -f plugin-kolab_sso.files
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_tags -f plugin-kolab_tags.files
@@ -2474,6 +2590,9 @@ rm -rf %{buildroot}
 %files -n roundcubemail-plugin-kolab_auth-assets -f plugin-kolab_auth-assets.files
 %defattr(-,root,root,-)
 
+%files -n roundcubemail-plugin-kolab_auth_proxy-assets -f plugin-kolab_auth_proxy-assets.files
+%defattr(-,root,root,-)
+
 %files -n roundcubemail-plugin-kolab_chat-assets -f plugin-kolab_chat-assets.files
 %defattr(-,root,root,-)
 
@@ -2493,6 +2612,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_shortcuts-assets -f plugin-kolab_shortcuts-assets.files
+%defattr(-,root,root,-)
+
+%files -n roundcubemail-plugin-kolab_sso-assets -f plugin-kolab_sso-assets.files
 %defattr(-,root,root,-)
 
 %files -n roundcubemail-plugin-kolab_tags-assets -f plugin-kolab_tags-assets.files
@@ -2670,6 +2792,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Mar 14 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.3-1
+- Release of version 3.4.3
+
 * Sun Jan 27 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.2-2
 - Fix de_DE, save buttons
 

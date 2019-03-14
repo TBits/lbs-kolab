@@ -49,6 +49,7 @@ case "$1" in
             /etc/roundcubemail/defaults.inc.php || : &> /dev/null
 
         if [ -f "/etc/plesk-release" ]; then
+            /usr/local/psa/admin/bin/php /usr/share/roundcubemail/bin/fix-plesk-domains-config.php >/dev/null 2>&1 || :
             exit 0
         fi
 

@@ -1,3 +1,1 @@
-roundcubemail-plugins-kolab-3.3-kolab-files-manticore-api.patch -p1
-0001-Unbreak-de_DE-localization-file.patch -p1
-0002-Elastic-Fix-Save-Edit-buttons-on-plain-text-editor-B.patch -p1
+roundcubemail-plugins-kolab-3.4-kolab-files-manticore-api.patch -p1
