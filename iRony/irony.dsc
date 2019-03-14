@@ -2,7 +2,7 @@ Format: 1.0
 Source: irony
 Binary: irony
 Architecture: all
-Version: 0.4.1-2~kolab1
+Version: 0.4.2-1~kolab1
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Homepage: http://www.kolab.org/
@@ -22,5 +22,5 @@ Build-Depends:
 Package-List:
  iRony deb admin extra
 Files:
- 00000000000000000000000000000000 0 iRony-0.4.1.tar.gz
+ 00000000000000000000000000000000 0 iRony-0.4.2.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz
