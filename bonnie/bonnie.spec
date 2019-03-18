@@ -140,6 +140,10 @@ Bonnie for Kolab Groupware
 
 %build
 
+find . -mindepth 1 -maxdepth 1 -type f | while read file; do
+	sed -r -i -e '1s|^.*/usr/bin/python.*$|#!/usr/bin/python%{?python3_pkgversion}|g' ${file}
+done
+
 %install
 mkdir -p \
     %{buildroot}/%{_sysconfdir}/%{name} \
