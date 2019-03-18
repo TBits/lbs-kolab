@@ -2,7 +2,7 @@ Format: 1.0
 Source: roundcubemail-plugin-contextmenu
 Binary: roundcubemail-plugin-contextmenu
 Architecture: all
-Version: 3.0-0~kolab4
+Version: 3.0-0~kolab5
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Standards-Version: 3.9.3
