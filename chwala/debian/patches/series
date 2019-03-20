@@ -1,2 +1,4 @@
 chwala-0.5.4-suhosin.session.encrypt-php_flag.patch -p1
 fix-autoload-path-debian.patch -p1
+0001-Mark-readonly-virtual-entries-in-folder-selector-as-.patch -p1
+0002-Seafile-Fix-folder-hierarchy-flattened-above-3rd-lev.patch -p1
