@@ -49,6 +49,9 @@ Source2:        chwala.logrotate
 
 Patch1:         chwala-0.5.4-suhosin.session.encrypt-php_flag.patch
 
+Patch0001:      0001-Mark-readonly-virtual-entries-in-folder-selector-as-.patch
+Patch0002:      0002-Seafile-Fix-folder-hierarchy-flattened-above-3rd-lev.patch
+
 BuildArch:      noarch
 
 Requires:       php-pear(HTTP_Request2)
@@ -82,6 +85,9 @@ party applications.
 %setup -q
 
 %patch1 -p1
+
+%patch0001 -p1
+%patch0002 -p1
 
 %build
 
