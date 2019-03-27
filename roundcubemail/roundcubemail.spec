@@ -388,6 +388,7 @@ Summary:        Plugin enigma
 Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-enigma-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       php-pear-crypt-gpg
 %if 0%{?plesk}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(plugin-enigma-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -1626,6 +1627,9 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
         echo "Group:          Applications/Internet"
         echo "Requires:       %%{name}(core) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
         echo "Requires:       %%{name}(plugin-$(basename ${plugin})-assets) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+        if [ "$(basename ${plugin})" == "enigma" ]; then
+            echo "Requires:       php-pear-crypt-gpg"
+        fi
         if [ -d "${target_dir}/skins/" ]; then
             echo "%%if 0%%{?plesk}"
             echo "%%if 0%%{?bootstrap} < 1"
@@ -1728,7 +1732,7 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             echo "        fi"
             echo "    fi"
             echo ""
-            echo "    /usr/share/roundcubemail/bin/updatedb.sh \\"
+            echo "    %%{_datadir}/roundcubemail/bin/updatedb.sh \\"
             echo "        --dir \$dir \\"
             echo "        --package $(basename ${plugin}) \\"
             echo "        >/dev/null 2>&1 || :"
@@ -2600,8 +2604,8 @@ if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
 fi
 
-/usr/share/roundcubemail/bin/updatedb.sh \
-    --dir /usr/share/doc/roundcubemail-core-%{version}%{?dash_rel_suffix}/SQL/ \
+%{_datadir}/roundcubemail/bin/updatedb.sh \
+    --dir %{_datadir}/doc/roundcubemail-core-%{version}/SQL/ \
     --package roundcube || : \
     >/dev/null 2>&1
 

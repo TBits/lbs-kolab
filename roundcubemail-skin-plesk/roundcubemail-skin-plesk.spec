@@ -3,6 +3,8 @@
 #!BuildIgnore: nginx
 %endif
 
+%define lock_version() %{1} = %(rpm -q --queryformat "%%{EVR}" %{1})
+
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 
 %if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
@@ -52,8 +54,8 @@ BuildRequires:      python
 BuildRequires:      roundcubemail(skin-elastic)
 BuildRequires:      roundcubemail-plugin-libkolab-skin-elastic
 
-Requires:           roundcubemail-core
-Requires:           roundcubemail-plugin-libkolab-skin-elastic
+Requires:           %lock_version roundcubemail-core
+Requires:           %lock_version roundcubemail-plugin-libkolab-skin-elastic
 
 Requires:           roundcubemail(skin-plesk)
 Requires:           roundcubemail(skin-plesk-assets)
@@ -64,7 +66,7 @@ This package contains the Plesk Premium Email skin for Roundcube
 %package core
 Summary:            Plesk Premium Email Web Client skin
 Group:              Applications/Internet
-Requires:           roundcubemail-core >= 1.1
+Requires:           %lock_version roundcubemail-core
 Provides:           roundcubemail(skin-plesk) = %{?epoch:%%{epoch}:}%{version}-%{release}
 
 %description core

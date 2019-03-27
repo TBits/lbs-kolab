@@ -43,7 +43,7 @@
 Name:           roundcubemail-plugins-kolab
 Version:        3.4.3
 
-Release:        1%{?dot_rel_suffix}%{?dist}
+Release:        2%{?dot_rel_suffix}%{?dist}
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -62,6 +62,8 @@ Source103:      plesk.kolab_folders.inc.php
 Source104:      plesk.libkolab.inc.php
 
 Patch1001:      roundcubemail-plugins-kolab-3.4-kolab-files-manticore-api.patch
+
+Patch0011:      0011-Calendar-Fix-invalid-time-error-when-using-time-form.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:      noarch
@@ -1406,6 +1408,8 @@ cp -afv %{SOURCE104} plugins/libkolab/config.inc.php.dist
 %endif
 
 %patch1001 -p1
+
+%patch0011 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
 
@@ -2792,6 +2796,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Mar 27 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.3-2
+- Fix invalid time error on formats without a leading zero
+
 * Thu Mar 14 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.3-1
 - Release of version 3.4.3
 
