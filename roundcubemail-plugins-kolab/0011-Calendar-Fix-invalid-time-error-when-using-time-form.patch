@@ -1,0 +1,26 @@
+From 54d171e10f0d116d3fd007189805ed49923a003a Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Fri, 22 Mar 2019 12:22:10 +0000
+Subject: [PATCH 11/11] Calendar: Fix "invalid time" error when using time
+ format without a leading zero
+
+---
+ plugins/calendar/calendar_ui.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/calendar/calendar_ui.js b/plugins/calendar/calendar_ui.js
+index 0280ccec..6db0ad79 100644
+--- a/plugins/calendar/calendar_ui.js
++++ b/plugins/calendar/calendar_ui.js
+@@ -812,7 +812,7 @@ function rcube_calendar_ui(settings)
+         save_func = function() {
+           var start = allday.checked ? '12:00' : $.trim(starttime.val()),
+             end = allday.checked ? '13:00' : $.trim(endtime.val()),
+-            re = /^((0[0-9])|(1[0-9])|(2[0-3])):([0-5][0-9])(\s*[ap]\.?m\.?)?$/i;
++            re = /^((0?[0-9])|(1[0-9])|(2[0-3])):([0-5][0-9])(\s*[ap]\.?m\.?)?$/i;
+ 
+           if (!re.test(start) || !re.test(end)) {
+             rcmail.alert_dialog(rcmail.gettext('invalideventdates', 'calendar'));
+-- 
+2.17.2
+
