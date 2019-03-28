@@ -1,0 +1,89 @@
+From a71caa9a51ef83a5673005fa792f2d671a47fcae Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Thu, 14 Mar 2019 15:08:53 +0000
+Subject: [PATCH 02/11] Calendar: Fix regression where changing attendee status
+ for an existing event wasn't working
+
+Also fixed bug where allday event accourrence could have been moved
+one day back when changing the attendee status (action=rsvp).
+---
+ plugins/calendar/calendar_ui.js               |  9 ++++++-
+ .../libkolab/lib/kolab_date_recurrence.php    | 26 ++++++++++++++++++-
+ 2 files changed, 33 insertions(+), 2 deletions(-)
+
+diff --git a/plugins/calendar/calendar_ui.js b/plugins/calendar/calendar_ui.js
+index 812bf492..20f6cf41 100644
+--- a/plugins/calendar/calendar_ui.js
++++ b/plugins/calendar/calendar_ui.js
+@@ -2446,9 +2446,16 @@ function rcube_calendar_ui(settings)
+         }
+ 
+         // submit status change to server
+-        var submit_data = $.extend({}, me.selected_event, { source:null, comment:$('#reply-comment-event-rsvp').val(), _savemode: replymode || 'all' }, (delegate || {})),
++        var submit_data = $.extend({}, { source:null, comment:$('#reply-comment-event-rsvp').val(), _savemode: replymode || 'all' }, (delegate || {})),
++          submit_items = 'id,uid,_instance,calendar,_mbox,_uid,_part,attendees,free_busy,allDay',
+           noreply = $('#noreply-event-rsvp:checked').length ? 1 : 0;
+ 
++        // Submit only that data we really need
++        $.each(submit_items.split(','), function() {
++          if (this in me.selected_event)
++            submit_data[this] = me.selected_event[this];
++        });
++
+         // import event from mail (temporary iTip event)
+         if (submit_data._mbox && submit_data._uid) {
+           me.saving_lock = rcmail.set_busy(true, 'calendar.savingdata');
+diff --git a/plugins/libkolab/lib/kolab_date_recurrence.php b/plugins/libkolab/lib/kolab_date_recurrence.php
+index 2ec06c8a..5ab4532e 100644
+--- a/plugins/libkolab/lib/kolab_date_recurrence.php
++++ b/plugins/libkolab/lib/kolab_date_recurrence.php
+@@ -32,6 +32,9 @@ class kolab_date_recurrence
+     private /* DateTime */ $next;
+     private /* cDateTime */ $cnext;
+     private /* DateInterval */ $duration;
++    private /* string */ $start_time;
++    private /* string */ $end_time;
++
+ 
+     /**
+      * Default constructor
+@@ -47,6 +50,13 @@ class kolab_date_recurrence
+         $this->start  = $this->next = $data['start'];
+         $this->cnext  = kolab_format::get_datetime($this->next);
+ 
++        if ($this->start && !empty($data['allday'])) {
++            $this->start_time = $data['start']->format('H:i:s');
++            if ($data['end']) {
++                $this->end_time = $data['end']->format('H:i:s');
++            }
++        }
++
+         if (is_object($data['start']) && is_object($data['end'])) {
+             $this->duration = $data['start']->diff($data['end']);
+         }
+@@ -91,7 +101,21 @@ class kolab_date_recurrence
+             $next_end = clone $next_start;
+             $next_end->add($this->duration);
+ 
+-            $next          = $this->object->to_array();
++            $next = $this->object->to_array();
++
++            // it looks that for allday events the occurrence time
++            // is reset to 00:00:00, this is causing various issues
++            if (!empty($next['allday'])) {
++                if ($this->start_time) {
++                    $time = explode(':', $this->start_time);
++                    $next_start->setTime((int)$time[0], (int)$time[1], (int)$time[2]);
++                }
++                if ($this->start_end) {
++                    $time = explode(':', $this->start_end);
++                    $next_end->setTime((int)$time[0], (int)$time[1], (int)$time[2]);
++                }
++            }
++
+             $next['start'] = $next_start;
+             $next['end']   = $next_end;
+ 
+-- 
+2.20.1
+

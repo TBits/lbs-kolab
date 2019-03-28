@@ -2,7 +2,7 @@ Format: 1.0
 Source: roundcubemail-plugins-kolab
 Binary: roundcubemail-plugins-kolab
 Architecture: all
-Version: 1:3.4.3-0~kolab2
+Version: 1:3.4.3-0~kolab3
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
 Standards-Version: 3.9.3
@@ -15,6 +15,7 @@ Package-List:
  roundcubemail-plugin-kolab-activesync deb web extra
  roundcubemail-plugin-kolab-addressbook deb web extra
  roundcubemail-plugin-kolab-auth deb web extra
+ roundcubemail-plugin-kolab-auth-proxy deb web extra
  roundcubemail-plugin-kolab-chat deb web extra
  roundcubemail-plugin-kolab-config deb web extra
  roundcubemail-plugin-kolab-delegation deb web extra
@@ -22,6 +23,7 @@ Package-List:
  roundcubemail-plugin-kolab-folders deb web extra
  roundcubemail-plugin-kolab-notes deb web extra
  roundcubemail-plugin-kolab-shortcuts deb web extra
+ roundcubemail-plugin-kolab-sso deb web extra
  roundcubemail-plugin-kolab-tags deb web extra
  roundcubemail-plugin-ldap-authentication deb web extra
  roundcubemail-plugin-libcalendaring deb web extra

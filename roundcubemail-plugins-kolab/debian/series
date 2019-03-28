@@ -1,2 +1,4 @@
 roundcubemail-plugins-kolab-3.4-kolab-files-manticore-api.patch -p1
+0002-Calendar-Fix-regression-where-changing-attendee-stat.patch -p1
+0006-Calendar-Fix-literal-raquo-in-calendar-name-in-event.patch -p1
 0011-Calendar-Fix-invalid-time-error-when-using-time-form.patch -p1

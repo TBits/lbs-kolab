@@ -63,6 +63,8 @@ Source104:      plesk.libkolab.inc.php
 
 Patch1001:      roundcubemail-plugins-kolab-3.4-kolab-files-manticore-api.patch
 
+Patch0002:      0002-Calendar-Fix-regression-where-changing-attendee-stat.patch
+Patch0006:      0006-Calendar-Fix-literal-raquo-in-calendar-name-in-event.patch
 Patch0011:      0011-Calendar-Fix-invalid-time-error-when-using-time-form.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -1409,6 +1411,8 @@ cp -afv %{SOURCE104} plugins/libkolab/config.inc.php.dist
 
 %patch1001 -p1
 
+%patch0002 -p1
+%patch0006 -p1
 %patch0011 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
@@ -2796,7 +2800,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
-* Wed Mar 27 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.3-2
+* Thu Mar 28 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.3-3
+- Fix literal in calendar name event
+- Fix calendar event attendee change regression
 - Fix invalid time error on formats without a leading zero
 
 * Thu Mar 14 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.3-1
