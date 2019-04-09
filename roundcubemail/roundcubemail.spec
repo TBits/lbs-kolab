@@ -76,8 +76,6 @@ Source102:      plesk.password.inc.php
 
 Source200:      2017111400.sql
 
-Source300:      plesk.premium.inc.php
-
 Patch201:       default-configuration.patch
 Patch202:       roundcubemail-1.4-beta86-plugin-enigma-homedir.patch
 
@@ -2377,10 +2375,6 @@ done
     -e '/^(%dir )*\/var\//d' \
     *.files
 
-%if 0%{?plesk}
-%{__install} %{SOURCE300} %{buildroot}%{confdir}/premium.inc.php
-%endif
-
 %pre
 if [ -L %{plugindir}/enigma/home -a ! -d %{plugindir}/enigma/home ]; then
     %{__rm} -rf %{plugindir}/enigma/home >/dev/null 2>&1 || :
@@ -2585,10 +2579,6 @@ find %{logdir} -mindepth 1 -maxdepth 1 -type f -exec chown %{httpd_user}:%{httpd
 
 %{__sed} -i -r -e "s/.*(\s*define\(\s*'RCMAIL_VERSION'\s*,\s*').*('\);)/\1%{version}-%{release}\2/g" \
     %{datadir}/program/include/iniset.php || :
-
-%if 0%{?plesk}
-/usr/local/psa/admin/bin/php %{_datadir}/roundcubemail/bin/fix-plesk-domains-config.php >/dev/null 2&1 || :
-%endif
 
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
@@ -3126,9 +3116,6 @@ fi
 %endif
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/config.inc.php
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/defaults.inc.php
-%if 0%{?plesk}
-%attr(0640,root,%{httpd_group}) %{confdir}/premium.inc.php
-%endif
 %attr(0640,root,%{httpd_group}) %{confdir}/mimetypes.php
 %attr(0770,root,%{httpd_group}) %dir %{logdir}
 %attr(0770,root,%{httpd_group}) %dir %{tmpdir}
