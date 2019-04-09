@@ -48,11 +48,6 @@ case "$1" in
         sed -i "s/rcmail-\!24ByteDESkey\*Str/`head -c 200 /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c24`/" \
             /etc/roundcubemail/defaults.inc.php || : &> /dev/null
 
-        if [ -f "/etc/plesk-release" ]; then
-            /usr/local/psa/admin/bin/php /usr/share/roundcubemail/bin/fix-plesk-domains-config.php >/dev/null 2>&1 || :
-            exit 0
-        fi
-
         if [ -e "/etc/apache2/sites-available/roundcubemail.conf" -a ! -e "/etc/apache2/sites-enabled/roundcubemail.conf" ]; then
             a2ensite roundcubemail.conf
         fi

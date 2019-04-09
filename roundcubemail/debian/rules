@@ -139,8 +139,6 @@ override_dh_auto_build:
 		cp -v ../SOURCES/plesk.config.inc.php config/config.inc.php ; \
 		cp -v ../SOURCES/plesk.managesieve.inc.php config/managesieve.inc.php ; \
 		cp -v ../SOURCES/plesk.password.inc.php config/password.inc.php ; \
-		cp -v ../SOURCES/plesk.premium.inc.php config/premium.inc.php ; \
-		cp -v ../SOURCES/fix-premium-domains-config.php bin/fix-premium-domains-config.php ; \
 		sed -i -e 's/www-data adm/roundcube_sysuser roundcube_sysgroup/g' debian/logrotate ; \
 		echo "misc:Depends:roundcubemail-skin-plesk" >> debian/roundcubemail-core.substvars ; \
 	else \

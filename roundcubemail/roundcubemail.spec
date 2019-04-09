@@ -76,8 +76,6 @@ Source102:      plesk.password.inc.php
 
 Source200:      2017111400.sql
 
-Source300:      plesk.premium.inc.php
-
 Patch201:       default-configuration.patch
 Patch202:       roundcubemail-1.4-beta86-plugin-enigma-homedir.patch
 
@@ -95,7 +93,9 @@ BuildRequires:  php-justinrainbow-json-schema4
 %if 0%{?plesk} < 1
 BuildRequires:  php-gd
 BuildRequires:  php-mbstring
+%if 0%{?rhel} <= 7
 BuildRequires:  php-mcrypt
+%endif
 BuildRequires:  php-pdo
 BuildRequires:  php-pear >= 1.9.0
 BuildRequires:  php-phpunit-PHPUnit
@@ -126,14 +126,14 @@ BuildRequires:  php-lessphp
 %endif
 
 %if "%{_arch}" != "ppc64" && "%{_arch}" != "ppc64le" && 0%{?suse_version} < 1
-BuildRequires:  python-cssmin
+BuildRequires:  python%{?python3_pkgversion}-cssmin
 %endif
 
 # This can, regrettably, not be BuildRequires'ed, since the OSC
 # command-line so epicly fails at downloading as large a chunk of data.
 #BuildRequires:  firefox
-BuildRequires:  python
-BuildRequires:  python-nose
+BuildRequires:  python%{?python3_pkgversion}
+BuildRequires:  python%{?python3_pkgversion}-nose
 #BuildRequires:  python-selenium
 
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -386,6 +386,7 @@ Summary:        Plugin enigma
 Group:          Applications/Internet
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-enigma-assets) = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       php-pear-crypt-gpg
 %if 0%{?plesk}
 %if 0%{?bootstrap} < 1
 Requires:       %{name}(plugin-enigma-skin-elastic) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -1624,6 +1625,9 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
         echo "Group:          Applications/Internet"
         echo "Requires:       %%{name}(core) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
         echo "Requires:       %%{name}(plugin-$(basename ${plugin})-assets) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+        if [ "$(basename ${plugin})" == "enigma" ]; then
+            echo "Requires:       php-pear-crypt-gpg"
+        fi
         if [ -d "${target_dir}/skins/" ]; then
             echo "%%if 0%%{?plesk}"
             echo "%%if 0%%{?bootstrap} < 1"
@@ -1726,7 +1730,7 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             echo "        fi"
             echo "    fi"
             echo ""
-            echo "    /usr/share/roundcubemail/bin/updatedb.sh \\"
+            echo "    %%{_datadir}/roundcubemail/bin/updatedb.sh \\"
             echo "        --dir \$dir \\"
             echo "        --package $(basename ${plugin}) \\"
             echo "        >/dev/null 2>&1 || :"
@@ -1850,7 +1854,7 @@ function new_files() {
     find %{buildroot}%{datadir} -type l >> current-new.files
 
     if [ -f "current.files" ]; then
-        python ./comm.py current.files current-new.files
+        python%{?python3_pkgversion} ./comm.py current.files current-new.files
     else
         cat current-new.files
     fi
@@ -2371,10 +2375,6 @@ done
     -e '/^(%dir )*\/var\//d' \
     *.files
 
-%if 0%{?plesk}
-%{__install} %{SOURCE300} %{buildroot}%{confdir}/premium.inc.php
-%endif
-
 %pre
 if [ -L %{plugindir}/enigma/home -a ! -d %{plugindir}/enigma/home ]; then
     %{__rm} -rf %{plugindir}/enigma/home >/dev/null 2>&1 || :
@@ -2580,10 +2580,6 @@ find %{logdir} -mindepth 1 -maxdepth 1 -type f -exec chown %{httpd_user}:%{httpd
 %{__sed} -i -r -e "s/.*(\s*define\(\s*'RCMAIL_VERSION'\s*,\s*').*('\);)/\1%{version}-%{release}\2/g" \
     %{datadir}/program/include/iniset.php || :
 
-%if 0%{?plesk}
-/usr/local/psa/admin/bin/php %{_datadir}/roundcubemail/bin/fix-plesk-domains-config.php >/dev/null 2&1 || :
-%endif
-
 if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     if [ -f "%{php_inidir}/apc.ini" -o -f "%{php_inidir}/apcu.ini" ]; then
         if [ ! -z "$(grep ^apc.enabled=1 %{php_inidir}/apc{,u}.ini 2>/dev/null)" ]; then
@@ -2598,8 +2594,8 @@ if [ ! -f %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted ]; then
     touch %{_localstatedir}/lib/rpm-state/roundcubemail/httpd.restarted
 fi
 
-/usr/share/roundcubemail/bin/updatedb.sh \
-    --dir /usr/share/doc/roundcubemail-core-%{version}%{?dash_rel_suffix}/SQL/ \
+%{_datadir}/roundcubemail/bin/updatedb.sh \
+    --dir %{_datadir}/doc/roundcubemail-core-%{version}/SQL/ \
     --package roundcube || : \
     >/dev/null 2>&1
 
@@ -3120,9 +3116,6 @@ fi
 %endif
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/config.inc.php
 %attr(0640,root,%{httpd_group}) %config(noreplace) %{confdir}/defaults.inc.php
-%if 0%{?plesk}
-%attr(0640,root,%{httpd_group}) %{confdir}/premium.inc.php
-%endif
 %attr(0640,root,%{httpd_group}) %{confdir}/mimetypes.php
 %attr(0770,root,%{httpd_group}) %dir %{logdir}
 %attr(0770,root,%{httpd_group}) %dir %{tmpdir}

@@ -45,13 +45,28 @@
     $config['enable_installer'] = false;
 
     $config['plugins'] = Array(
+            'acl',
+            'archive',
+            'calendar',
             'jqueryui',
+            'kolab_activesync',
+            'kolab_addressbook',
             'kolab_config',
+            //'kolab_delegation',
+            'kolab_files',
             'kolab_folders',
+            'kolab_notes',
+            'kolab_tags',
             'libkolab',
             'libcalendaring',
+            'managesieve',
+            'markasjunk',
+            'newmail_notifier',
+            'odfviewer',
             'password',
-            'contextmenu'
+            'pdfviewer',
+            'tasklist',
+            'contextmenu',
         );
 
     $config['activesync_plugins'] = Array(
@@ -186,9 +201,9 @@
         @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__));
     }
 
-    // Additional options for Plesk Premium Email "Gold"
-    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/premium.inc.php')) {
-        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/premium.inc.php');
+    // Additional options for Plesk Premium Email - Free
+    if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/freemium.inc.php')) {
+        @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/freemium.inc.php');
     }
 
     // Integration between Plesk Premium Email and Collabora Online extensions
