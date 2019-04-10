@@ -2,7 +2,7 @@ Format: 1.0
 Source: kolab-autoconf
 Binary: kolab-autoconf
 Architecture: all
-Version: 1.3.1-1
+Version: 1.3.1-2
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Tobias Brunner <tobias.brunner@vshn.ch>
 Homepage: http://www.kolab.org/

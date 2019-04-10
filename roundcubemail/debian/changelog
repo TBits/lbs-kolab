@@ -1,3 +1,9 @@
+roundcubemail (1.4-0~kolab234) unstable; urgency=low
+
+  * Switch plesk premium config file inclusion logic
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 10 Apr 2019 11:11:11 +0200
+
 roundcubemail (1.4-0~kolab233) unstable; urgency=low
 
   * Check in 27 revisions ahead of upstream 1.4-rc1 release, or 233 revisions ahead of the beta

@@ -1,0 +1,44 @@
+From bbd4949ef5309598d8e439cf61a43760b7ddb616 Mon Sep 17 00:00:00 2001
+From: Daniel Hoffend <dh@dotlan.net>
+Date: Wed, 10 Apr 2019 12:15:31 +0200
+Subject: [PATCH 2/2] fix return value of init_ldap()
+
+Summary:
+init_ldap doesn't return true on success
+
+autoconf doesn't lookup the username in ldap because init_ldap() always returns
+null, but get_user() expects a non-false response.
+
+Reviewers: machniak, vanmeeuwen
+
+Reviewed By: machniak
+
+Differential Revision: https://git.kolab.org/D737
+---
+ lib/Autodiscover.php | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/lib/Autodiscover.php b/lib/Autodiscover.php
+index 9031fa9..33cda73 100644
+--- a/lib/Autodiscover.php
++++ b/lib/Autodiscover.php
+@@ -236,12 +236,16 @@ class Autodiscover
+         // connect to LDAP
+         if (!$this->ldap->connect()) {
+             $this->error("Storage connection failed");
++            return false;
+         }
+ 
+         // bind as the service user
+         if (!$this->ldap->bind($this->_ldap_bind_dn, $this->_ldap_bind_pw)) {
+             $this->error("Storage connection failed");
++            return false;
+         }
++
++        return true;
+     }
+ 
+     /**
+-- 
+2.20.1
+
