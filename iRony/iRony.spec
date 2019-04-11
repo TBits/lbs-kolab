@@ -38,7 +38,7 @@
 
 Name:           iRony
 Version:        0.4.2
-Release:	    1%{?dist}
+Release:	    2%{?dist}
 Summary:        DAV for Kolab Groupware
 
 Group:          Applications/Internet
@@ -49,6 +49,8 @@ URL:            http://kolab.org
 Source0:        iRony-%{version}.tar.gz
 Source1:        iRony.conf
 Source2:        iRony.logrotate
+
+Patch0001:      0001-Avoid-refering-to-kolab_auth-if-it-isn-t-actually-th.patch
 
 BuildArch:      noarch
 
@@ -100,6 +102,8 @@ Kolab Groupware solution.
 
 %prep
 %setup -q
+
+%patch0001 -p1
 
 %build
 rm -rvf vendor/sabre
@@ -185,6 +189,9 @@ fi
 %attr(0770,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Thu Apr 11 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.4.2-2
+- Avoid referring to kolab_auth if it isn't actually installed
+
 * Thu Mar 14 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.4.2-1
 - Release 0.4.2
 

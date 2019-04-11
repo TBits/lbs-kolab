@@ -37,7 +37,7 @@
 
 Name:           kolab-syncroton
 Version:        2.3.15
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
@@ -46,6 +46,8 @@ URL:            http://www.syncroton.org
 
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
+
+Patch1:         defaults.patch
 
 BuildArch:      noarch
 
@@ -94,6 +96,8 @@ and Tasks though this package - based on Syncroton technology.
 %prep
 %setup -q -n %{name}-%{version}
 
+%patch1 -p1
+
 %build
 
 %install
@@ -102,7 +106,7 @@ mkdir -p \
 %if 0%{?plesk} < 1
     %{buildroot}/%{_ap_sysconfdir}/conf.d/ \
 %endif
-    %{buildroot}/%{_sysconfdir}/%{name} \
+    %{buildroot}/%{_sysconfdir}/roundcubemail/ \
     %{buildroot}/%{_var}/log/%{name}
 
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
@@ -114,6 +118,7 @@ sed -i \
 
 cp -a lib %{buildroot}/%{_datadir}/%{name}/.
 cp -a index.php %{buildroot}/%{_datadir}/%{name}/.
+cp -a config/config.inc.php.dist %{buildroot}/%{_sysconfdir}/roundcubemail/kolab_syncroton.inc.php
 
 pushd %{buildroot}/%{_datadir}/%{name}
 ln -s ../../..%{_sysconfdir}/roundcubemail config
@@ -191,10 +196,14 @@ exit 0
 %config(noreplace) %{_ap_sysconfdir}/conf.d/kolab-syncroton.conf
 %endif
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%config(noreplace) %{_sysconfdir}/roundcubemail/kolab_syncroton.inc.php
 %{_datadir}/%{name}
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Thu Apr 11 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.15-2
+- Update defaults
+
 * Fri Feb  1 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.15-1
 - Release 2.3.15
 

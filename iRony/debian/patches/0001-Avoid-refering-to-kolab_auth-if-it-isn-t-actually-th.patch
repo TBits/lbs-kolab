@@ -1,0 +1,27 @@
+From ea645099ea398310270218c32ef9b6d068fb58fa Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Thu, 11 Apr 2019 12:47:47 +0200
+Subject: [PATCH] Avoid refering to kolab_auth if it isn't actually there
+
+---
+ lib/Kolab/DAV/Auth/HTTPBasic.php | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/lib/Kolab/DAV/Auth/HTTPBasic.php b/lib/Kolab/DAV/Auth/HTTPBasic.php
+index 4ba5ddf..616c752 100644
+--- a/lib/Kolab/DAV/Auth/HTTPBasic.php
++++ b/lib/Kolab/DAV/Auth/HTTPBasic.php
+@@ -101,7 +101,9 @@ class HTTPBasic extends DAV\Auth\Backend\AbstractBasic
+             $error_str = rcube::get_instance()->get_storage()->get_error_str();
+         }
+ 
+-        \kolab_auth::log_login_error($auth['user'], $error_str ?: $error);
++        if (class_exists('kolab_auth')) {
++            \kolab_auth::log_login_error($auth['user'], $error_str ?: $error);
++        }
+ 
+         // IMAP server failure... send 503 error
+         if ($error == rcube_imap_generic::ERROR_BAD) {
+-- 
+2.20.1
+
