@@ -69,11 +69,6 @@
             'contextmenu',
         );
 
-    $config['activesync_plugins'] = Array(
-            'libcalendaring',
-            'libkolab'
-        );
-
     $config['kolabdav_plugins'] = Array(
             'libcalendaring',
             'libkolab'
@@ -196,6 +191,8 @@
             'verify_peer_name' => FALSE
         )
     );
+
+    @include('/etc/roundcubemail/kolab_syncroton.inc.php');
 
     if (file_exists(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__))) {
         @include_once(RCUBE_CONFIG_DIR .'/'. $_SERVER['HTTP_HOST'] .'/'. basename(__FILE__));

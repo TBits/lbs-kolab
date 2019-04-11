@@ -1,1 +1,2 @@
 add-sabre21-path-for-debian.patch -p1
+0001-Avoid-refering-to-kolab_auth-if-it-isn-t-actually-th.patch -p1

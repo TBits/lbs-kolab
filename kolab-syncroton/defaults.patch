@@ -1,0 +1,86 @@
+diff --git a/config/config.inc.php.dist b/config/config.inc.php.dist
+index daf1d39..c010e3a 100644
+--- a/config/config.inc.php.dist
++++ b/config/config.inc.php.dist
+@@ -67,7 +67,10 @@ $config['activesync_gal_cache_ttl'] = '1d';
+ 
+ // List of Roundcube plugins
+ // WARNING: Not all plugins used in Roundcube can be listed here
+-$config['activesync_plugins'] = array();
++$config['activesync_plugins'] = array(
++    'libcalendaring',
++    'libkolab'
++);
+ 
+ // Defines for how many seconds we'll sleep between every
+ // action for detecting changes in folders. Default: 60
+@@ -97,13 +100,13 @@ $config['activesync_max_folders'] = 100;
+ //     8 - all folders in other users namespace
+ //    16 - all subscribed folders in shared namespace
+ //    32 - all folders in shared namespace
+-$config['activesync_init_subscriptions'] = 0;
++$config['activesync_init_subscriptions'] = 21;
+ 
+ // Defines blacklist of devices (device type strings) that do not support folder hierarchies.
+ // When set to an array folder hierarchies are used on all devices not listed here.
+ // When set to null an old whitelist approach will be used where we do opposite
+ // action and enable folder hierarchies only on device types known to support it.
+-$config['activesync_multifolder_blacklist'] = null;
++$config['activesync_multifolder_blacklist'] = array();
+ 
+ // Blacklist overwrites for specified object type. If set to an array
+ // it will have a precedence over 'activesync_multifolder_blacklist' list only for that type.
+@@ -111,7 +114,7 @@ $config['activesync_multifolder_blacklist'] = null;
+ //       in that case use $config['activesync_multifolder_blacklist_contact'] = array('windowsoutlook');
+ $config['activesync_multifolder_blacklist_mail'] = null;
+ $config['activesync_multifolder_blacklist_event'] = null;
+-$config['activesync_multifolder_blacklist_contact'] = null;
++$config['activesync_multifolder_blacklist_contact'] = array('windowsoutlook');
+ $config['activesync_multifolder_blacklist_note'] = null;
+ $config['activesync_multifolder_blacklist_task'] = null;
+ 
+diff --git a/lib/kolab_sync_data.php b/lib/kolab_sync_data.php
+index 6ee7eb0..f1912a2 100644
+--- a/lib/kolab_sync_data.php
++++ b/lib/kolab_sync_data.php
+@@ -428,6 +428,11 @@ abstract class kolab_sync_data implements Syncroton_Data_IData
+             // Remove subfolders
+             if (!empty($options['deleteSubFolders'])) {
+                 $list = $this->listFolders($folderid);
++
++                if (!is_array($list)) {
++                    throw new Syncroton_Exception_Status_ItemOperations(Syncroton_Exception_Status_ItemOperations::ITEM_SERVER_ERROR);
++                }
++
+                 foreach ($list as $folderid => $folder) {
+                     $foldername = $this->backend->folder_id2name($folderid, $this->device->deviceid);
+                     $folder     = $this->getFolderObject($foldername);
+@@ -508,7 +513,7 @@ abstract class kolab_sync_data implements Syncroton_Data_IData
+         $oldEntry = $this->getObject($folderId, $serverId);
+ 
+         if (empty($oldEntry)) {
+-            throw new Syncroton_Exception_NotFound('id not found');
++            throw new Syncroton_Exception_NotFound('entry not found');
+         }
+ 
+         $entry = $this->toKolab($entry, $folderId, $oldEntry);
+@@ -947,6 +952,10 @@ abstract class kolab_sync_data implements Syncroton_Data_IData
+     {
+         $folders = $this->extractFolders($folderid);
+ 
++        if (empty($folders)) {
++            return null;
++        }
++
+         foreach ($folders as $folderid) {
+             $foldername = $this->backend->folder_id2name($folderid, $this->device->deviceid);
+             $folder     = $this->getFolderObject($foldername);
+@@ -1125,7 +1134,7 @@ abstract class kolab_sync_data implements Syncroton_Data_IData
+                 $this->device->deviceid, $this->modelName, $this->isMultiFolder());
+         }
+ 
+-        if ($parentid === null) {
++        if ($parentid === null || !is_array($this->imap_folders)) {
+             return $this->imap_folders;
+         }
+ 
