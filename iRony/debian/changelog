@@ -1,3 +1,9 @@
+irony (0.4.2-1~kolab3) unstable; urgency=low
+
+  * Adjusted iRony.logrotate according to new filenames
+
+ -- Christian Mollekopf (Kolab Systems) <mollekopf@kolabys.com>  Mon, 15 Apr 2019 12:12:12 +0100
+
 irony (0.4.2-1~kolab2) unstable; urgency=low
 
   * Avoid referring to kolab_auth if it isn't actually installed

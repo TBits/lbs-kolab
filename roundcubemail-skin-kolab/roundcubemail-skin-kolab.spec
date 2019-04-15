@@ -5,7 +5,7 @@
 
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 
-%define lock_version() %{1} = %(rpm -q --queryformat "%%{EVR}" %{1})
+%define lock_version() %{1} >= %(rpm -q --queryformat "%%{EVR}" %{1})
 
 %if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
 %global with_systemd 0

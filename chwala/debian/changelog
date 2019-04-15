@@ -1,3 +1,9 @@
+chwala (0.5.5-0~kolab3) unstable; urgency=low
+
+  * Adjusted chwala.logrotate to new logfile names
+
+ -- Christian Mollekopf (Kolab Systems) <mollekopf@kolabys.com>  Mon, 15 Apr 2019 12:12:12 +0100
+
 chwala (0.5.5-0~kolab2) unsable; urgency=low
 
   * Release version 0.5.5

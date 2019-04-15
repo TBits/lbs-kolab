@@ -1,3 +1,9 @@
+kolab-syncroton (2.3.15-0~kolab3) unstable; urgency=low
+
+  * Adjusted kolab-syncroton.logrotate according to new filenames
+
+ -- Christian Mollekopf (Kolab Systems) <mollekopf@kolabys.com>  Mon, 15 Apr 2019 12:12:12 +0100
+
 kolab-syncroton (2.3.15-0~kolab2) unstable; urgency=low
 
   * Update defaults
