@@ -1,3 +1,9 @@
+roundcubemail (1.4-0~kolab236) unstable; urgency=low
+
+  * Adjusted roundcubemail.logrotate according to new filenames
+
+ -- Christian Mollekopf (Kolab Systems) <mollekopf@kolabys.com>  Mon, 15 Apr 2019 12:12:12 +0100
+
 roundcubemail (1.4-0~kolab235) unstable; urgency=low
 
   * Switch plesk premium config file inclusion logic

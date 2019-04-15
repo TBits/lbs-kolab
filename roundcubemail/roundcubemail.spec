@@ -12,7 +12,7 @@
 #!BuildIgnore:  php-mysql
 %endif
 
-%global bootstrap 0
+%{!?bootstrap:%global bootstrap 0}
 
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 
@@ -49,7 +49,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 %global rc_version 1.4
-%global rc_rel_suffix rc1.27
+%global rc_rel_suffix rc1.65
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
@@ -3438,6 +3438,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Apr 15 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-236.rc1.65
+- Check in 65 revisions ahead of the upstream rc1 release
+
 * Sat Jan 19 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-206.beta206
 - Check in 206 revisions ahead of the beta release
 
