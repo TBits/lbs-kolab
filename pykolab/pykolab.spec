@@ -83,7 +83,7 @@ BuildRequires:      python%{?py2}-pyasn1-modules
 BuildRequires:      python%{?py2}-pytz
 BuildRequires:      python%{?py2}-sievelib
 BuildRequires:      python%{?py2}-sqlalchemy
-BuildRequires:      python%{?py2}-twisted
+BuildRequires:      python%{?py2}-twisted-core
 BuildRequires:      python%{?py2}-tzlocal
 
 Requires:           kolab-cli = %{version}-%{release}

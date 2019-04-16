@@ -5,8 +5,6 @@
 
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 
-%define lock_version() %{1} >= %(rpm -q --queryformat "%%{EVR}" %{1})
-
 %if 0%{?suse_version} < 1 && 0%{?fedora} < 1 && 0%{?rhel} < 7
 %global with_systemd 0
 %else
@@ -53,8 +51,8 @@ BuildRequires:      python
 BuildRequires:      roundcubemail(skin-elastic)
 BuildRequires:      roundcubemail-plugin-libkolab-skin-elastic
 
-Requires:           %lock_version roundcubemail-core
-Requires:           %lock_version roundcubemail-plugin-libkolab-skin-elastic
+Requires:           roundcubemail-core
+Requires:           roundcubemail-plugin-libkolab-skin-elastic
 Provides:           roundcubemail(skin-kolab) = %{version}-%{release}
 
 %description

@@ -14,18 +14,18 @@ Source0:        https://github.com/collective/icalendar/archive/%{version}.tar.g
 BuildArch:      noarch
 
 BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
+BuildRequires:  python-setuptools
 BuildRequires:  python2-pytz
 BuildRequires:  python2-dateutil
 BuildRequires:  python2-hypothesis
 BuildRequires:  python2-pytest
 %if 0%{?with_python3}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-pytz
-BuildRequires:  python3-dateutil
-BuildRequires:  python3-hypothesis
-BuildRequires:  python3-pytest
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python%{python3_pkgversion}-pytz
+BuildRequires:  python%{python3_pkgversion}-dateutil
+BuildRequires:  python%{python3_pkgversion}-hypothesis
+BuildRequires:  python%{python3_pkgversion}-pytest
 %endif # if with_python3
 
 %global _description\

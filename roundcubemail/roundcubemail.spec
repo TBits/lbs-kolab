@@ -12,7 +12,7 @@
 #!BuildIgnore:  php-mysql
 %endif
 
-%{!?bootstrap:%global bootstrap 0}
+%global bootstrap 0
 
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 
