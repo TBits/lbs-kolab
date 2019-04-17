@@ -3,7 +3,7 @@ Section: utils
 Priority: extra
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Paul Klos <kolab@klos2day.nl>
-Build-Depends: debhelper (>= 8), po-debconf
+Build-Depends: debhelper (>= 8), po-debconf, psa | bash
 Homepage: http://www.kolab.org/
 Standards-Version: 3.9.3
 Vcs-Git: http://git.kolab.org/kolab-syncroton

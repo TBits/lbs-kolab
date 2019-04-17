@@ -2,13 +2,13 @@ Format: 1.0
 Source: kolab-syncroton
 Binary: kolab-syncroton
 Architecture: all
-Version: 2.3.15-0~kolab3
+Version: 2.3.15-0~kolab4
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Homepage: http://www.kolab.org/
 Standards-Version: 3.9.3
 Vcs-Git: http://git.kolab.org/kolab-syncroton
-Build-Depends: debhelper (>= 8), po-debconf
+Build-Depends: debhelper (>= 8), po-debconf, psa | bash
 Package-List:
  kolab-syncroton deb utils extra
 Files:
