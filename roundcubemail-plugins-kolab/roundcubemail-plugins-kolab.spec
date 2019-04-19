@@ -43,7 +43,7 @@
 Name:           roundcubemail-plugins-kolab
 Version:        3.4.4
 
-Release:        1%{?dot_rel_suffix}%{?dist}
+Release:        2%{?dot_rel_suffix}%{?dist}
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -2792,6 +2792,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Apr 19 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.4-2
+- Fix Free/Busy URL
+
 * Mon Apr 15 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.4.4-1
 - Release of version 3.4.4
 
