@@ -1,3 +1,9 @@
+irony (0.4.2-1~kolab4) unstable; urgency=low
+
+  * Support shortlogins via the username_domain configuration option.
+
+ -- Christian Mollekopf (Kolab Systems) <mollekopf@kolabys.com>  Tue, 23 Apr 2019 12:12:12 +0100
+
 irony (0.4.2-1~kolab3) unstable; urgency=low
 
   * Adjusted iRony.logrotate according to new filenames

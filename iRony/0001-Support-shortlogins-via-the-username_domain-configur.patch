@@ -1,0 +1,53 @@
+From 51ba8a44fbe920b901b1cdd07777dfe3a45b80db Mon Sep 17 00:00:00 2001
+From: Christian Mollekopf <mollekopf@kolabsys.com>
+Date: Wed, 17 Apr 2019 11:48:36 +0200
+Subject: [PATCH] Support shortlogins via the username_domain configuration
+ option.
+
+Summary: Same logic as roundcubemail/program/lib/Roundcube/rcube_imap.php
+
+Differential Revision: https://git.kolab.org/D755
+---
+ lib/Kolab/DAV/Auth/HTTPBasic.php | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/lib/Kolab/DAV/Auth/HTTPBasic.php b/lib/Kolab/DAV/Auth/HTTPBasic.php
+index 616c752..687c4a5 100644
+--- a/lib/Kolab/DAV/Auth/HTTPBasic.php
++++ b/lib/Kolab/DAV/Auth/HTTPBasic.php
+@@ -175,6 +175,7 @@ class HTTPBasic extends DAV\Auth\Backend\AbstractBasic
+         $storage      = $rcube->get_storage();
+         $login_lc     = $rcube->config->get('login_lc');
+         $default_port = $rcube->config->get('default_port', 143);
++        $username_domain = $rcube->config->get('username_domain');
+ 
+         // parse $host
+         $a_host = parse_url($host);
+@@ -193,6 +194,24 @@ class HTTPBasic extends DAV\Auth\Backend\AbstractBasic
+             $port = $default_port;
+         }
+ 
++        // Check if we need to add/force domain to username
++        if (!empty($username_domain)) {
++            $domain = is_array($username_domain) ? $username_domain[$host] : $username_domain;
++
++            if ($domain = rcube_utils::parse_host((string)$domain, $host)) {
++                $pos = strpos($username, '@');
++
++                // force configured domains
++                if ($pos !== false && $rcube->config->get('username_domain_forced')) {
++                    $username = substr($username, 0, $pos) . '@' . $domain;
++                }
++                // just add domain if not specified
++                else if ($pos === false) {
++                    $username .= '@' . $domain;
++                }
++            }
++        }
++
+         // Convert username to lowercase. If storage backend
+         // is case-insensitive we need to store always the same username
+         if ($login_lc) {
+-- 
+2.20.1
+
