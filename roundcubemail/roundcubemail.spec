@@ -49,7 +49,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 %global rc_version 1.4
-%global rc_rel_suffix rc1.65
+%global rc_rel_suffix rc1.120
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
@@ -3438,6 +3438,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue May  7 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-237.rc1.120
+- Check in 120 revisions ahead of the upstream rc1 release
+
 * Mon Apr 15 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-236.rc1.65
 - Check in 65 revisions ahead of the upstream rc1 release
 

@@ -33,14 +33,14 @@
 %global tmpdir %{_var}/lib/roundcubemail
 
 Name:               roundcubemail-skin-kolab
-Version:            0.4
-Release:            16.beta1%{?dist}
+Version:            0.4.0
+Release:            1%{?dist}
 Summary:            Kolab skin for Roundcube
 
 Group:              Web/Applications
 License:            CC-BY-SA
 URL:                https://kolabsystems.com
-Source0:            %{name}-%{version}-beta1.tar.gz
+Source0:            %{name}-%{version}.tar.gz
 Source1:            comm.py
 
 BuildArch:          noarch
@@ -59,9 +59,11 @@ Provides:           roundcubemail(skin-kolab) = %{version}-%{release}
 This package contains the Kolab Groupware skin for Roundcube
 
 %prep
-%setup -q -n %{name}-%{version}-beta1/
+%setup -q -n %{name}-%{version}/
 
-rm -rvf kolab-now/
+rm -rvf base4kids/
+rm -rvf contargo/
+rm -rvf now/
 rm -rvf plesk/
 
 find . | sort
@@ -188,6 +190,9 @@ cp -av skins/kolab/watermark.html %{buildroot}%{datadir}/public_html/assets/skin
 %{datadir}/public_html/assets/plugins/libkolab/
 
 %changelog
+* Tue May  7 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.4.0-1
+- Release of version 0.4.0
+
 * Sat Jan 19 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.4-16.beta1
 - Rebuild against core updates
 
