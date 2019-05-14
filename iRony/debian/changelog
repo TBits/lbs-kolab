@@ -1,4 +1,4 @@
-irony (0.4.2-1~kolab4) unstable; urgency=low
+irony (0.4.2-1~kolab5) unstable; urgency=low
 
   * Support shortlogins via the username_domain configuration option.
 

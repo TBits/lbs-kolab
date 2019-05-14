@@ -2,7 +2,7 @@ Format: 1.0
 Source: libkolabxml
 Binary: libkolabxml1v5, php-kolabformat, python-kolabformat, libkolabxml-dev
 Architecture: any
-Version: 1.2~dev20160909-0~kolab8
+Version: 1.2.0-0~kolab2
 Maintainer: Kolab Systems AG <contact@kolabsystems.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Homepage: http://git.kolab.org/libkolabxml
@@ -27,5 +27,5 @@ Package-List:
  php-kolabformat deb libs optional
  python-kolabformat deb python optional
 Files: 
- 00000000000000000000000000000000 0 libkolabxml-1.2.tar.gz
+ 00000000000000000000000000000000 0 libkolabxml-1.2.0.tar.gz
  00000000000000000000000000000000 0 debian.tar.gz

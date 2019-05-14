@@ -30,8 +30,8 @@
 %endif
 
 %if 0%{?with_python} > 0
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python2_sitelib: %global python2_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python2_sitearch: %global python2_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %endif
 
 # Filter out private python and php libs. Does not work on EPEL5,
@@ -39,7 +39,7 @@
 %if 0%{?with_php} > 0
 %if 0%{?with_python} > 0
 %{?filter_setup:
-%filter_provides_in %{python_sitearch}/.*\.so$
+%filter_provides_in %{python2_sitearch}/.*\.so$
 %filter_provides_in %{php_extdir}/.*\.so$
 %filter_setup
 }
@@ -52,7 +52,7 @@
 %else
 %if 0%{?with_python} > 0
 %{?filter_setup:
-%filter_provides_in %{python_sitearch}/.*\.so$
+%filter_provides_in %{python2_sitearch}/.*\.so$
 %filter_setup
 }
 %endif
@@ -63,24 +63,25 @@ Name:           libkolabxml1
 %else
 Name:           libkolabxml
 %endif
-Version: 1.2
-Release: 0.20160909.git%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Kolab XML format collection parser library
 
 Group:          System Environment/Libraries
 License:        LGPLv3+
 URL:            http://www.kolab.org
 
-# From fa555615bd732cdc7fef56bf617e57d1bcf174fd
-Source0:        libkolabxml-1.2.tar.gz
+Source0:        libkolabxml-%{version}.tar.gz
 
-Patch1001:      fix-qverify-argument.patch
 Patch1002:      at11.0-boost-this_thread-hidden-sleep_until.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires:  boost-devel
 BuildRequires:  cmake >= 2.6
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+BuildRequires:  extra-cmake-modules
+%endif
 BuildRequires:  e2fsprogs-devel
 BuildRequires:  gcc-c++
 BuildRequires:  libcurl-devel
@@ -88,7 +89,11 @@ BuildRequires:  make
 %if 0%{?suse_version}
 BuildRequires:  qt-devel
 %else
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+BuildRequires:  qt5-qtbase-devel
+%else
 BuildRequires:  qt4-devel
+%endif
 %endif
 BuildRequires:  swig
 BuildRequires:  uuid-devel
@@ -137,6 +142,9 @@ Group:          Development/Libraries
 Requires:       libkolabxml%{?_isa} = %{version}
 Requires:       boost-devel
 Requires:       cmake >= 2.6
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+Requires:       extra-cmake-modules
+%endif
 Requires:       e2fsprogs-devel
 Requires:       gcc-c++
 Requires:       libcurl-devel
@@ -144,12 +152,20 @@ Requires:       libcurl-devel
 Requires:       php-devel >= 5.3
 %endif
 %if 0%{?with_python} > 0
+%if 0%{?rhel} >= 8
+Requires:       python2-devel
+%else
 Requires:       python-devel
+%endif
 %endif
 %if 0%{?suse_version}
 Requires:       qt-devel
 %else
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:       qt5-qtbase-devel
+%else
 Requires:       qt4-devel
+%endif
 %endif
 Requires:       swig
 Requires:       uuid-devel
@@ -230,7 +246,11 @@ Requires:       libkolabxml%{?_isa} = %{version}
 Obsoletes:      python-%{name} < %{version}
 Provides:       python-%{name} = %{version}
 %endif
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+BuildRequires:  python2-devel
+%else
 BuildRequires:  python-devel
+%endif
 
 %description -n python-kolabformat
 The PyKolab format package offers a comprehensive Python library using the
@@ -239,8 +259,6 @@ bindings provided through libkolabxml.
 
 %prep
 %setup -q -n libkolabxml-%{version}
-
-%patch1001 -p1
 
 %if 0%{?with_at}
 %patch1002 -p1
@@ -251,6 +269,8 @@ sed -i "s/-php/-php7/g" src/php/CMakeLists.txt
 %endif
 
 %build
+python utils/zonetabconversion.py
+
 rm -rf build
 mkdir -p build
 pushd build
@@ -286,6 +306,9 @@ cmake \
     -DBOOST_INCLUDEDIR=%{_includedir}/boost141 \
     -DBoost_ADDITIONAL_VERSIONS="1.41;1.41.0" \
 %endif
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+    -DQT5_BUILD=ON \
+%endif
     -DINCLUDE_INSTALL_DIR=%{_includedir} \
 %if 0%{?with_csharp} > 0
     -DCSHARP_BINDINGS=ON \
@@ -301,8 +324,8 @@ cmake \
 %endif
 %if 0%{?with_python} > 0
     -DPYTHON_BINDINGS=ON \
-    -DPYTHON_INCLUDE_DIRS=%{python_include} \
-    -DPYTHON_INSTALL_DIR=%{python_sitearch} \
+    -DPYTHON_INCLUDE_DIRS=%{python2_include} \
+    -DPYTHON_INSTALL_DIR=%{python2_sitearch} \
 %endif
     ..
 make
@@ -388,11 +411,14 @@ rm -rf %{buildroot}
 %if 0%{?with_python} > 0
 %files -n python-kolabformat
 %defattr(-,root,root,-)
-%{python_sitearch}/kolabformat.py*
-%{python_sitearch}/_kolabformat.so
+%{python2_sitearch}/kolabformat.py*
+%{python2_sitearch}/_kolabformat.so
 %endif
 
 %changelog
+* Tue May 14 2019 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.0
+- Release of version 1.2.0
+
 * Thu May 28 2015 Christian Mollekopf <mollekopf@kolabsys.com> - 1.2
 - New upstream release
 - Removed dependency on kdepimlibs and kdelibs which is not required

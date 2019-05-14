@@ -1,3 +1,9 @@
+guam (0.9.4-14) unstable; urgency=medium
+
+  * Removed the unavailable syslog backend for plesk.
+
+ -- Christian Mollekopf (Kolab Systems) <mollekopf@kolabsys.com>  Tue,  23 Apr 2019 09:31:31 +0200
+
 guam (0.9.4-13) unstable; urgency=medium
 
   * Fix LIST-EXTENDED, LIST-STATUS and other LIST return options response filtering (Bifrost T160184)

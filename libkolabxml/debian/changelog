@@ -1,3 +1,9 @@
+libkolabxml (1.2.0-0~kolab2) unstable; urgency=low
+
+  * Release 1.2.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 14 May 2019 16:38:05 +0200
+
 libkolabxml (1.2~dev20160909-0~kolab7) unstable; urgency=low
 
   * Ubuntu 18.04 support

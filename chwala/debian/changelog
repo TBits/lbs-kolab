@@ -1,4 +1,4 @@
-chwala (0.5.5-0~kolab3) unstable; urgency=low
+chwala (0.5.5-0~kolab4) unstable; urgency=low
 
   * Adjusted chwala.logrotate to new logfile names
 

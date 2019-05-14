@@ -1,4 +1,4 @@
-kolab-syncroton (2.3.15-0~kolab4) unstable; urgency=low
+kolab-syncroton (2.3.15-0~kolab5) unstable; urgency=low
 
   * Correctly clause dependency on kolab-auth
 
