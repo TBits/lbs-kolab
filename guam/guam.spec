@@ -232,6 +232,10 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+
+* Tue Apr 23 2019 Christian Mollekopf (Kolab Systems) <mollekopf@kolabsys.com> - 0.9.4-14
+- Removed the unavailable syslog backend for plesk
+
 * Wed Jan  2 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.4-10
 - Fix LIST-EXTENDED, LIST-STATUS and LIST return options response filtering
 

@@ -63,18 +63,16 @@ Name:           libkolabxml1
 %else
 Name:           libkolabxml
 %endif
-Version: 1.2
-Release: 0.20160909.git%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Kolab XML format collection parser library
 
 Group:          System Environment/Libraries
 License:        LGPLv3+
 URL:            http://www.kolab.org
 
-# From fa555615bd732cdc7fef56bf617e57d1bcf174fd
-Source0:        libkolabxml-1.2.tar.gz
+Source0:        libkolabxml-%{version}.tar.gz
 
-Patch1001:      fix-qverify-argument.patch
 Patch1002:      at11.0-boost-this_thread-hidden-sleep_until.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -262,8 +260,6 @@ bindings provided through libkolabxml.
 %prep
 %setup -q -n libkolabxml-%{version}
 
-%patch1001 -p1
-
 %if 0%{?with_at}
 %patch1002 -p1
 %endif
@@ -273,6 +269,8 @@ sed -i "s/-php/-php7/g" src/php/CMakeLists.txt
 %endif
 
 %build
+python utils/zonetabconversion.py
+
 rm -rf build
 mkdir -p build
 pushd build
@@ -418,6 +416,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May 14 2019 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.2.0
+- Release of version 1.2.0
+
 * Thu May 28 2015 Christian Mollekopf <mollekopf@kolabsys.com> - 1.2
 - New upstream release
 - Removed dependency on kdepimlibs and kdelibs which is not required
