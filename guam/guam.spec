@@ -19,7 +19,7 @@
 
 Name:               guam
 Version:            0.9.4
-Release:            9%{?dist}
+Release:            15%{?dist}
 Summary:            A Smart Reverse IMAP Proxy
 
 Group:              System Environment/Daemons
@@ -232,6 +232,8 @@ test -f /etc/sysconfig/guam-disable-posttrans || \
 %endif
 
 %changelog
+* Wed May 15 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.9.4-15
+- Fix LIST-EXTENDED, LIST-STATUS and LIST return options for purely numerical folder names
 
 * Tue Apr 23 2019 Christian Mollekopf (Kolab Systems) <mollekopf@kolabsys.com> - 0.9.4-14
 - Removed the unavailable syslog backend for plesk
