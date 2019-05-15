@@ -1,8 +1,8 @@
-roundcubemail-skin-kolab (0.4.0-0~kolab3) unstable; urgency=low
+roundcubemail-skin-kolab (0.4.1-0~kolab1) unstable; urgency=low
 
-  * Rebuild against core updates
+  * Release version 0.4.1
 
- -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 14 May 2019 18:41:13 +0200
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 15 May 2019 18:41:13 +0200
 
 roundcubemail-skin-kolab (0.4.0-0~kolab1) unstable; urgency=low
 

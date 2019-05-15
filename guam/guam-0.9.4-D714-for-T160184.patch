@@ -1,25 +1,5 @@
-commit 4e175395367d60e25153c924f0f401718e2c9062
-Author: Aleksander Machniak <machniak@kolabsys.com>
-Date:   Wed Jan 2 12:59:44 2019 +0100
-
-    LIST-EXTENDED/LIST-STATUS support
-    
-    Summary:
-    LIST-EXTENDED/LIST-STATUS support needed for Evolution client.
-    
-    The change is quite big because it adds a simple tokenizer and makes
-    folder extraction from command string more robust (probably also slower).
-    
-    It is possible that get_token function(s) should go to eimap.
-    
-    Bifrost#T160184
-    
-    Reviewers: #guam_developers
-    
-    Differential Revision: https://git.kolab.org/D714
-
 diff --git a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
-index decbd9a..92d9f96 100644
+index decbd9a..d0e7ca1 100644
 --- a/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
 +++ b/apps/kolab_guam/src/rules/kolab_guam_rule_filter_groupware.erl
 @@ -102,6 +102,7 @@ filter_folder(_State, <<>>, Acc) -> { Acc, true };
@@ -73,7 +53,7 @@ index decbd9a..92d9f96 100644
  add_response(Response, <<>>) -> Response;
  add_response(Response, Acc) -> <<Acc/binary, "\r\n", Response/binary>>.
  
-@@ -147,3 +151,91 @@ in_blacklist(Folder, [{ Literal, Prefix }|List]) ->
+@@ -147,3 +151,76 @@ in_blacklist(Folder, [{ Literal, Prefix }|List]) ->
                   _ -> in_blacklist(Folder, List)
               end
      end.
@@ -108,21 +88,6 @@ index decbd9a..92d9f96 100644
 +    {'[', Rest, none};
 +pop_token(<<$], Rest/binary>>, none) ->
 +    {']', Rest, none};
-+
-+%% Numbers
-+pop_token(<<C, _/binary>> = Data, {number, NumberAcc}) when
-+  C =:= 32; C =:= 40; C =:= 41; C =:= $(; C =:= $); C =:= 91; C =:= 93 ->
-+    {binary_to_integer(NumberAcc), Data, none};
-+pop_token(<<$\r, $\n, _/binary>> = Data, {number, NumberAcc}) ->
-+    {binary_to_integer(NumberAcc), Data, none};
-+pop_token(<<" ", Rest/binary>>, {number, NumberAcc}) ->
-+    {binary_to_integer(NumberAcc), Rest, none};
-+pop_token(<<D, Rest/binary>>, {number, NumberAcc}) when D >= 48, D < 58 ->
-+    pop_token(Rest, {number, <<NumberAcc/binary, D>>});
-+pop_token(<<D, Rest/binary>>, none) when D >= 48, D < 58 ->
-+    pop_token(Rest, {number, <<D>>});
-+pop_token(<<C, Rest/binary>>, {number, NumberAcc}) when C >= 35, C < 123 ->
-+    pop_token(Rest, {atom, <<NumberAcc/binary, C>>});
 +
 +%% Atom
 +pop_token(<<C, _/binary>> = Data, {atom, AtomAcc}) when
