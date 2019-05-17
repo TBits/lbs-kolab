@@ -2,6 +2,11 @@
 #!BuildIgnore:  systemd
 %endif
 
+
+%if 0%{?fedora} || 0%{?rhel} >= 8
+%global py2 2
+%endif
+
 %{!?python_sitelib: %define python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 %if 0%{?suse_version} || 0%{?fedora} > 17 || 0%{?rhel} > 6
@@ -29,7 +34,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.10
+Version:            0.8.11
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -64,48 +69,27 @@ BuildRequires:      python-mysql
 BuildRequires:      MySQL-python
 %endif
 
-BuildRequires:      python
-BuildRequires:      python-augeas
-BuildRequires:      python-gnupg
-BuildRequires:      python-icalendar
-BuildRequires:      python-kolab
-BuildRequires:      python-kolabformat
-BuildRequires:      python-ldap
-%if 0%{?fedora} > 24
-BuildRequires:      python2-nose
-%else
-BuildRequires:      python-nose
-%endif
-BuildRequires:      python-pep8
-BuildRequires:      python-pyasn1
-BuildRequires:      python-pyasn1-modules
-
-%if 0%{?suse_version}
-BuildRequires:      python-pytz
-%else
-BuildRequires:      pytz
-%endif
-
-BuildRequires:      python-sievelib
-BuildRequires:      python-sqlalchemy
-
-%if 0%{?fedora} >= 23
-# Fedora 23 has python2-twisted and python-twisted
-BuildRequires:      python-twisted
-%else
-BuildRequires:      python-twisted-core
-%endif
-BuildRequires:      python-tzlocal
-
-%if 0%{?fedora} >= 21
-# Fedora 21 has qca2 and qca, qca2 has been renamed to qca, required by kdelibs
-BuildRequires:      qca
-%endif
+BuildRequires:      python%{?py2}
+BuildRequires:      python%{?py2}-augeas
+BuildRequires:      python%{?py2}-gnupg
+BuildRequires:      python%{?py2}-icalendar
+BuildRequires:      python%{?py2}-kolab >= 2.0
+BuildRequires:      python%{?py2}-kolabformat
+BuildRequires:      python%{?py2}-ldap
+BuildRequires:      python%{?py2}-nose
+BuildRequires:      python%{?py2}-pep8
+BuildRequires:      python%{?py2}-pyasn1
+BuildRequires:      python%{?py2}-pyasn1-modules
+BuildRequires:      python%{?py2}-pytz
+BuildRequires:      python%{?py2}-sievelib
+BuildRequires:      python%{?py2}-sqlalchemy
+BuildRequires:      python%{?py2}-twisted-core
+BuildRequires:      python%{?py2}-tzlocal
 
 Requires:           kolab-cli = %{version}-%{release}
-Requires:           python-ldap >= 2.4
-Requires:           python-pyasn1
-Requires:           python-pyasn1-modules
+Requires:           python%{?py2}-ldap >= 2.4
+Requires:           python%{?py2}-pyasn1
+Requires:           python%{?py2}-pyasn1-modules
 Requires(pre):      /usr/sbin/useradd
 Requires(pre):      /usr/sbin/usermod
 Requires(pre):      /usr/sbin/groupadd
@@ -245,9 +229,7 @@ This is the Kolab Content Filter, with plugins
 %prep
 %setup -q
 
-%if 0%{?kolab_enterprise}
 %patch0001 -p1
-%endif
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -584,6 +566,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Fri May 17 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.11-1
+- Release of version 0.8.11
+
 * Fri Jul 27 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.10-1
 - Release of version 0.8.10
 
