@@ -1,11 +1,19 @@
+commit cd170966b9098e34ddcb1e0b3e12ecb3350b5ff9
+Author: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
+Date:   Fri May 17 10:46:11 2019 +0200
+
+    No more manticore
+
 diff --git a/share/templates/roundcubemail/config.inc.php.tpl b/share/templates/roundcubemail/config.inc.php.tpl
-index 928992b..96a21f6 100644
+index 5e80898..888478e 100644
 --- a/share/templates/roundcubemail/config.inc.php.tpl
 +++ b/share/templates/roundcubemail/config.inc.php.tpl
-@@ -231,6 +231,4 @@
+@@ -244,8 +244,6 @@
              'ssl_verify_peer' => false,
          );
  
 -    \$config['fileapi_manticore'] = 'http://' . \$_SERVER['HTTP_HOST'] . ':8080';
 -
+     @include('/etc/roundcubemail/kolab_syncroton.inc.php');
+ 
  ?>

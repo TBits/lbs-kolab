@@ -1,1 +1,2 @@
 cyrus-imapd.conf-cert-paths.patch -p1
+pykolab-0.8-patch-out-manticore.patch -p1

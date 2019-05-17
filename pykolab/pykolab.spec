@@ -34,7 +34,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.10
+Version:            0.8.11
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -229,9 +229,7 @@ This is the Kolab Content Filter, with plugins
 %prep
 %setup -q
 
-%if 0%{?kolab_enterprise}
 %patch0001 -p1
-%endif
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -568,6 +566,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Fri May 17 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.11-1
+- Release of version 0.8.11
+
 * Fri Jul 27 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.10-1
 - Release of version 0.8.10
 
