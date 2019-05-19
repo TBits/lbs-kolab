@@ -1,0 +1,12 @@
+diff '--color=auto' -r -u -N pykolab-0.8.11.orig/bin/kolab_smtp_access_policy.py pykolab-0.8.11/bin/kolab_smtp_access_policy.py
+--- pykolab-0.8.11.orig/bin/kolab_smtp_access_policy.py	2019-05-17 10:20:56.000000000 +0200
++++ pykolab-0.8.11/bin/kolab_smtp_access_policy.py	2019-05-19 09:48:40.044115772 +0200
+@@ -1284,7 +1284,7 @@
+         sasl_sender='',
+         data=None):
+ 
+-    if cache is notTrue:
++    if cache is not True:
+         return []
+ 
+     log.debug(
