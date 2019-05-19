@@ -1,3 +1,9 @@
+pykolab (0.8.11-0~kolab3) unstable; urgency=low
+
+  * Add hotfix for rejection of all senders (T5363)
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sun, 19 May 2019 09:54:51 +0200
+
 pykolab (0.8.11-0~kolab2) unstable; urgency=low
 
   * Release of version 0.8.11
