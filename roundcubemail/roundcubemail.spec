@@ -56,7 +56,7 @@
 Name:           roundcubemail
 Version:        1.4
 
-Release:        240%{?dot_rel_suffix}%{?dist}
+Release:        242%{?dot_rel_suffix}%{?dist}
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -78,6 +78,8 @@ Source200:      2017111400.sql
 
 Patch201:       default-configuration.patch
 Patch202:       roundcubemail-1.4-beta86-plugin-enigma-homedir.patch
+
+Patch0001:      roundcubemail-1.4.rc1.133-add-in_selection.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1524,6 +1526,8 @@ cp -vf %{SOURCE102} plugins/password/config.inc.php.dist
 %if 0%{?plesk} < 1
 %patch202 -p1
 %endif
+
+%patch0001 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" | while read file; do
@@ -3438,6 +3442,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon May 20 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-242.rc1.133
+- Fix for context menu
+
 * Wed May 15 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-240.rc1.133
 - Check in 133 revisions ahead of the upstream 1.4-rc1 release
 

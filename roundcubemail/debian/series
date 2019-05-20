@@ -1,2 +1,3 @@
 default-configuration.patch -p1
 roundcubemail-1.4-beta86-plugin-enigma-homedir.patch -p1
+roundcubemail-1.4.rc1.133-add-in_selection.patch -p1
