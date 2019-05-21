@@ -1,3 +1,4 @@
 cyrus-imapd.conf-cert-paths.patch -p1
-pykolab-0.8-patch-out-manticore.patch -p1
-pykolab-sender-rejection-hotfix.patch -p1
+0001-No-more-manticore.patch -p1
+0002-Fix-syntax-error.patch -p1
+0003-Fix-unicode-in-roundcube-config-templates.patch -p1

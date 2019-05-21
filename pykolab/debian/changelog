@@ -1,3 +1,9 @@
+pykolab (0.8.11-0~kolab4) unstable; urgency=low
+
+  * Fix unicode templates for roundcube
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 21 May 2019 01:49:00 +0100
+
 pykolab (0.8.11-0~kolab3) unstable; urgency=low
 
   * Add hotfix for rejection of all senders (T5363)

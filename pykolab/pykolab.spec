@@ -2,7 +2,6 @@
 #!BuildIgnore:  systemd
 %endif
 
-
 %if 0%{?fedora} || 0%{?rhel} >= 8
 %global py2 2
 %endif
@@ -35,7 +34,7 @@
 Summary:            Kolab Groupware Solution
 Name:               pykolab
 Version:            0.8.11
-Release:            2%{?dist}
+Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
@@ -43,8 +42,9 @@ URL:                http://kolab.org/
 Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
 
-Patch0001:          pykolab-0.8-patch-out-manticore.patch
-Patch0002:          pykolab-sender-rejection-hotfix.patch
+Patch0001:          0001-No-more-manticore.patch
+Patch0002:          0002-Fix-syntax-error.patch
+Patch0003:          0003-Fix-unicode-in-roundcube-config-templates.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -232,6 +232,7 @@ This is the Kolab Content Filter, with plugins
 
 %patch0001 -p1
 %patch0002 -p1
+%patch0003 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -568,10 +569,7 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
-* Sun May 19 2019 Christoph Erhardt <kolab@sicherha.de> - 0.8.11-2
-- Add hotfix for rejection of all senders (T5363)
-
-* Fri May 17 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.11-1
+* Tue May 21 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.11-1
 - Release of version 0.8.11
 
 * Fri Jul 27 2018 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.10-1
