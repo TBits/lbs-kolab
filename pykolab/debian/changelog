@@ -1,4 +1,4 @@
-pykolab (0.8.11-0~kolab4) unstable; urgency=low
+pykolab (0.8.11-0~kolab5) unstable; urgency=low
 
   * Fix unicode templates for roundcube
 
