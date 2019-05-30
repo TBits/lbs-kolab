@@ -150,6 +150,12 @@ Requires:       gcc-c++
 Requires:       libcurl-devel
 %if 0%{?with_php} > 0
 Requires:       php-devel >= 5.3
+%if 0%{?plesk}
+Requires:       plesk-php56-devel
+Requires:       plesk-php70-devel
+Requires:       plesk-php71-devel
+Requires:       plesk-php72-devel
+%endif
 %endif
 %if 0%{?with_python} > 0
 %if 0%{?rhel} >= 8
@@ -231,11 +237,55 @@ Provides:       php-%{name} = %{version}
 # package
 BuildRequires:  php >= 5.3
 BuildRequires:  php-devel >= 5.3
+%if 0%{?plesk}
+BuildRequires:  plesk-php56-devel
+BuildRequires:  plesk-php70-devel
+BuildRequires:  plesk-php71-devel
+BuildRequires:  plesk-php72-devel
+%endif
 
 %description -n php-kolabformat
 The PHP kolabformat package offers a comprehensible PHP library using the
 bindings provided through libkolabxml.
 %endif
+
+%if 0%{?plesk}
+%package -n plesk-php56-kolabformat
+Summary:        libkolabxml bindings for Plesk's PHP 5.6
+Group:          System Environment/Libraries
+Requires:       libkolabxml%{?_isa} = %{version}
+Requires:       plesk-php56
+
+%description -n plesk-php56-kolabformat
+libkolabxml bindings for Plesk's PHP 5.6
+
+%package -n plesk-php70-kolabformat
+Summary:        libkolabxml bindings for Plesk's PHP 7.0
+Group:          System Environment/Libraries
+Requires:       libkolabxml%{?_isa} = %{version}
+Requires:       plesk-php70
+
+%description -n plesk-php70-kolabformat
+libkolabxml bindings for Plesk's PHP 7.0
+
+%package -n plesk-php71-kolabformat
+Summary:        libkolabxml bindings for Plesk's PHP 7.1
+Group:          System Environment/Libraries
+Requires:       libkolabxml%{?_isa} = %{version}
+Requires:       plesk-php71
+
+%description -n plesk-php71-kolabformat
+libkolabxml bindings for Plesk's PHP 7.1
+
+%package -n plesk-php72-kolabformat
+Summary:        libkolabxml bindings for Plesk's PHP 7.2
+Group:          System Environment/Libraries
+Requires:       libkolabxml%{?_isa} = %{version}
+Requires:       plesk-php72
+
+%description -n plesk-php72-kolabformat
+libkolabxml bindings for Plesk's PHP 7.2
+%endif # if 0%{?plesk}
 
 %if 0%{?with_python} > 0
 %package -n python-kolabformat
@@ -258,10 +308,25 @@ bindings provided through libkolabxml.
 %endif
 
 %prep
-%setup -q -n libkolabxml-%{version}
+%setup -q -c -n libkolabxml-%{version}
+pwd
+ls -l
 
 %if 0%{?with_at}
 %patch1002 -p1
+%endif
+
+%if 0%{?plesk}
+cp -a libkolabxml-%{version} libkolabxml-%{version}-5.6
+
+cp -a libkolabxml-%{version} libkolabxml-%{version}-7.0
+sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.0/src/php/CMakeLists.txt
+
+cp -a libkolabxml-%{version} libkolabxml-%{version}-7.1
+sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.1/src/php/CMakeLists.txt
+
+cp -a libkolabxml-%{version} libkolabxml-%{version}-7.2
+sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.2/src/php/CMakeLists.txt
 %endif
 
 %if 0%{?with_php7}
@@ -269,8 +334,18 @@ sed -i "s/-php/-php7/g" src/php/CMakeLists.txt
 %endif
 
 %build
+pushd %{name}-%{version}
 python utils/zonetabconversion.py
+popd
 
+%if 0%{?plesk}
+cp %{name}-%{version}/tztable.h %{name}-%{version}-5.6/.
+cp %{name}-%{version}/tztable.h %{name}-%{version}-7.0/.
+cp %{name}-%{version}/tztable.h %{name}-%{version}-7.1/.
+cp %{name}-%{version}/tztable.h %{name}-%{version}-7.2/.
+%endif
+
+pushd %{name}-%{version}
 rm -rf build
 mkdir -p build
 pushd build
@@ -294,18 +369,13 @@ cmake \
     %{?_cmake_lib_suffix64} \
 %endif
     -DBUILD_SHARED_LIBS:BOOL=ON \
-%else
+%else # if 0${?suse_version}
 %cmake \
 %endif
     -DBoost_NO_BOOST_CMAKE=TRUE \
     -Wno-fatal-errors -Wno-errors \
     -DCMAKE_SKIP_RPATH=ON \
     -DCMAKE_PREFIX_PATH=%{_libdir} \
-%if 0%{?rhel} < 6 && 0%{?fedora} < 15
-    -DBOOST_LIBRARYDIR=%{_libdir}/boost141 \
-    -DBOOST_INCLUDEDIR=%{_includedir}/boost141 \
-    -DBoost_ADDITIONAL_VERSIONS="1.41;1.41.0" \
-%endif
 %if 0%{?rhel} >= 8 || 0%{?fedora}
     -DQT5_BUILD=ON \
 %endif
@@ -330,9 +400,39 @@ cmake \
     ..
 make
 popd
+popd
+
+%if 0%{?plesk}
+for version in 5.6 7.0 7.1 7.2; do
+    pushd %{name}-%{version}-${version}
+    rm -rf build
+    mkdir -p build
+    pushd build
+    %cmake \
+        -DBoost_NO_BOOST_CMAKE=TRUE \
+        -Wno-fatal-errors -Wno-errors \
+        -DCMAKE_SKIP_RPATH=ON \
+        -DCMAKE_PREFIX_PATH=%{_libdir} \
+%if 0%{?rhel} >= 8 || 0%{?fedora}
+        -DQT5_BUILD=ON \
+%endif
+        -DINCLUDE_INSTALL_DIR=%{_includedir} \
+%if 0%{?with_php} > 0
+        -DPHP_BINDINGS=ON \
+        -DPHP_INCLUDE_DIR=/opt/plesk/php/${version}/include/php/ \
+        -DPHP_EXECUTABLE=/opt/plesk/php/${version}/bin/php \
+        -DPHP_INSTALL_DIR=/opt/plesk/php/${version}/lib64/php/modules/ \
+%endif
+        ..
+    make
+    popd
+    popd
+done
+%endif
 
 %install
 rm -rf %{buildroot}
+pushd %{name}-%{version}
 pushd build
 make install DESTDIR=%{buildroot} INSTALL='install -p'
 popd
@@ -346,9 +446,33 @@ cat > %{buildroot}/%{php_inidir}/kolabformat.ini << EOF
 extension=kolabformat.so
 EOF
 %endif
+popd
+
+%if 0%{?plesk}
+for version in 5.6 7.0 7.1 7.2; do
+    pushd %{name}-%{version}-${version}
+    pushd build
+    make install DESTDIR=%{buildroot} INSTALL='install -p'
+    popd
+
+    mkdir -p \
+        %{buildroot}/opt/plesk/php/${version}/share/php/ \
+        %{buildroot}/opt/plesk/php/${version}/etc/php.d/ \
+        %{buildroot}/opt/plesk/php/${version}/etc/php-fpm.d/
+
+    mv \
+        %{buildroot}/opt/plesk/php/${version}/lib64/php/modules/kolabformat.php \
+        %{buildroot}/opt/plesk/php/${version}/share/php/kolabformat.php
+
+    echo "extension=kolabformat.so" > %{buildroot}/opt/plesk/php/${version}/etc/php.d/kolabformat.ini
+    cp %{buildroot}/opt/plesk/php/${version}/etc/php.d/kolabformat.ini \
+        %{buildroot}/opt/plesk/php/${version}/etc/php-fpm.d/
+    popd
+done
+%endif
 
 %check
-pushd build
+pushd %{name}-%{version}/build
 # Make sure libkolabxml.so.* is found, otherwise the tests fail
 export LD_LIBRARY_PATH=$( pwd )/src/
 pushd tests
@@ -364,6 +488,15 @@ python src/python/test.py ||:
 %endif
 popd
 
+%if 0%{?plesk}
+for version in 5.6 7.0 7.1 7.2; do
+    pushd %{name}-%{version}-5.6/build/
+    export LD_LIBRARY_PATH=$( pwd )/src/
+    /opt/plesk/php/${version}/bin/php -d enable_dl=On -dextension=src/php/kolabformat.so src/php/test.php ||:
+    popd
+done
+%endif
+
 %clean
 rm -rf %{buildroot}
 
@@ -373,7 +506,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc DEVELOPMENT NEWS README
+%doc %{name}-%{version}/DEVELOPMENT %{name}-%{version}/NEWS %{name}-%{version}/README
 %{_libdir}/*.so.*
 
 %if 0%{?suse_version}
@@ -406,7 +539,39 @@ rm -rf %{buildroot}
 %{_datadir}/%{php}/kolabformat.php
 %{php_extdir}/kolabformat.so
 %config(noreplace) %{php_inidir}/kolabformat.ini
+
+%if 0%{?plesk}
+%files -n plesk-php56-kolabformat
+%defattr(-,root,root,-)
+/opt/plesk/php/5.6/lib64/php/modules/kolabformat.so
+/opt/plesk/php/5.6/share/php/kolabformat.php
+/opt/plesk/php/5.6/etc/php.d/kolabformat.ini
+/opt/plesk/php/5.6/etc/php-fpm.d/kolabformat.ini
+
+%files -n plesk-php70-kolabformat
+%defattr(-,root,root,-)
+/opt/plesk/php/7.0/lib64/php/modules/kolabformat.so
+/opt/plesk/php/7.0/share/php/kolabformat.php
+/opt/plesk/php/7.0/etc/php.d/kolabformat.ini
+/opt/plesk/php/7.0/etc/php-fpm.d/kolabformat.ini
+
+%files -n plesk-php71-kolabformat
+%defattr(-,root,root,-)
+/opt/plesk/php/7.1/lib64/php/modules/kolabformat.so
+/opt/plesk/php/7.1/share/php/kolabformat.php
+/opt/plesk/php/7.1/etc/php.d/kolabformat.ini
+/opt/plesk/php/7.1/etc/php-fpm.d/kolabformat.ini
+
+%files -n plesk-php72-kolabformat
+%defattr(-,root,root,-)
+/opt/plesk/php/7.2/lib64/php/modules/kolabformat.so
+/opt/plesk/php/7.2/share/php/kolabformat.php
+/opt/plesk/php/7.2/etc/php.d/kolabformat.ini
+/opt/plesk/php/7.2/etc/php-fpm.d/kolabformat.ini
+
 %endif
+
+%endif # if 0%{?with_php}
 
 %if 0%{?with_python} > 0
 %files -n python-kolabformat
