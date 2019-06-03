@@ -14,7 +14,7 @@
 
 Name:           roundcubemail-plugin-contextmenu
 Version:        %{rc_version}
-Release:        6%{?dot_rel_suffix}%{?dist}
+Release:        7%{?dot_rel_suffix}%{?dist}
 Summary:        Contextmenu plugin for Roundcube Webmail
 
 Group:          Applications/Internet
@@ -144,6 +144,9 @@ rm -rf %{buildroot}
 %{datadir}/public_html/assets/plugins/contextmenu/
 
 %changelog
+* Mon Jun  3 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.0-7.beta1
+- Rebuild against core updates
+
 * Tue May 14 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.0-6.beta1
 - Rebuild against core updates with fixes
 

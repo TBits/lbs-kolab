@@ -49,7 +49,7 @@
 %global tmpdir /var/lib/roundcubemail
 
 %global rc_version 1.4
-%global rc_rel_suffix rc1.133
+%global rc_rel_suffix rc1.167
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
@@ -78,8 +78,6 @@ Source200:      2017111400.sql
 
 Patch201:       default-configuration.patch
 Patch202:       roundcubemail-1.4-beta86-plugin-enigma-homedir.patch
-
-Patch0001:      roundcubemail-1.4.rc1.133-add-in_selection.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
@@ -1526,8 +1524,6 @@ cp -vf %{SOURCE102} plugins/password/config.inc.php.dist
 %if 0%{?plesk} < 1
 %patch202 -p1
 %endif
-
-%patch0001 -p1
 
 # Remove the results of patching when there's an incidental offset
 find . -type f -name "*.orig" | while read file; do
@@ -3442,6 +3438,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Jun  2 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-246.rc1.167
+- Check in 167 revisions ahead of the upstream 1.4-rc1 release
+
 * Mon May 20 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-242.rc1.133
 - Fix for context menu
 
