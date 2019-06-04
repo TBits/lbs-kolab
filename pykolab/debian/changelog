@@ -1,3 +1,9 @@
+pykolab (0.8.12-0~kolab2) unstable; urgency=low
+
+  * Release of version 0.8.12
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue,  4 Jun 2019 01:49:00 +0100
+
 pykolab (0.8.11-0~kolab5) unstable; urgency=low
 
   * Fix unicode templates for roundcube

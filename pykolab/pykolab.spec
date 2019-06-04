@@ -33,7 +33,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.11
+Version:            0.8.12
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -41,10 +41,6 @@ URL:                http://kolab.org/
 
 Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
-
-Patch0001:          0001-No-more-manticore.patch
-Patch0002:          0002-Fix-syntax-error.patch
-Patch0003:          0003-Fix-unicode-in-roundcube-config-templates.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -229,10 +225,6 @@ This is the Kolab Content Filter, with plugins
 
 %prep
 %setup -q
-
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -569,6 +561,9 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Tue Jun  4 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.12-1
+- Release of version 0.8.12
+
 * Tue May 21 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.11-1
 - Release of version 0.8.11
 

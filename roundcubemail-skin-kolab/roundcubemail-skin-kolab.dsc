@@ -2,7 +2,7 @@ Format: 1.0
 Source: roundcubemail-skin-kolab
 Binary: roundcubemail-skin-kolab
 Architecture: all
-Version: 0.4.1-0~kolab3
+Version: 0.4.1-0~kolab4
 Maintainer: Kolab Systems AG <contact@kolabsys.com>
 Uploaders: Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>
 Standards-Version: 3.9.3
