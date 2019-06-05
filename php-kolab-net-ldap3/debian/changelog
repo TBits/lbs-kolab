@@ -1,3 +1,9 @@
+php-net-ldap3 (1.1.0-1~kolab2) unstable; urgency=low
+
+  * Release version 1.1.0
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed,  5 Jun 2019 15:27:46 +0100
+
 php-net-ldap3 (1.0.7-1~kolab1) unstable; urgency=low
 
   * Release version 1.0.7

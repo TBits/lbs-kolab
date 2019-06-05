@@ -31,8 +31,8 @@ case "$1" in
             exit 0
         fi
 
-        if [ -e "/etc/apache2/sites-available/chwala.conf" -a ! -e "/etc/apache2/sites-enabled/chwala.conf" ]; then
-            a2ensite chwala.conf
+        if [ -e "/etc/apache2/sites-available/iRony.conf" -a ! -e "/etc/apache2/sites-enabled/iRony.conf" ]; then
+            a2ensite iRony
         fi
         reload_apache reload
     ;;
