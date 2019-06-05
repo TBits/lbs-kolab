@@ -34,14 +34,14 @@
 %global kolabr_group_id 414
 
 Name:           kolab-webadmin
-Version:        3.2.12
-Release:        22%{?dist}
+Version:        3.2.13
+Release:        1%{?dist}
 Summary:        Kolab Groupware Server Web Administration Interface
 License:        AGPLv3+
 Group:          Productivity/Office/Organizers
 Url:            http://www.kolab.org
 
-Source0:        kolab-webadmin-3.2.12.tar.gz
+Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -107,12 +107,6 @@ cp -a doc/hosted-kolab.conf %{buildroot}/%{_ap_sysconfdir}/conf.d/
 pushd %{buildroot}/%{_datadir}/%{name}/
 ln -s ../../..%{_var}/cache/%{name} cache
 ln -s ../../..%{_var}/log/%{name} logs
-pushd hosted/skins/kolabsys
-ln -sf ../../../public_html/skins/default/style.css style.css
-ln -sf ../../../public_html/skins/default/ui.js ui.js
-rm -rf images
-ln -sf ../../../public_html/skins/default/images images
-popd
 popd
 
 %clean
@@ -169,6 +163,9 @@ fi
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Wed Jun  5 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.2.13-1
+- Release 3.2.13
+
 * Sat Dec  1 2018 Timotheus Pokorra <tp@tbits.net> - 3.2.12-2
 - require php-kolab-net-ldap3 because it was upgraded in EPEL
 
