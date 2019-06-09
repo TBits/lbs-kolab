@@ -285,6 +285,15 @@ Requires:       plesk-php72
 
 %description -n plesk-php72-kolabformat
 libkolabxml bindings for Plesk's PHP 7.2
+
+%package -n plesk-php73-kolabformat
+Summary:        libkolabxml bindings for Plesk's PHP 7.3
+Group:          System Environment/Libraries
+Requires:       libkolabxml%{?_isa} = %{version}
+Requires:       plesk-php73
+
+%description -n plesk-php73-kolabformat
+libkolabxml bindings for Plesk's PHP 7.3
 %endif # if 0%{?plesk}
 
 %if 0%{?with_python} > 0
@@ -327,6 +336,9 @@ sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.1/src/php/CMakeLists.txt
 
 cp -a libkolabxml-%{version} libkolabxml-%{version}-7.2
 sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.2/src/php/CMakeLists.txt
+
+cp -a libkolabxml-%{version} libkolabxml-%{version}-7.3
+sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.3/src/php/CMakeLists.txt
 %endif
 
 %if 0%{?with_php7}
@@ -343,6 +355,7 @@ cp %{name}-%{version}/tztable.h %{name}-%{version}-5.6/.
 cp %{name}-%{version}/tztable.h %{name}-%{version}-7.0/.
 cp %{name}-%{version}/tztable.h %{name}-%{version}-7.1/.
 cp %{name}-%{version}/tztable.h %{name}-%{version}-7.2/.
+cp %{name}-%{version}/tztable.h %{name}-%{version}-7.3/.
 %endif
 
 pushd %{name}-%{version}
@@ -403,7 +416,7 @@ popd
 popd
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2; do
+for version in 5.6 7.0 7.1 7.2 7.3; do
     pushd %{name}-%{version}-${version}
     rm -rf build
     mkdir -p build
@@ -449,7 +462,7 @@ EOF
 popd
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2; do
+for version in 5.6 7.0 7.1 7.2 7.3; do
     pushd %{name}-%{version}-${version}
     pushd build
     make install DESTDIR=%{buildroot} INSTALL='install -p'
@@ -489,8 +502,8 @@ python src/python/test.py ||:
 popd
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2; do
-    pushd %{name}-%{version}-5.6/build/
+for version in 5.6 7.0 7.1 7.2 7.3; do
+    pushd %{name}-%{version}-${version}/build/
     export LD_LIBRARY_PATH=$( pwd )/src/
     /opt/plesk/php/${version}/bin/php -d enable_dl=On -dextension=src/php/kolabformat.so src/php/test.php ||:
     popd
@@ -569,7 +582,13 @@ rm -rf %{buildroot}
 /opt/plesk/php/7.2/etc/php.d/kolabformat.ini
 /opt/plesk/php/7.2/etc/php-fpm.d/kolabformat.ini
 
-%endif
+%files -n plesk-php73-kolabformat
+%defattr(-,root,root,-)
+/opt/plesk/php/7.3/lib64/php/modules/kolabformat.so
+/opt/plesk/php/7.3/share/php/kolabformat.php
+/opt/plesk/php/7.3/etc/php.d/kolabformat.ini
+/opt/plesk/php/7.3/etc/php-fpm.d/kolabformat.ini
+%endif # if 0%{?plesk}
 
 %endif # if 0%{?with_php}
 
