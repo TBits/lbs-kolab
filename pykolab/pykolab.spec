@@ -42,6 +42,8 @@ URL:                http://kolab.org/
 Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
 
+Patch0001:          0001-Fix-resolving-referrals.patch
+
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
 

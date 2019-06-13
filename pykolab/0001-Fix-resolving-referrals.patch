@@ -1,0 +1,25 @@
+From 814ffc770e3a696606b6ee1c58b4099d1a80071f Mon Sep 17 00:00:00 2001
+From: "Jeroen van Meeuwen (Kolab Systems)" <vanmeeuwen@kolabsys.com>
+Date: Thu, 13 Jun 2019 13:08:40 +0200
+Subject: [PATCH] Fix resolving referrals
+
+---
+ pykolab/auth/ldap/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pykolab/auth/ldap/__init__.py b/pykolab/auth/ldap/__init__.py
+index 3a30621..466f425 100644
+--- a/pykolab/auth/ldap/__init__.py
++++ b/pykolab/auth/ldap/__init__.py
+@@ -846,7 +846,7 @@ class LDAP(pykolab.base.Base):
+             )
+ 
+         # Remove referrals
+-        _entry_dns = [_e for _e in _results if _e[0] is not None]
++        _entry_dns = [_e[0] for _e in _results if _e[0] is not None]
+ 
+         return _entry_dns
+ 
+-- 
+2.20.1
+
