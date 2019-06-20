@@ -33,7 +33,7 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.12
+Version:            0.8.13
 Release:            1%{?dist}
 License:            GPLv3+
 Group:              Applications/System
@@ -41,8 +41,6 @@ URL:                http://kolab.org/
 
 Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
-
-Patch0001:          0001-Fix-resolving-referrals.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
