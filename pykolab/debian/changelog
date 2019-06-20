@@ -1,4 +1,10 @@
-pykolab (0.8.12-0~kolab4) unstable; urgency=low
+pykolab (0.8.13-0~kolab2) unstable; urgency=low
+
+  * Release of version 0.8.13
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Thu, 20 Jun 2019 01:49:00 +0100
+
+pykolab (0.8.12-0~kolab5) unstable; urgency=low
 
   * Release of version 0.8.12
 
