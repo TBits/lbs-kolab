@@ -342,7 +342,9 @@ sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.3/src/php/CMakeLists.txt
 %endif
 
 %if 0%{?with_php7}
+pushd %{name}-%{version}
 sed -i "s/-php/-php7/g" src/php/CMakeLists.txt
+popd
 %endif
 
 %build
