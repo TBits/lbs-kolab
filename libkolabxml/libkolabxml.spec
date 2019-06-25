@@ -155,6 +155,7 @@ Requires:       plesk-php56-devel
 Requires:       plesk-php70-devel
 Requires:       plesk-php71-devel
 Requires:       plesk-php72-devel
+Requires:       plesk-php73-devel
 %endif
 %endif
 %if 0%{?with_python} > 0
@@ -242,6 +243,7 @@ BuildRequires:  plesk-php56-devel
 BuildRequires:  plesk-php70-devel
 BuildRequires:  plesk-php71-devel
 BuildRequires:  plesk-php72-devel
+BuildRequires:  plesk-php73-devel
 %endif
 
 %description -n php-kolabformat

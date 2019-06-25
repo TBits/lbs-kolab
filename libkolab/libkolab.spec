@@ -60,6 +60,7 @@ BuildRequires:  plesk-php56-devel
 BuildRequires:  plesk-php70-devel
 BuildRequires:  plesk-php71-devel
 BuildRequires:  plesk-php72-devel
+BuildRequires:  plesk-php73-devel
 %endif
 
 BuildRequires:  python-devel
@@ -201,7 +202,9 @@ sed -i "s/-php/-php7/g" libkolab-%{version}-7.3/cmake/modules/SWIGUtils.cmake
 %endif
 
 %if 0%{?with_php7}
+pushd %{name}-%{version}
 sed -i "s/-php/-php7/g" cmake/modules/SWIGUtils.cmake
+popd
 %endif
 
 %build
