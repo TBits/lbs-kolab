@@ -93,9 +93,6 @@ BuildRequires:  php-justinrainbow-json-schema4
 %if 0%{?plesk} < 1
 BuildRequires:  php-gd
 BuildRequires:  php-mbstring
-%if 0%{?rhel} <= 7
-BuildRequires:  php-mcrypt
-%endif
 BuildRequires:  php-pdo
 BuildRequires:  php-pear >= 1.9.0
 BuildRequires:  php-phpunit-PHPUnit
@@ -184,7 +181,6 @@ Requires:       httpd
 
 Requires:       php-gd
 Requires:       php-mbstring
-Requires:       php-mcrypt
 Requires:       php-pear >= 1.9.0
 Requires:       php-xml
 

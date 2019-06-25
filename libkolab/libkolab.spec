@@ -60,6 +60,7 @@ BuildRequires:  plesk-php56-devel
 BuildRequires:  plesk-php70-devel
 BuildRequires:  plesk-php71-devel
 BuildRequires:  plesk-php72-devel
+BuildRequires:  plesk-php73-devel
 %endif
 
 BuildRequires:  python-devel
@@ -157,6 +158,15 @@ Requires:       plesk-php72
 
 %description -n plesk-php72-kolab
 libkolab bindings for Plesk's PHP 7.2
+
+%package -n plesk-php73-kolab
+Summary:        libkolab bindings for Plesk's PHP 7.3
+Group:          System Environment/Libraries
+Requires:       libkolab%{?_isa} = %{version}
+Requires:       plesk-php73
+
+%description -n plesk-php73-kolab
+libkolab bindings for Plesk's PHP 7.3
 %endif
 
 %package -n python-kolab
@@ -186,10 +196,15 @@ sed -i "s/-php/-php7/g" libkolab-%{version}-7.1/cmake/modules/SWIGUtils.cmake
 
 cp -a libkolab-%{version} libkolab-%{version}-7.2
 sed -i "s/-php/-php7/g" libkolab-%{version}-7.2/cmake/modules/SWIGUtils.cmake
+
+cp -a libkolab-%{version} libkolab-%{version}-7.3
+sed -i "s/-php/-php7/g" libkolab-%{version}-7.3/cmake/modules/SWIGUtils.cmake
 %endif
 
 %if 0%{?with_php7}
+pushd %{name}-%{version}
 sed -i "s/-php/-php7/g" cmake/modules/SWIGUtils.cmake
+popd
 %endif
 
 %build
@@ -240,7 +255,7 @@ popd
 popd
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2; do
+for version in 5.6 7.0 7.1 7.2 7.3; do
     pushd %{name}-%{version}-${version}
     rm -rf build
     mkdir -p build
@@ -297,7 +312,7 @@ extension=dummy.so
 EOF
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2; do
+for version in 5.6 7.0 7.1 7.2 7.3; do
     pushd %{name}-%{version}-${version}
     pushd build
     make install DESTDIR=%{buildroot} INSTALL='install -p'
@@ -404,6 +419,12 @@ rm -rf %{buildroot}
 /opt/plesk/php/7.2/etc/php.d/*.ini
 /opt/plesk/php/7.2/etc/php-fpm.d/*.ini
 
+%files -n plesk-php73-kolab
+%defattr(-,root,root,-)
+/opt/plesk/php/7.3/lib64/php/modules/*.so
+/opt/plesk/php/7.3/share/php/*.php
+/opt/plesk/php/7.3/etc/php.d/*.ini
+/opt/plesk/php/7.3/etc/php-fpm.d/*.ini
 %endif
 
 %files -n python-kolab
