@@ -1,3 +1,9 @@
+chwala (0.5.6-0~kolab1) unsable; urgency=low
+
+  * Release version 0.5.1
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabys.com>  Mon,  1 Jul 2019 12:12:12 +0100
+
 chwala (0.5.5-0~kolab4) unstable; urgency=low
 
   * Adjusted chwala.logrotate to new logfile names

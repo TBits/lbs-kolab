@@ -33,7 +33,7 @@ case "$1" in
             a2enmod rewrite >/dev/null 2>&1 || true
 
             if [ -e "/etc/apache2/sites-available/chwala.conf" -a ! -e "/etc/apache2/sites-enabled/chwala.conf" ]; then
-                a2ensite chwala.conf
+                a2ensite chwala
             fi
 
             reload_apache reload
