@@ -77,7 +77,11 @@ BuildRequires:      python%{?py2}-nose
 BuildRequires:      python%{?py2}-pep8
 BuildRequires:      python%{?py2}-pyasn1
 BuildRequires:      python%{?py2}-pyasn1-modules
+%if 0%{?rhel} < 8 && 0%{?fedora} < 1
+BuildRequires:      pytz
+%else
 BuildRequires:      python%{?py2}-pytz
+%endif
 BuildRequires:      python%{?py2}-sievelib
 BuildRequires:      python%{?py2}-sqlalchemy
 BuildRequires:      python%{?py2}-twisted-core
