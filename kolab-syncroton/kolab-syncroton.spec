@@ -46,6 +46,7 @@ URL:            http://www.syncroton.org
 
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
+Source2:        plesk.kolab_syncroton.inc.php
 
 Patch1:         defaults.patch
 
@@ -118,7 +119,12 @@ sed -i \
 
 cp -a lib %{buildroot}/%{_datadir}/%{name}/.
 cp -a index.php %{buildroot}/%{_datadir}/%{name}/.
+
+%if 0%{?plesk}
+cp -a %SOURCE2 %{buildroot}/%{_sysconfdir}/roundcubemail/kolab_syncroton.inc.php
+%else
 cp -a config/config.inc.php.dist %{buildroot}/%{_sysconfdir}/roundcubemail/kolab_syncroton.inc.php
+%endif
 
 pushd %{buildroot}/%{_datadir}/%{name}
 ln -s ../../..%{_sysconfdir}/roundcubemail config

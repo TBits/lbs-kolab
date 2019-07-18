@@ -25,6 +25,7 @@ override_dh_install:
 	cp -a config/config.inc.php.dist $(CURDIR)/debian/kolab-syncroton/etc/roundcubemail/kolab_syncroton.inc.php
 
 	if [ ! -f "/etc/plesk-release" ]; then \
+        cp -v ../SOURCES/plesk.kolab_syncroton.inc.php $(CURDIR)/debian/kolab-syncroton/etc/roundcubemail/kolab_syncroton.inc.php; \
 		mkdir -p $(CURDIR)/debian/kolab-syncroton/etc/apache2/sites-available ; \
 		install -pm 644 $(CURDIR)/docs/kolab-syncroton.conf \
 			$(CURDIR)/debian/kolab-syncroton/etc/apache2/sites-available/kolab-syncroton.conf ; \
