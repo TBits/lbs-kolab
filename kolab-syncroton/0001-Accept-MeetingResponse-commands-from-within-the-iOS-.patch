@@ -1,0 +1,91 @@
+From 882701777baf1991e5c33bf55b5b1985794fa67b Mon Sep 17 00:00:00 2001
+From: Jeroen van Meeuwen <kanarip@kanarip.ch>
+Date: Mon, 29 Jul 2019 11:57:09 +0200
+Subject: [PATCH] Accept MeetingResponse commands from within the iOS calendar
+ application.
+
+Summary: Resolves Bifrost#T228115
+
+Test Plan:
+* Configure an ActiveSync account on an iOS device.
+
+* Create an invitation from another user with the current user as a participant.
+
+* Synchronize the iOS device.
+
+* Click or edit the event in the calendar to change from/to Accepted/Tentative (Maybe)/Decline.
+
+* Refresh web interface and view event details.
+
+* As the organizer, expect a response.
+
+Reviewers: #syncroton_developers
+
+Subscribers: #syncroton_developers
+
+Differential Revision: https://git.kolab.org/D773
+---
+ lib/kolab_sync_data_calendar.php | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/lib/kolab_sync_data_calendar.php b/lib/kolab_sync_data_calendar.php
+index e822c73..010dc23 100644
+--- a/lib/kolab_sync_data_calendar.php
++++ b/lib/kolab_sync_data_calendar.php
+@@ -596,7 +596,11 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+             $event = $this->get_event_from_invitation($request);
+ 
+             // find the event in calendar
+-            $existing = $this->find_event_by_uid($event['uid']);
++            if (array_key_exists('uid', $event)) {
++                $existing = $this->find_event_by_uid($event['uid']);
++            } else {
++                $existing = $this->find_event_by_uid($event->uID);
++            }
+ /*
+             switch ($status) {
+                 case 'ACCEPTED':  $event['free_busy'] = 'busy';      break;
+@@ -665,7 +669,11 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+         //        as it's expected by the specification. Server
+         //        should delete an event in such a case, but we
+         //        keep the event copy with appropriate attendee status instead.
+-        return empty($status) ? null : $this->serverId($event['uid'], $folder);
++        return empty($status) ? null : (
++            array_key_exists('uid', $event) ?
++                $this->serverId($event['uid'], $folder) :
++                $this->serverId($event->uID, $folder)
++        );
+     }
+ 
+     /**
+@@ -684,6 +692,14 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+                 return $event;
+             }
+ 
++            $collection = new Syncroton_Model_SyncCollection(
++                array('collectionId' => $request->collectionId)
++            );
++
++            if ($event = $this->getEntry($collection, $request->requestId)) {
++                return $event;
++            }
++
+             throw new Syncroton_Exception_Status_MeetingResponse(Syncroton_Exception_Status_MeetingResponse::INVALID_REQUEST);
+         }
+ 
+@@ -723,8 +739,10 @@ class kolab_sync_data_calendar extends kolab_sync_data implements Syncroton_Data
+ 
+         $this->update_attendee_status($old, $status);
+ 
+-        if ($event['free_busy']) {
+-            $old['free_busy'] = $event['free_busy'];
++        if (array_key_exists('free_busy', $event)) {
++            if ($event['free_busy']) {
++                $old['free_busy'] = $event['free_busy'];
++            }
+         }
+ 
+         // Updating an existing event is most-likely a response
+-- 
+2.20.1
+

@@ -46,8 +46,11 @@ URL:            http://www.syncroton.org
 
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
+Source2:        plesk.kolab_syncroton.inc.php
 
-Patch1:         defaults.patch
+Patch0:         defaults.patch
+
+Patch0001:      0001-Accept-MeetingResponse-commands-from-within-the-iOS-.patch
 
 BuildArch:      noarch
 
@@ -96,7 +99,9 @@ and Tasks though this package - based on Syncroton technology.
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch1 -p1
+%patch0 -p1
+
+%patch0001 -p1
 
 %build
 
@@ -118,7 +123,12 @@ sed -i \
 
 cp -a lib %{buildroot}/%{_datadir}/%{name}/.
 cp -a index.php %{buildroot}/%{_datadir}/%{name}/.
+
+%if 0%{?plesk}
+cp -a %SOURCE2 %{buildroot}/%{_sysconfdir}/roundcubemail/kolab_syncroton.inc.php
+%else
 cp -a config/config.inc.php.dist %{buildroot}/%{_sysconfdir}/roundcubemail/kolab_syncroton.inc.php
+%endif
 
 pushd %{buildroot}/%{_datadir}/%{name}
 ln -s ../../..%{_sysconfdir}/roundcubemail config
@@ -201,6 +211,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Mon Jul 29 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.15-3
+- Fix MeetingResponse for Calendar events
+
 * Thu Apr 11 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.15-2
 - Update defaults
 

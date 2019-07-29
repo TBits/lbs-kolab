@@ -1,3 +1,11 @@
+pykolab (0.8.13-0~kolab5) unstable; urgency=low
+
+  * Require both python-pymysql and python-mysqldb
+  * Fix PHP setup on Xenial
+  * Fix MySQL setup on Bionic
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 29 Jul 2019 01:49:00 +0100
+
 pykolab (0.8.13-0~kolab3) unstable; urgency=low
 
   * Release of version 0.8.13
