@@ -1,0 +1,135 @@
+From 9770260d90d8b7c87281ed1a530e39a4680f1e12 Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Mon, 15 Jul 2019 11:17:56 +0000
+Subject: [PATCH] Fix bugs in using cache fast-mode (Bifrost#T227815)
+
+Fixes error on file update.
+---
+ lib/drivers/kolab/kolab_file_storage.php | 37 +++++++++++++++++-------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
+
+diff --git a/lib/drivers/kolab/kolab_file_storage.php b/lib/drivers/kolab/kolab_file_storage.php
+index 787d89c..acdd4c2 100644
+--- a/lib/drivers/kolab/kolab_file_storage.php
++++ b/lib/drivers/kolab/kolab_file_storage.php
+@@ -481,7 +481,7 @@ class kolab_file_storage implements file_storage
+      */
+     public function file_create($file_name, $file)
+     {
+-        $exists = $this->get_file_object($file_name, $folder);
++        $exists = $this->get_file_object_fast($file_name, $folder);
+         if (!empty($exists)) {
+             throw new Exception("Storage error. File exists.", file_storage::ERROR);
+         }
+@@ -554,7 +554,7 @@ class kolab_file_storage implements file_storage
+      */
+     public function file_delete($file_name)
+     {
+-        $file = $this->get_file_object($file_name, $folder);
++        $file = $this->get_file_object_fast($file_name, $folder);
+         if (empty($file)) {
+             throw new Exception("Storage error. File not found.", file_storage::ERROR);
+         }
+@@ -582,7 +582,7 @@ class kolab_file_storage implements file_storage
+      */
+     public function file_get($file_name, $params = array(), $fp = null)
+     {
+-        $file = $this->get_file_object($file_name, $folder, true);
++        $file = $this->get_file_object_fast($file_name, $folder, true);
+         if (empty($file)) {
+             throw new Exception("Storage error. File not found.", file_storage::ERROR);
+         }
+@@ -640,7 +640,7 @@ class kolab_file_storage implements file_storage
+      */
+     public function file_info($file_name)
+     {
+-        $file = $this->get_file_object($file_name, $folder, true);
++        $file = $this->get_file_object_fast($file_name, $folder, true);
+         if (empty($file)) {
+             throw new Exception("Storage error. File not found.", file_storage::ERROR);
+         }
+@@ -752,7 +752,7 @@ class kolab_file_storage implements file_storage
+             throw new Exception("Storage error. File not found.", file_storage::ERROR);
+         }
+ 
+-        $new = $this->get_file_object($new_name, $new_folder);
++        $new = $this->get_file_object_fast($new_name, $new_folder);
+         if (!empty($new)) {
+             throw new Exception("Storage error. File exists.", file_storage::ERROR_FILE_EXISTS);
+         }
+@@ -820,7 +820,7 @@ class kolab_file_storage implements file_storage
+             throw new Exception("Storage error. File not found.", file_storage::ERROR);
+         }
+ 
+-        $new = $this->get_file_object($new_name, $new_folder);
++        $new = $this->get_file_object_fast($new_name, $new_folder);
+         if (!empty($new)) {
+             throw new Exception("Storage error. File exists.", file_storage::ERROR_FILE_EXISTS);
+         }
+@@ -1471,7 +1471,7 @@ class kolab_file_storage implements file_storage
+     /**
+      * Get files from a folder (with performance fix)
+      */
+-    protected function get_files($folder, $filter, $all = true)
++    protected function get_files($folder, $filter, $all = true, $fast_mode = true)
+     {
+         if (!($folder instanceof kolab_storage_folder)) {
+             $folder = $this->get_folder_object($folder);
+@@ -1480,7 +1480,7 @@ class kolab_file_storage implements file_storage
+         // for better performance it's good to assume max. number of records
+         $folder->set_order_and_limit(null, $all ? 0 : 1);
+ 
+-        return $folder->select($filter, true);
++        return $folder->select($filter, $fast_mode);
+     }
+ 
+     /**
+@@ -1489,11 +1489,12 @@ class kolab_file_storage implements file_storage
+      * @param string               $file_name Name of a file (with folder path)
+      * @param kolab_storage_folder $folder    Reference to folder object
+      * @param bool                 $cache     Use internal cache
++     * @param bool                 $fast_mode Return limited list of file attributes
+      *
+      * @return array File data
+      * @throws Exception
+      */
+-    protected function get_file_object(&$file_name, &$folder = null, $cache = false)
++    protected function get_file_object(&$file_name, &$folder = null, $cache = false, $fast_mode = false)
+     {
+         $original_name = $file_name;
+ 
+@@ -1517,7 +1518,7 @@ class kolab_file_storage implements file_storage
+             array('filename', '=', $file_name)
+         );
+ 
+-        $files = $this->get_files($folder, $filter, false);
++        $files = $this->get_files($folder, $filter, false, $fast_mode);
+         $file  = $files[0];
+ 
+         if ($cache) {
+@@ -1527,6 +1528,22 @@ class kolab_file_storage implements file_storage
+         return $file;
+     }
+ 
++    /**
++     * Get file object.
++     *
++     * @param string               $file_name Name of a file (with folder path)
++     * @param kolab_storage_folder $folder    Reference to folder object
++     * @param bool                 $cache     Use internal cache
++     *
++     * @return array File data
++     * @throws Exception
++     * @see self::get_file_object()
++     */
++    protected function get_file_object_fast(&$file_name, &$folder = null, $cache = false)
++    {
++        return $this->get_file_object($file_name, $folder, $cache, true);
++    }
++
+     /**
+      * Get folder object.
+      *
+-- 
+2.21.0
+

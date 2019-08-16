@@ -1,6 +1,12 @@
+chwala (0.5.6-0~kolab4) unsable; urgency=low
+
+  * Fix bugs in using cache fast-mode
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabys.com>  Fri, 16 Aug 2019 12:12:12 +0100
+
 chwala (0.5.6-0~kolab2) unsable; urgency=low
 
-  * Release version 0.5.1
+  * Release version 0.5.6
 
  -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabys.com>  Mon,  1 Jul 2019 12:12:12 +0100
 
