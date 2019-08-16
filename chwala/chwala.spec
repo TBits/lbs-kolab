@@ -38,7 +38,7 @@
 
 Name:           chwala
 Version:        0.5.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Glorified WebDAV, done right
 
 Group:          Applications/Internet
@@ -48,6 +48,7 @@ Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{versio
 Source2:        chwala.logrotate
 
 Patch0000:      chwala-0.5.4-suhosin.session.encrypt-php_flag.patch
+Patch0001:      0001-Fix-bugs-in-using-cache-fast-mode-Bifrost-T227815.patch
 
 BuildArch:      noarch
 
@@ -82,6 +83,7 @@ party applications.
 %setup -q
 
 %patch0000 -p1
+%patch0001 -p1
 
 %build
 
@@ -158,6 +160,9 @@ fi
 %attr(0750,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Fri Aug 16 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.5.6-2
+- Fix bugs in using cache fast-mode
+
 * Mon Jul  8 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.5.6-1
 - Release 0.5.6
 
