@@ -1,3 +1,9 @@
+kolab (16.0.1-20) unstable; urgency=low
+
+  * Ensure php-cgi is installed
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat, 18 Aug 2019 12:56:00 +0100
+
 kolab (16.0.1-19) unstable; urgency=low
 
   * php5-pspell before pspell

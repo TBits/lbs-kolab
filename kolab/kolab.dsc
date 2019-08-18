@@ -2,7 +2,7 @@ Format: 1.0
 Source: kolab
 Binary: kolab, kolab-imap, kolab-ldap, kolab-mta, kolab-webclient
 Architecture: all
-Version: 16.0.1-19
+Version: 16.0.1-20
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Homepage: http://www.kolab.org/
