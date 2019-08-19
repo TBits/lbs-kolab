@@ -18,7 +18,7 @@
 %global _cyrusgroup mail
 %global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
-%global tag_version 2.5.12.25
+%global tag_version 2.5.13.30
 ##%global revision    41
 ##%global git_hash    gd53406f3f
 
@@ -63,8 +63,7 @@ Source32:           cyr_systemd_helper
 ##
 ## Patches
 ##
-Patch0001:          0001-dlist-Use-int8_t-in-dlist_parsemap.patch
-Patch0002:          0002-Avoid-returning-1-as-255.patch
+Patch0003:          0003-Canonification-for-multiple-domains.patch
 
 BuildRoot:          %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
@@ -265,9 +264,8 @@ sed -i -e 's/,berkeley//g' cunit/aaa-db.testc
 sed -r -i -e 's/"berkeley(|-[a-z-]+)", //g' lib/imapoptions
 %endif
 
-%if %{_arch} == "ppc64le"
-%patch0001 -p1
-%patch0002 -p1
+%if 0%{?kolab_enterprise} < 1
+%patch0003 -p1
 %endif
 
 # only to update config.* files
@@ -757,6 +755,12 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Mon Aug 19 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.5.12.30-1
+- Rebase on to upstream 2.5.13
+
+* Tue Mar 12 2019 Timotheus Pokorra <tp@tbits.net> - 2.5.12.25-2
+- Backport patch from upstream for canonification for multiple domains
+
 * Wed Jan  2 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.5.12.25-1
 - Rebase on to upstream 2.5.12
 
