@@ -2233,7 +2233,7 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins/ -mindepth 1 
     fi
 
     if [ "${plugin}" == "enigma" ]; then
-        %{__mkdir_p} %{buildroot}%{tmpdir}/plugins/
+        %{__mkdir_p} %{buildroot}%{tmpdir}/plugins/${plugin}/
         pushd %{buildroot}%{plugindir}/${plugin}
         %{__mv} -v home %{buildroot}%{tmpdir}/plugins/${plugin} || \
             mkdir -p %{buildroot}%{tmpdir}/plugins/${plugin}
