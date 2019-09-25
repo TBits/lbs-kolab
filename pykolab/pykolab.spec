@@ -42,6 +42,8 @@ URL:                http://kolab.org/
 Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
 
+Patch0001:          0001-Add-mysqlhost.patch
+
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
 
@@ -229,6 +231,8 @@ This is the Kolab Content Filter, with plugins
 
 %prep
 %setup -q
+
+%patch0001 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
