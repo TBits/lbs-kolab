@@ -86,7 +86,7 @@ popd
 %{_libdir}/libcalendaring*.a
 
 %changelog
-* Tue Jan 08 2018 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 4.9.1-2
+* Tue Jan 08 2018 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 4.9.2-1
 - adding patch to build on CentOS 7.6 and Fedora 28 with ical3
 
 * Mon Feb 23 2015 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 4.9.1-1

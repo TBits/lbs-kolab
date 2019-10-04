@@ -20,7 +20,8 @@ VCS:            scm:git:https://git.kolab.org/diffusion/EI/%{realname}.git
 Source0:        erlang-eimap-%{version}.tar.gz
 
 Patch1:         untagged-commands.patch
-Patch2:         make-things-easy-for-rebar3.patch
+Patch2:         eimap-0.4.0-otp-20.patch
+Patch3:         make-things-easy-for-rebar3.patch
 
 BuildRequires:	erlang-goldrush
 BuildRequires:	erlang-lager
@@ -37,6 +38,7 @@ IMAP client library for Erlang
 
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 DEBUG=1
