@@ -1,12 +1,15 @@
-# spec file for php-pear-HTTP-Request2
+# remirepo/fedora spec file for php-pear-HTTP-Request2
 #
-# Copyright (c) 2009-2014 Remi Collet
+# Copyright (c) 2009-2016 Remi Collet
 # License: CC-BY-SA
-# http://creativecommons.org/licenses/by-sa/3.0/
+# http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
-%{!?__pear:         %{expand: %%global __pear %{_bindir}/pear}}
+%{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
+%{!?__pear:       %global __pear       %{_bindir}/pear}
+%global pear_name   HTTP_Request2
+%global with_tests  %{?_with_tests:1}%{!?_with_tests:0}
 
 # Needed for openSUSE
 %if 0%{?suse_version}
@@ -20,24 +23,19 @@
 %{!?pear_xmldir:    %global pear_xmldir %{_localstatedir}/lib/pear/pkgxml}
 %endif
 
-%global pear_name HTTP_Request2
-
 %if 0%{?suse_version} > 0
 Name:           php5-pear-HTTP_Request2
 %else
 Name:           php-pear-HTTP-Request2
 %endif
-Version:        2.2.1
-Release:        2%{?dist}
+Version:        2.3.0
+Release:        1%{?dist}
 Summary:        Provides an easy way to perform HTTP requests
 
-Group:          Development/Libraries
 License:        BSD
 URL:            http://pear.php.net/package/HTTP_Request2
 Source0:        http://pear.php.net/get/%{pear_name}-%{version}.tgz
-Source2:        xml2changelog
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 %if 0%{?suse_version} > 0
 BuildRequires:  php-pear >= 1.9.2
@@ -45,18 +43,15 @@ BuildRequires:  php-pear >= 1.9.2
 BuildRequires:  php-pear(PEAR) >= 1.9.2
 %endif
 # For test suite
-%if 0%{?with_tests}
+%if %{with_tests}
 BuildRequires:  php-pear(pear.phpunit.de/PHPUnit)
-BuildRequires:  php-pear(Net_URL2) >= 2.0.0
+BuildRequires:  php-pear(Net_URL2) >= 2.2.0
 %endif
-# for xml2changelog
-BuildRequires:  php-simplexml
 
 Requires(post): %{__pear}
 Requires(postun): %{__pear}
-Provides:       php-pear(%{pear_name}) = %{version}
 # From package.xml
-Requires:       php-pear(Net_URL2) >= 2.0.0
+Requires:       php-pear(Net_URL2) >= 2.2.0
 %if 0%{?suse_version} > 0
 Requires:       php-pear >= 1.9.2
 %else
@@ -74,6 +69,9 @@ Requires:       php-mbstring
 Requires:       php-pcre
 Requires:       php-spl
 
+Provides:       php-pear(%{pear_name}) = %{version}
+Provides:       php-composer(pear/http_request2) = %{version}
+
 
 %description
 PHP5 rewrite of HTTP_Request package. Provides cleaner API and pluggable
@@ -89,11 +87,6 @@ the request progress with Observers...
 %prep
 %setup -q -c
 
-# Generate Changelog
-%{_bindir}/php %{SOURCE2} package.xml >CHANGELOG
-# Display Version / API
-head -n 1 < CHANGELOG
-
 cd %{pear_name}-%{version}
 # package.xml is V2
 mv ../package.xml %{name}.xml
@@ -106,7 +99,6 @@ cd %{pear_name}-%{version}
 
 %install
 rm -rf %{buildroot}
-install -Dpm 644 CHANGELOG %{buildroot}%{pear_docdir}/%{pear_name}/CHANGELOG
 
 cd %{pear_name}-%{version}
 %{__pear} install --nodeps --packagingroot %{buildroot} %{name}.xml
@@ -116,8 +108,6 @@ sed -i -e 's/\r//' %{buildroot}%{pear_docdir}/%{pear_name}/examples/upload-rapid
 
 # Clean up unnecessary files
 rm -rf %{buildroot}%{pear_metadir}/.??*
-%{__rm} -rf %{buildroot}%{pear_phpdir}/.{filemap,lock,registry,channels,depdb,depdblock}
-%{__rm} -rf %{buildroot}/usr/share/php5/PEAR/.{filemap,lock,registry,channels,depdb,depdblock}
 
 # Install XML package description
 mkdir -p %{buildroot}%{pear_xmldir}
@@ -125,7 +115,7 @@ install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
 
 
 %check
-%if 0%{?with_tests}
+%if %{with_tests}
 cd %{pear_name}-%{version}/tests
 # Tests: 97, Assertions: 171, Skipped: 3.
 
@@ -137,9 +127,6 @@ phpunit \
 echo 'Test suite disabled (missing "--with tests" option)'
 %endif
 
-
-%clean
-rm -rf %{buildroot}
 
 
 %post
@@ -154,15 +141,26 @@ fi
 
 
 %files
-%defattr(-,root,root,-)
 %doc %{pear_docdir}/%{pear_name}
 %{pear_xmldir}/%{name}.xml
 %{pear_phpdir}/HTTP
 %{pear_testdir}/%{pear_name}
 %{pear_datadir}/%{pear_name}
-%{pear_xmldir}
+
 
 %changelog
+* Sun Feb 14 2016 Remi Collet <remi@fedoraproject.org> - 2.3.0-1
+- update to 2.3.0 (stable)
+- raise dependency on Net_URL2 >= 2.2.0
+- provide php-composer(pear/http_request2)
+- drop generated Changelog
+
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 

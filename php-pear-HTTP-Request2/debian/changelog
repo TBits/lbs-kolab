@@ -1,119 +1,107 @@
-php-http-request2 (2.2.1-1) unstable; urgency=low
+php-http-request2 (2.3.0-1~kolab1) unstable; urgency=medium
 
-  * Package php-http-request2 version 2.2.1
+  * Package for Kolab
+  * Disable failing tests
 
- -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Fri, 23 Jan 2015 15:27:46 +0100
+ -- Christoph Erhardt <kolab@sicherha.de>  Sat, 05 Oct 2019 10:42:31 +0200
+
+php-http-request2 (2.3.0-1) unstable; urgency=medium
+
+  * Team upload
+
+  [ Alexey Borzov ]
+  * Copyright year update
+
+  [ David Prévot ]
+  * Use standard gbp layout
+  * Drop patches applied upstream
+  * Update copyright (years)
+  * Use proper team name
+  * Update Standards-Version to 3.9.7
+  * Build with recent pkg-php-tools for the PHP 7.0 transition
+
+ -- David Prévot <taffit@debian.org>  Fri, 18 Mar 2016 15:36:11 -0400
+
+php-http-request2 (2.2.1-2) unstable; urgency=medium
+
+  * Team upload, to unstable since Jessie has been released
+  * Use patches as applied upstream
+  * Adapt packaging to updated patches
+
+ -- David Prévot <taffit@debian.org>  Sat, 23 May 2015 22:19:45 -0400
+
+php-http-request2 (2.2.1-1) experimental; urgency=medium
+
+  * Team upload, to experimental to respect the freeze
+
+  [ Alexey Borzov ]
+  * Prepare release 2.2.1
+
+  [ David Prévot ]
+  * Document upstream VCS
+  * Update copyright
+  * Bump standards version to 3.9.6
+  * Allow tests to run with recent packages
+  * Run the testsuite during the build
+  * Provide DEP-8 tests
+
+ -- David Prévot <taffit@debian.org>  Fri, 20 Mar 2015 22:46:30 -0400
+
+php-http-request2 (2.1.1-5) unstable; urgency=medium
+
+  * Team upload
+
+  [ Sascha Girrulat ]
+  * add gbp.conf in addition to pkg-php.alioth.debian.org
+  * update buildsystem addition to pkg-php.alioth.debian.org
+  * update vcs urls to pkg-php destination
+
+  [ David Prévot ]
+  * Remove useless dh-make-php build-dependency
+  * Bump standards version to 3.9.5
+  * Use ${phppear:*} substitutions
+  * Adapt copyright to comply with format 1.0
+  * Shorten rules
+  * Do not ship tests
+
+ -- David Prévot <taffit@debian.org>  Wed, 01 Jan 2014 11:14:10 -0400
+
+php-http-request2 (2.1.1-4) unstable; urgency=low
+
+  * [578bb68] set section to php
+  * [18c2168] remove needless d/dirs
+  * [d02113a] remove needless and empty directory
+  * [92a00d0] fix bsd license block at d/copyright
+  * [21a41ad] remove needles d/README.Debian
+  * [1b29308] remove dh-make template header from d/rules
+  * (Closes: #651960)
+
+ -- Sascha Girrulat <sascha@girrulat.de>  Thu, 29 Aug 2013 14:46:38 +0200
+
+php-http-request2 (2.1.1-3) unstable; urgency=low
+
+  * [db31a9f] remove obsolete DMUA tag from d/control
+  * [51abb00] convert d/copyright to format version 1.0 and add missing license
+    headers
+  * [52a9985] bump debhelper dependency to 8.0.0
+  * [79190de] bump to standards version 3.9.4
+  * [37327e2] Add d/source/format
+  * [c79e513] add vcs and homepage information to d/control
+  * [f3802f9] Add lintian-override for .channel.doc.php.net
+
+ -- Sascha Girrulat <sascha@girrulat.de>  Tue, 13 Aug 2013 18:24:06 +0200
+
+php-http-request2 (2.1.1-2) unstable; urgency=low
+
+  * [e10c2d5] add dependency to php-net-url2
+  * [ef53f90] allow DM Uploads
+  * [a391745] update copyright
+
+ -- Sascha Girrulat <sascha@girrulat.de>  Wed, 06 Jun 2012 14:45:10 +0200
 
 php-http-request2 (2.1.1-1) unstable; urgency=low
 
-  * Package php-http-request2
+  * Initial Release (Closes: #651960).
 
- -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 11 Sep 2012 15:27:46 +0100
+ -- Sascha Girrulat <sascha@girrulat.de>  Tue, 05 Jun 2012 15:23:57 +0200
 
-php-http-request (1.4.4-4) unstable; urgency=low
-
-  * Now using PKG-PHP-PEAR team <pkg-php-pear@lists.alioth.debian.org> as the
-  maintainer of the package (Closes: #656976).
-  * Switching to Git for the packaging (added a debian/gbp.conf and edited
-  the VCS fields).
-  * Switching to pkg-php-tools and dh 8 sequencer.
-  * Switching to 3.0 (quilt) source format.
-  * Standards-Version: is now 3.9.2 (no changes).
-  * Review package short and long description.
-  * Now using DEP5 format for debian/copyright.
-
- -- Thomas Goirand <zigo@debian.org>  Fri, 27 Jan 2012 20:29:58 +0800
-
-php-http-request (1.4.4-3) unstable; urgency=low
-
-  * Added myself as uploader.
-  * Sets a Pre-Depends: php-pear (>= 5.3) and removes Depends: php-pear
-    to allow upgrades from Squeeze, as discussed with RT (Closes: #605866).
-
- -- Thomas Goirand <zigo@debian.org>  Sat, 04 Dec 2010 16:13:01 +0800
-
-php-http-request (1.4.4-2) unstable; urgency=low
-
-  * Change section to php.
-  * Fix bashism in debian/rules (Closes: #581456).
-
- -- Thijs Kinkhorst <thijs@debian.org>  Sun, 16 May 2010 13:33:27 +0200
-
-php-http-request (1.4.4-1) unstable; urgency=low
-
-  * New upstream release.
-  * Checked for Debian policy 3.8.4.
-
- -- Thijs Kinkhorst <thijs@debian.org>  Sun, 09 May 2010 15:07:14 +0200
-
-php-http-request (1.4.3-1) unstable; urgency=low
-
-  * New upstream release.
-  * Import into pkg-php maintenance group.
-  * Checked for policy 3.8.0, no changes.
-
- -- Thijs Kinkhorst <thijs@debian.org>  Thu, 11 Sep 2008 15:52:17 +0200
-
-php-http-request (1.4.2-1) unstable; urgency=low
-
-  * New upstream release.
-
- -- Thijs Kinkhorst <thijs@debian.org>  Mon, 29 Oct 2007 22:59:02 +0100
-
-php-http-request (1.4.1-1) unstable; urgency=low
-
-  * New upstream release.
-  * Update watch file.
-
- -- Thijs Kinkhorst <thijs@debian.org>  Fri, 01 Jun 2007 13:00:07 +0200
-
-php-http-request (1.4.0-1) unstable; urgency=low
-
-  * New upstream release.
-  * Switch to debhelper compatibility level 5.
-
- -- Thijs Kinkhorst <thijs@debian.org>  Tue, 10 Apr 2007 11:43:32 +0200
-
-php-http-request (1.3.0-3) unstable; urgency=low
-
-  * Adopt package (Closes: #383009).
-  * Checked for policy version 3.7.2, no changes necessary.
-  * Put debhelper version in debian/compat.
-  * Do not suggest php{4,5}-cli, as there's no specific usefulness
-    on the commandline of this package.
-  * Move debhelper to Build-Depends from Build-Depends-Indep.
-
- -- Thijs Kinkhorst <thijs@debian.org>  Sat, 19 Aug 2006 12:49:37 +0200
-
-php-http-request (1.3.0-2) unstable; urgency=low
-
-  * Remove .channels, .depdblock and .depdb directories that is already 
-    installed by php-pear.
-  * Build-Depends on debhelper >=5, removed compat file and put DH_COMPAT in
-    rules file.
-
- -- Jose Carlos Medeiros <debian@psabs.com.br>  Wed, 15 Mar 2006 17:23:09 -0300
-
-php-http-request (1.3.0-1) unstable; urgency=low
-
-  * New upstream release.
-  * Added php-net-socket as dependence.
-
- -- Jose Carlos Medeiros <debian@psabs.com.br>  Mon, 14 Nov 2005 17:58:35 -0200
-
-php-http-request (1.2.4-1) unstable; urgency=low
-
-  * New upstream release.
-  * Added debian/watch file.
-  * Updated package to Standards-Version: 3.6.2.
-  * Updated "Build-Depends-Indep:" and "Depends:" to call php-pear instead
-    php4-pear.
-  * Updated "Suggests:" to call php4-cli or php5-cli.
-
- -- Jose Carlos Medeiros <debian@psabs.com.br>  Mon, 17 Oct 2005 18:54:49 -0200
-
-php-http-request (1.2.0-1) unstable; urgency=low
-
-  * Initial Release. (closes: #317013)
-
- -- Jose Carlos Medeiros <debian@psabs.com.br>  Tue,  5 Jul 2005 11:19:39 -0300

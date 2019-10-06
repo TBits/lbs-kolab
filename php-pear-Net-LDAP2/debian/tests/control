@@ -1,0 +1,2 @@
+Test-Command: phpunit Net_LDAP2-*/tests
+Depends: @, phpunit

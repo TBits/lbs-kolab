@@ -1,0 +1,2 @@
+Test-Command: phpunit HTTP_Request2-*/tests
+Depends: @, phpunit
