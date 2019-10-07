@@ -1,0 +1,21 @@
+Source: php-net-sieve
+Section: php
+Priority: optional
+Maintainer: Debian PHP PEAR Maintainers <pkg-php-pear@lists.alioth.debian.org>
+Uploaders: Prach Pongpanich <prach@debian.org>
+Build-Depends: debhelper (>= 9),
+               pkg-php-tools
+Standards-Version: 4.1.0
+Vcs-Git: git://anonscm.debian.org/pkg-php/php-net-sieve.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-net-sieve.git
+Homepage: http://pear.php.net/package/Net_Sieve
+
+Package: php-net-sieve
+Architecture: all
+Depends: ${misc:Depends},
+         ${phppear:Debian-Depends}
+Recommends: ${phppear:Debian-Recommends}
+Suggests: ${phppear:Debian-Suggests}
+Breaks: ${phppear:Debian-Breaks}
+Description: ${phppear:summary}
+ ${phppear:description}

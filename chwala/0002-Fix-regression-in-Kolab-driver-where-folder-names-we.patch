@@ -1,0 +1,26 @@
+From b4b8770520097637e157514c47057548c165ce1c Mon Sep 17 00:00:00 2001
+From: Aleksander Machniak <machniak@kolabsys.com>
+Date: Wed, 18 Sep 2019 07:19:11 +0000
+Subject: [PATCH 2/2] Fix regression in Kolab driver where folder names were
+ displayed in UTF7-IMAP instead of UTF8 (Bifrost#T245495)
+
+---
+ lib/drivers/kolab/kolab_file_storage.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/drivers/kolab/kolab_file_storage.php b/lib/drivers/kolab/kolab_file_storage.php
+index acdd4c2..50ca0e0 100644
+--- a/lib/drivers/kolab/kolab_file_storage.php
++++ b/lib/drivers/kolab/kolab_file_storage.php
+@@ -1669,7 +1669,7 @@ class kolab_file_storage implements file_storage
+         $plugin = $this->rc->plugins->exec_hook('folder_mod',
+             array('folder' => $folder_name, 'dir' => 'out'));
+ 
+-        if (strpos($args['folder'], '&') !== false) {
++        if (strpos($plugin['folder'], '&') !== false) {
+             $plugin['folder'] = rcube_charset::convert($plugin['folder'], 'UTF7-IMAP', RCUBE_CHARSET);
+         }
+ 
+-- 
+2.20.1
+

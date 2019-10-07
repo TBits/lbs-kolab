@@ -160,6 +160,9 @@ fi
 %attr(0750,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Mon Oct  7 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.5.6-2
+- Fix UTF-7-IMAP folder names
+
 * Fri Aug 16 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.5.6-2
 - Fix bugs in using cache fast-mode
 
@@ -220,3 +223,5 @@ fi
 
 * Tue May  7 2013 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.1-0.2
 - A first version of chwala
+0001-Fix-bugs-in-using-cache-fast-mode-Bifrost-T227815.patch
+0002-Fix-regression-in-Kolab-driver-where-folder-names-we.patch
