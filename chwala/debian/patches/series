@@ -1,3 +1,4 @@
 chwala-0.5.4-suhosin.session.encrypt-php_flag.patch -p1
 fix-autoload-path-debian.patch -p1
 0001-Fix-bugs-in-using-cache-fast-mode-Bifrost-T227815.patch -p1
+0002-Fix-regression-in-Kolab-driver-where-folder-names-we.patch -p1

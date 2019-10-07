@@ -1,0 +1,107 @@
+php-http-request2 (2.3.0-1~kolab1) unstable; urgency=medium
+
+  * Package for Kolab
+  * Disable failing tests
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sat, 05 Oct 2019 10:42:31 +0200
+
+php-http-request2 (2.3.0-1) unstable; urgency=medium
+
+  * Team upload
+
+  [ Alexey Borzov ]
+  * Copyright year update
+
+  [ David Prévot ]
+  * Use standard gbp layout
+  * Drop patches applied upstream
+  * Update copyright (years)
+  * Use proper team name
+  * Update Standards-Version to 3.9.7
+  * Build with recent pkg-php-tools for the PHP 7.0 transition
+
+ -- David Prévot <taffit@debian.org>  Fri, 18 Mar 2016 15:36:11 -0400
+
+php-http-request2 (2.2.1-2) unstable; urgency=medium
+
+  * Team upload, to unstable since Jessie has been released
+  * Use patches as applied upstream
+  * Adapt packaging to updated patches
+
+ -- David Prévot <taffit@debian.org>  Sat, 23 May 2015 22:19:45 -0400
+
+php-http-request2 (2.2.1-1) experimental; urgency=medium
+
+  * Team upload, to experimental to respect the freeze
+
+  [ Alexey Borzov ]
+  * Prepare release 2.2.1
+
+  [ David Prévot ]
+  * Document upstream VCS
+  * Update copyright
+  * Bump standards version to 3.9.6
+  * Allow tests to run with recent packages
+  * Run the testsuite during the build
+  * Provide DEP-8 tests
+
+ -- David Prévot <taffit@debian.org>  Fri, 20 Mar 2015 22:46:30 -0400
+
+php-http-request2 (2.1.1-5) unstable; urgency=medium
+
+  * Team upload
+
+  [ Sascha Girrulat ]
+  * add gbp.conf in addition to pkg-php.alioth.debian.org
+  * update buildsystem addition to pkg-php.alioth.debian.org
+  * update vcs urls to pkg-php destination
+
+  [ David Prévot ]
+  * Remove useless dh-make-php build-dependency
+  * Bump standards version to 3.9.5
+  * Use ${phppear:*} substitutions
+  * Adapt copyright to comply with format 1.0
+  * Shorten rules
+  * Do not ship tests
+
+ -- David Prévot <taffit@debian.org>  Wed, 01 Jan 2014 11:14:10 -0400
+
+php-http-request2 (2.1.1-4) unstable; urgency=low
+
+  * [578bb68] set section to php
+  * [18c2168] remove needless d/dirs
+  * [d02113a] remove needless and empty directory
+  * [92a00d0] fix bsd license block at d/copyright
+  * [21a41ad] remove needles d/README.Debian
+  * [1b29308] remove dh-make template header from d/rules
+  * (Closes: #651960)
+
+ -- Sascha Girrulat <sascha@girrulat.de>  Thu, 29 Aug 2013 14:46:38 +0200
+
+php-http-request2 (2.1.1-3) unstable; urgency=low
+
+  * [db31a9f] remove obsolete DMUA tag from d/control
+  * [51abb00] convert d/copyright to format version 1.0 and add missing license
+    headers
+  * [52a9985] bump debhelper dependency to 8.0.0
+  * [79190de] bump to standards version 3.9.4
+  * [37327e2] Add d/source/format
+  * [c79e513] add vcs and homepage information to d/control
+  * [f3802f9] Add lintian-override for .channel.doc.php.net
+
+ -- Sascha Girrulat <sascha@girrulat.de>  Tue, 13 Aug 2013 18:24:06 +0200
+
+php-http-request2 (2.1.1-2) unstable; urgency=low
+
+  * [e10c2d5] add dependency to php-net-url2
+  * [ef53f90] allow DM Uploads
+  * [a391745] update copyright
+
+ -- Sascha Girrulat <sascha@girrulat.de>  Wed, 06 Jun 2012 14:45:10 +0200
+
+php-http-request2 (2.1.1-1) unstable; urgency=low
+
+  * Initial Release (Closes: #651960).
+
+ -- Sascha Girrulat <sascha@girrulat.de>  Tue, 05 Jun 2012 15:23:57 +0200
+

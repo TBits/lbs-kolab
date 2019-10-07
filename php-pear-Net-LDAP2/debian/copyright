@@ -1,0 +1,33 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Net_LDAP2
+Source: http://pear.php.net/package/Net_LDAP2/download
+
+Files: *
+Copyright: 2003-2009, Benedikt Hallinger <beni@php.net>
+           2003-2009, Jan Wagner <wagner@netsols.de>
+           2003-2009, Tarjej Huse <tarjei@bergfald.no>
+           2003-2009, Benedikt Hallinger <beni@php.net>
+           2003-2009, Del <del@babel.com.au>
+License: LGPL-3
+
+Files: debian/*
+Copyright: 2009-2013, Benoit Mortier <benoit.mortier@opensides.be>
+           2013,      Prach Pongpanich <prachpub@gmail.com>
+License: LGPL-3
+
+License: LGPL-3
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License version
+ 3 as published by the Free Software Foundation.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Library General Public License for more details.
+ .
+ You should have received a copy of the GNU Library General Public
+ License along with this program; if not, write to Free Software Foundation, Inc.,
+ 51 Franklin St, Fifth Floor, Boston,MA 02110-1301, USA.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public
+ License version 3 can be found in `/usr/share/common-licenses/LGPL-3'.

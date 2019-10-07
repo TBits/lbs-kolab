@@ -1,0 +1,6 @@
+#!/usr/bin/make -f
+%:
+	dh $@ --buildsystem=phppear --with phppear
+
+get-orig-source:
+	uscan --rename --verbose --force

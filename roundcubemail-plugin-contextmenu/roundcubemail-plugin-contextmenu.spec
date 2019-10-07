@@ -8,7 +8,7 @@
 %global plugindir %{datadir}/plugins
 
 %global rc_version 3.0
-%global rc_rel_suffix beta1
+%global rc_rel_suffix rc2
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
@@ -144,6 +144,9 @@ rm -rf %{buildroot}
 %{datadir}/public_html/assets/plugins/contextmenu/
 
 %changelog
+* Mon Oct  7 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.0-8.rc2
+- Fixes for upstream updates
+
 * Mon Jun  3 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.0-7.beta1
 - Rebuild against core updates
 

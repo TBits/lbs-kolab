@@ -1,0 +1,187 @@
+php-net-sieve (1.4.4-0~kolab1) unstable; urgency=medium
+
+  * Update to 1.4.4
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon,  7 Oct 2019 11:11:11 +0100
+
+php-net-sieve (1.4.1-1) unstable; urgency=medium
+
+  [ Aleksander Machniak ]
+  * Request #20491: Skip redundant CAPABILITY requests
+  * Extend listScripts() so it's possible to get an active script name in one go
+  * Use 8bit instead of latin1 for string length in bytes calculation
+  * Prepare 1.4.1 release
+
+  [ Prach Pongpanich ]
+  * Update Standards-Version to 4.1.0
+  * Drop Build-Depends-Indep on php-pear
+
+ -- Prach Pongpanich <prach@debian.org>  Fri, 25 Aug 2017 15:56:34 +0700
+
+php-net-sieve (1.3.4-3) unstable; urgency=medium
+
+  * Team upload
+  * Update Standards-Version to 3.9.7
+  * Use standard gbp layout
+  * Rebuild with recent pkg-php-tools for the PHP 7.0 transition
+
+ -- David Prévot <taffit@debian.org>  Sat, 19 Mar 2016 11:43:57 -0400
+
+php-net-sieve (1.3.4-2) unstable; urgency=medium
+
+  * Team upload, to unstable since Jessie has been released
+
+ -- David Prévot <taffit@debian.org>  Tue, 02 Jun 2015 19:15:53 -0400
+
+php-net-sieve (1.3.4-1) experimental; urgency=medium
+
+  * Team upload to experimental, to respect the freeze
+  * Bump standards version to 3.9.6
+
+ -- David Prévot <taffit@debian.org>  Mon, 23 Mar 2015 14:52:54 -0400
+
+php-net-sieve (1.3.2-4) unstable; urgency=low
+
+  * Use phppear-substvars in control file
+  * Don't ship tests (Closes: #720151)
+
+ -- Prach Pongpanich <prachpub@gmail.com>  Mon, 19 Aug 2013 18:38:23 +0700
+
+php-net-sieve (1.3.2-3) unstable; urgency=low
+
+  * Upload to unstable
+  * Use canonical URI for VCS-* fields
+
+ -- Prach Pongpanich <prachpub@gmail.com>  Tue, 14 May 2013 16:06:37 +0700
+
+php-net-sieve (1.3.2-2) experimental; urgency=low
+
+  * Add myself as uploader (Closes: #682302)
+  * Switch to pkg-php-tools and dh-sequencer
+    - Add pkg-php-tools to Build-Depends and drop {dh-make-php,cdbs,phpunit}
+    - Add php-pear to Build-Depends-Indep
+    - Rewrite debian/rules
+  * Update debian/watch
+  * Add debian/gbp.conf
+  * Update copyright file to version 1.0 format
+  * Bump debhelper compat to level 9
+  * Bump Standards-Version: 3.9.4
+
+ -- Prach Pongpanich <prachpub@gmail.com>  Fri, 22 Mar 2013 10:19:34 +0700
+
+php-net-sieve (1.3.2-1) unstable; urgency=low
+
+  * New upstream release (closes: #645529)
+  * debian/control:
+    - Bumped Standards-Version 3.9.2 (no changes needed)
+    - Added Vcs fields
+  * debian/copyright: updated copyright notice year
+  * debian/rules: disabled test execution on build time due to phpunit breakage
+    (bug #607372)
+
+ -- Federico Gimenez Nieto <fgimenez@coit.es>  Sat, 22 Oct 2011 12:42:04 +0200
+
+php-net-sieve (1.2.1-1) unstable; urgency=low
+
+  * New upstream release
+  * debian/control:
+    - Bumped Standards-Version 3.8.4 (no changes needed)
+    - Added build dependency on phpunit to run tests
+    - Added pkg-php-pear@lists.alioth.debian.org in the Maintainer
+      field and moved fgimenez@coit.es to the Uploaders field
+  * debian/rules: added code to run the test suite
+    (thanks to Raphael Geissert <geissert@debian.org>)
+  * Removed patch for pear import (fixed upstream)
+  * debian/watch: fixed homepage url
+
+ -- Federico Gimenez Nieto <fgimenez@coit.es>  Sun, 23 May 2010 13:05:11 +0200
+
+php-net-sieve (1.1.7-1) unstable; urgency=low
+
+  * New maintainer (Closes: #529688)
+  * New upstream release (Closes: #544393)
+  * debian/control:
+    - Fixed section (web->php)
+    - Updated Standards Version: 3.8.3
+    - Removed uploader at his request
+    - Added ${misc:Depends} to Depends field
+    - More detailed description
+    - Removed php5-cli from Suggests field
+  * debian/copyright: 
+    - Added new author and copyright owner
+    - Added copyright notice for packagers
+  * debian/rules: prevent installation of empty directory 
+  * Added patch (following 3.0 (quilt) source format) to modify 
+    Net_Sieve-1.1.7/Sieve.php in order to group all the import-related
+    statements at the beginning of the file. Previously PEAR.php was 
+    included in one particular method, but its functionality was used 
+    in other places. It also modifies package.xml to fix the md5sum value 
+    of Net_Sieve-1.1.7/Sieve.php
+  * Added debian/source/format with value "3.0 (quilt)"
+
+ -- Federico Gimenez Nieto <fgimenez@coit.es>  Sun, 22 Nov 2009 13:01:11 +0100
+
+php-net-sieve (1.1.6-1) unstable; urgency=low
+
+  * New upstream release
+  * debian/control:
+    - Bump Standards-Version: 3.7.3.
+    - Added Homepage header.
+    - Added dh-make-php (>= 0.2.3), cdbs Build-Depends.
+    - Removed php-pear Build-Depends.
+  * debian/rules reorganized to use cdbs.
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Wed, 26 Mar 2008 23:25:32 -0300
+
+php-net-sieve (1.1.5-1) unstable; urgency=low
+
+  * New upstream release.
+  * Changed dependence from php-cli to php5-cli.
+  * updated debian/watch file.
+  * Removed automatically debian/package/tmp directory.
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Thu, 17 May 2007 22:36:48 -0300
+
+php-net-sieve (1.1.3-1) unstable; urgency=low
+
+  * New upstream release
+  * Bump Standards-Version to 3.7.2 (no changes needed)
+  * Removed .registry/.channel* from binary.
+  * Moved debhelper from Build-Depends-Indep: to Build-Depends:
+  * Change watch to version 3.
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Fri,  9 Jun 2006 18:44:54 -0300
+
+php-net-sieve (1.1.2-2) unstable; urgency=low
+
+  * Remove .channels, .depdblock and .depdb directories that is already installed by
+    php-pear. (closes: #356753)
+  * Build-Depends on debhelper >=5, removed compat file and put DH_COMPAT in
+    rules file.
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Tue, 14 Mar 2006 15:37:02 -0300
+
+php-net-sieve (1.1.2-1) unstable; urgency=low
+
+  * New upstream release
+  * Updated to Standards-Version: 3.6.2.
+  * Changed dependences from php4-* to php-*.
+  * Updated download link in copyright file.
+  * Added php-net-socket  as dependence.
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Fri,  3 Mar 2006 16:41:52 -0300
+
+php-net-sieve (1.1.1-2) unstable; urgency=low
+
+  * Added debian/watch file.
+  * Deleted README.Debian because do not have any information.
+  * Changed debian/rules to better install.
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Thu, 11 Aug 2005 14:26:09 -0300
+
+php-net-sieve (1.1.1-1) unstable; urgency=low
+
+  * Initial Release. (closes: #307417)
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Mon,  2 May 2005 17:51:25 -0300
+

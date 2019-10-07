@@ -1,0 +1,12 @@
+diff '--color=auto' -ruN Net_LDAP2-2.2.0.orig/package.xml Net_LDAP2-2.2.0/package.xml
+--- Net_LDAP2-2.2.0.orig/package.xml	2015-10-30 21:33:00.000000000 +0100
++++ Net_LDAP2-2.2.0/package.xml	2019-10-05 12:15:40.356712000 +0200
+@@ -90,7 +90,7 @@
+     <min>5.4</min>
+    </php>
+    <pearinstaller>
+-    <min>1.10.1</min>
++    <min>1.9.4</min>
+    </pearinstaller>
+    <extension>
+     <name>ldap</name>

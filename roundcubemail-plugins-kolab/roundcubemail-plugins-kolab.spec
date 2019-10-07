@@ -41,7 +41,7 @@
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.5.0
+Version:        3.5.1
 
 Release:        1%{?dot_rel_suffix}%{?dist}
 
@@ -62,7 +62,6 @@ Source103:      plesk.kolab_folders.inc.php
 Source104:      plesk.libkolab.inc.php
 
 Patch0000:      roundcubemail-plugins-kolab-3.4-kolab-files-manticore-api.patch
-Patch0001:      0001-Fix-setting-fileid-on-file-objects-Bifrost-T227815.patch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:      noarch
@@ -1407,7 +1406,6 @@ cp -afv %{SOURCE104} plugins/libkolab/config.inc.php.dist
 %endif
 
 %patch0000 -p1
-%patch0001 -p1
 
 find -type d -name "helpdocs" -exec rm -rvf {} \; 2>/dev/null || :
 
@@ -2794,6 +2792,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Oct  7 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.5.1-1
+- Release of version 3.5.1
+
 * Fri Aug 16 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.5.0-2
 - Fix setting 'fileid' on file objects (Bifrost#T227815)
 

@@ -1,0 +1,22 @@
+Source: php-http-request2
+Section: php
+Priority: optional
+Maintainer: Debian PHP PEAR Maintainers <pkg-php-pear@lists.alioth.debian.org>
+Uploaders: Sascha Girrulat <sascha@girrulat.de>
+Build-Depends: debhelper (>= 8.0.0),
+               php-net-url2 (>= 2.1.1),
+               phpunit,
+               pkg-php-tools
+Standards-Version: 3.9.7
+Homepage: http://pear.php.net/package/HTTP_Request2/
+Vcs-Git: git://anonscm.debian.org/pkg-php/php-http-request2.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-php/php-http-request2.git
+
+Package: php-http-request2
+Architecture: all
+Depends: ${misc:Depends}, ${phppear:Debian-Depends}
+Recommends: ${phppear:Debian-Recommends}
+Suggests: ${phppear:Debian-Suggests}
+Breaks: ${phppear:Debian-Breaks}
+Description: ${phppear:summary}
+ ${phppear:description}
