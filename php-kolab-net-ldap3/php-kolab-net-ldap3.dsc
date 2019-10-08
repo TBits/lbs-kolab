@@ -2,7 +2,7 @@ Format: 1.0
 Source: php-net-ldap3
 Binary: php-net-ldap3
 Architecture: all
-Version: 1.1.1-1~kolab1
+Version: 1.1.1-1~kolab2
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Christoph Wickert <wickert@kolabsys.com>
 Homepage: http://kolab.org

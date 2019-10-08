@@ -1,3 +1,10 @@
+mozilla-ldap-sdk (6.0.7-2) unstable; urgency=low
+
+  * Depend on 389-ds-base-libs rather than libsvrcore0 to ensure compatibility
+    with Debian >= 10 and Ubuntu >= 19.04
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sat, 05 Oct 2019 09:14:13 +0200
+
 mozilla-ldap-sdk (6.0.7-1) unstable; urgency=low
 
   * Bump version to 6.0.7
