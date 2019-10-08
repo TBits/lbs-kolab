@@ -5,8 +5,7 @@ enabled = @@enabled@@
 priority = 60
 skip_if_unavailable = 1
 gpgcheck = @@gpgcheck@@
-gpgkey = https://ssl.kolabsys.com/@@gpgkeyname@@.asc
-@@ssl_stanza@@
+gpgkey = https://mirror.kolabenterprise.com/@@gpgkeyname@@.asc
 
 [@@repository_full_name@@@@_repository_status@@-debuginfo]
 name = @@desc@@ Packages - Debugging Symbols
@@ -15,8 +14,7 @@ enabled = 0
 priority = 60
 skip_if_unavailable = 1
 gpgcheck = @@gpgcheck@@
-gpgkey = https://ssl.kolabsys.com/@@gpgkeyname@@.asc
-@@ssl_stanza@@
+gpgkey = https://mirror.kolabenterprise.com/@@gpgkeyname@@.asc
 
 [@@repository_full_name@@@@_repository_status@@-source]
 name = @@desc@@ Packages - Sources
@@ -25,5 +23,4 @@ enabled = 0
 priority = 60
 skip_if_unavailable = 1
 gpgcheck = @@gpgcheck@@
-gpgkey = https://ssl.kolabsys.com/@@gpgkeyname@@.asc
-@@ssl_stanza@@
+gpgkey = https://mirror.kolabenterprise.com/@@gpgkeyname@@.asc

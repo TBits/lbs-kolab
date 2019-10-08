@@ -123,14 +123,14 @@ BuildRequires:  php-lessphp
 %endif
 
 %if "%{_arch}" != "ppc64" && "%{_arch}" != "ppc64le" && 0%{?suse_version} < 1
-BuildRequires:  python%{?python3_pkgversion}-cssmin
+BuildRequires:  python-cssmin
 %endif
 
 # This can, regrettably, not be BuildRequires'ed, since the OSC
 # command-line so epicly fails at downloading as large a chunk of data.
 #BuildRequires:  firefox
-BuildRequires:  python%{?python3_pkgversion}
-BuildRequires:  python%{?python3_pkgversion}-nose
+BuildRequires:  python
+BuildRequires:  python-nose
 #BuildRequires:  python-selenium
 
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -1850,7 +1850,7 @@ function new_files() {
     find %{buildroot}%{datadir} -type l >> current-new.files
 
     if [ -f "current.files" ]; then
-        python%{?python3_pkgversion} ./comm.py current.files current-new.files
+        python ./comm.py current.files current-new.files
     else
         cat current-new.files
     fi

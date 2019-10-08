@@ -53,6 +53,9 @@
 %if 0%{?rhel} == 7
 %global gpgkey_name maipo
 %endif
+%if 0%{?rhel} == 8
+%global gpgkey_name ootpa
+%endif
 %endif
 
 # Runtime settings
@@ -282,20 +285,10 @@ done
         > %{buildroot}/%{_sysconfdir}/yum.repos.d/%{repository_full_name}.repo
 %endif
 
-%if %{?repository_stage} == "private"
 sed -i \
     -e 's|@@gpgcheck@@|1|g' \
     -e 's|@@gpgkeyname@@|%{gpgkey_name}|g' \
-    -e 's|@@ssl_stanza@@|sslverify = True \
-sslclientcert = /etc/pki/tls/private/mirror.kolabsys.com.client.pem|g' \
         %{buildroot}/%{_sysconfdir}/yum.repos.d/*.repo
-%else
-sed -i \
-    -e 's|@@gpgcheck@@|0|g' \
-    -e 's|@@gpgkeyname@@|%{gpgkey_name}|g' \
-    -e 's|@@ssl_stanza@@||g' \
-        %{buildroot}/%{_sysconfdir}/yum.repos.d/*.repo
-%endif
 
 %clean
 rm -rf %{buildroot}

@@ -1,3 +1,10 @@
+kolab (16.0.1-21) unstable; urgency=low
+
+  * Add alternative dependency on mariadb-{client,server} to ensure
+    compatibility with Debian >= 10
+
+ -- Christoph Erhardt <kolab@sicherha.de>  Sat, 05 Oct 2019 09:29:31 +0200
+
 kolab (16.0.1-20) unstable; urgency=low
 
   * Ensure php-cgi is installed

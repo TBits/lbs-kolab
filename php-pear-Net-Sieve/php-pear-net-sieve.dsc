@@ -2,7 +2,7 @@ Format: 1.0
 Source: php-net-sieve
 Binary: php-net-sieve
 Architecture: all
-Version: 1.4.4-0~kolab1
+Version: 1.4.4-0~kolab2
 Maintainer: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Homepage: http://pear.php.net/package/Net_Sieve
