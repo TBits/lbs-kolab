@@ -76,6 +76,8 @@ Source102:      plesk.password.inc.php
 
 Source200:      2017111400.sql
 
+Patch0001:      0001-fix-sieve-fatal-error.patch
+
 Patch201:       default-configuration.patch
 Patch202:       roundcubemail-1.4-beta86-plugin-enigma-homedir.patch
 
@@ -1515,6 +1517,8 @@ cp -vf %{SOURCE100} config/config.inc.php.sample
 cp -vf %{SOURCE101} plugins/managesieve/config.inc.php.dist
 cp -vf %{SOURCE102} plugins/password/config.inc.php.dist
 %endif
+
+%patch0001 -p1
 
 %patch201 -p1
 %if 0%{?plesk} < 1
