@@ -41,7 +41,11 @@
 
 %else
 %global dist_full_name Enterprise Linux
+%if 0%{?plesk}
+%global dist_lower_name plesk-%{?plesk}
+%else
 %global dist_lower_name redhat
+%endif
 %global dist_tag_prefix el
 %global dist_version %{rhel}
 %if 0%{?rhel} == 5
@@ -84,7 +88,7 @@ Name:       %{repository_name}-release
 Name:       %{repository_name}-community-release
 %endif
 Version:    %{repository_version}.%{dist_version}
-Release:    1%{?dist}
+Release:    2%{?dist}
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://www.kolabenterprise.com
@@ -162,6 +166,7 @@ This package provides the development repository definitions.
 %if %{repository_type} == "feature"
 %if %{repository_stage} == "private"
 %if %{repository_version} >= 14
+%if 0%{?plesk} < 1
 %package -n %{repository_full_name}-extras-audit
 Summary:    Audit trail packages for Kolab Enterprise %{repository_version}
 Group:      System Environment/Base
@@ -202,10 +207,11 @@ Requires:   yum-plugin-priorities
 %description -n %{repository_full_name}-extras-fasttrack
 Fasttrack repository for Kolab Enterprise %{repository_version}
 
-%endif
-%endif
-%endif
-%endif
+%endif # 0%{?rhel} >= 6
+%endif # 0%{?plesk} < 1
+%endif # %{repository_version} >= 14
+%endif # %{repository_stage} == "private"
+%endif # %{repository_type} == "feature"
 
 %prep
 
@@ -244,9 +250,11 @@ for repo in release updates updates-testing development; do
 done
 %if %{repository_stage} == "private"
 %if %{repository_version} >= 14
+%if 0%{?plesk} < 1
 repos="extras-audit extras-puppet"
 %if 0%{?rhel} >= 6
 repos="${repos} extras-fasttrack"
+%endif
 %endif
 for repo in ${repos}; do
     status="-${repo}"
@@ -319,6 +327,7 @@ rm -rf %{buildroot}
 %config(noreplace) /etc/yum.repos.d/*development.repo
 %endif
 
+%if 0%{?plesk} < 1
 %if %{repository_type} == "feature"
 %if %{repository_stage} == "private"
 %if %{repository_version} >= 14
@@ -334,6 +343,7 @@ rm -rf %{buildroot}
 %files -n %{repository_full_name}-extras-fasttrack
 %defattr(-,root,root,-)
 %config(noreplace) /etc/yum.repos.d/*extras-fasttrack.repo
+%endif
 %endif
 %endif
 %endif
