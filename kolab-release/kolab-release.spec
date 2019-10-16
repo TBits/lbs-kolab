@@ -88,7 +88,7 @@ Name:       %{repository_name}-release
 Name:       %{repository_name}-community-release
 %endif
 Version:    %{repository_version}.%{dist_version}
-Release:    2%{?dist}
+Release:    13%{?dist}
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://www.kolabenterprise.com
@@ -105,7 +105,7 @@ Kolab Systems repository configuration files, such as YUM repository configurati
 Summary:    Kolab release files
 Group:      System Environment/Base
 
-Obsoletes:  %{repository_full_name}-release
+Obsoletes:  %{repository_full_name}-release < %{version}
 Provides:   %{repository_full_name}-release = %{version}
 Provides:   %{repository_name}(release) = %{repository_version}
 %if 0%{?rhel}
@@ -121,7 +121,7 @@ This package provides the repository configuration for Kolab
 Summary:    Kolab Enterprise release files by Kolab Systems
 Group:      System Environment/Base
 
-Obsoletes:  %{repository_full_name}-release
+Obsoletes:  %{repository_full_name}-release < %{version}
 Provides:   %{repository_full_name}-release = %{version}
 Provides:   %{repository_name}(release) = %{repository_version}
 %if 0%{?rhel}
@@ -175,7 +175,7 @@ Requires:   %{repository_name}(release) = %{repository_version}
 Requires:   epel-release = %{rhel}
 Requires:   pyliblzma
 Requires:   yum-plugin-priorities
-%endif
+%endif # 0%{?rhel}
 
 %description -n %{repository_full_name}-extras-audit
 Extras repository for Bonnie and Egara on Kolab Enterprise %{repository_version}
@@ -188,7 +188,7 @@ Requires:   %{repository_name}(release) = %{repository_version}
 Requires:   epel-release = %{rhel}
 Requires:   pyliblzma
 Requires:   yum-plugin-priorities
-%endif
+%endif # 0%{?rhel}
 
 %description -n %{repository_full_name}-extras-puppet
 Puppet 3 repository for Kolab Enterprise %{repository_version}
@@ -202,10 +202,23 @@ Requires:   %{repository_name}(release) = %{repository_version}
 Requires:   epel-release = %{rhel}
 Requires:   pyliblzma
 Requires:   yum-plugin-priorities
-%endif
+%endif # 0%{?rhel}
 
 %description -n %{repository_full_name}-extras-fasttrack
 Fasttrack repository for Kolab Enterprise %{repository_version}
+
+%package -n %{repository_full_name}-extras-collab
+Summary:    Collabora Online packages for Kolab Enterprise %{repository_version}
+Group:      System Environment/Base
+Requires:   %{repository_name}(release) = %{repository_version}
+%if 0%{?rhel}
+Requires:   epel-release = %{rhel}
+Requires:   pyliblzma
+Requires:   yum-plugin-priorities
+%endif # 0%{?rhel}
+
+%description -n %{repository_full_name}-extras-collab
+Extras repository for Collabora Online on Kolab Enterprise %{repository_version}
 
 %endif # 0%{?rhel} >= 6
 %endif # 0%{?plesk} < 1
@@ -248,14 +261,23 @@ for repo in release updates updates-testing development; do
                 -e 's/@@repository_tag_name@@/%{repository_tag_name}/g' \
         > %{buildroot}/%{_sysconfdir}/yum.repos.d/%{repository_full_name}-$repo.repo
 done
+
 %if %{repository_stage} == "private"
 %if %{repository_version} >= 14
+
 %if 0%{?plesk} < 1
 repos="extras-audit extras-puppet"
+
 %if 0%{?rhel} >= 6
 repos="${repos} extras-fasttrack"
-%endif
-%endif
+%endif # 0%{?rhel} >= 6
+
+%if 0%{?repository_version} >= 16
+repos="${repos} extras-collab"
+%endif # 0%{?repository_version} >= 16
+
+%endif # 0%{?plesk} < 1
+
 for repo in ${repos}; do
     status="-${repo}"
     cat %{SOURCE0} | \
@@ -274,9 +296,11 @@ for repo in ${repos}; do
                 -e 's/@@repository_tag_name@@/%{repository_tag_name}/g' \
         > %{buildroot}/%{_sysconfdir}/yum.repos.d/%{repository_full_name}-$repo.repo
 done
-%endif
-%endif
-%else
+
+%endif # %{repository_version} >= 14
+%endif # %{repository_stage} == "private"
+
+%else # %if %{?repository_type} == "feature"
     cat %{SOURCE0} | \
         sed \
                 -e 's/@@desc@@/%{desc}/g' \
@@ -291,7 +315,7 @@ done
                 -e "s/@@_repository_status@@//g" \
                 -e 's/@@repository_tag_name@@/%{repository_tag_name}/g' \
         > %{buildroot}/%{_sysconfdir}/yum.repos.d/%{repository_full_name}.repo
-%endif
+%endif # %if %{?repository_type} == "feature"
 
 sed -i \
     -e 's|@@gpgcheck@@|1|g' \
@@ -344,12 +368,31 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %config(noreplace) /etc/yum.repos.d/*extras-fasttrack.repo
 %endif
+
+%endif
+%endif
+%endif
+%endif
+
+%if %{repository_type} == "feature"
+%if %{repository_stage} == "private"
+%if 0%{?repository_version} >= 16
+%if 0%{?plesk} < 1
+%files -n %{repository_full_name}-extras-collab
+%defattr(-,root,root,-)
+%config(noreplace) /etc/yum.repos.d/*extras-collab.repo
 %endif
 %endif
 %endif
 %endif
 
 %changelog
+* Mon May 14 2018 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.7-10
+- Add extras-collab for Plesk 17
+
+* Wed Nov  1 2017 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.7-2
+- Add extras-collab
+
 * Tue Nov 15 2016 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 16.7-1
 - Add extras-fasttrack for RHEL 7 too
 
