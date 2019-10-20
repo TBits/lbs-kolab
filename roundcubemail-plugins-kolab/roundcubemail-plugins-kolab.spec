@@ -41,7 +41,7 @@
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.5.1
+Version:        3.5.2
 
 Release:        1%{?dot_rel_suffix}%{?dist}
 
@@ -2792,6 +2792,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Sat Oct 19 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.5.2-1
+- Release of version 3.5.2
+
 * Mon Oct  7 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.5.1-1
 - Release of version 3.5.1
 

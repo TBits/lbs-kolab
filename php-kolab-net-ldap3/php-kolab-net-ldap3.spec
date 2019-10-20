@@ -24,7 +24,7 @@ Name:               php5-Net_LDAP3
 %else
 Name:               php-kolab-net-ldap3
 %endif
-Version:            1.1.1
+Version:            1.1.2
 Release:            1%{?dist}
 Summary:            Object oriented interface for searching and manipulating LDAP-entries
 Group:              Development/Libraries
@@ -71,6 +71,9 @@ rm -rf %{buildroot}
 %{_datadir}/%{php}/Net/LDAP3/Result.php
 
 %changelog
+* Sat Oct 19 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.1.2-1
+- Release of version 1.1.2
+
 * Fri Aug 23 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.1.1-1
 - Release of version 1.1.1
 
