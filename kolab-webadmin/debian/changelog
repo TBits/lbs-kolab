@@ -1,3 +1,9 @@
+kolab-webadmin (3.2.15-0~kolab1) unstable; urgency=low
+
+  * Release 3.2.15
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 21 Oct 2019 22:08:00 +0100
+
 kolab-webadmin (3.2.14-0~kolab2) unstable; urgency=low
 
   * Release 3.2.14
