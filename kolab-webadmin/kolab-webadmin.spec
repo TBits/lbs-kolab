@@ -34,7 +34,7 @@
 %global kolabr_group_id 414
 
 Name:           kolab-webadmin
-Version:        3.2.14
+Version:        3.2.15
 Release:        1%{?dist}
 Summary:        Kolab Groupware Server Web Administration Interface
 License:        AGPLv3+
@@ -163,6 +163,9 @@ fi
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Mon Oct 21 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.2.15-1
+- Release 3.2.15
+
 * Tue Jul  2 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.2.14-1
 - Release 3.2.14
 
