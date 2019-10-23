@@ -1,3 +1,10 @@
+cyrus-imapd (2.5.13.36-0~kolab2) unstable; urgency=low
+
+  * Rebase on to upstream 2.5.13
+  * Fix ptloader group membership (Bifrost T250286)
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 23 Oct 2019 11:30:13 +0100
+
 cyrus-imapd (2.5.13.30-0~kolab2) unstable; urgency=low
 
   * Rebase on to upstream 2.5.13
