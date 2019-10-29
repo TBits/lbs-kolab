@@ -1,3 +1,9 @@
+cyrus-imapd (2.5.13.36-0~kolab3) unstable; urgency=low
+
+  * Include the user or group ID in failed authentication attempts
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 29 Oct 2019 11:30:13 +0100
+
 cyrus-imapd (2.5.13.36-0~kolab2) unstable; urgency=low
 
   * Rebase on to upstream 2.5.13

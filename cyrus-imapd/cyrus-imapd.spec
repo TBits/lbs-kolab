@@ -19,8 +19,8 @@
 %global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
 %global tag_version 2.5.13
-%global revision    36
-%global git_hash    gad62d5485
+%global revision    40
+%global git_hash    gef1af3ec3
 
 ##
 ## Options
@@ -755,6 +755,9 @@ fi
 %{_libdir}/*.la
 
 %changelog
+* Tue Oct 29 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.5.13.40-1
+- Include the user or group ID in failed login attempts
+
 * Wed Oct 23 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.5.13.36-1
 - Rebase on to upstream -2.5 series
 - Fix ptloader group membership (Bifrost T250286)
