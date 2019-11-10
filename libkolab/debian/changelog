@@ -1,3 +1,9 @@
+libkolab (2.0~dev20151230-0~kolab9)  unstable; urgency=low
+
+  * Debian 10 support
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sat,  9 Nov 2019 02:16:09 +0100
+
 libkolab (2.0~dev20151230-0~kolab8)  unstable; urgency=low
 
   * Ubuntu 18.04 support
