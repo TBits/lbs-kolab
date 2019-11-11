@@ -2,7 +2,7 @@ Format: 1.0
 Source: libkolabxml
 Binary: libkolabxml1v5, php-kolabformat, python-kolabformat, libkolabxml-dev
 Architecture: any
-Version: 1.2.0-0~kolab4
+Version: 1.2.0-0~kolab5
 Maintainer: Kolab Systems AG <contact@kolabsystems.com>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>
 Homepage: http://git.kolab.org/libkolabxml
@@ -18,7 +18,6 @@ Build-Depends:  cmake,
                 libxerces-c-dev,
                 php-cgi | php5-cli,
                 php-dev | php5-dev,
-                plesk-php56-dev | bash,
                 plesk-php70-dev | bash,
                 plesk-php71-dev | bash,
                 plesk-php72-dev | bash,

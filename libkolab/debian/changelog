@@ -1,3 +1,9 @@
+libkolab (2.0~dev20151230-0~kolab10)  unstable; urgency=low
+
+  * Support for multiple Plesk-provided PHP versions
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 11 Nov 2019 09:09:09 +0100
+
 libkolab (2.0~dev20151230-0~kolab9)  unstable; urgency=low
 
   * Debian 10 support

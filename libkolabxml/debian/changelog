@@ -1,4 +1,4 @@
-libkolabxml (1.2.0-0~kolab4) unstable; urgency=low
+libkolabxml (1.2.0-0~kolab5) unstable; urgency=low
 
   * Bindings for multiple versions of Plesk-provided PHP
 
