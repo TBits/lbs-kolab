@@ -1,4 +1,4 @@
-libkolab (2.0~dev20151230-0~kolab10)  unstable; urgency=low
+libkolab (2.0~dev20151230-0~kolab11)  unstable; urgency=low
 
   * Support for multiple Plesk-provided PHP versions
 

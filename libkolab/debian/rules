@@ -28,7 +28,7 @@ override_dh_gencontrol:
 			echo "" >> debian/control ; \
 			echo "Package: plesk-php$${shver}-kolab" >> debian/control ; \
 			echo "Architecture: amd64" >> debian/control ; \
-			echo "Depends: libkolab, plesk-php$${shver}" >> debian/control ; \
+			echo "Depends: libkolab2, plesk-php$${shver}" >> debian/control ; \
 			echo "Description: Kolab library bindings for Plesk PHP $${version}" >> debian/control ; \
 			echo "" >> debian/control ; \
 			sed -i -e "/Files:/ i\
