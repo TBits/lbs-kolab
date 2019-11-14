@@ -5,6 +5,8 @@ PHPEXT := $(shell php-config --extension-dir)
 PHPINC := $(shell php-config --include-dir)
 PYTHON_SITEARCH := $(shell python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib(1)')
 
+PHP_VERSIONS=7.3 7.2 7.1 7.0 5.6
+
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
 export DH_OPTIONS=-v
@@ -17,12 +19,80 @@ export DEB_LDFLAGS_MAINT_APPEND="-Wl,--as-needed"
 
 override_dh_gencontrol:
 	echo "php:Depends=phpapi-${PHPAPI}" >> debian/php-kolabformat.substvars
+
+	if [ -f /etc/plesk-release ] ; then \
+		for version in $(PHP_VERSIONS) ; do \
+			if [ ! -f "/opt/plesk/php/$${version}/bin/php-config" ] ; then \
+				continue ; \
+			fi ; \
+			shver=$$(echo $${version} | sed -e 's/\.//g') ; \
+			echo "" >> debian/control ; \
+			echo "Package: plesk-php$${shver}-kolabformat" >> debian/control ; \
+			echo "Architecture: amd64" >> debian/control ; \
+			echo "Depends: libkolabxml1v5, plesk-php$${shver}" >> debian/control ; \
+			echo "Description: Kolab format bindings for Plesk PHP $${version}" >> debian/control ; \
+			echo "" >> debian/control ; \
+			sed -i -e "/Files:/ i\
+ plesk-php$${shver}-kolabformat deb web extra" debian/control ; \
+			echo "opt/plesk/php/$${version}/lib/php/modules/*kolabformat.so" >> debian/plesk-php$${shver}-kolabformat.install ; \
+			echo "opt/plesk/php/$${version}/share/php/kolabformat.php" >> debian/plesk-php$${shver}-kolabformat.install ; \
+			echo "debian/kolabformat.ini opt/plesk/php/$${version}/etc/php.d" >> debian/plesk-php$${shver}-kolabformat.install ; \
+		done ; \
+	fi
+
 	dh_gencontrol
 
-override_dh_auto_configure:
-	if [ $$(php-config --vernum) -gt 70000 ]; then \
-		sed -i -e 's/-c++ -php/-c++ -php7/g' src/php/CMakeLists.txt ; \
+override_dh_auto_build:
+	if [ -f /etc/plesk-release ] ; then \
+		for version in $(PHP_VERSIONS) ; do \
+			if [ ! -f "/opt/plesk/php/$${version}/bin/php-config" ] ; then \
+				continue ; \
+			fi ; \
+			if [ $$(/opt/plesk/php/$${version}/bin/php-config --vernum) -gt 70000 ]; then \
+				sed -r -i -e 's/-c\+\+ -php[0-9]? -o/-c++ -php7 -o/g' src/php/CMakeLists.txt ; \
+			else \
+				sed -r -i -e 's/-c\+\+ -php[0-9]? -o/-c++ -php5 -o/g' src/php/CMakeLists.txt ; \
+			fi ; \
+			dh_auto_build --builddirectory php-$${version} ; \
+		done ; \
 	fi
+
+	if [ $$(php-config --vernum) -gt 70000 ]; then \
+		sed -r -i -e 's/-c\+\+ -php[0-9]? -o/-c++ -php7 -o/g' src/php/CMakeLists.txt ; \
+	else \
+		sed -r -i -e 's/-c\+\+ -php[0-9]? -o/-c++ -php5 -o/g' src/php/CMakeLists.txt ; \
+	fi
+
+	dh_auto_build
+
+override_dh_auto_configure:
+	echo 9 > debian/compat
+	if [ -f /etc/plesk-release ] ; then \
+		for version in $(PHP_VERSIONS) ; do \
+			if [ ! -f "/opt/plesk/php/$${version}/bin/php-config" ] ; then \
+				continue ; \
+			fi ; \
+			if [ $$(/opt/plesk/php/$${version}/bin/php-config --vernum) -gt 70000 ]; then \
+				sed -r -i -e 's/-c\+\+ -php[0-9]? -o/-c++ -php7 -o/g' src/php/CMakeLists.txt ; \
+			else \
+				sed -r -i -e 's/-c\+\+ -php[0-9]? -o/-c++ -php5 -o/g' src/php/CMakeLists.txt ; \
+			fi ; \
+			dh_auto_configure --builddirectory php-$${version} -- \
+				-DSWIG=/usr/bin/swig \
+				-DPHP_BINDINGS=ON \
+				-DPHP_INCLUDE_DIR=$$(/opt/plesk/php/$${version}/bin/php-config --include-dir) \
+				-DPHP_CONFIG_EXECUTABLE=/opt/plesk/php/$${version}/bin/php-config \
+				-DPHP_INSTALL_DIR=$$(/opt/plesk/php/$${version}/bin/php-config --extension-dir) ; \
+		done ; \
+	fi
+
+	if [ $$(php-config --vernum) -gt 70000 ]; then \
+		sed -r -i -e 's/-c\+\+ -php[0-9]? -o/-c++ -php7 -o/g' src/php/CMakeLists.txt ; \
+	else \
+		sed -r -i -e 's/-c\+\+ -php[0-9]? -o/-c++ -php -o/g' src/php/CMakeLists.txt ; \
+	fi
+
+	grep kolabformat.i src/php/CMakeLists.txt
 
 	dh_auto_configure -- \
 		-DSWIG=/usr/bin/swig \
@@ -33,8 +103,12 @@ override_dh_auto_configure:
 
 override_dh_install:
 	mkdir -p debian/tmp/usr/share/php
-	if [ -d "/etc/php/7.2/mods-available/" ]; then \
+	if [ -d "/etc/php/7.3/mods-available/" ]; then \
+		echo "debian/kolabformat.ini etc/php/7.3/mods-available" >> debian/php-kolabformat.install ; \
+	elif [ -d "/etc/php/7.2/mods-available/" ]; then \
 		echo "debian/kolabformat.ini etc/php/7.2/mods-available" >> debian/php-kolabformat.install ; \
+	elif [ -d "/etc/php/7.1/mods-available/" ]; then \
+		echo "debian/kolabformat.ini etc/php/7.1/mods-available" >> debian/php-kolabformat.install ; \
 	elif [ -d "/etc/php/7.0/mods-available/" ]; then \
 		echo "debian/kolabformat.ini etc/php/7.0/mods-available" >> debian/php-kolabformat.install ; \
 	elif [ -d "/etc/php/mods-available/" ]; then \
@@ -43,4 +117,21 @@ override_dh_install:
 		echo "debian/kolabformat.ini etc/php5/mods-available" >> debian/php-kolabformat.install ; \
 	fi
 	mv debian/tmp/usr/lib/php*/$(PHPAPI)/kolabformat.php debian/tmp/usr/share/php/kolabformat.php
+
+	if [ -f /etc/plesk-release ]; then \
+		for version in $(PHP_VERSIONS) ; do \
+			if [ ! -f "/opt/plesk/php/$${version}/bin/php-config" ]; then \
+				continue ; \
+			fi ; \
+			shver=$$(echo $${version} | sed -e 's/\.//g') ; \
+			make -C php-$${version} install DESTDIR=$(PWD)/debian/plesk-php$${shver}-kolabformat/ ; \
+			mkdir -p debian/plesk-php$${shver}-kolabformat/opt/plesk/php/$${version}/etc/php.d/ ; \
+			mkdir -p debian/plesk-php$${shver}-kolabformat/opt/plesk/php/$${version}/share/php/ ; \
+			cp -a debian/kolabformat.ini debian/plesk-php$${shver}-kolabformat/opt/plesk/php/$${version}/etc/php.d/ ; \
+			mv debian/plesk-php$${shver}-kolabformat$$(/opt/plesk/php/$${version}/bin/php-config --extension-dir)/kolabformat.php \
+				debian/plesk-php$${shver}-kolabformat/opt/plesk/php/$${version}/share/php/kolabformat.php ; \
+			rm -rf debian/plesk-php$${shver}-kolabformat/usr/ ; \
+		done ; \
+	fi
+
 	dh_install --list-missing

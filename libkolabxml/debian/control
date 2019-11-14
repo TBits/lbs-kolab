@@ -3,20 +3,25 @@ Section: libs
 Priority: optional
 Maintainer: Debian Kolab Maintainers <pkg-kolab-devel@lists.alioth.debian.org>
 Uploaders: Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>, Paul Klos <kolab@klos2day.nl>
-Build-Depends: cmake,
-               debhelper,
-               libboost-dev,
-               libboost-system-dev,
-               libboost-thread-dev,
-               libcurl4-gnutls-dev,
-               libossp-uuid-dev,
-               libqt4-dev,
-               libxerces-c-dev,
-               php-cgi | php5-cli,
-               php-dev | php5-dev,
-               python-dev,
-               swig (>= 2.0),
-               xsdcxx
+Build-Depends:  cmake,
+                debhelper,
+                libboost-dev,
+                libboost-system-dev,
+                libboost-thread-dev,
+                libcurl4-gnutls-dev,
+                libossp-uuid-dev,
+                libqt4-dev,
+                libxerces-c-dev,
+                php-cgi | php5-cli,
+                php-dev | php5-dev,
+                plesk-php70-dev | bash,
+                plesk-php71-dev | bash,
+                plesk-php72-dev | bash,
+                plesk-php73-dev | bash,
+                psa | bash,
+                python-dev,
+                swig (>= 2.0),
+                xsdcxx
 X-Python-Version: >= 2.7
 Standards-Version: 3.9.3
 Homepage: http://git.kolab.org/libkolabxml

@@ -18,6 +18,11 @@ Build-Depends:
 	libxerces-c-dev,
     php-cgi | php5-cli,
 	php-dev | php5-dev,
+    plesk-php70-dev | bash,
+    plesk-php71-dev | bash,
+    plesk-php72-dev | bash,
+    plesk-php73-dev | bash,
+    psa | bash,
 	python-dev,
 	swig (>= 2.0)
 X-Python-Version: >= 2.7

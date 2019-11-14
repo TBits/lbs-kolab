@@ -1,3 +1,15 @@
+libkolabxml (1.2.0-0~kolab5) unstable; urgency=low
+
+  * Bindings for multiple versions of Plesk-provided PHP
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sun, 10 Nov 2019 16:38:05 +0200
+
+libkolabxml (1.2.0-0~kolab3) unstable; urgency=low
+
+  * Debian 10 support
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sat,  9 Nov 2019 02:28:24 +0100
+
 libkolabxml (1.2.0-0~kolab2) unstable; urgency=low
 
   * Release 1.2.0
