@@ -103,6 +103,7 @@ do_stop()
 		  --stop \
 		  --quiet \
 		  --retry=TERM/30/KILL/5 \
+		  --user $USER \
 		  --startas $DAEMON \
 		  --pidfile $PIDFILE
 	RETVAL="$?"
