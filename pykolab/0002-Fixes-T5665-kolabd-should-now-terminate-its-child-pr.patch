@@ -1,0 +1,54 @@
+From 6751e85733e746d58933e54cbf0acbfcc3ffd0d3 Mon Sep 17 00:00:00 2001
+From: Daniel Hoffend <dh@dotlan.net>
+Date: Mon, 18 Nov 2019 12:02:54 +0100
+Subject: [PATCH 2/3] Fixes T5665: kolabd should now terminate its child
+ processes on exit
+
+Summary: This patch ensures that kolabd will terminate his forked childs
+
+Test Plan: Tested on Debian 9 and Debian 10
+
+Reviewers: #pykolab_developers, vanmeeuwen
+
+Reviewed By: #pykolab_developers, vanmeeuwen
+
+Differential Revision: https://git.kolab.org/D853
+---
+ kolabd/__init__.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/kolabd/__init__.py b/kolabd/__init__.py
+index edeace2..98cd6ed 100644
+--- a/kolabd/__init__.py
++++ b/kolabd/__init__.py
+@@ -29,6 +29,7 @@ import shutil
+ import sys
+ import time
+ import traceback
++import multiprocessing
+ 
+ import pykolab
+ 
+@@ -372,11 +373,15 @@ class KolabDaemon:
+             at the same time, and therefore we need to test if the PID file
+             exists, and only try/except removing it.
+         """
+-        if os.access(conf.pidfile, os.R_OK):
+-            try:
++        try:
++            for p in multiprocessing.active_children():
++                p.terminate()
++
++            if os.access(conf.pidfile, os.R_OK):
+                 os.remove(conf.pidfile)
+-            except Exception:
+-                pass
++
++        except Exception:
++            pass
+ 
+         raise SystemExit
+ 
+-- 
+2.20.1
+

@@ -1,3 +1,18 @@
+pykolab (0.8.16-0~kolab1) unstable; urgency=low
+
+  * Release of version 0.8.16
+  * roundcubemail plugin owncload is no longer part of roundcubemail-plugins-kolab
+  * Fixes T5665: kolabd should now terminate its child processes on exit
+  * restore system umask after fork (fix T5659)
+
+ -- Daniel Hoffend <dh@dotlan.net>  Mon, 18 Nov 2019 16:56:02 +0100
+
+pykolab (0.8.15-0~kolab2) unstable; urgency=low
+
+  * Fix init scripts for kolab-saslauthd and wallace
+
+ -- Daniel Hoffend <dh@dotlan.net>  Fri, 15 Nov 2019 01:35:13 +0100
+
 pykolab (0.8.15-0~kolab1) unstable; urgency=low
 
   * Release of version 0.8.15

@@ -1,1 +1,4 @@
 cyrus-imapd.conf-cert-paths.patch -p1
+0001-restore-system-umask-after-fork-fix-T5659.patch -p1
+0002-Fixes-T5665-kolabd-should-now-terminate-its-child-pr.patch -p1
+0003-roundcubemail-plugin-owncload-is-no-longer-part-of-r.patch -p1

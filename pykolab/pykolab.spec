@@ -33,8 +33,8 @@
 
 Summary:            Kolab Groupware Solution
 Name:               pykolab
-Version:            0.8.15
-Release:            1%{?dist}
+Version:            0.8.16
+Release:            2%{?dist}
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
@@ -42,7 +42,9 @@ URL:                http://kolab.org/
 Source0:            pykolab-%{version}.tar.gz
 Source1:            pykolab.logrotate
 
-Patch0001:          0001-Add-mysqlhost.patch
+Patch0001:          0001-restore-system-umask-after-fork-fix-T5659.patch
+Patch0002:          0002-Fixes-T5665-kolabd-should-now-terminate-its-child-pr.patch
+Patch0003:          0003-roundcubemail-plugin-owncload-is-no-longer-part-of-r.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:          noarch
@@ -233,6 +235,8 @@ This is the Kolab Content Filter, with plugins
 %setup -q
 
 %patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
 
 %build
 autoreconf -v || automake --add-missing && autoreconf -v
@@ -569,6 +573,14 @@ rm -rf %{buildroot}
 %attr(0700,%{kolab_user},%{kolab_group}) %dir %{_var}/spool/pykolab/wallace
 
 %changelog
+* Tue Nov 18 2019 Daniel Hoffend <dh@dotlan.net> - 0.8.16-2
+- roundcubemail plugin owncload is no longer part of roundcubemail-plugins-kolab
+- Fixes T5665: kolabd should now terminate its child processes on exit
+- restore system umask after fork (fix T5659)
+
+* Tue Nov 18 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.16-1
+- Release of version 0.8.16
+
 * Tue Sep 24 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 0.8.15-1
 - Release of version 0.8.15
 
