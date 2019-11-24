@@ -1,3 +1,11 @@
+kolab (16.0.1-22) unstable; urgency=low
+
+  * Added dependencies to cyrus-(admin,clients,murder,pop3d,replication)
+    to make sure everything needed is installed when using debian busters
+    cyrus-imapd (=> 3.0)
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sun, 24 Nov 2019 02:02:00 +0100
+
 kolab (16.0.1-21) unstable; urgency=low
 
   * Add alternative dependency on mariadb-{client,server} to ensure

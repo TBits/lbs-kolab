@@ -78,7 +78,14 @@ Provides: imap-server,
 	cyrus-imapd-2.3,
 	cyrus24-common,
 	cyrus-common-2.4,
-	cyrus-imapd-2.4
+	cyrus-imapd-2.4,
+	cyrus-admin,
+	cyrus-clients,
+	cyrus-common,
+	cyrus-murder,
+	cyrus-nntpd,
+	cyrus-pop3d,
+	cyrus-replication
 Description: Cyrus IMAP Server
  Cyrus is an IMAP server designed to handle massive quantities of mail,
  with a number of features not found in other IMAP implementations,
