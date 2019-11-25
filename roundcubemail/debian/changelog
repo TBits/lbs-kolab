@@ -1,3 +1,9 @@
+roundcubemail (1.4-0~kolab316) unstable; urgency=low
+
+  * change ownershow of /var/lib/roundcubemail to www-data group instead of adm
+
+ -- Daniel Hoffend <dh@dotlan.net>  Mon, 18 Nov 2019 22:51:00 +0100
+
 roundcubemail (1.4-0~kolab315) unstable; urgency=low
 
   * Check in 13 revisions ahead of upstream 1.4-rc2 release

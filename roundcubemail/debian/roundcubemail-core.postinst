@@ -8,19 +8,18 @@ set -e
 fixperms() {
     group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "adm")
     user=$(getent passwd roundcube_sysuser >/dev/null 2>&1 && echo "roundcube_sysuser" || echo "www-data")
-    chown -R ${user}:${group} \
-        /var/lib/roundcubemail \
-        /var/log/roundcubemail
+    chown -R ${user}:${group} /var/log/roundcubemail
+
+    group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "www-data")
+    chown -R ${user}:${group} /var/lib/roundcubemail
+    chown -R root:${group} /etc/roundcubemail
 
     chmod 750 \
         /var/lib/roundcubemail \
         /var/log/roundcubemail
 
-    group=$(getent group roundcube_sysgroup >/dev/null 2>&1 && echo "roundcube_sysgroup" || echo "www-data")
-	chown -R root:${group} /etc/roundcubemail
-
-	find /etc/roundcubemail -type d -exec chmod u+rwx,g+rx,g-w,o-rwx {} \;
-	find /etc/roundcubemail -type f -exec chmod u+rw,u-x,g+r,g-wx,o-rwx {} \;
+    find /etc/roundcubemail -type d -exec chmod u+rwx,g+rx,g-w,o-rwx {} \;
+    find /etc/roundcubemail -type f -exec chmod u+rw,u-x,g+r,g-wx,o-rwx {} \;
 }
 
 reload_apache()
