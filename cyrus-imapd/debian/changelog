@@ -1,3 +1,11 @@
+cyrus-imapd (2.5.13.36-0~kolab4) unstable; urgency=low
+
+  * added patch: 0003-Canonification-for-multiple-domains.patch
+  * added cyrus-(admin,clients,murder,nntpd,pop3d,replication) to Provides
+    Control field to match vanilla cyrus-imapd packages
+
+ -- Daniel Hoffend <dh@dotlan.net>  Sun, 24 Nov 2019 01:44:00 +0100
+
 cyrus-imapd (2.5.13.36-0~kolab3) unstable; urgency=low
 
   * Include the user or group ID in failed authentication attempts

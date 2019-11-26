@@ -43,6 +43,11 @@ Pre-Depends:cyrus-imapd (>= 2.4) | imap-server,
             kolab-saslauthd
 Depends:    ${misc:Depends},
             ${ucs:Depends}
+Recommends: cyrus-admin,
+            cyrus-clients,
+            cyrus-pop3d,
+            cyrus-murder,
+            cyrus-replication
 Description: IMAP server for Kolab Groupware server
  This is a metapackage for the IMAP server dependencies of
  Kolab Groupware
