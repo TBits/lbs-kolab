@@ -39,15 +39,15 @@ Description: Metapackage for Kolab Groupware Server
 Package: kolab-imap
 Architecture: all
 Pre-Depends:cyrus-imapd (>= 2.4) | imap-server,
-            cyrus-admin,
-            cyrus-clients,
             guam,
             kolab-saslauthd
 Depends:    ${misc:Depends},
             ${ucs:Depends}
-Recommends: cyrus-murder,
+Recommends: cyrus-admin,
+            cyrus-clients,
             cyrus-pop3d,
-            cyrus-replication,
+            cyrus-murder,
+            cyrus-replication
 Description: IMAP server for Kolab Groupware server
  This is a metapackage for the IMAP server dependencies of
  Kolab Groupware
