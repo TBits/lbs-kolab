@@ -26,7 +26,7 @@
 
 Name:       roundcubemail-plugin-composeaddressbook
 Version:    5.0
-Release:    0.1.beta3%{?dist}
+Release:    1.4%{?dist}.kolab_wf
 Summary:    Show address book recipient selector during Compose
 
 Group:      Applications/Internet

@@ -26,6 +26,7 @@
     $config['smtp_helo_host'] = $_SERVER["HTTP_HOST"];
 
     $config['use_secure_urls'] = true;
+    $config['force_https'] = true;
 
     $config['assets_path'] = "/assets/";
 

@@ -1,8 +1,0 @@
-Security support
-----------------
-
-Since upstream support of sabre/dav will end during Jessie’s lifetime,
-security support will be provided on a best effort basis with upstream help.
-Eventually, this package may be removed from once Jessie+1 is released if the
-security support becomes too complicated or time-consuming, so sabre/dav users
-will be advised to upgrade their servers to the new stable release.

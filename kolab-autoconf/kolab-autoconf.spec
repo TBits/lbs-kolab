@@ -29,8 +29,8 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:       kolab-autoconf
-Version:    1.3.1
-Release:    2%{?dist}
+Version:    1.3.2
+Release:    1.1%{?dist}.kolab_wf
 Summary:    Autodiscovery for clients of Kolab Groupware
 
 Group:      Applications/Internet
@@ -38,8 +38,6 @@ License:    GPLv3+
 URL:        https://kolab.org
 
 Source0:    http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
-
-Patch0002:  0002-fix-return-value-of-init_ldap.patch
 
 %if 0%{?plesk} < 1
 Requires:   php-kolab-net-ldap3
@@ -54,8 +52,6 @@ BuildArch:  noarch
 
 %prep
 %setup -q
-
-%patch0002 -p1
 
 %build
 
@@ -87,6 +83,9 @@ popd
 %attr(0750,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Mon Mar  2 2020 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.3.2-1
+- Release of version 1.3.2
+
 * Wed Apr 10 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.3.1-2
 - Fix init_ldap()
 

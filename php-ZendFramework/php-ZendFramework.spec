@@ -10,17 +10,14 @@
 
 Summary:         Leading open-source PHP framework
 Name:            php-ZendFramework
-Version:         1.12.20
-Release:         1%{?posttag}%{?dist}
+Version:         1.12.5
+Release:         2.4%{?dist}.kolab_wf
 
 License:         BSD
 Group:           Development/Libraries
-Source0:         https://packages.zendframework.com/releases/%{php_name}-%{version}%{?posttag}/%{php_name}-%{version}%{?posttag}.tar.gz
+Source0:         http://framework.zend.com/releases/%{php_name}-%{version}%{?posttag}/%{php_name}-%{version}%{?posttag}.tar.gz
 Source1:         README.fedora
 URL:             http://framework.zend.com/
-
-%if 0%{?rhel} == 5
-%endif
 
 BuildArch:       noarch
 
@@ -84,7 +81,6 @@ Summary:  Zend Framework Extras (ZendX)
 Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Provides: %{name}-ZendX = %{version}-%{release}
-Provides: php-composer(zendframework/zf1-extras) = %{version}
 
 %description extras
 This package includes the ZendX libraries.
@@ -114,7 +110,6 @@ Requires: %{name}-Search-Lucene = %{version}-%{release}
 Requires: %{name}-Serializer-Adapter-Igbinary = %{version}-%{release}
 Requires: %{name}-Services = %{version}-%{release}
 Requires: %{name}-Soap = %{version}-%{release}
-Provides: php-composer(zendframework/zendframework1) = %{version}
 
 %description full
 This package is a meta package designed to track in all subpackages and install
@@ -268,7 +263,7 @@ Summary:  Zend Framework database adapter for MS SQL PDO
 Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-Db-Adapter-Pdo = %{version}-%{release}
-Requires: php-pdo_dblib
+Requires: php-mssql
 
 %description Db-Adapter-Pdo-Mssql
 This package contains the files for Zend Framework necessary to connect to MS 
@@ -280,7 +275,7 @@ Summary:  Zend Framework database adapter for MySQL PDO
 Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-Db-Adapter-Pdo = %{version}-%{release}
-Requires: php-pdo_mysql
+Requires: php-mysqlnd
 
 %description Db-Adapter-Pdo-Mysql
 This package contains the files for Zend Framework necessary to connect to MySQL
@@ -390,6 +385,7 @@ This package contains web service client APIs for the following services:
 - Amazon (including EC2, S3)
 - Audioscrobbler
 - del.icio.us
+- Developer Garden
 - eBay
 - Flickr
 - LiveDocx
@@ -400,6 +396,7 @@ This package contains web service client APIs for the following services:
 - SlideShare
 - SqlAzure
 - StrikeIron
+- Technorati
 - Twitter
 - Windows Azure
 - Yahoo!
@@ -465,6 +462,9 @@ mkdir -p $RPM_BUILD_ROOT%{_bindir}
 ln -s %{_datadir}/%{php}/Zend/zf.sh \
   $RPM_BUILD_ROOT%{_bindir}/zf
 
+
+%clean
+%{__rm} -rf $RPM_BUILD_ROOT
 
 
 %files
@@ -582,6 +582,7 @@ ln -s %{_datadir}/%{php}/Zend/zf.sh \
 %exclude %{_datadir}/%{php}/Zend/Service/Audioscrobbler.php
 %exclude %{_datadir}/%{php}/Zend/Service/Delicious.php
 %exclude %{_datadir}/%{php}/Zend/Service/Delicious
+%exclude %{_datadir}/%{php}/Zend/Service/DeveloperGarden
 %exclude %{_datadir}/%{php}/Zend/Service/Ebay
 %exclude %{_datadir}/%{php}/Zend/Service/Flickr.php
 %exclude %{_datadir}/%{php}/Zend/Service/Flickr
@@ -596,6 +597,8 @@ ln -s %{_datadir}/%{php}/Zend/zf.sh \
 %exclude %{_datadir}/%{php}/Zend/Service/SqlAzure
 %exclude %{_datadir}/%{php}/Zend/Service/StrikeIron.php
 %exclude %{_datadir}/%{php}/Zend/Service/StrikeIron
+%exclude %{_datadir}/%{php}/Zend/Service/Technorati.php
+%exclude %{_datadir}/%{php}/Zend/Service/Technorati
 %exclude %{_datadir}/%{php}/Zend/Service/Twitter.php
 %exclude %{_datadir}/%{php}/Zend/Service/Twitter
 %exclude %{_datadir}/%{php}/Zend/Service/WindowsAzure
@@ -756,6 +759,7 @@ ln -s %{_datadir}/%{php}/Zend/zf.sh \
 %{_datadir}/%{php}/Zend/Service/Audioscrobbler.php
 %{_datadir}/%{php}/Zend/Service/Delicious.php
 %{_datadir}/%{php}/Zend/Service/Delicious
+%{_datadir}/%{php}/Zend/Service/DeveloperGarden
 %{_datadir}/%{php}/Zend/Service/Ebay
 %{_datadir}/%{php}/Zend/Service/Flickr.php
 %{_datadir}/%{php}/Zend/Service/Flickr
@@ -770,6 +774,8 @@ ln -s %{_datadir}/%{php}/Zend/zf.sh \
 %{_datadir}/%{php}/Zend/Service/SqlAzure
 %{_datadir}/%{php}/Zend/Service/StrikeIron.php
 %{_datadir}/%{php}/Zend/Service/StrikeIron
+%{_datadir}/%{php}/Zend/Service/Technorati.php
+%{_datadir}/%{php}/Zend/Service/Technorati
 %{_datadir}/%{php}/Zend/Service/Twitter.php
 %{_datadir}/%{php}/Zend/Service/Twitter
 %{_datadir}/%{php}/Zend/Service/WindowsAzure
@@ -783,50 +789,6 @@ ln -s %{_datadir}/%{php}/Zend/zf.sh \
 
 
 %changelog
-* Tue Sep 27 2016 Felix Kaechele <heffer@fedoraproject.org> - 1.12.20-1
-- update to 1.12.20
-- fix Source0 URL
-- security fixes for CVE-2016-4861 and CVE-2016-6233
-- please note that this will most likely be the last version of this package as
-  it has been EOLd by upstream
-
-* Sun Jul  3 2016 Remi Collet <RPMS@FamilleCollet.com> - 1.12.18-3
-- php-ZendFramework-Db-Adapter-Pdo-Mssql requires pdo_dblib (not mssql)
-
-* Fri Jul  1 2016 Remi Collet <RPMS@FamilleCollet.com> - 1.12.18-2
-- php-ZendFramework-Db-Adapter-Pdo-Mysql requires pdo_mysql (not mysql)
-
-* Sat Apr 30 2016 Robert Scheck <robert@fedoraproject.org> - 1.12.18-1
-- update to 1.12.18 (#1328032)
-
-* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.16-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
-
-* Sun Oct 11 2015 Felix Kaechele <heffer@fedoraproject.org> - 1.12.16-1
-- update to 1.12.16
-- fixes CVE-2015-5161: http://framework.zend.com/security/advisory/ZF2015-06
-- fixes CVE-2015-5723: http://framework.zend.com/security/advisory/ZF2015-07
-- removed services: DeveloperGarden, Technorati
-
-* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.12.13-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
-
-* Wed May 20 2015 Remi Collet <RPMS@FamilleCollet.com> - 1.12.13-1
-- update to 1.12.13
-- add composer provides
-
-* Tue Feb 24 2015 Felix Kaechele <heffer@fedoraproject.org> - 1.12.11-1
-- update to 1.12.11
-
-* Tue Oct 07 2014 Felix Kaechele <heffer@fedoraproject.org> - 1.12.9-1
-- update to 1.12.9
-- fixes http://framework.zend.com/security/advisory/ZF2014-05
-- fixes http://framework.zend.com/security/advisory/ZF2014-06
-
-* Sat Jul 12 2014 Felix Kaechele <felix@fetzig.org> - 1.12.7-1
-- update to 1.12.7
-- fixes http://framework.zend.com/security/advisory/ZF2014-04 / CVE-2014-4914
-
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.12.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 

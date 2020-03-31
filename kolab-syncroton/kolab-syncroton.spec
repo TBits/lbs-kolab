@@ -36,8 +36,8 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           kolab-syncroton
-Version:        2.3.15
-Release:        2%{?dist}
+Version:        2.3.16
+Release:        3.15%{?dist}.kolab_wf
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
@@ -47,10 +47,6 @@ URL:            http://www.syncroton.org
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
 Source1:        kolab-syncroton.logrotate
 Source2:        plesk.kolab_syncroton.inc.php
-
-Patch0:         defaults.patch
-
-Patch0001:      0001-Accept-MeetingResponse-commands-from-within-the-iOS-.patch
 
 BuildArch:      noarch
 
@@ -98,10 +94,6 @@ and Tasks though this package - based on Syncroton technology.
 
 %prep
 %setup -q -n %{name}-%{version}
-
-%patch0 -p1
-
-%patch0001 -p1
 
 %build
 
@@ -211,6 +203,9 @@ exit 0
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Wed Dec  4 2019 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.3.16-1
+- Release version 2.3.16
+
 * Mon Jul 29 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.3.15-3
 - Fix MeetingResponse for Calendar events
 

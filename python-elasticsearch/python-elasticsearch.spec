@@ -3,7 +3,7 @@
 
 Name:           python-elasticsearch
 Version:        5.5.3
-Release:        1%{?dist}
+Release:        2.16%{?dist}.kolab_wf
 Summary:        Client for Elasticsearch
 
 License:        ASL 2.0

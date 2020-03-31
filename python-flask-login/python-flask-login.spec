@@ -15,7 +15,7 @@
 
 Name:           python-flask-login
 Version:        0.2.11
-Release:        3%{?dist}
+Release:        3.24%{?dist}.kolab_wf
 Summary:        User session management for Flask
 
 License:        MIT

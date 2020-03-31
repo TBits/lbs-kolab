@@ -23,7 +23,7 @@
 
 Name:           bonnie-flask
 Version:        0.3
-Release:        0.1.git%{?dist}
+Release:        1.39%{?dist}.kolab_wf
 Summary:        Flask-based Web UI for Bonnie
 
 Group:          Applications/System

@@ -6,7 +6,7 @@
 
 Name:       roundcubemail-plugin-dblog
 Version:    2.0
-Release:    1%{?dist}
+Release:    1.4%{?dist}.kolab_wf
 Summary:    Log to DB plugin for Roundcube Webmail
 
 Group:      Applications/Internet

@@ -1,8 +1,0 @@
-# Command must have full path in maintainer script for mere mortal
-# users doing a sudo apt-get, with no (preserved) sbin in $PATH.
-cyrus-imapd: command-with-path-in-maintainer-script
-# Indeed, cyrus-imapd does not start on boot by default.
-cyrus-imapd: init.d-script-has-bad-start-runlevel
-cyrus-imapd: package-installs-nonbinary-perl-in-usr-lib-perl5
-# /usr/bin/cyradm fails one or the other arbitrary syntax check
-cyrus-imapd: shell-script-fails-syntax-check

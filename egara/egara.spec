@@ -13,7 +13,7 @@
 
 Name:               egara
 Version:            0.2
-Release:            0.20161121.git%{?dist}
+Release:            3.32%{?dist}.kolab_wf
 Summary:            Event driven groupware archival system
 
 Group:              System Environment/Daemons

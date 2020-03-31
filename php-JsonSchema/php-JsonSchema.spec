@@ -25,7 +25,7 @@
 
 Name:          php-%{lib_name}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       1.35%{?dist}.kolab_wf
 Summary:       PHP implementation of JSON schema
 
 Group:         Development/Libraries

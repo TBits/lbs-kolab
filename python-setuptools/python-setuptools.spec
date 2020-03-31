@@ -27,7 +27,7 @@
 
 Name:           python-setuptools
 Version:        19.1.1
-Release:        1%{?dist}
+Release:        1.24%{?dist}.kolab_wf
 Summary:        Easily build and distribute Python packages
 
 Group:          Applications/System

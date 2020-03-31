@@ -15,7 +15,7 @@
 Name:           php-%{gh_project}
 Summary:        Lightweight library for event-based programming
 Version:        2.0.2
-Release:        1%{?dist}
+Release:        2.24%{?dist}.kolab_wf
 
 URL:            http://sabre.io/event
 Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}.tar.gz

@@ -7,7 +7,7 @@
 
 Name:           python-cryptography
 Version:        0.6.1
-Release:        2%{?dist}
+Release:        2.8%{?dist}.kolab_wf
 Summary:        PyCA's cryptography library
 
 Group:          Development/Libraries

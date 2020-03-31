@@ -3,7 +3,7 @@ Summary:        The Open Build Service -- Worker Component
 License:        GPL-2.0 and GPL-3.0
 Group:          Productivity/Networking/Web/Utilities
 Version:        2.5.6
-Release:        2.1
+Release:        2.4%{?dist}.kolab_wf
 Url:            http://en.opensuse.org/Build_Service
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source0:        obsworker.sysvinit

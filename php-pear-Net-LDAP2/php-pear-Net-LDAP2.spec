@@ -29,7 +29,7 @@ Name:               php5-pear-Net_LDAP2
 Name:               php-pear-Net-LDAP2
 %endif
 Version:        2.2.0
-Release:        2%{?dist}
+Release:        2.5%{?dist}.kolab_wf
 Summary:        Object oriented interface for searching and manipulating LDAP-entries
 
 # LGPL doesn't require license file, but ask for it
@@ -119,18 +119,18 @@ fi
 
 
 %changelog
-* Sat Oct 05 2019 Christoph Erhardt <kolab@sicherha.de> - 2.2.0-2
-- Package for Kolab
-- Fix the build on CentOS/RHEL 7
-
-* Sat Oct 31 2015 Remi Collet <remi@fedoraproject.org> - 2.2.0-1
-- Update to 2.2.0
-- provide php-composer(pear/net_ldap2)
-- raise dependency on PEAR 1.10.1
-
-* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.1.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
-
-* Sun Feb 22 2015 Remi Collet <remi@fedoraproject.org> - 2.1.0-1
-- Version 2.1.0 (stable), API 2.0.0 (stable)
-- Initial package
+* Fri Feb  1 2013 aj@ajaissle.de
+- New upstream release 2.0.12
+  * inmproved performance with large search results
+  * Fixed some minor issues with Net_LDAP2_Filter and Net_LDAP2->dnExists()
+  * Added NOT filter to Net_LDAP2_Filter::create() so negating is more easily now
+* Mon Feb 13 2012 coolo@suse.com
+- patch license to follow spdx.org standard
+* Mon Feb  7 2011 lang@b1-systems.de
+- Added license file
+* Mon Jan 31 2011 lang@b1-systems.de
+- LGPLv3 license
+* Wed Jan 26 2011 lang@b1-systems.de
+- add dependency on php pecl module ldap as stated in pear
+* Wed Jan 26 2011 lang@b1-systems.de
+- packaged with php-macros and a template spec

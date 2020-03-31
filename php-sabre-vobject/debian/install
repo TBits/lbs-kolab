@@ -1,3 +1,0 @@
-bin/generate_vcards3	usr/bin
-bin/vobject3		usr/bin
-lib/*			usr/share/php/sabre21/Sabre/VObject

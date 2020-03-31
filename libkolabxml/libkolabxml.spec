@@ -64,7 +64,7 @@ Name:           libkolabxml1
 Name:           libkolabxml
 %endif
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        21.3%{?dist}.kolab_wf
 Summary:        Kolab XML format collection parser library
 
 Group:          System Environment/Libraries
@@ -156,6 +156,7 @@ Requires:       plesk-php70-devel
 Requires:       plesk-php71-devel
 Requires:       plesk-php72-devel
 Requires:       plesk-php73-devel
+Requires:       plesk-php74-devel
 %endif
 %endif
 %if 0%{?with_python} > 0
@@ -223,6 +224,7 @@ Java bindings for libkolabxml
 %package -n php-kolabformat
 Summary:        PHP bindings for libkolabxml
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolabxml) = %{version}-%{release}
 Requires:       libkolabxml%{?_isa} = %{version}
 %if 0%{?rhel} > 5 || 0%{?fedora} > 15
 Requires:       php(zend-abi) = %{php_zend_api}
@@ -244,6 +246,7 @@ BuildRequires:  plesk-php70-devel
 BuildRequires:  plesk-php71-devel
 BuildRequires:  plesk-php72-devel
 BuildRequires:  plesk-php73-devel
+BuildRequires:  plesk-php74-devel
 %endif
 
 %description -n php-kolabformat
@@ -255,6 +258,7 @@ bindings provided through libkolabxml.
 %package -n plesk-php56-kolabformat
 Summary:        libkolabxml bindings for Plesk's PHP 5.6
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolabxml) = %{version}-%{release}
 Requires:       libkolabxml%{?_isa} = %{version}
 Requires:       plesk-php56
 
@@ -264,6 +268,7 @@ libkolabxml bindings for Plesk's PHP 5.6
 %package -n plesk-php70-kolabformat
 Summary:        libkolabxml bindings for Plesk's PHP 7.0
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolabxml) = %{version}-%{release}
 Requires:       libkolabxml%{?_isa} = %{version}
 Requires:       plesk-php70
 
@@ -273,6 +278,7 @@ libkolabxml bindings for Plesk's PHP 7.0
 %package -n plesk-php71-kolabformat
 Summary:        libkolabxml bindings for Plesk's PHP 7.1
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolabxml) = %{version}-%{release}
 Requires:       libkolabxml%{?_isa} = %{version}
 Requires:       plesk-php71
 
@@ -282,6 +288,7 @@ libkolabxml bindings for Plesk's PHP 7.1
 %package -n plesk-php72-kolabformat
 Summary:        libkolabxml bindings for Plesk's PHP 7.2
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolabxml) = %{version}-%{release}
 Requires:       libkolabxml%{?_isa} = %{version}
 Requires:       plesk-php72
 
@@ -291,11 +298,22 @@ libkolabxml bindings for Plesk's PHP 7.2
 %package -n plesk-php73-kolabformat
 Summary:        libkolabxml bindings for Plesk's PHP 7.3
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolabxml) = %{version}-%{release}
 Requires:       libkolabxml%{?_isa} = %{version}
 Requires:       plesk-php73
 
 %description -n plesk-php73-kolabformat
 libkolabxml bindings for Plesk's PHP 7.3
+
+%package -n plesk-php74-kolabformat
+Summary:        libkolabxml bindings for Plesk's PHP 7.4
+Group:          System Environment/Libraries
+Provides:       php-bindings(libkolabxml) = %{version}-%{release}
+Requires:       libkolabxml%{?_isa} = %{version}
+Requires:       plesk-php74
+
+%description -n plesk-php74-kolabformat
+libkolabxml bindings for Plesk's PHP 7.4
 %endif # if 0%{?plesk}
 
 %if 0%{?with_python} > 0
@@ -341,6 +359,9 @@ sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.2/src/php/CMakeLists.txt
 
 cp -a libkolabxml-%{version} libkolabxml-%{version}-7.3
 sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.3/src/php/CMakeLists.txt
+
+cp -a libkolabxml-%{version} libkolabxml-%{version}-7.4
+sed -i "s/-php/-php7/g" libkolabxml-%{version}-7.4/src/php/CMakeLists.txt
 %endif
 
 %if 0%{?with_php7}
@@ -360,6 +381,7 @@ cp %{name}-%{version}/tztable.h %{name}-%{version}-7.0/.
 cp %{name}-%{version}/tztable.h %{name}-%{version}-7.1/.
 cp %{name}-%{version}/tztable.h %{name}-%{version}-7.2/.
 cp %{name}-%{version}/tztable.h %{name}-%{version}-7.3/.
+cp %{name}-%{version}/tztable.h %{name}-%{version}-7.4/.
 %endif
 
 pushd %{name}-%{version}
@@ -420,7 +442,7 @@ popd
 popd
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2 7.3; do
+for version in 5.6 7.0 7.1 7.2 7.3 7.4; do
     pushd %{name}-%{version}-${version}
     rm -rf build
     mkdir -p build
@@ -466,7 +488,7 @@ EOF
 popd
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2 7.3; do
+for version in 5.6 7.0 7.1 7.2 7.3 7.4; do
     pushd %{name}-%{version}-${version}
     pushd build
     make install DESTDIR=%{buildroot} INSTALL='install -p'
@@ -506,7 +528,7 @@ python src/python/test.py ||:
 popd
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2 7.3; do
+for version in 5.6 7.0 7.1 7.2 7.3 7.4; do
     pushd %{name}-%{version}-${version}/build/
     export LD_LIBRARY_PATH=$( pwd )/src/
     /opt/plesk/php/${version}/bin/php -d enable_dl=On -dextension=src/php/kolabformat.so src/php/test.php ||:
@@ -592,6 +614,14 @@ rm -rf %{buildroot}
 /opt/plesk/php/7.3/share/php/kolabformat.php
 /opt/plesk/php/7.3/etc/php.d/kolabformat.ini
 /opt/plesk/php/7.3/etc/php-fpm.d/kolabformat.ini
+
+%files -n plesk-php74-kolabformat
+%defattr(-,root,root,-)
+/opt/plesk/php/7.4/lib64/php/modules/kolabformat.so
+/opt/plesk/php/7.4/share/php/kolabformat.php
+/opt/plesk/php/7.4/etc/php.d/kolabformat.ini
+/opt/plesk/php/7.4/etc/php-fpm.d/kolabformat.ini
+
 %endif # if 0%{?plesk}
 
 %endif # if 0%{?with_php}

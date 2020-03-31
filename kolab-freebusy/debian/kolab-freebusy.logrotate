@@ -1,8 +1,0 @@
-/var/log/kolab-freebusy/freebusy.log {
-  create 0640 www-data adm
-  compress
-  missingok
-  notifempty
-  rotate 52
-  weekly
-}

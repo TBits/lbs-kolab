@@ -35,13 +35,17 @@
 
 Name:           kolab-webadmin
 Version:        3.2.15
-Release:        1%{?dist}
+Release:        3.1%{?dist}.kolab_wf
 Summary:        Kolab Groupware Server Web Administration Interface
 License:        AGPLv3+
 Group:          Productivity/Office/Organizers
 Url:            http://www.kolab.org
 
 Source0:        https://mirror.kolabenterprise.com/pub/releases/%{name}-%{version}.tar.gz
+
+Patch0:         0001-T5647-Fix-kolab-admin-role-created-in-wrong-base_dn-.patch
+Patch1:         0002-Fixed-T5653-and-support-domain_edit-in-hosted-mode.patch
+Patch2:         0003-check-for-mail-address-is-already-in-use.patch
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -87,6 +91,10 @@ for file in `find . -type f -name "*.enterprise"`; do
         rm -rvf $file
     fi
 done
+
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -163,6 +171,9 @@ fi
 %attr(0770,%{httpd_user},%{httpd_group}) %{_var}/log/%{name}
 
 %changelog
+* Sun Dec 22 2019 Daniel Hoffend <dh@dotlan.net> - 3.2.15-2
+- Adding hotfixes for domain creation/edit in hosted mode
+
 * Mon Oct 21 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.2.15-1
 - Release 3.2.15
 

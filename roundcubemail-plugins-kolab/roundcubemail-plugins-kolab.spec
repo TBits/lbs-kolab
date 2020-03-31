@@ -41,9 +41,9 @@
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail-plugins-kolab
-Version:        3.5.2
+Version:        3.5.4
 
-Release:        1%{?dot_rel_suffix}%{?dist}
+Release:        1.3%{?dist}.kolab_wf
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
@@ -87,8 +87,8 @@ BuildRequires:  php-lessphp
 BuildRequires:  python
 BuildRequires:  roundcubemail(skin-elastic)
 
-Requires:       php-kolabformat >= 1.0
-Requires:       php-kolab >= 0.5
+Requires:       php-bindings(libkolab) >= 2.0
+Requires:       php-bindings(libkolabxml) >= 1.2
 Requires:       php-pear(HTTP_Request2)
 %if 0%{?plesk} < 1
 Requires:       php-kolab-net-ldap3
@@ -2792,6 +2792,12 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Mar  2 2020 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.5.4-1
+- Release of version 3.5.4
+
+* Thu Dec  5 2019 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 3.5.3-1
+- Release of version 3.5.3
+
 * Sat Oct 19 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 3.5.2-1
 - Release of version 3.5.2
 

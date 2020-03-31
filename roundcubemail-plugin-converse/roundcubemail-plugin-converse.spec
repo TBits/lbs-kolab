@@ -6,7 +6,7 @@
 
 Name:       roundcubemail-plugin-converse
 Version:    0.0
-Release:    0.1.dev20140214.git14fe73%{?dist}
+Release:    1.4%{?dist}.kolab_wf
 Summary:    XMPP-based chat plugin for Roundcube Webmail
 
 Group:      Applications/Internet

@@ -37,8 +37,8 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           iRony
-Version:        0.4.2
-Release:	    4%{?dist}
+Version:        0.4.3
+Release:	    2.17%{?dist}.kolab_wf
 Summary:        DAV for Kolab Groupware
 
 Group:          Applications/Internet
@@ -49,9 +49,6 @@ URL:            http://kolab.org
 Source0:        iRony-%{version}.tar.gz
 Source1:        iRony.conf
 Source2:        iRony.logrotate
-
-Patch0001:      0001-Avoid-refering-to-kolab_auth-if-it-isn-t-actually-th.patch
-Patch0002:      0001-Support-shortlogins-via-the-username_domain-configur.patch
 
 BuildArch:      noarch
 
@@ -103,9 +100,6 @@ Kolab Groupware solution.
 
 %prep
 %setup -q
-
-%patch0001 -p1
-%patch0002 -p1
 
 %build
 rm -rvf vendor/sabre
@@ -191,6 +185,9 @@ fi
 %attr(0770,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Thu Jan 16 2020 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.4.3-1
+- Release of version 0.4.3
+
 * Tue Apr 23 2019 Christian Mollekopf (Kolab Systems) <mollekopf@kolabsys.com> - 0.4.2-4
 - Support shortlogins via the username_domain configuration option
 

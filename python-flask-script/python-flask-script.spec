@@ -6,7 +6,7 @@
 
 Name:       python-flask-script
 Version:    2.0.5
-Release:    1%{?dist}
+Release:    1.26%{?dist}.kolab_wf
 Summary:    Scripting support for Flask
 
 License:    BSD

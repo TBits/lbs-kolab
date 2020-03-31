@@ -1,6 +1,6 @@
 Name:       kolab-schema
 Version:    3.3
-Release:    1%{?dist}
+Release:    1.4%{?dist}.kolab_wf
 Summary:    LDAP Schema Extensions for Kolab Groupware
 
 Group:      Applications/System

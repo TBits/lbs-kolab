@@ -18,7 +18,7 @@
 
 Name:               bonnie
 Version:            0.3.8
-Release:            1%{?dist}
+Release:            2.1%{?dist}.kolab_wf
 Summary:            Bonnie for Kolab Groupware
 
 Group:              Applications/System

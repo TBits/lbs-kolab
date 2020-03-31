@@ -1,0 +1,39 @@
+From fa1ff0c3a21bbceeca674858b72c9391187d3d74 Mon Sep 17 00:00:00 2001
+From: Daniel Hoffend <dh@dotlan.net>
+Date: Tue, 26 Nov 2019 09:29:53 +0100
+Subject: [PATCH 3/3] check for mail address is already in use
+
+Summary: This fixes issue T5704
+
+Reviewers: #web_administration_panel_developers, vanmeeuwen
+
+Reviewed By: #web_administration_panel_developers, vanmeeuwen
+
+Subscribers: vanmeeuwen
+
+Maniphest Tasks: T5704
+
+Differential Revision: https://git.kolab.org/D883
+---
+ lib/api/kolab_api_service_form_value.php | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/lib/api/kolab_api_service_form_value.php b/lib/api/kolab_api_service_form_value.php
+index 58799f6..2edee57 100644
+--- a/lib/api/kolab_api_service_form_value.php
++++ b/lib/api/kolab_api_service_form_value.php
+@@ -1276,6 +1276,11 @@ class kolab_api_service_form_value extends kolab_api_service
+             }
+         }
+ 
++        // Check if addresses are not already in use
++        if ($validation_type == self::VALIDATE_EXTENDED) {
++            $this->_email_addresses_in_use($value, 'mail', $postdata);
++        }
++
+         return 'OK';
+     }
+ 
+-- 
+2.20.1
+

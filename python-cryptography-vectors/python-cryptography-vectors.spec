@@ -9,7 +9,7 @@
 
 Name:               python-%{modname}
 Version:            0.6.1
-Release:            1%{?dist}
+Release:            1.24%{?dist}.kolab_wf
 Summary:            Test vectors for the cryptography package
 
 Group:              Development/Libraries

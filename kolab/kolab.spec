@@ -12,7 +12,7 @@
 
 Name:           kolab
 Version:        16.0.1
-Release:        9%{?dist}
+Release:        43.1%{?dist}.kolab_wf
 Summary:        The Kolab Groupware Solution
 
 Group:          Applications/System
