@@ -5,12 +5,11 @@ then
   echo "please pass parameter for the branch name"
   exit -1
 fi
+agent="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0"
 
 # branch is the name of the project on OBS: eg Kolab:3.4, Kolab:3.4:Updates, Kolab:Development
 branch=$1
-yum -y install osc git wget || exit -1
-
-cp ~/.ssh/oscrc ~/.oscrc
+yum -y install git wget || exit -1
 
 cd ~
 mkdir -p work_$branch
@@ -33,17 +32,33 @@ else
       exit -1
 fi
 
-if [ -d osc/$branch ]
-then
-  cd osc/$branch
-  osc update || exit -1
-  cd ../..
-else
-  mkdir -p osc
-  cd osc
-  osc -A https://obs.kolabsys.com/ checkout --current-dir $branch || exit -1
-  cd ..
-fi
+mkdir -p osc/$branch
+cd osc/$branch
+rm -Rf /root/rpmbuild
+
+src_url="http://obs.kolabsys.com/repositories/"${branch/:/:/}"/CentOS_7/src/"
+curl -A "$agent" --silent $src_url | grep ".src.rpm" | grep -v erlang | grep -v guam | grep -v nodejs > pkgversions.html
+
+while read line; do
+  filename=`echo "$line" | awk -F'"' '{print $6}'`
+  echo "checking for $filename in "`pwd`
+  if [ ! -f $filename ]
+  then
+    echo downlading $src_url/$filename
+    sleep 10
+    wget $src_url/$filename
+    rpm -i $filename  || exit
+
+    # first hyphen with a number after it
+    pkgname=$(echo "$filename" | sed 's/-[0-9].*//')
+    rm -Rf $pkgname
+    mkdir -p $pkgname
+    mv /root/rpmbuild/SPECS/* $pkgname
+    mv /root/rpmbuild/SOURCES/* $pkgname
+  fi
+done < pkgversions.html
+
+cd ../..
 
 # do not modify the files in osc directly
 rm -Rf osc.work
