@@ -1,3 +1,0 @@
-etc/kolab-webadmin/apache.conf etc/apache2/sites-available/kolab-webadmin.conf
-var/cache/kolab-webadmin usr/share/kolab-webadmin/cache
-var/log/kolab-webadmin usr/share/kolab-webadmin/logs

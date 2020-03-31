@@ -35,7 +35,7 @@
 
 Name:           kolab-webadmin
 Version:        3.2.15
-Release:        1%{?dist}
+Release:        2.1%{?dist}.kolab_16
 Summary:        Kolab Groupware Server Web Administration Interface
 License:        AGPLv3+
 Group:          Productivity/Office/Organizers

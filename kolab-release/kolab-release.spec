@@ -88,7 +88,7 @@ Name:       %{repository_name}-release
 Name:       %{repository_name}-community-release
 %endif
 Version:    %{repository_version}.%{dist_version}
-Release:    13%{?dist}
+Release:    13.1%{?dist}.kolab_16
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://www.kolabenterprise.com

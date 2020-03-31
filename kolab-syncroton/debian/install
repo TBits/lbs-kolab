@@ -1,8 +1,0 @@
-.htaccess usr/share/kolab-syncroton/
-index.php usr/share/kolab-syncroton/
-lib/.htaccess usr/share/kolab-syncroton/lib/
-lib/*.php usr/share/kolab-syncroton/lib/
-lib/ext/ usr/share/kolab-syncroton/lib/
-logs/.htaccess var/log/kolab-syncroton/
-temp/.htaccess var/lib/kolab-syncroton/
-config/.htaccess usr/share/kolab-syncroton/config/

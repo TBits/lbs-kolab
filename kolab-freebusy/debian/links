@@ -1,6 +1,0 @@
-etc/kolab-freebusy/config.ini /usr/share/kolab-freebusy/config/config.ini
-etc/roundcubemail/config.inc.php /usr/share/kolab-freebusy/config/config.inc.php
-etc/roundcubemail/defaults.inc.php /usr/share/kolab-freebusy/config/defaults.inc.php
-usr/share/roundcubemail/plugins /usr/share/kolab-freebusy/lib/plugins
-usr/share/roundcubemail/program/lib/Roundcube /usr/share/kolab-freebusy/lib/Roundcube
-var/log/kolab-freebusy /usr/share/kolab-freebusy/logs

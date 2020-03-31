@@ -1,6 +1,0 @@
-usr/lib/mozldap/ldapcompare
-usr/lib/mozldap/ldapdelete
-usr/lib/mozldap/ldapmodify
-usr/lib/mozldap/ldapmodrdn
-usr/lib/mozldap/ldappasswd
-usr/lib/mozldap/ldapsearch

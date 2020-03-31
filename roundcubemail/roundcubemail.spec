@@ -48,15 +48,15 @@
 %global logdir /var/log/roundcubemail
 %global tmpdir /var/lib/roundcubemail
 
-%global rc_version 1.4
-%global rc_rel_suffix rc2.12
+%global rc_version 1.4.3.6
+#%%global rc_rel_suffix rc2.12
 %global dot_rel_suffix %{?rc_rel_suffix:.%{rc_rel_suffix}}
 %global dash_rel_suffix %{?rc_rel_suffix:-%{rc_rel_suffix}}
 
 Name:           roundcubemail
-Version:        1.4
+Version:        1.4.3.6
 
-Release:        312%{?dot_rel_suffix}%{?dist}
+Release:        1.3%{?dist}.kolab_16
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -75,8 +75,6 @@ Source101:      plesk.managesieve.inc.php
 Source102:      plesk.password.inc.php
 
 Source200:      2017111400.sql
-
-Patch0001:      0001-fix-sieve-fatal-error.patch
 
 Patch201:       default-configuration.patch
 Patch202:       roundcubemail-1.4-beta86-plugin-enigma-homedir.patch
@@ -124,6 +122,20 @@ BuildRequires:  uglify-js
 BuildRequires:  php-lessphp
 %endif
 
+%if 0%{?rhel} >= 8
+%if "%{_arch}" != "ppc64" && "%{_arch}" != "ppc64le" && 0%{?suse_version} < 1
+BuildRequires:  python%{?python3_pkgversion}-cssmin
+%endif
+
+# This can, regrettably, not be BuildRequires'ed, since the OSC
+# command-line so epicly fails at downloading as large a chunk of data.
+#BuildRequires:  firefox
+BuildRequires:  python%{?python3_pkgversion}
+BuildRequires:  python%{?python3_pkgversion}-nose
+#BuildRequires:  python-selenium
+
+%else
+
 %if "%{_arch}" != "ppc64" && "%{_arch}" != "ppc64le" && 0%{?suse_version} < 1
 BuildRequires:  python-cssmin
 %endif
@@ -134,6 +146,8 @@ BuildRequires:  python-cssmin
 BuildRequires:  python
 BuildRequires:  python-nose
 #BuildRequires:  python-selenium
+
+%endif # %if 0%{?rhel} >= 8
 
 Requires:       %{name}(core) = %{?epoch:%{epoch}:}%{version}-%{release}
 
@@ -1517,8 +1531,6 @@ cp -vf %{SOURCE100} config/config.inc.php.sample
 cp -vf %{SOURCE101} plugins/managesieve/config.inc.php.dist
 cp -vf %{SOURCE102} plugins/password/config.inc.php.dist
 %endif
-
-%patch0001 -p1
 
 %patch201 -p1
 %if 0%{?plesk} < 1
@@ -3438,6 +3450,12 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Mar  2 2020 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.4.3.6-1
+- Check in 6 revisions ahead of upstream 1.4.3 release
+
+* Wed Dec  4 2019 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 1.4.1.27-1
+- Check in 27 revisions ahead of upstream 1.4.1 release
+
 * Mon Oct  7 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 1.4-312.rc2.12
 - Check in 12 revisions ahead of upstream 1.4-rc2 release
 

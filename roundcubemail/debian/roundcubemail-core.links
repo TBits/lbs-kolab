@@ -1,3 +1,0 @@
-/etc/roundcubemail usr/share/roundcubemail/config
-/var/log/roundcubemail usr/share/roundcubemail/logs
-/var/lib/roundcubemail usr/share/roundcubemail/temp

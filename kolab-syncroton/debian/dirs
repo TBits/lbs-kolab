@@ -1,6 +1,0 @@
-usr/share/kolab-syncroton/config
-usr/share/kolab-syncroton/lib
-usr/share/kolab-syncroton/lib/ext
-usr/share/kolab-syncroton/lib/plugins
-var/lib/kolab-syncroton
-var/log/kolab-syncroton

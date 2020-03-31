@@ -1,5 +1,0 @@
-doc/hosted-kolab.conf etc/kolab-webadmin/
-doc/kolab-webadmin.conf etc/kolab-webadmin/
-lib usr/share/kolab-webadmin/
-public_html usr/share/kolab-webadmin/
-hosted usr/share/kolab-webadmin/

@@ -32,7 +32,7 @@ Name:           libkolab
 %endif
 
 Version:        2.0
-Release:        0.1.dev20150112.gitf0f953aa%{?dist}
+Release:        19.3%{?dist}.kolab_16
 Summary:        Kolab Object Handling Library
 
 License:        LGPLv3+
@@ -61,6 +61,7 @@ BuildRequires:  plesk-php70-devel
 BuildRequires:  plesk-php71-devel
 BuildRequires:  plesk-php72-devel
 BuildRequires:  plesk-php73-devel
+BuildRequires:  plesk-php74-devel
 %endif
 
 BuildRequires:  python-devel
@@ -107,6 +108,7 @@ Development headers for the Kolab object libraries.
 %package -n php-kolab
 Summary:        PHP Bindings for libkolab
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolab) = %{version}-%{release}
 Requires:       libkolab%{?_isa} = %{version}
 %if 0%{?rhel} > 5 || 0%{?fedora} > 15
 Requires:       php(zend-abi) = %{php_zend_api}
@@ -126,6 +128,7 @@ PHP Bindings for libkolab
 %package -n plesk-php56-kolab
 Summary:        libkolab bindings for Plesk's PHP 5.6
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolab) = %{version}-%{release}
 Requires:       libkolab%{?_isa} = %{version}
 Requires:       plesk-php56
 
@@ -135,6 +138,7 @@ libkolab bindings for Plesk's PHP 5.6
 %package -n plesk-php70-kolab
 Summary:        libkolab bindings for Plesk's PHP 7.0
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolab) = %{version}-%{release}
 Requires:       libkolab%{?_isa} = %{version}
 Requires:       plesk-php70
 
@@ -144,6 +148,7 @@ libkolab bindings for Plesk's PHP 7.0
 %package -n plesk-php71-kolab
 Summary:        libkolab bindings for Plesk's PHP 7.1
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolab) = %{version}-%{release}
 Requires:       libkolab%{?_isa} = %{version}
 Requires:       plesk-php71
 
@@ -153,6 +158,7 @@ libkolab bindings for Plesk's PHP 7.1
 %package -n plesk-php72-kolab
 Summary:        libkolab bindings for Plesk's PHP 7.2
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolab) = %{version}-%{release}
 Requires:       libkolab%{?_isa} = %{version}
 Requires:       plesk-php72
 
@@ -162,11 +168,22 @@ libkolab bindings for Plesk's PHP 7.2
 %package -n plesk-php73-kolab
 Summary:        libkolab bindings for Plesk's PHP 7.3
 Group:          System Environment/Libraries
+Provides:       php-bindings(libkolab) = %{version}-%{release}
 Requires:       libkolab%{?_isa} = %{version}
 Requires:       plesk-php73
 
 %description -n plesk-php73-kolab
 libkolab bindings for Plesk's PHP 7.3
+
+%package -n plesk-php74-kolab
+Summary:        libkolab bindings for Plesk's PHP 7.4
+Group:          System Environment/Libraries
+Provides:       php-bindings(libkolab) = %{version}-%{release}
+Requires:       libkolab%{?_isa} = %{version}
+Requires:       plesk-php74
+
+%description -n plesk-php74-kolab
+libkolab bindings for Plesk's PHP 7.4
 %endif
 
 %package -n python-kolab
@@ -199,6 +216,9 @@ sed -i "s/-php/-php7/g" libkolab-%{version}-7.2/cmake/modules/SWIGUtils.cmake
 
 cp -a libkolab-%{version} libkolab-%{version}-7.3
 sed -i "s/-php/-php7/g" libkolab-%{version}-7.3/cmake/modules/SWIGUtils.cmake
+
+cp -a libkolab-%{version} libkolab-%{version}-7.4
+sed -i "s/-php/-php7/g" libkolab-%{version}-7.4/cmake/modules/SWIGUtils.cmake
 %endif
 
 %if 0%{?with_php7}
@@ -255,7 +275,7 @@ popd
 popd
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2 7.3; do
+for version in 5.6 7.0 7.1 7.2 7.3 7.4; do
     pushd %{name}-%{version}-${version}
     rm -rf build
     mkdir -p build
@@ -312,7 +332,7 @@ extension=dummy.so
 EOF
 
 %if 0%{?plesk}
-for version in 5.6 7.0 7.1 7.2 7.3; do
+for version in 5.6 7.0 7.1 7.2 7.3 7.4; do
     pushd %{name}-%{version}-${version}
     pushd build
     make install DESTDIR=%{buildroot} INSTALL='install -p'
@@ -425,6 +445,13 @@ rm -rf %{buildroot}
 /opt/plesk/php/7.3/share/php/*.php
 /opt/plesk/php/7.3/etc/php.d/*.ini
 /opt/plesk/php/7.3/etc/php-fpm.d/*.ini
+
+%files -n plesk-php74-kolab
+%defattr(-,root,root,-)
+/opt/plesk/php/7.4/lib64/php/modules/*.so
+/opt/plesk/php/7.4/share/php/*.php
+/opt/plesk/php/7.4/etc/php.d/*.ini
+/opt/plesk/php/7.4/etc/php-fpm.d/*.ini
 %endif
 
 %files -n python-kolab

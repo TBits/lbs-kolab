@@ -1,3 +1,0 @@
-apt-preferences/kolab.pref /etc/apt/preferences.d/
-apt-sources/kolab-16-release.list /etc/apt/sources.list.d/
-apt-conf/50kolab /etc/apt/apt.conf.d/

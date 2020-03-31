@@ -18,9 +18,9 @@
 %global _cyrusgroup mail
 %global _cyrexecdir %{_exec_prefix}/lib/%{name}
 
-%global tag_version 2.5.13
-%global revision    40
-%global git_hash    gef1af3ec3
+%global tag_version 2.5.15
+%global revision    28
+%global git_hash    g7d1550bfa
 
 ##
 ## Options
@@ -37,7 +37,7 @@
 Name:               cyrus-imapd
 Summary:            A high-performance mail server with IMAP, POP3, NNTP and SIEVE support
 Version:            %{tag_version}.%{revision}
-Release:            1%{?dist}
+Release:            1.4%{?dist}.kolab_16
 License:            BSD
 Group:              System Environment/Daemons
 URL:                http://www.cyrusimap.org
@@ -633,7 +633,7 @@ fi
 %{_cyrexecdir}/cyr_deny
 %{_cyrexecdir}/cyr_df
 %{_cyrexecdir}/cyr_info
-#%{_cyrexecdir}/ctl_conversationsdb
+#%%{_cyrexecdir}/ctl_conversationsdb
 %{_cyrexecdir}/ctl_cyrusdb
 %{_cyrexecdir}/ctl_deliver
 %{_cyrexecdir}/ctl_mboxlist
@@ -654,7 +654,7 @@ fi
 %{_cyrexecdir}/fixsearchpath.pl
 %{_cyrexecdir}/fud
 %exclude %{_cyrexecdir}/git-version.sh
-#%{_cyrexecdir}/hammer_cyrusdb
+#%%{_cyrexecdir}/hammer_cyrusdb
 %{_cyrexecdir}/imapd
 %{_cyrexecdir}/ipurge
 %exclude %{_cyrexecdir}/jenkins-build.sh
@@ -664,7 +664,7 @@ fi
 %{_cyrexecdir}/mbexamine
 %{_cyrexecdir}/mbpath
 %{_cyrexecdir}/mbtool
-#%{_cyrexecdir}/message_test
+#%%{_cyrexecdir}/message_test
 %{_cyrexecdir}/migrate-metadata
 %{_cyrexecdir}/mkimap
 %{_cyrexecdir}/mknewsgroups
@@ -673,11 +673,11 @@ fi
 %{_cyrexecdir}/quota
 %{_cyrexecdir}/reconstruct
 %{_cyrexecdir}/rehash
-#%{_cyrexecdir}/search_test
+#%%{_cyrexecdir}/search_test
 %{_cyrexecdir}/sievec
 %{_cyrexecdir}/sieved
 %{_cyrexecdir}/smmapd
-#%{_cyrexecdir}/squat_dump
+#%%{_cyrexecdir}/squat_dump
 %{_cyrexecdir}/squatter
 %{_cyrexecdir}/timsieved
 %{_cyrexecdir}/tls_prune
@@ -747,14 +747,15 @@ fi
 
 %files devel
 %defattr(0644,root,root,0755)
-%files devel
-%defattr(0644,root,root,0755)
 %{_includedir}/cyrus
 %{_libdir}/pkgconfig/*cyrus*.pc
 %{_libdir}/*.so
 %{_libdir}/*.la
 
 %changelog
+* Wed Jan 29 2020 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 2.5.15.28-1
+- Fix MessageExpunge event notification when executed from system
+
 * Tue Oct 29 2019 Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com> - 2.5.13.40-1
 - Include the user or group ID in failed login attempts
 

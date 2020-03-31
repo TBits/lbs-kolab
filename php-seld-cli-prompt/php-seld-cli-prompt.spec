@@ -13,7 +13,7 @@
 
 Name:           php-seld-cli-prompt
 Version:        1.0.3
-Release:        3%{?dist}
+Release:        3.19%{?dist}.kolab_16
 Summary:        Allows you to prompt for user input on the command line
 
 Group:          Development/Libraries

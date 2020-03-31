@@ -16,7 +16,7 @@
 
 Name:           composer
 Version:        1.0.0
-Release:        0.4.%{gh_date}git%{gh_short}%{?dist}
+Release:        5.30%{?dist}.kolab_16
 Summary:        Dependency Manager for PHP
 
 Group:          Development/Libraries

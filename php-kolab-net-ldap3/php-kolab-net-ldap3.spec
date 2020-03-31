@@ -25,7 +25,7 @@ Name:               php5-Net_LDAP3
 Name:               php-kolab-net-ldap3
 %endif
 Version:            1.1.3
-Release:            1%{?dist}
+Release:            2.1%{?dist}.kolab_16
 Summary:            Object oriented interface for searching and manipulating LDAP-entries
 Group:              Development/Libraries
 License:            GPLv3+

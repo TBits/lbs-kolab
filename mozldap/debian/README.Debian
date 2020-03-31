@@ -1,6 +1,0 @@
-Currently upstream ships with a SONAME for the libraries that is not Debian Policy compliant (i.e. libldap60.so).
-For this reason I chose an arbitrary "0d" one, mimicking the NSS libraries.
-
-If you have any suggestions regarding this issue (or in general), drop me a line ;)
-
-Michele Baldessari <michele@acksyn.org>
