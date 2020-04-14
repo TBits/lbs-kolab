@@ -37,7 +37,7 @@
 %global _ap_sysconfdir %{_sysconfdir}/%{httpd_name}
 
 Name:           chwala
-Version:        0.5.8
+Version:        0.5.9
 Release:        1.1%{?dist}.kolab_wf
 Summary:        Glorified WebDAV, done right
 
@@ -158,6 +158,9 @@ fi
 %attr(0750,%{httpd_user},%{httpd_group}) %{_localstatedir}/log/%{name}
 
 %changelog
+* Tue Apr 14 2020 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5.9-1
+- Release of version 0.5.9
+
 * Mon Mar  2 2020 Jeroen van Meeuwen <vanmeeuwen@kolabsys.com> - 0.5.8-1
 - Release of version 0.5.8
 
