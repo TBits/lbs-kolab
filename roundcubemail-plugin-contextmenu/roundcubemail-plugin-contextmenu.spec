@@ -14,7 +14,7 @@
 
 Name:           roundcubemail-plugin-contextmenu
 Version:        %{rc_version}
-Release:        14.26%{?dist}.kolab_16
+Release:        14.27%{?dist}.kolab_16
 Summary:        Contextmenu plugin for Roundcube Webmail
 
 Group:          Applications/Internet
