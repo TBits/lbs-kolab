@@ -30,7 +30,7 @@
 
 Name:           composer
 Version:        %{upstream_version}%{?upstream_prever:~%{upstream_prever}}
-Release:        1.36%{?dist}.kolab_wf
+Release:        1.37%{?dist}.kolab_wf
 Summary:        Dependency Manager for PHP
 
 Group:          Development/Libraries
