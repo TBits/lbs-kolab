@@ -15,7 +15,7 @@
 Name:           php-%{gh_project}
 Summary:        Generate One Time Passwords
 Version:        4.0.2
-Release:        2.18%{?dist}.kolab_wf
+Release:        2.19%{?dist}.kolab_wf
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
 Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}.tar.gz

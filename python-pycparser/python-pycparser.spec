@@ -7,7 +7,7 @@
 Name:           python-pycparser
 Summary:        C parser and AST generator written in Python
 Version:        2.10
-Release:        1.24%{?dist}.kolab_wf
+Release:        1.25%{?dist}.kolab_wf
 License:        BSD
 Group:          System Environment/Libraries
 URL:            http://github.com/eliben/pycparser

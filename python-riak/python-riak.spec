@@ -4,7 +4,7 @@
 
 Name:           python-riak
 Version:        2.5.4
-Release:        1.19%{?dist}.kolab_wf
+Release:        1.20%{?dist}.kolab_wf
 Summary:        Python client library for Riak
 
 Group:          Development/Libraries

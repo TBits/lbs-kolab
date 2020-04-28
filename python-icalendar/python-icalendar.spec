@@ -4,7 +4,7 @@
 
 Name:           python-icalendar
 Version:        4.0.3
-Release:        5.6%{?dist}.kolab_wf
+Release:        5.7%{?dist}.kolab_wf
 Summary:        Parser/generator of iCalendar files following the RFC 2445
 
 License:        BSD

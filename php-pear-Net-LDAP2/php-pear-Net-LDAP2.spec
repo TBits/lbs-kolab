@@ -29,7 +29,7 @@ Name:               php5-pear-Net_LDAP2
 Name:               php-pear-Net-LDAP2
 %endif
 Version:        2.2.0
-Release:        2.5%{?dist}.kolab_wf
+Release:        2.6%{?dist}.kolab_wf
 Summary:        Object oriented interface for searching and manipulating LDAP-entries
 
 # LGPL doesn't require license file, but ask for it

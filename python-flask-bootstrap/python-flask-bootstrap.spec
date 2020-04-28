@@ -9,7 +9,7 @@
 
 Name:           python-flask-bootstrap
 Version:        3.2.0.2
-Release:        1.26%{?dist}.kolab_wf
+Release:        1.27%{?dist}.kolab_wf
 Summary:        Adds the Bootstrap extension to Flask applications
 
 Group:          Development/Libraries

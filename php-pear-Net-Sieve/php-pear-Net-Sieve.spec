@@ -13,7 +13,7 @@
 
 Name:           php-pear-Net-Sieve
 Version:        1.4.4
-Release:        4.5%{?dist}.kolab_wf
+Release:        4.6%{?dist}.kolab_wf
 Summary:        Handles talking to a sieve server
 
 License:        BSD
