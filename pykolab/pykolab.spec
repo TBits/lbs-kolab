@@ -34,7 +34,7 @@
 Summary:            Kolab Groupware Solution
 Name:               pykolab
 Version:            0.8.18
-Release:            1.11%{?dist}.kolab_wf
+Release:            1.12%{?dist}.kolab_wf
 License:            GPLv3+
 Group:              Applications/System
 URL:                http://kolab.org/
