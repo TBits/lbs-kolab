@@ -1,6 +1,6 @@
 Name:           elixir
 Version:        1.4.2
-Release:        1.57%{?dist}.kolab_wf
+Release:        1.58%{?dist}.kolab_wf
 Summary:        A modern approach to programming for the Erlang VM
 
 Group:          Development/Languages
