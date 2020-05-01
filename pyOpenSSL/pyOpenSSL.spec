@@ -9,7 +9,7 @@
 Summary: Python wrapper module around the OpenSSL library
 Name: pyOpenSSL
 Version: 0.14
-Release: 1.38%{?dist}.kolab_wf
+Release: 1.39%{?dist}.kolab_wf
 Source0: http://pypi.python.org/packages/source/p/pyOpenSSL/pyOpenSSL-%{version}.tar.gz
 
 BuildArch:  noarch

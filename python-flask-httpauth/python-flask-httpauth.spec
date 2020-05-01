@@ -6,7 +6,7 @@
 
 Name:       python-flask-httpauth
 Version:    2.3.0
-Release:    1.27%{?dist}.kolab_wf
+Release:    1.28%{?dist}.kolab_wf
 Summary:    Basic and Digest HTTP authentication for Flask
 
 License:    BSD

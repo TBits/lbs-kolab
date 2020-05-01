@@ -32,7 +32,7 @@ Name:           libkolab
 %endif
 
 Version:        2.0
-Release:        39.6%{?dist}.kolab_wf
+Release:        39.7%{?dist}.kolab_wf
 Summary:        Kolab Object Handling Library
 
 License:        LGPLv3+

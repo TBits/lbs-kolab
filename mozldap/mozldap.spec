@@ -16,7 +16,7 @@ ExcludeArch: i686
 Summary:          Mozilla LDAP C SDK
 Name:             mozldap
 Version:          %{major}.%{minor}.%{submin}
-Release:          27.9%{?dist}.kolab_wf
+Release:          27.10%{?dist}.kolab_wf
 License:          MPLv1.1 or GPLv2+ or LGPLv2+
 URL:              http://www.mozilla.org/directory/csdk.html
 Requires:         %{nspr_name} >= %{nspr_version}

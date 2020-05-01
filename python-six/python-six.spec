@@ -11,7 +11,7 @@
 
 Name:           python-six
 Version:        1.9.0
-Release:        1.25%{?dist}.kolab_wf
+Release:        1.26%{?dist}.kolab_wf
 Summary:        Python 2 and 3 compatibility utilities
 
 Group:          Development/Languages

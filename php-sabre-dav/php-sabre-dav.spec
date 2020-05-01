@@ -15,7 +15,7 @@
 Name:           php-%{gh_project}
 Summary:        WebDAV Framework for PHP
 Version:        2.1.11
-Release:        2.29%{?dist}.kolab_wf
+Release:        2.30%{?dist}.kolab_wf
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
 Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}.tar.gz

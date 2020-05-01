@@ -10,7 +10,7 @@
 
 Name:		python-%{realname}
 Version:	0.3.2
-Release:	1.21%{?dist}.kolab_wf
+Release:	1.22%{?dist}.kolab_wf
 Summary:	Python module to parse Erlang BEAM files
 License:	MIT
 Group:		Development/Languages

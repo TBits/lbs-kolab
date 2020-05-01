@@ -8,7 +8,7 @@
 
 Name:           python-werkzeug
 Version:        0.9.6
-Release:        1.27%{?dist}.kolab_wf
+Release:        1.28%{?dist}.kolab_wf
 Summary:        The Swiss Army knife of Python web development 
 
 Group:          Development/Libraries
