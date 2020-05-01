@@ -34,7 +34,7 @@
 
 Name:               roundcubemail-skin-kolab
 Version:            0.4.1
-Release:            9.24%{?dist}.kolab_16
+Release:            9.25%{?dist}.kolab_16
 Summary:            Kolab skin for Roundcube
 
 Group:              Web/Applications

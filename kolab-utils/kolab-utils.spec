@@ -11,7 +11,7 @@
 
 Name:           kolab-utils
 Version:        3.1.4
-Release:        3.70%{?dist}.kolab_16
+Release:        3.71%{?dist}.kolab_16
 Summary:        Kolab Utilities
 
 Group:          System Environment/Base
