@@ -43,7 +43,7 @@
 Name:           roundcubemail-plugins-kolab
 Version:        3.5.4
 
-Release:        1.8%{?dist}.kolab_16
+Release:        1.9%{?dist}.kolab_16
 
 Summary:        Kolab Groupware plugins for Roundcube Webmail
 
