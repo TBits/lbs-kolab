@@ -21,7 +21,7 @@
 
 Name:           copenhagen
 Version:        0.0.2
-Release:        1.362%{?dist}.kolab_wf
+Release:        1.363%{?dist}.kolab_wf
 Summary:        Copenhagen for OpenChange
 
 BuildArch:      noarch
