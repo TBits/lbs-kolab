@@ -38,7 +38,7 @@
 
 Name:           iRony
 Version:        0.4.3
-Release:	    2.20%{?dist}.kolab_16
+Release:	    2.23%{?dist}.kolab_16
 Summary:        DAV for Kolab Groupware
 
 Group:          Applications/Internet
