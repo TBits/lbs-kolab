@@ -26,7 +26,7 @@
 
 Name:           roundcubemail-plugin-sauserprefs
 Version:        1.17.1.86
-Release:        2.139%{?dist}.kolab_wf
+Release:        2.142%{?dist}.kolab_wf
 Summary:        Sauserprefs plugin for Roundcube Webmail
 
 Group:          Applications/Internet

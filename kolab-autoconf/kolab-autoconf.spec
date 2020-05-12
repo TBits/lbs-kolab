@@ -30,7 +30,7 @@
 
 Name:       kolab-autoconf
 Version:    1.3.2
-Release:    1.1%{?dist}.kolab_wf
+Release:    2.1%{?dist}.kolab_wf
 Summary:    Autodiscovery for clients of Kolab Groupware
 
 Group:      Applications/Internet

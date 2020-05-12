@@ -56,7 +56,7 @@
 Name:           roundcubemail
 Version:        %{rc_version}
 
-Release:        1.1%{?dist}.kolab_wf
+Release:        4.1%{?dist}.kolab_wf
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
@@ -242,12 +242,10 @@ Requires:       %{name}(plugin-filesystem_attachments) = %{?epoch:%{epoch}:}%{ve
 # The jqueryui plugin is required.
 Requires:       %{name}(plugin-jqueryui) = %{?epoch:%{epoch}:}%{version}-%{release}
 
-Obsoletes:      %{name}(plugin-legacy_browser)
-Obsoletes:      %{name}-plugin-legacy_browser
+Obsoletes:      %{name}-plugin-legacy_browser < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       %{name}(plugin-legacy_browser) = %{?epoch:%{epoch}:}%{version}-%{release}
 
-Obsoletes:      %{name}(plugin-threading_as_default}
-Obsoletes:      %{name}-plugin-threading_as_default
+Obsoletes:      %{name}-plugin-threading_as_default < %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:       %{name}-plugin-threading_as_default = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description core
@@ -513,7 +511,7 @@ Requires:       %{name}-plugin-hide_blockquote-skin-larry = %{?epoch:%{epoch}:}%
 Requires:       %{name}-plugin-hide_blockquote-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
-Obsoletes:      %{name}(plugin-hide_blockquote-skin-elastic) < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-plugin-hide_blockquote-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-hide_blockquote-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -669,7 +667,7 @@ Requires:       %{name}-plugin-markasjunk-skin-larry = %{?epoch:%{epoch}:}%{vers
 Requires:       %{name}-plugin-markasjunk-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
-Obsoletes:      %{name}(plugin-markasjunk-skin-elastic) < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-plugin-markasjunk-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-markasjunk-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -829,7 +827,7 @@ Requires:       %{name}-plugin-vcard_attachments-skin-larry = %{?epoch:%{epoch}:
 Requires:       %{name}-plugin-vcard_attachments-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
-Obsoletes:      %{name}(plugin-vcard_attachments-skin-elastic) < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-plugin-vcard_attachments-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-vcard_attachments-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -891,7 +889,7 @@ Requires:       %{name}-plugin-zipdownload-skin-larry = %{?epoch:%{epoch}:}%{ver
 Requires:       %{name}-plugin-zipdownload-skin-larry-assets = %{?epoch:%{epoch}:}%{version}-%{release}
 %else
 Requires:       %{name}(skin-chameleon) >= 0.3.9
-Obsoletes:      %{name}(plugin-zipdownload-skin-elastic) < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-plugin-zipdownload-skin-elastic < %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       %{name}(plugin-zipdownload-skin-larry) = %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 %endif
@@ -1678,12 +1676,12 @@ for plugin in $(find %{name}-%{version}%{?dash_rel_suffix}/plugins -mindepth 1 -
             if [ -d "${target_dir}/skins/elastic/" ]; then
                 echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-elastic) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             else
-                echo "Obsoletes:      %%{name}(plugin-$(basename ${plugin})-skin-elastic) < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Obsoletes:      %%{name}-plugin-$(basename ${plugin})-skin-elastic < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
             if [ -d "${target_dir}/skins/larry/" ]; then
                 echo "Requires:       %%{name}(plugin-$(basename ${plugin})-skin-larry) = %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             else
-                echo "Obsoletes:      %%{name}(plugin-$(basename ${plugin})-skin-larry) < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
+                echo "Obsoletes:      %%{name}-plugin-$(basename ${plugin})-skin-larry < %%{?epoch:%%{epoch}:}%%{version}-%%{release}"
             fi
             echo "%%endif"
             echo "%%endif"
