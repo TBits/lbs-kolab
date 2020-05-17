@@ -19,7 +19,7 @@
 Summary:        Protocol Buffers - Google's data interchange format
 Name:           protobuf
 Version:        2.6.1
-Release:        5.37%{?dist}.kolab_wf
+Release:        5.38%{?dist}.kolab_wf
 License:        BSD
 Group:          Development/Libraries
 Source:         http://protobuf.googlecode.com/files/protobuf-%{version}.tar.bz2

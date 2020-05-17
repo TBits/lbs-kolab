@@ -37,7 +37,7 @@
 
 Name:           kolab-syncroton
 Version:        2.3.17
-Release:        2.1%{?dist}.kolab_wf
+Release:        2.2%{?dist}.kolab_wf
 Summary:        ActiveSync for Kolab Groupware
 
 Group:          Applications/Internet
