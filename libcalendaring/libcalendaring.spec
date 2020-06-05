@@ -1,6 +1,6 @@
 Name:           libcalendaring
 Version: 4.9.2
-Release: 8.3%{?dist}.kolab_16
+Release: 8.4%{?dist}.kolab_16
 Summary:        Library for Calendaring
 
 Group:          System Environment/Libraries
