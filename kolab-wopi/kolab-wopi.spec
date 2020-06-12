@@ -6,7 +6,7 @@
 
 Name:               kolab-wopi
 Version:            0.0.1
-Release:	        3.58%{?dist}.kolab_wf
+Release:	        3.59%{?dist}.kolab_wf
 Summary:            Web Application Open Platform Interface for Kolab
 
 Group:              Applications/Web
