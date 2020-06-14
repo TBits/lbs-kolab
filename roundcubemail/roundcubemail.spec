@@ -56,7 +56,7 @@
 Name:           roundcubemail
 Version:        %{rc_version}
 
-Release:        4.4%{?dist}.kolab_wf
+Release:        4.5%{?dist}.kolab_wf
 
 Summary:        Round Cube Webmail is a browser-based multilingual IMAP client
 
