@@ -4,7 +4,7 @@
 
 Name:           python-google-apputils
 Version:        0.4.1
-Release:        1.26%{?dist}.kolab_wf
+Release:        1.27%{?dist}.kolab_wf
 Summary:        Google Application Utilities for Python
 
 Group:          Development/Libraries

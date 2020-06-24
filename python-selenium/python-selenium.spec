@@ -9,7 +9,7 @@
 
 Name:          python-%{upstream_name}
 Version:       2.45.0
-Release:       1.26%{?dist}.kolab_wf
+Release:       1.27%{?dist}.kolab_wf
 Summary:       Python bindings for Selenium
 License:       ASL 2.0
 URL:           http://docs.seleniumhq.org/

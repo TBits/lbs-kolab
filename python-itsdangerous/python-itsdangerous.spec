@@ -8,7 +8,7 @@
 
 Name:           python-%{upstream_name}
 Version:        0.24
-Release:        3.26%{?dist}.kolab_wf
+Release:        3.27%{?dist}.kolab_wf
 Summary:        Python library for passing trusted data to untrusted environments
 License:        BSD
 URL:            http://pythonhosted.org/itsdangerous/

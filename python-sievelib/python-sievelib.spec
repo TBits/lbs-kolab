@@ -7,7 +7,7 @@
 
 Name:           python-sievelib
 Version:        0.5.2
-Release:        2.26%{?dist}.kolab_wf
+Release:        2.27%{?dist}.kolab_wf
 Summary:        Managesieve library in Python
 
 Group:          Development/Tools

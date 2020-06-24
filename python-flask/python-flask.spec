@@ -9,7 +9,7 @@
 
 Name:           python-flask
 Version:        0.10.1
-Release:        5.28%{?dist}.kolab_wf
+Release:        5.29%{?dist}.kolab_wf
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 

@@ -15,7 +15,7 @@
 Name:           php-%{gh_project}
 Summary:        PHP library to interface with the Yubikey REST API
 Version:        3.2
-Release:        2.19%{?dist}.kolab_wf
+Release:        2.20%{?dist}.kolab_wf
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
 Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}.tar.gz

@@ -1,6 +1,6 @@
 Name:           leveldb
 Version:        2.0.7
-Release:        1.42%{?dist}.kolab_wf
+Release:        1.43%{?dist}.kolab_wf
 Summary:        A fast and lightweight key/value database library by Google
 Group:          Applications/Databases
 License:        BSD

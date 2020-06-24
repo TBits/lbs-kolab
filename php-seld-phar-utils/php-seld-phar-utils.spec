@@ -13,7 +13,7 @@
 
 Name:           php-seld-phar-utils
 Version:        1.0.1
-Release:        5.20%{?dist}.kolab_wf
+Release:        5.21%{?dist}.kolab_wf
 Summary:        PHAR file format utilities
 
 Group:          Development/Libraries
